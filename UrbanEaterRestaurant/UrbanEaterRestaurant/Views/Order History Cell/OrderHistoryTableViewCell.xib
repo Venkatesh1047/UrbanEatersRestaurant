@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OrderHistoryTableViewCell" id="KGk-i7-Jjw" customClass="OrderHistoryTableViewCell" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="64.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNr-va-2Wg">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="64.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="65R-gO-Th4">
+                                <rect key="frame" x="8" y="8" width="244" height="19"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="16"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="₹ 77" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FPN-6a-3mJ">
+                                <rect key="frame" x="262" y="8" width="50" height="16.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="vrm-vm-JAi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <color key="textColor" red="0.28235294119999998" green="0.70588235290000001" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trh-xc-z8A">
+                                <rect key="frame" x="8" y="35" width="134" height="16.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Completed" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BH3-bY-Bxr">
+                                <rect key="frame" x="152" y="34.5" width="160" height="16.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <color key="textColor" red="0.28235294119999998" green="0.70588235290000001" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m44-ru-OnN">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="FPN-6a-3mJ" firstAttribute="leading" secondItem="65R-gO-Th4" secondAttribute="trailing" constant="10" id="APg-UY-qZb"/>
+                            <constraint firstItem="trh-xc-z8A" firstAttribute="centerY" secondItem="BH3-bY-Bxr" secondAttribute="centerY" id="CIC-Ot-21C"/>
+                            <constraint firstAttribute="bottom" secondItem="m44-ru-OnN" secondAttribute="bottom" id="CLK-AJ-02m"/>
+                            <constraint firstItem="FPN-6a-3mJ" firstAttribute="top" secondItem="FNr-va-2Wg" secondAttribute="top" constant="8" id="Czh-XO-IM3"/>
+                            <constraint firstAttribute="trailing" secondItem="BH3-bY-Bxr" secondAttribute="trailing" constant="8" id="F7W-Mb-Lxc"/>
+                            <constraint firstItem="m44-ru-OnN" firstAttribute="leading" secondItem="FNr-va-2Wg" secondAttribute="leading" id="OMk-vJ-7Jj"/>
+                            <constraint firstItem="BH3-bY-Bxr" firstAttribute="width" secondItem="FNr-va-2Wg" secondAttribute="width" multiplier="0.5" id="R8x-7c-DGE"/>
+                            <constraint firstItem="trh-xc-z8A" firstAttribute="leading" secondItem="FNr-va-2Wg" secondAttribute="leading" constant="8" id="Rni-aP-T4t"/>
+                            <constraint firstItem="65R-gO-Th4" firstAttribute="top" secondItem="FNr-va-2Wg" secondAttribute="top" constant="8" id="XDU-Pd-QHk"/>
+                            <constraint firstAttribute="trailing" secondItem="m44-ru-OnN" secondAttribute="trailing" id="ZuI-0u-qr9"/>
+                            <constraint firstItem="m44-ru-OnN" firstAttribute="top" secondItem="FNr-va-2Wg" secondAttribute="top" id="iyW-7H-Pqj"/>
+                            <constraint firstAttribute="trailing" secondItem="FPN-6a-3mJ" secondAttribute="trailing" constant="8" id="ldD-dT-LJe"/>
+                            <constraint firstItem="BH3-bY-Bxr" firstAttribute="leading" secondItem="trh-xc-z8A" secondAttribute="trailing" constant="10" id="rRm-2U-9I9"/>
+                            <constraint firstItem="BH3-bY-Bxr" firstAttribute="top" secondItem="FPN-6a-3mJ" secondAttribute="bottom" constant="10" id="sOs-zT-EZs"/>
+                            <constraint firstItem="65R-gO-Th4" firstAttribute="leading" secondItem="FNr-va-2Wg" secondAttribute="leading" constant="8" id="xcP-yJ-Va9"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="FNr-va-2Wg" secondAttribute="trailing" id="70X-z3-6zN"/>
+                    <constraint firstItem="FNr-va-2Wg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="IkQ-HX-Dm8"/>
+                    <constraint firstAttribute="bottom" secondItem="FNr-va-2Wg" secondAttribute="bottom" id="OiZ-Lz-jJr"/>
+                    <constraint firstItem="FNr-va-2Wg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="riF-bE-jwC"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="dropDownBtn" destination="m44-ru-OnN" id="qAG-jO-CFx"/>
+                <outlet property="noOfItemsLbl" destination="trh-xc-z8A" id="8eh-bq-l5u"/>
+                <outlet property="orderAmountLbl" destination="FPN-6a-3mJ" id="0vN-HZ-bmA"/>
+                <outlet property="orderIDLbl" destination="65R-gO-Th4" id="wQh-UY-n2O"/>
+                <outlet property="orderStatusLbl" destination="BH3-bY-Bxr" id="Zlf-RX-oj0"/>
+            </connections>
+            <point key="canvasLocation" x="-16" y="73.5"/>
+        </tableViewCell>
+    </objects>
+</document>

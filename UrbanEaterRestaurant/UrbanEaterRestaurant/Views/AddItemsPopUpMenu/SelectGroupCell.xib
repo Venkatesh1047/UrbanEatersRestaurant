@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" id="KGk-i7-Jjw" customClass="SelectGroupCell" customModule="DinedooRestaurant" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_uncheck" highlightedImage="ic_check" translatesAutoresizingMaskIntoConstraints="NO" id="iFC-1Y-fn1">
+                        <rect key="frame" x="8" y="12" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="01r-uW-UUq"/>
+                            <constraint firstAttribute="height" constant="20" id="ySv-WL-w4R"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUV-PW-xWe">
+                        <rect key="frame" x="36" y="12.5" width="276" height="20"/>
+                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="zUV-PW-xWe" firstAttribute="centerY" secondItem="iFC-1Y-fn1" secondAttribute="centerY" id="HFn-29-Aoz"/>
+                    <constraint firstItem="iFC-1Y-fn1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="J2H-VJ-HN0"/>
+                    <constraint firstItem="zUV-PW-xWe" firstAttribute="height" secondItem="iFC-1Y-fn1" secondAttribute="height" id="TeX-GH-adg"/>
+                    <constraint firstItem="zUV-PW-xWe" firstAttribute="leading" secondItem="iFC-1Y-fn1" secondAttribute="trailing" constant="8" id="cJf-Ql-k1r"/>
+                    <constraint firstAttribute="trailing" secondItem="zUV-PW-xWe" secondAttribute="trailing" constant="8" id="lC0-DJ-NKI"/>
+                    <constraint firstItem="iFC-1Y-fn1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="veX-cL-jtD"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="selectedImg" destination="iFC-1Y-fn1" id="NJc-xd-Npn"/>
+                <outlet property="titleLbl" destination="zUV-PW-xWe" id="uYa-hl-VYS"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_check" width="32" height="32"/>
+        <image name="ic_uncheck" width="32" height="32"/>
+    </resources>
+</document>

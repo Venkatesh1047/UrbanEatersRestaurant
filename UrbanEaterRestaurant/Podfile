@@ -1,0 +1,32 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'UrbanEaterRestaurant' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for UrbanEaterRestaurant
+  pod 'PopOverMenu'
+  pod 'Alamofire'
+  pod 'ReachabilitySwift'
+  pod 'Google'
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
+  pod 'GooglePlacesSearchController'
+  pod 'TPKeyboardAvoiding'
+  pod 'Toast-Swift', '~> 3.0.1'
+  pod 'SDWebImage/WebP'
+  pod 'SwiftyJSON'
+  pod 'JSSAlertView'
+  pod 'SwiftMessages'
+  pod 'MMMaterialDesignSpinner'
+  pod 'RAMAnimatedTabBarController'
+  pod 'HTHorizontalSelectionList', '~> 0.7.4'
+  pod 'IQKeyboardManagerSwift'
+  pod 'EZSwiftExtensions'
+
+
+
+  
+
+end

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewFoodCell" id="KGk-i7-Jjw" customClass="NewFoodCell" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pkO-eP-gbM" customClass="ShadowView" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="5" width="320" height="189.5"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FoodIcon" translatesAutoresizingMaskIntoConstraints="NO" id="iXf-7s-Teq">
+                                <rect key="frame" x="4" y="30" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="gv5-MS-P2l"/>
+                                    <constraint firstAttribute="width" constant="100" id="wJQ-4T-vfW"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order ID:UEODR0002315" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="la0-RT-F3w">
+                                <rect key="frame" x="109" y="15" width="155.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Wlb-iP-izb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwD-Fp-T6L">
+                                <rect key="frame" x="109" y="40" width="155.5" height="1"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="5tD-8f-D3z"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="j56-If-MrG">
+                                <rect key="frame" x="109" y="49" width="201" height="76"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Fdb-h3-kwu">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                            </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="kEy-nV-xAP">
+                                <rect key="frame" x="14" y="138" width="296" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQW-Bb-E9P" customClass="ButtonWithShadow" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="108" height="40"/>
+                                        <color key="backgroundColor" red="0.25098039220000001" green="0.2901960784" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                        <state key="normal" title="REJECT">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2V9-sS-zMP" customClass="ButtonWithShadow" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                                        <rect key="frame" x="188" y="0.0" width="108" height="40"/>
+                                        <color key="backgroundColor" red="0.0" green="0.69411764710000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                        <state key="normal" title="ACCEPT">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Mno-ke-bvh"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="kEy-nV-xAP" firstAttribute="top" secondItem="iXf-7s-Teq" secondAttribute="bottom" constant="8" id="1XP-ZS-WN2"/>
+                            <constraint firstItem="la0-RT-F3w" firstAttribute="top" secondItem="pkO-eP-gbM" secondAttribute="top" constant="15" id="3YW-zP-3mq"/>
+                            <constraint firstItem="iXf-7s-Teq" firstAttribute="leading" secondItem="pkO-eP-gbM" secondAttribute="leading" constant="4" id="9gJ-4j-43N"/>
+                            <constraint firstAttribute="trailing" secondItem="j56-If-MrG" secondAttribute="trailing" constant="10" id="CFk-zg-7ha"/>
+                            <constraint firstItem="rwD-Fp-T6L" firstAttribute="top" secondItem="la0-RT-F3w" secondAttribute="bottom" constant="4" id="DpG-yS-B7k"/>
+                            <constraint firstItem="rwD-Fp-T6L" firstAttribute="centerX" secondItem="la0-RT-F3w" secondAttribute="centerX" id="XTS-uH-STN"/>
+                            <constraint firstItem="la0-RT-F3w" firstAttribute="leading" secondItem="iXf-7s-Teq" secondAttribute="trailing" constant="5" id="Ypn-SG-0Vc"/>
+                            <constraint firstItem="kEy-nV-xAP" firstAttribute="leading" secondItem="iXf-7s-Teq" secondAttribute="leading" constant="10" id="aSX-Q3-8my"/>
+                            <constraint firstItem="kEy-nV-xAP" firstAttribute="trailing" secondItem="j56-If-MrG" secondAttribute="trailing" id="dhb-2R-COo"/>
+                            <constraint firstItem="j56-If-MrG" firstAttribute="top" secondItem="rwD-Fp-T6L" secondAttribute="bottom" constant="8" id="mXZ-dB-CJx"/>
+                            <constraint firstItem="j56-If-MrG" firstAttribute="bottom" secondItem="iXf-7s-Teq" secondAttribute="bottom" constant="-5" id="moa-lR-sDX"/>
+                            <constraint firstItem="iXf-7s-Teq" firstAttribute="top" secondItem="pkO-eP-gbM" secondAttribute="top" constant="30" id="oYr-Ih-LUH"/>
+                            <constraint firstItem="rwD-Fp-T6L" firstAttribute="width" secondItem="la0-RT-F3w" secondAttribute="width" id="ra1-lj-WXs"/>
+                            <constraint firstItem="j56-If-MrG" firstAttribute="leading" secondItem="iXf-7s-Teq" secondAttribute="trailing" constant="5" id="z1E-D2-vsP"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="pkO-eP-gbM" secondAttribute="trailing" id="3ae-A3-OKn"/>
+                    <constraint firstItem="pkO-eP-gbM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="aUz-J5-7sh"/>
+                    <constraint firstAttribute="bottom" secondItem="pkO-eP-gbM" secondAttribute="bottom" constant="5" id="bkn-R0-woz"/>
+                    <constraint firstItem="pkO-eP-gbM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="okK-Vl-FCf"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="acceptBtn" destination="2V9-sS-zMP" id="NyE-6F-JJS"/>
+                <outlet property="collectionView" destination="j56-If-MrG" id="qbf-kw-YwK"/>
+                <outlet property="imgView" destination="iXf-7s-Teq" id="ocZ-fq-tcn"/>
+                <outlet property="orderIdLbl" destination="la0-RT-F3w" id="r1e-gU-Sqw"/>
+                <outlet property="rejectBtn" destination="lQW-Bb-E9P" id="FRa-vN-vKg"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="FoodIcon" width="98" height="98"/>
+    </resources>
+</document>

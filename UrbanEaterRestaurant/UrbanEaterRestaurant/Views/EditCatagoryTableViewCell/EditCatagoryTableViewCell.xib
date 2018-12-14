@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="EditCatagoryTableViewCell" id="KGk-i7-Jjw" customClass="EditCatagoryTableViewCell" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="149.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m2y-en-Z1z">
+                        <rect key="frame" x="4" y="0.0" width="312" height="134.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category Name *" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-iG-ctr">
+                                <rect key="frame" x="8" y="8" width="296" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="OLo-7x-NeQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Desserts" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nmA-Fz-dOU">
+                                <rect key="frame" x="8" y="34" width="296" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="z3L-eV-Rwr"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5qf-Fy-If1">
+                                <rect key="frame" x="96" y="86.5" width="120" height="38"/>
+                                <color key="backgroundColor" red="0.95294117649999999" green="0.75294117650000003" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="RxQ-pv-E4b"/>
+                                    <constraint firstAttribute="width" constant="120" id="SQW-dR-gZ8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <state key="normal" title="UPDATE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5qf-Fy-If1" firstAttribute="top" secondItem="nmA-Fz-dOU" secondAttribute="bottom" constant="19.5" id="2zj-KP-8JP"/>
+                            <constraint firstAttribute="trailing" secondItem="nmA-Fz-dOU" secondAttribute="trailing" constant="8" id="5gT-oc-ZpP"/>
+                            <constraint firstItem="ACk-iG-ctr" firstAttribute="top" secondItem="m2y-en-Z1z" secondAttribute="top" constant="8" id="5wW-lE-Quk"/>
+                            <constraint firstItem="nmA-Fz-dOU" firstAttribute="leading" secondItem="m2y-en-Z1z" secondAttribute="leading" constant="8" id="Atq-cY-7r7"/>
+                            <constraint firstAttribute="trailing" secondItem="ACk-iG-ctr" secondAttribute="trailing" constant="8" id="FN5-UV-e0U"/>
+                            <constraint firstItem="5qf-Fy-If1" firstAttribute="centerX" secondItem="m2y-en-Z1z" secondAttribute="centerX" id="Fyb-b3-cdt"/>
+                            <constraint firstItem="nmA-Fz-dOU" firstAttribute="top" secondItem="ACk-iG-ctr" secondAttribute="bottom" constant="5" id="KiV-4z-apf"/>
+                            <constraint firstAttribute="bottom" secondItem="5qf-Fy-If1" secondAttribute="bottom" constant="10" id="Wdf-GD-5iY"/>
+                            <constraint firstItem="ACk-iG-ctr" firstAttribute="leading" secondItem="m2y-en-Z1z" secondAttribute="leading" constant="8" id="fWg-YA-eu6"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="m2y-en-Z1z" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="4" id="AMp-OU-yIs"/>
+                    <constraint firstAttribute="trailing" secondItem="m2y-en-Z1z" secondAttribute="trailing" constant="4" id="Dam-md-0sL"/>
+                    <constraint firstItem="m2y-en-Z1z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="dzY-Mu-0Ja"/>
+                    <constraint firstAttribute="bottom" secondItem="m2y-en-Z1z" secondAttribute="bottom" constant="15" id="lAt-Od-48d"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="catagoryTxt" destination="nmA-Fz-dOU" id="QW8-l2-AD1"/>
+                <outlet property="updateBtn" destination="5qf-Fy-If1" id="kcs-JJ-t0m"/>
+            </connections>
+            <point key="canvasLocation" x="-15" y="19"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ScheduleFoodCell" id="KGk-i7-Jjw" customClass="ScheduleFoodCell" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aeb-hT-WCo" customClass="ShadowView" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="5" width="320" height="89.5"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FoodIcon" translatesAutoresizingMaskIntoConstraints="NO" id="QXp-O8-abC">
+                                <rect key="frame" x="0.0" y="3" width="90" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="YuN-0j-SJB"/>
+                                    <constraint firstAttribute="width" constant="90" id="o6z-aE-0P5"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order ID:UEODR0002315" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wyY-F2-83T">
+                                <rect key="frame" x="98" y="8" width="147" height="16.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4l-Qo-JOx">
+                                <rect key="frame" x="171.5" y="28.5" width="0.0" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="h2p-0W-hSX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Of Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gma-Ea-sXB">
+                                <rect key="frame" x="98" y="37.5" width="75" height="16.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Cost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uka-OJ-Wnx">
+                                <rect key="frame" x="98" y="64" width="75" height="16.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="03" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vby-4X-l2V" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                                <rect key="frame" x="228" y="37.5" width="80" height="16.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="0zD-iV-rcQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="₹ 500" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cG6-hT-KVY" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                                <rect key="frame" x="228" y="64" width="80" height="16.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="920-K5-RDa">
+                                <rect key="frame" x="255" y="0.0" width="65" height="21"/>
+                                <color key="backgroundColor" red="0.0" green="0.69411764710000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="65" id="7wS-vX-aDz"/>
+                                    <constraint firstAttribute="height" constant="21" id="zt7-3D-XYo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Gma-Ea-sXB" firstAttribute="leading" secondItem="wyY-F2-83T" secondAttribute="leading" id="6b2-7X-zEJ"/>
+                            <constraint firstItem="cG6-hT-KVY" firstAttribute="centerY" secondItem="Uka-OJ-Wnx" secondAttribute="centerY" id="9SN-iW-cZ6"/>
+                            <constraint firstItem="QXp-O8-abC" firstAttribute="leading" secondItem="Aeb-hT-WCo" secondAttribute="leading" id="9Tg-DH-2td"/>
+                            <constraint firstItem="vby-4X-l2V" firstAttribute="centerY" secondItem="Gma-Ea-sXB" secondAttribute="centerY" id="AZ7-q2-CXJ"/>
+                            <constraint firstAttribute="trailing" secondItem="vby-4X-l2V" secondAttribute="trailing" constant="12" id="Bmq-jL-LN5"/>
+                            <constraint firstItem="Uka-OJ-Wnx" firstAttribute="leading" secondItem="Gma-Ea-sXB" secondAttribute="leading" id="HJG-B0-eaX"/>
+                            <constraint firstItem="cG6-hT-KVY" firstAttribute="trailing" secondItem="vby-4X-l2V" secondAttribute="trailing" id="J9F-Sj-7O5"/>
+                            <constraint firstItem="b4l-Qo-JOx" firstAttribute="top" secondItem="wyY-F2-83T" secondAttribute="bottom" constant="4" id="M9z-tQ-0Yv"/>
+                            <constraint firstItem="cG6-hT-KVY" firstAttribute="centerX" secondItem="vby-4X-l2V" secondAttribute="centerX" id="QUy-hm-o6R"/>
+                            <constraint firstItem="920-K5-RDa" firstAttribute="top" secondItem="Aeb-hT-WCo" secondAttribute="top" id="Qta-28-icf"/>
+                            <constraint firstItem="Uka-OJ-Wnx" firstAttribute="centerX" secondItem="Gma-Ea-sXB" secondAttribute="centerX" id="T8h-0q-NYL"/>
+                            <constraint firstItem="920-K5-RDa" firstAttribute="leading" secondItem="wyY-F2-83T" secondAttribute="trailing" constant="10" id="XFY-2q-FzP"/>
+                            <constraint firstItem="wyY-F2-83T" firstAttribute="leading" secondItem="QXp-O8-abC" secondAttribute="trailing" constant="8" id="ZpC-mV-q4e"/>
+                            <constraint firstItem="wyY-F2-83T" firstAttribute="top" secondItem="QXp-O8-abC" secondAttribute="top" constant="5" id="aCH-lh-YQ3"/>
+                            <constraint firstItem="cG6-hT-KVY" firstAttribute="width" secondItem="vby-4X-l2V" secondAttribute="width" id="bVy-Hw-mRW"/>
+                            <constraint firstAttribute="trailing" secondItem="920-K5-RDa" secondAttribute="trailing" id="brZ-gJ-1nU"/>
+                            <constraint firstItem="Uka-OJ-Wnx" firstAttribute="width" secondItem="Gma-Ea-sXB" secondAttribute="width" id="de3-hv-Clm"/>
+                            <constraint firstItem="Gma-Ea-sXB" firstAttribute="top" secondItem="b4l-Qo-JOx" secondAttribute="bottom" constant="8" id="gpW-Qv-wwg"/>
+                            <constraint firstItem="Uka-OJ-Wnx" firstAttribute="top" secondItem="Gma-Ea-sXB" secondAttribute="bottom" constant="10" id="i1p-MQ-Zfx"/>
+                            <constraint firstItem="b4l-Qo-JOx" firstAttribute="centerX" secondItem="wyY-F2-83T" secondAttribute="centerX" id="vWS-go-ylV"/>
+                            <constraint firstItem="QXp-O8-abC" firstAttribute="centerY" secondItem="Aeb-hT-WCo" secondAttribute="centerY" constant="3" id="zcR-7p-u1t"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Aeb-hT-WCo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="DeG-2k-Dcr"/>
+                    <constraint firstItem="Aeb-hT-WCo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="KY7-pw-GGP"/>
+                    <constraint firstAttribute="bottom" secondItem="Aeb-hT-WCo" secondAttribute="bottom" constant="5" id="WSr-ZU-t6L"/>
+                    <constraint firstAttribute="trailing" secondItem="Aeb-hT-WCo" secondAttribute="trailing" id="cf6-fN-H9u"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="imgView" destination="QXp-O8-abC" id="Wjf-P9-3ay"/>
+                <outlet property="noOfItemsLbl" destination="vby-4X-l2V" id="W4a-bE-hwz"/>
+                <outlet property="orderLbl" destination="wyY-F2-83T" id="E0S-P9-Iff"/>
+                <outlet property="statusLbl" destination="920-K5-RDa" id="wmE-zF-j1Y"/>
+                <outlet property="totalCostLbl" destination="cG6-hT-KVY" id="2cA-4I-uuf"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="FoodIcon" width="98" height="98"/>
+    </resources>
+</document>
