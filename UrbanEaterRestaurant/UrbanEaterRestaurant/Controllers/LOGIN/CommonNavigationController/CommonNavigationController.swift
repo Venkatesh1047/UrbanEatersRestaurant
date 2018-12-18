@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RAMAnimatedTabBarController
 
 class CommonNavigationController: UINavigationController {
     

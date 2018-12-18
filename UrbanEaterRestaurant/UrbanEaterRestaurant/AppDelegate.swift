@@ -8,7 +8,6 @@
 
 import UIKit
 import Reachability
-import RAMAnimatedTabBarController
 import GoogleMaps
 import GooglePlaces
 import IQKeyboardManagerSwift

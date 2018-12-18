@@ -7,18 +7,23 @@
 //
 
 import Foundation
+import EZSwiftExtensions
 
 let GlobalClass = GlobalModel.sharedInstance
 
 class GlobalModel:NSObject {
-    
     static let sharedInstance = GlobalModel()
     var restaurantLoginModel : RestaurantLoginModel!
     var foodOrderModel : FoodOrderModel!
     var tableOrderModel : TableOrderModel!
+    var tableHistoryModel : TableOrderModel!
     var restModel:RestaurantHomeModel!
     var restaurantAllOrdersModel : RestaurantAllOrdersModel!
     var updatePasswordModel : UpdatePasswordModel!
+    var manageCategoriesModel : ManageCategoriesModel!
+    var recommendedModel : RecommendedModel!
+    var earningsHistoryModel : EarningsHistoryModel!
+ 
     
     let KEY_ACCEPTED           = "RES_ACCEPTED"
     let KEY_REJECTED            = "RES_REJECTED"

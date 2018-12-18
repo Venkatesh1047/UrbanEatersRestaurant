@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setTitleColor:(UIColor *)color forState:(UIControlState)state;
 - (void)setTitleFont:(UIFont *)font forState:(UIControlState)state;
-
+- (void)setBGColor:(UIColor *)color forState:(UIControlState)state;
 - (void)reloadData;
 
 - (void)setSelectedButtonIndex:(NSInteger)selectedButtonIndex animated:(BOOL)animated;

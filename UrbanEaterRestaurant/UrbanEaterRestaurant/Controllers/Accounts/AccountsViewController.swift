@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JSSAlertView
 import EZSwiftExtensions
 
 class AccountsViewController: UIViewController {
@@ -53,18 +52,15 @@ class AccountsViewController: UIViewController {
         let logoUrl = NSURL(string:imgstr)!
         self.restarentImgView.sd_setImage(with: logoUrl as URL, placeholderImage: nil, options: .cacheMemoryOnly, completed: nil)
         self.restarentNameLbl.text = GlobalClass.restModel.data.name
-        self.resStartRating.setTitle(String(GlobalClass.restModel.data.statIdData.rating.average!), for: .normal)
+        self.resStartRating.setTitle(String(GlobalClass.restModel.data.statIdData.rating.average!.rounded(toPlaces: 1)), for: .normal)
     }
     //MARK:- Logout Method
     func logoutAction(){
-        let alertView = JSSAlertView().showAlert(self,title: "Are you sure you want to Logout?" ,text:nil,buttonText: "CANCEL",cancelButtonText:"CONFIRM",color: .themeColor)
-        alertView.addAction{
-            print("no logout --->>>")
-        }
-        alertView.addCancelAction({
-            print("yes logot --->>>")
-            self.LogOutWebHit()
-            Themes.sharedInstance.activityView(View: self.view)
+        TheGlobalPoolManager.showAlertWith(message: "Are you sure you want to Logout?", singleAction: true, callback: { (success) in
+            if success!{
+                self.LogOutWebHit()
+                Themes.sharedInstance.activityView(View: self.view)
+            }
         })
     }
     //MARK:- Logout Api Hitting

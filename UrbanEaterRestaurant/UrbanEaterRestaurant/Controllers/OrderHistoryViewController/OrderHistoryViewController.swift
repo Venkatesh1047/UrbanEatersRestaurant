@@ -81,7 +81,7 @@ extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemsCell") as! ItemsCell
-        let data = GlobalClass.foodOrderModel.completed[indexPath.row].items[indexPath.row]
+        let data = GlobalClass.foodOrderModel.completed[0].items[indexPath.row]
         cell.contentLbl.text = data.name!
         cell.priceLbl.text = "₹\(data.price.toString)"
         if data.vorousType == 1{
@@ -89,7 +89,7 @@ extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate
         }else{
             cell.vorousTypeImg.image = #imageLiteral(resourceName: "NonVeg")
         }
-        cell.quantityLbl.text = "✕\(data.quantity!.toString)"
+        cell.quantityLbl.text = "✕\(data.quantity!.toString)" + "items"
         return cell
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

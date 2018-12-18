@@ -33,7 +33,6 @@ class Constants
         static let orderHistoryURL                                 = "\(BaseUrl)order/by-restaurant"
         static let businessHourUrl                                 = "\(BaseUrl)restaurant/update/by-id"
         static let getRestaurantDataURL                       = "\(BaseUrl)restaurant/by-id"
-        static let tableBookingHistoryURL                   = "\(BaseUrl)order-table/all"
         static let getFoodOrdersURL                            = "\(BaseUrl)order/by-restaurant"
         static let getTableOrdersURL                           = "\(BaseUrl)order-table/by-restaurant"
         static let restaurantAllOrdersURL                    = "\(BaseUrl)restaurant/all/orders"
@@ -41,6 +40,13 @@ class Constants
         static let TableOrderUpdatetReqURL              = "\(BaseUrl)order-table/update/by-res-id"
         static let ForgotPassword                                   = "\(BaseUrl)restaurant/forgot-password"
         static let UpdateNewPassword                         = "\(BaseUrl)restaurant/change-password"
+        static let RecommendedItems                         = "\(BaseUrl)food/by-restaurant"
+        static let RecommendedItemDelete               = "\(BaseUrl)food/remove/recommended"
+        static let ManageCaegories                              = "\(BaseUrl)food/by-restaurant-raw"
+        static let CategoryFoodItemDelete                 = "\(BaseUrl)food/delete/by-id"
+        static let CategoryFoodItemUpdate                = "\(BaseUrl)food/update/by-id"
+        static let EarningsSummary                               = "\(BaseUrl)order/earnings/by-restaurant"
+        static let TableBookingHistory                          = "\(BaseUrl)order-table/by-restaurant"
     }
 }
 

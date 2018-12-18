@@ -22,11 +22,12 @@ class EarningSummuryViewController: UIViewController {
     @IBOutlet weak var totalEarningsLbl: UILabel!
     @IBOutlet weak var backBtn: UIButton!
 
-    
+    var fromDateString : String!
+    var toDateString : String!
     var dateSelectedString : String!
     var isFromDateSelected = false
     let dateFormatter = DateFormatter()
-    let section = ["Header1","Header2","Header3","Header4","Header5","Header6","Header7"]
+    //let section = ["Header1","Header2"]
     var collapaseHandlerArray = [String]()
      var selectedDate : String = ""
     
@@ -48,7 +49,51 @@ class EarningSummuryViewController: UIViewController {
         earningSTable.dataSource = self
         datePicker.datePickerMode = UIDatePickerMode.date
         datePicker.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
-        dateFormatter.dateFormat = "dd/MM/yyyy"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        datePicker.maximumDate = NSDate() as Date
+        datePicker.maximumDate = Date()
+        self.earningsSummaryApiHitting()
+    }
+    //MARK:- Earnings Summary Api Hitting
+    func earningsSummaryApiHitting(){
+        Themes.sharedInstance.activityView(View: self.view)
+        var param = [String : AnyObject]()
+        if toDateString == nil{
+            param = [
+                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
+                "earningStatus": 1
+                ] as [String : AnyObject]
+        }else{
+            param = [
+                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
+                "dateRange": [
+                    "from": fromDateString,
+                    "to": toDateString
+                ],
+                "earningStatus": 1
+                ] as [String : AnyObject]
+        }
+        URLhandler.postUrlSession(urlString: Constants.urls.EarningsSummary, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            print("Profile response ----->>> ", dataResponse.json)
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            if dataResponse.json.exists(){
+                GlobalClass.earningsHistoryModel = EarningsHistoryModel(fromJson: dataResponse.json)
+                if GlobalClass.earningsHistoryModel.data.earningData.count != 0{
+                    let data = GlobalClass.earningsHistoryModel.data.earningData[0]
+                    self.totalOrdersLbl.text = data.totalOrderCount!.toString
+                    self.totalEarningsLbl.text = "₹ \(data.totalEarnAmount!.toString)"
+                }else{
+                    self.totalOrdersLbl.text = ""
+                    self.totalEarningsLbl.text = ""
+                }
+                if GlobalClass.earningsHistoryModel.data.orderFoodData.count == 0{
+                    TheGlobalPoolManager.showToastView("No data available")
+                    self.earningSTable.reloadData()
+                }else{
+                    self.earningSTable.reloadData()
+                }
+            }
+        }
     }
     //MARK:- IB Action Outlets
     @IBAction func fromDateBtnClicked(_ sender: Any) {
@@ -57,6 +102,10 @@ class EarningSummuryViewController: UIViewController {
         isFromDateSelected = true
     }
     @IBAction func toDateBtnClicked(_ sender: Any) {
+        if fromDateString == nil{
+            TheGlobalPoolManager.showToastView("Please select from date first")
+            return
+        }
         dateContainerView.isHidden = false
         blurView.isHidden = false
         isFromDateSelected = false
@@ -70,11 +119,29 @@ class EarningSummuryViewController: UIViewController {
             dateSelectedString =  dateFormatter.string(from: date)
         }
         if isFromDateSelected {
+            fromDateString = dateSelectedString
             fromDateLbl.text = dateSelectedString
             fromDateLbl.textColor = .textColor
         }else{
-            toDateLbl.text = dateSelectedString
-            toDateLbl.textColor = .textColor
+            toDateString = dateSelectedString
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let date1 = dateFormatter.date(from: fromDateString)
+            let date2 = dateFormatter.date(from: toDateString)
+            if date1 == date2{
+                toDateLbl.text = dateSelectedString
+                toDateLbl.textColor = .textColor
+                self.earningsSummaryApiHitting()
+            }else if date1! > date2! {
+                TheGlobalPoolManager.showAlertWith(message: "Oops!, 'To Date' is past date when compared to 'From Date", singleAction: true, callback: { (success) in
+                    if success!{}
+                })
+                return
+            }else if date1! < date2! {
+                toDateLbl.text = dateSelectedString
+                toDateLbl.textColor = .textColor
+                self.earningsSummaryApiHitting()
+            }
         }
     }
     @IBAction func datePickCancelClicked(_ sender: Any) {
@@ -91,7 +158,7 @@ class EarningSummuryViewController: UIViewController {
 //MARK:-----TableView Methods------
 extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return section.count
+        return GlobalClass.earningsHistoryModel == nil ? 0 : GlobalClass.earningsHistoryModel.data.orderFoodData.count
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 65
@@ -99,8 +166,12 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "OrderHistoryTableViewCell") as! OrderHistoryTableViewCell
         headerCell.dropDownBtn.tag = section
-        headerCell.orderIDLbl.text = "Order ID:1AB23456C789"
-        if self.collapaseHandlerArray.contains(self.section[section]){
+        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[section].order[0]
+        headerCell.orderIDLbl.text = "Order ID: \(data.subOrderId!)"
+        headerCell.noOfItemsLbl.text = "\(GlobalClass.earningsHistoryModel.data.orderFoodData[section].items.count) Items"
+        headerCell.orderAmountLbl.text = "₹ \(data.billing.orderTotal!.toString)"
+        headerCell.orderStatusLbl.text = data.statusText!
+        if self.collapaseHandlerArray.contains(data.subOrderId!){
             headerCell.dropDownBtn.setTitle("1", for: .normal)
         }
         else{
@@ -110,18 +181,24 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
         return headerCell.contentView
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.collapaseHandlerArray.contains(self.section[section]){
-            return 4
+        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[section].order[0].subOrderId!
+        if self.collapaseHandlerArray.contains(data){
+            return GlobalClass.earningsHistoryModel.data.orderFoodData[section].items.count
         }else{
             return 0
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemsCell") as! ItemsCell
-        let itemsArray = ["Veg Biryani","Paneer Butter Masala","Keema Biryni","Chicken Biryani"]
-        let priceArray = ["100","150","180","200"]
-        cell.contentLbl.text = itemsArray[indexPath.row]
-        cell.priceLbl.text = priceArray[indexPath.row]
+        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[0].items[indexPath.row]
+        cell.contentLbl.text = data.name!
+        cell.priceLbl.text = "₹ \(data.price!.toString)"
+        cell.quantityLbl.text = "✕\(data.quantity!)"
+        if data.vorousType! == 0{
+            cell.vorousTypeImg.image = #imageLiteral(resourceName: "NonVeg")
+        }else{
+           cell.vorousTypeImg.image = #imageLiteral(resourceName: "Veg")
+        }
         return cell
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -138,12 +215,14 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
     @objc func HandleheaderButton(sender: UIButton){
         if let buttonTitle = sender.title(for: .normal) {
             if buttonTitle == "0"{
-                self.collapaseHandlerArray.append(self.section[sender.tag])
+                let data = GlobalClass.earningsHistoryModel.data.orderFoodData[sender.tag].order[0].subOrderId!
+                self.collapaseHandlerArray.append(data)
                 sender.setTitle("1", for: .normal)
             }
             else {
-                while self.collapaseHandlerArray.contains(self.section[sender.tag]){
-                    if let itemToRemoveIndex = self.collapaseHandlerArray.index(of: self.section[sender.tag]) {
+                let data = GlobalClass.earningsHistoryModel.data.orderFoodData[sender.tag].order[0].subOrderId!
+                while self.collapaseHandlerArray.contains(data){
+                    if let itemToRemoveIndex = self.collapaseHandlerArray.index(of: data) {
                         self.collapaseHandlerArray.remove(at: itemToRemoveIndex)
                         sender.setTitle("0", for: .normal)
                     }

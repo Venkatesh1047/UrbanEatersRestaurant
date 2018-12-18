@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary *titleColorsByState;
 @property (nonatomic, strong) NSMutableDictionary *titleFontsByState;
+@property (nonatomic, strong) NSMutableDictionary *bgByState;
 
 @end
 
@@ -57,6 +58,9 @@
         _titleFontsByState = [NSMutableDictionary dictionary];
         _titleFontsByState[@(UIControlStateNormal)] = [UIFont systemFontOfSize:13];
 
+        _bgByState = [NSMutableDictionary dictionary];
+        _bgByState[@(UIControlStateNormal)] = [UIColor clearColor];
+        
         _state = UIControlStateNormal;
     }
     return self;
@@ -70,6 +74,8 @@
     self.titleColorsByState[@(UIControlStateNormal)] = [UIColor blackColor];
     self.titleFontsByState = [NSMutableDictionary dictionary];
     self.titleFontsByState[@(UIControlStateNormal)] = [UIFont systemFontOfSize:13];
+    self.bgByState = [NSMutableDictionary dictionary];
+    self.bgByState[@(UIControlStateNormal)] = [UIColor whiteColor];
     self.state = UIControlStateNormal;
 }
 
@@ -100,7 +106,10 @@
     _title = title;
     self.titleLabel.text = title;
 }
-
+- (void)setTitleBG:(UIColor *)color  {
+    self.titleLabel.backgroundColor = color;
+    [self updateTitleBG];
+}
 - (void)setBadgeValue:(NSString *)badgeValue {
     _badgeValue = badgeValue;
 
@@ -112,6 +121,7 @@
 
     [self updateTitleColor];
     [self updateTitleFont];
+    [self updateTitleBG];
 }
 
 - (void)setTitleColor:(UIColor *)color forState:(UIControlState)state {
@@ -119,7 +129,11 @@
 
     [self updateTitleColor];
 }
-
+- (void)setBGColor:(UIColor *)color forState:(UIControlState)state {
+    self.bgByState[@(state)] = color;
+    
+    [self updateTitleBG];
+}
 - (void)setTitleFont:(UIFont *)font forState:(UIControlState)state {
     self.titleFontsByState[@(state)] = font;
 
@@ -134,6 +148,10 @@
 
 - (void)updateTitleFont {
     self.titleLabel.font = self.titleFontsByState[@(self.state)] ?: self.titleFontsByState[@(UIControlStateNormal)];
+}
+
+- (void)updateTitleBG {
+    self.titleLabel.backgroundColor = self.bgByState[@(self.state)] ?: self.bgByState[@(UIControlStateNormal)];
 }
 
 @end

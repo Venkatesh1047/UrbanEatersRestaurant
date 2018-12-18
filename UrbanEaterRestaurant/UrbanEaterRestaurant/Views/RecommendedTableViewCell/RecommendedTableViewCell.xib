@@ -58,7 +58,8 @@
                                     <constraint firstAttribute="height" constant="30" id="TgF-3o-Q6N"/>
                                     <constraint firstAttribute="width" constant="30" id="ws3-k8-efZ"/>
                                 </constraints>
-                                <state key="normal" image="CloseGray"/>
+                                <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="Delete"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -97,7 +98,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="CloseGray" width="13" height="13"/>
+        <image name="Delete" width="30" height="30"/>
         <image name="PlaceHolderImage" width="300" height="250"/>
     </resources>
 </document>

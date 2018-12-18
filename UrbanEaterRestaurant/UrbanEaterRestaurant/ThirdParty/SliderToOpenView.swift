@@ -99,8 +99,8 @@ public class SlideToOpenView: UIView {
     private var leadingTextLabelConstraint: NSLayoutConstraint?
     private var topSliderConstraint: NSLayoutConstraint?
     private var xPositionInThumbnailView: CGFloat = 0
-    private var xEndingPoint: CGFloat = 0
-    private var isFinished: Bool = false
+    public var xEndingPoint: CGFloat = 0
+    public var isFinished: Bool = false
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -181,7 +181,7 @@ public class SlideToOpenView: UIView {
         return self.thumnailImageView.frame.contains(point)
     }
     
-    private func updateThumbnailViewLeadingPosition(_ x: CGFloat) {
+    public func updateThumbnailViewLeadingPosition(_ x: CGFloat) {
         leadingThumbnailViewConstraint?.constant = x
         layoutIfNeeded()
     }
@@ -208,7 +208,7 @@ public class SlideToOpenView: UIView {
         self.swipeRight(sender)
     }
     
-    func swipeLeft(_ sender: UIPanGestureRecognizer){
+    public func swipeLeft(_ sender: UIPanGestureRecognizer){
         let translatedPoint = xEndingPoint + sender.translation(in: view).x
       //  print("Left",translatedPoint,xEndingPoint,thumbnailViewLeadingDistance)
         switch sender.state {
@@ -260,7 +260,7 @@ public class SlideToOpenView: UIView {
         }
     }
     
-    func swipeRight(_ sender: UIPanGestureRecognizer){
+    public func swipeRight(_ sender: UIPanGestureRecognizer){
         let translatedPoint = sender.translation(in: view).x
        // print("Right",translatedPoint,xEndingPoint,thumbnailViewLeadingDistance)
         switch sender.state {

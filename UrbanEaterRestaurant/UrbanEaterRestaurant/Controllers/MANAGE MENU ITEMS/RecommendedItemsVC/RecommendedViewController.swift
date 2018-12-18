@@ -7,88 +7,100 @@
 //
 
 import UIKit
-import JSSAlertView
 
-class RecommendedViewController:UIViewController,UITableViewDelegate,UITableViewDataSource,SelectGroupDelegate {
+class RecommendedViewController:UIViewController,SelectGroupDelegate {
 
     @IBOutlet weak var recommendItemTbl: UITableView!
     var itemsList = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
         let nibName = UINib(nibName:"RecommendedTableViewCell" , bundle: nil)
         recommendItemTbl.register(nibName, forCellReuseIdentifier: "RecommendedTableViewCell")
-        
+        self.updateUI()
+    }
+    //MARK:- Update UI
+    func updateUI(){
         itemsList = ["Biryani","Snacks"]
         recommendItemTbl.delegate = self
         recommendItemTbl.dataSource = self
         recommendItemTbl.tableFooterView = UIView()
+        self.recommendedItemsApiHitting()
     }
-    
-    func numberOfSections(in tableView: UITableView) -> Int
-    {
-        return 1;
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return itemsList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell : RecommendedTableViewCell = tableView.dequeueReusableCell(withIdentifier: "RecommendedTableViewCell") as! RecommendedTableViewCell
-        
-        cell.itemNameLbl.text = itemsList[indexPath.row]
-        cell.itemDeleteBtn.tag = indexPath.row
-        cell.itemDeleteBtn.addTarget(self, action: #selector(self.itemDeleteBtnAction(_:)), for: .touchUpInside)
-        cell.separatorInset = UIEdgeInsets.zero
-        cell.layoutMargins = UIEdgeInsets.zero
-        
-        return cell;
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
-    }
-    
-    @objc func itemDeleteBtnAction(_ sender:UIButton){
-        
-        let messageTxt = "Are you sure you want to delete " + itemsList[sender.tag]
-        
-        let alertView = JSSAlertView().showAlert(self,title: messageTxt ,text:nil,buttonText: "CANCEL",cancelButtonText:"CONFIRM",color: UIColor.green)
-        
-        alertView.addAction{
-            print("no logout --->>>")
-        }
-        alertView.addCancelAction({
-            print("yes logot --->>>")
-            self.itemsList.remove(at: sender.tag)
-            self.recommendItemTbl.reloadData()
-        })
-
-    }
-    
-    @IBAction func addBtnClicked(_ sender: Any) {
-        self.selectGroupXib()
-    }
-    //MARK : - Select Group XIB
-    func selectGroupXib(){
+    //MARK : - Select Categories Xib
+    func selectCategoriesXib(){
         let tableView = SelectGroup(nibName: "SelectGroup", bundle: nil)
         tableView.delegate = self
         self.presentPopupViewController(tableView, animationType: MJPopupViewAnimationSlideTopTop)
     }
     func delegateForSelectedGroup(selectedGroup: [String], viewCon: SelectGroup) {
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideBottomBottom)
-        print("selected Items ---->>> \(selectedGroup)")
-
         if selectedGroup.count != 0 {
             self.itemsList.append(contentsOf: selectedGroup)
             self.recommendItemTbl.reloadData()
         }
     }
-
+    //MARK:- Recommended  Items Api Hitting
+    func recommendedItemsApiHitting(){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
+                                "recommended": "1"]
+        URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItems, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            if dataResponse.json.exists(){
+                GlobalClass.recommendedModel = RecommendedModel(fromJson: dataResponse.json)
+                self.recommendItemTbl.reloadData()
+            }
+        }
+    }
+    //MARK:- Recommended Item Items Delete Api Hitting
+    func recommendedItemDeleteApiHitting(_ itemID : String){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = ["id": [itemID]]
+        URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItemDelete, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            if dataResponse.json.exists(){
+                self.recommendedItemsApiHitting()
+            }
+        }
+    }
+    //MARK:- IB Action Outlets
+    @IBAction func addBtnClicked(_ sender: Any) {
+        self.selectCategoriesXib()
+    }
     @IBAction func backButtonClicked(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+}
+//MARK:- UI TableView Delegates
+extension  RecommendedViewController : UITableViewDelegate,UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return GlobalClass.recommendedModel == nil ? 0 : GlobalClass.recommendedModel.data.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell : RecommendedTableViewCell = tableView.dequeueReusableCell(withIdentifier: "RecommendedTableViewCell") as! RecommendedTableViewCell
+        let data = GlobalClass.recommendedModel.data[indexPath.row]
+        cell.itemDeleteBtn.tag = indexPath.row
+        cell.itemDeleteBtn.addTarget(self, action: #selector(self.itemDeleteBtnAction(_:)), for: .touchUpInside)
+        cell.itemNameLbl.text = data.name!
+        cell.itemPriceLbl.text = "₹ \(data.price!.toString)"
+        let url = URL.init(string: Constants.BASEURL_IMAGE + data.avatar!)
+        cell.itemImgView.sd_setImage(with: url ,placeholderImage:  #imageLiteral(resourceName: "PlaceHolderImage")) { (image, error, cache, url) in
+            if error != nil{
+            }else{
+                cell.itemImgView.image = image
+            }
+        }
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
+    @objc func itemDeleteBtnAction(_ sender:UIButton){
+        TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "You want to delete?", singleAction: false, okTitle:"Confirm") { (sucess) in
+            if sucess!{
+               let data = GlobalClass.recommendedModel.data[sender.tag]
+               self.recommendedItemDeleteApiHitting(data.id!)
+            }
+        }
     }
 }

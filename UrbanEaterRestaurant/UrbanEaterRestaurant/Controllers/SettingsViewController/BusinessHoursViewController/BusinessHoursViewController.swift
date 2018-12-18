@@ -58,7 +58,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         TheGlobalPoolManager.cornerAndBorder(saveBtn, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
         TheGlobalPoolManager.cornerAndBorder(minutesBgView, cornerRadius: minutesBgView.layer.bounds.h/2, borderWidth: 0, borderColor: .clear)
         datePicker.datePickerMode = UIDatePickerMode.time
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = "HH:mm a"
         datePicker.locale = Locale(identifier: "en_GB")
         datePicker.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
         minutesPicker.dataSource = self
@@ -82,17 +82,16 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         }
     }
     func updateUI(){
-        self.weekDayFromLbl.text = GlobalClass.restModel.data.timings.weekDay.startAt
-        self.weekDayToLbl.text = GlobalClass.restModel.data.timings.weekDay.endAt
-        self.weekEndFromLbl.text = GlobalClass.restModel.data.timings.weekEnd.startAt
-        self.weekEndToLbl.text = GlobalClass.restModel.data.timings.weekEnd.endAt
-        minutesSelectedString = String(GlobalClass.restModel.data.deliveryTime)
-        self.minLbl.text = "\(minutesSelectedString) Min"
+        self.weekDayFromLbl.text = GlobalClass.restModel.data.timings.weekDay.startAt!
+        self.weekDayToLbl.text = GlobalClass.restModel.data.timings.weekDay.endAt!
+        self.weekEndFromLbl.text = GlobalClass.restModel.data.timings.weekEnd.startAt!
+        self.weekEndToLbl.text = GlobalClass.restModel.data.timings.weekEnd.endAt!
+        minutesSelectedString = String(GlobalClass.restModel.data.deliveryTime!)
+        self.minLbl.text = "\(minutesSelectedString) min"
     }
     
     func validateInputs(){
         let delivaryTime = minutesBtn.titleLabel?.text
-      //  print("weekDayFromLbl ---->>",self.weekDayFromLbl.text)
         if Utilities().trimString(string: self.weekDayFromLbl.text!) == "" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKDAY_START_TIME_EMPTY)
         }else if Utilities().trimString(string: self.weekDayToLbl.text!) == "" {
@@ -108,18 +107,11 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
             updateBusinessHoursWebHit()
         }
     }
-    
-    
     func updateBusinessHoursWebHit(){
         Themes.sharedInstance.activityView(View: self.view)
-        
         let restarentInfo = UserDefaults.standard.object(forKey: "restaurantInfo") as! NSDictionary
-        // print("restarentInfo ----->>> ", restarentInfo)
         let data = restarentInfo.object(forKey: "data") as! NSDictionary
         self.businessHoursParams = BusinessHourParameters.init(data.object(forKey: "subId") as! String, deliveryTime: Int(minutesSelectedString)!, weekday_startAt: weekDayFromLbl.text!, weekday_endAt: weekDayToLbl.text!, weekend_startAt: weekEndFromLbl.text!, weekend_endAt: weekEndToLbl.text!)
-
-        print("param --->>>",self.businessHoursParams.parameters)
-        
         URLhandler.postUrlSession(urlString: Constants.urls.businessHourUrl, params: self.businessHoursParams.parameters, header: [:]) { (dataResponse) in
             print("Response ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -130,7 +122,6 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
             }
         }
     }
-    
     @objc func datePickerValueChanged(sender:UIDatePicker) {
         sender.locale = Locale(identifier: "en_GB")
         sender.locale = NSLocale(localeIdentifier: "en_GB") as Locale
@@ -188,7 +179,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         if (minutesSelectedString ).isEmpty {
             minutesSelectedString =  "0"
         }
-        self.minLbl.text = minutesSelectedString
+        self.minLbl.text = "\(minutesSelectedString) min"
     }
     
     @IBAction func minutesPickCancelClicked(_ sender: Any) {

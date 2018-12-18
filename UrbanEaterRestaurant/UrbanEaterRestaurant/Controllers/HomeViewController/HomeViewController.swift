@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import JSSAlertView
 import EZSwiftExtensions
 
-class HomeViewController: UIViewController { //,SlideToOpenDelegate
+class HomeViewController: UIViewController {
     
     //After Designed Changed Outlets
     @IBOutlet weak var lastPaidEarningsLbl: UILabel!
@@ -43,7 +42,7 @@ class HomeViewController: UIViewController { //,SlideToOpenDelegate
         slide.textLabelLeadingDistance = 40
         slide.sliderCornerRadious = self.slidetoOpenView.frame.size.height/2.0
         slide.defaultLabelAttributeText = onlineString
-        slide.thumnailImageView.image = #imageLiteral(resourceName: "Switch_Off")
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "offline_switch").imageWithInsets(insetDimen: 5)
         slide.thumnailImageView.backgroundColor = .clear
         slide.draggedView.backgroundColor = .clear
         slide.draggedView.alpha = 0.8
@@ -55,8 +54,9 @@ class HomeViewController: UIViewController { //,SlideToOpenDelegate
         super.viewDidLoad()
         self.onlineOptionsContainerView.isHidden = true
         self.slidetoOpenView.isHidden = false
-        past7Dates = Date.getDates(forLastNDays: 7).0 as [String]
-        past7Days  =  Date.getDates(forLastNDays: 7).1 as [String]
+        self.onlineSwitch.isHidden = true
+        past7Dates = Date.getDates(forLastNDays: 2).0 as [String]
+        past7Days  =  Date.getDates(forLastNDays: 2).1 as [String]
         collectionView.register(UINib(nibName: "EarningsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EarningsCollectionViewCell")
         collectionView.register(UINib(nibName: "EarningsSeeAllACollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EarningsSeeAllACollectionViewCell")
         bookTblCollectionView.register(UINib(nibName: "DateCell", bundle: nil), forCellWithReuseIdentifier: "DateCell")
@@ -117,9 +117,15 @@ class HomeViewController: UIViewController { //,SlideToOpenDelegate
                     ez.runThisInMainThread {
                         self.onlineSwitch.isOn = false
                         self.onlineOptionsContainerView.isHidden = true
+                        self.slideToOpen.isFinished = false
+                        self.slideToOpen.updateThumbnailViewLeadingPosition(0)
+                        self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
                     }
                 }else{
                     ez.runThisInMainThread {
+                        self.slideToOpen.isFinished = true
+                        self.slideToOpen.updateThumbnailViewLeadingPosition(self.slideToOpen.xEndingPoint)
+                        self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
                         self.onlineSwitch.isOn = true
                         self.onlineOptionsContainerView.isHidden = false
                     }
@@ -134,7 +140,6 @@ class HomeViewController: UIViewController { //,SlideToOpenDelegate
             "id": GlobalClass.restaurantLoginModel.data.subId,
             "available": status] as  [String:AnyObject]
         URLhandler.postUrlSession(urlString: Constants.urls.businessHourUrl, params: param, header: [:]) { (dataResponse) in
-            print("Response ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let dict = dataResponse.dictionaryFromJson! as NSDictionary
@@ -154,24 +159,24 @@ class HomeViewController: UIViewController { //,SlideToOpenDelegate
         }else{
             titleText = titleText + " Offline?"
         }
-        let alertView = JSSAlertView().showAlert(self,title: titleText ,text:nil,buttonText: "CONFIRM" ,cancelButtonText:"CANCEL",color:.themeColor)
-        alertView.addAction{
-            let data = GlobalClass.restModel.data!
-            if data.available == 0{
-                self.onlineSwitch.isOn = true
-                self.changeRestarentStatusWebHit(status: 1)
+        TheGlobalPoolManager.showAlertWith(title: titleText, message: "", singleAction: false, okTitle:"Confirm") { (sucess) in
+            if sucess!{
+                let data = GlobalClass.restModel.data!
+                if data.available == 0{
+                    self.onlineSwitch.isOn = true
+                    self.changeRestarentStatusWebHit(status: 1)
+                }else{
+                    self.onlineSwitch.isOn = false
+                    self.changeRestarentStatusWebHit(status: 0)
+                }
             }else{
-                self.onlineSwitch.isOn = false
-                self.changeRestarentStatusWebHit(status: 0)
+                if sender.isOn{
+                    self.onlineSwitch.isOn = false
+                }else{
+                    self.onlineSwitch.isOn = true
+                }
             }
         }
-        alertView.addCancelAction({
-            if sender.isOn{
-                self.onlineSwitch.isOn = false
-            }else{
-                self.onlineSwitch.isOn = true
-            }
-        })
     }
 }
 extension UIImage {
@@ -203,6 +208,11 @@ extension HomeViewController : UICollectionViewDataSource,UICollectionViewDelega
             cell.dateLbl.text =  "\(weekday!)\n\(data.dateString!)"
             cell.ordersLbl.text = data.orderCount.toString
             cell.amountLbl.text = data.earnAmount.toString
+            if data.billingStatus! == 0{
+                cell.paidStatusLbl.backgroundColor = .themeColor
+            }else{
+                cell.paidStatusLbl.backgroundColor = .greenColor
+            }
             return cell
         }else {
             if indexPath.row == past7Days.count{
@@ -236,6 +246,7 @@ extension HomeViewController : UICollectionViewDataSource,UICollectionViewDelega
         if let viewCon = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OrdersViewController") as? OrdersViewController {
             viewCon.hidesBottomBarWhenPushed = true
             viewCon.isFoodSelectedFlag = false
+            viewCon.isScheduledTabSelected = true
             viewCon.selectedDate  = dateString
             self.navigationController?.pushViewController(viewCon, animated: true)
         }
@@ -265,40 +276,51 @@ extension Date {
 }
 
 extension HomeViewController : SlideToOpenDelegate{
-    func SlideToOpenDelegateDidFinish(_ slider:SlideToOpenView, switchStatus: Bool) {
+    func SlideToOpenChangeImage(_ slider:SlideToOpenView, switchStatus: Bool){
         if switchStatus {
             print("on---->>>")
             slider.defaultLabelAttributeText = offlineString
-            slider.thumnailImageView.image = #imageLiteral(resourceName: "Switch_On")
+            slider.thumnailImageView.image = #imageLiteral(resourceName: "online_switch").imageWithInsets(insetDimen: 5)
             slider.textLabelLeadingDistance = 0
         }else{
             print("off---->>>")
             slider.defaultLabelAttributeText = onlineString
-            slider.thumnailImageView.image = #imageLiteral(resourceName: "Switch_Off")
+            slider.thumnailImageView.image = #imageLiteral(resourceName: "offline_switch").imageWithInsets(insetDimen: 5)
             slider.textLabelLeadingDistance = 40
         }
     }
+    func SlideToOpenDelegateDidFinish(_ slider:SlideToOpenView, switchStatus: Bool) {
+        var titleText : String = "Are you sure you want to Go"
+        if switchStatus {
+            titleText = titleText + " Online?"
+        }else{
+            titleText = titleText + " Offline?"
+        }
+        TheGlobalPoolManager.showAlertWith(title: "\(titleText)", message: "", singleAction: false, okTitle:"Confirm") { (sucess) in
+            if sucess!{
+                let data = GlobalClass.restModel.data!
+                if data.available == 0{
+                    self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
+                    self.onlineSwitch.isOn = true
+                    self.changeRestarentStatusWebHit(status: 1)
+                }else{
+                    self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
+                    self.onlineSwitch.isOn = false
+                    self.changeRestarentStatusWebHit(status: 0)
+                }
+            }else{
+                if switchStatus{
+                    self.onlineSwitch.isOn = false
+                    self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
+                    self.slideToOpen.updateThumbnailViewLeadingPosition(0)
+                    self.slideToOpen.isFinished = false
+                }else{
+                    self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
+                    self.onlineSwitch.isOn = true
+                    self.slideToOpen.updateThumbnailViewLeadingPosition(self.slideToOpen.xEndingPoint)
+                    self.slideToOpen.isFinished = true
+                }
+            }
+        }
+    }
 }
-
-
-
-//func SlideToOpenDelegateDidFinish(switchStatus: Bool) {
-//    if switchStatus {
-//        print("on---->>>")
-//    }else{
-//        print("off---->>>")
-//    }
-//}
-
-
-//let slide = SlideToOpenView(frame: CGRect(x: 0, y: 0, width: self.slidetoOpenView.frame.size.width, height: self.slidetoOpenView.frame.size.height))
-//slide.sliderViewTopDistance = 0
-//slide.sliderCornerRadious = self.slidetoOpenView.frame.size.height/2.0
-//slide.defaultLabelText = "Swipe right to come Online"
-//slide.thumnailImageView.image = #imageLiteral(resourceName: "Slider_holder")
-//slide.thumnailImageView.backgroundColor = .clear
-//slide.draggedView.backgroundColor = .greenColor
-//slide.draggedView.alpha = 0.8
-//slide.delegate = self
-//self.slidetoOpenView.addSubview(slide)
-//self.slidetoOpenView.layer.cornerRadius = self.slidetoOpenView.frame.size.height/2.0

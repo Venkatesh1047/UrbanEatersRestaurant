@@ -24,6 +24,7 @@ class OrdersViewController: UIViewController {
     var settings = [Any]()
     var isFoodSelectedFlag : Bool = false
     var selectedDate : String = ""
+    var isScheduledTabSelected : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +39,8 @@ class OrdersViewController: UIViewController {
         }else{
             self.manageBookingBtns(tableBtn)
         }
+         self.updateUI()
      }
-    override func viewWillAppear(_ animated: Bool) {
-        self.updateUI()
-    }
     //MARK: - Items Detsils Pop Up
     func itemsDetailsPopUpView(_ schedule:FoodOrderModelData){
         let viewCon = ItemsDetailView(nibName: "ItemsDetailView", bundle: nil)
@@ -70,10 +69,13 @@ class OrdersViewController: UIViewController {
         selectionView.bottomTrimColor = .clear
         selectionView.setTitleColor(.whiteColor, for: .normal)
         selectionView.setTitleColor(.whiteColor, for: .selected)
+        selectionView.setBGColor(.clear, for: .selected)
         selectionView.setTitleFont(.appFont(.Medium, size: 16), for: .normal)
         selectionView.setTitleFont(.appFont(.Medium, size: 16), for: .selected)
         selectionView.layer.masksToBounds = true
-        
+        if isScheduledTabSelected {
+            self.selectionView.selectedButtonIndex = 1
+        }
         self.foodOrderApiHitting()
         self.tableOrderApiHitting()
     }
@@ -85,19 +87,35 @@ class OrdersViewController: UIViewController {
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.foodOrderModel = FoodOrderModel(fromJson: dataResponse.json)
-                self.tableView.reloadData()
+                if GlobalClass.foodOrderModel.data.count == 0{
+                    TheGlobalPoolManager.showToastView("No data available")
+                    self.tableView.reloadData()
+                }else{
+                    self.tableView.reloadData()
+                }
             }
         }
     }
     //MARK:- Table Order Api Hitting
     func tableOrderApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!]
+        var param = [String : AnyObject]()
+        if selectedDate == ""{
+            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
+        }else{
+            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
+                     "date" : selectedDate] as [String : AnyObject]
+        }
         URLhandler.postUrlSession(urlString: Constants.urls.getTableOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.tableOrderModel = TableOrderModel(fromJson: dataResponse.json)
-                self.tableView.reloadData()
+                if GlobalClass.tableOrderModel.data.count == 0{
+                    TheGlobalPoolManager.showToastView("No data available")
+                    self.tableView.reloadData()
+                }else{
+                    self.tableView.reloadData()
+                }
             }
         }
     }

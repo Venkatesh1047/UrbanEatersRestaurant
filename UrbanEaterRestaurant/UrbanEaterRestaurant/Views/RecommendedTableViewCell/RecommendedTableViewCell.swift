@@ -18,8 +18,9 @@ class RecommendedTableViewCell: UITableViewCell {
     @IBOutlet weak var itemPriceLbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+        TheGlobalPoolManager.cornerAndBorder(itemImgView, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
+        itemImgView.image = #imageLiteral(resourceName: "Delete").withColor(.secondaryBGColor)
     }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

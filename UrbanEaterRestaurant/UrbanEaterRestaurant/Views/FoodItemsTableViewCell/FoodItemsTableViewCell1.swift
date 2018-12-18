@@ -12,15 +12,16 @@ class FoodItemsTableViewCell1: UITableViewCell {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var itemImgView: UIImageView!
     
-    @IBOutlet weak var itemHideBtn: UIButton!
-    @IBOutlet weak var itemEyeImgView: UIImageView!
+    @IBOutlet weak var deleteItem: UIButton!
+    @IBOutlet weak var visibilityItem: UIButton!
     @IBOutlet weak var itemNameLbl: UILabel!
     @IBOutlet weak var itemPriceLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        TheGlobalPoolManager.cornerAndBorder(itemImgView, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
+        self.deleteItem.setImage(#imageLiteral(resourceName: "Delete").withColor(.secondaryBGColor), for: .normal)
     }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

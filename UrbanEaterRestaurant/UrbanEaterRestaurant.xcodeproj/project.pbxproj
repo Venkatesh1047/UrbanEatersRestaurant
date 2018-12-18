@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		15941E7110E9FFF4E9515CE0 /* Pods_UrbanEaterRestaurant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29FAC68086B0EB2643396D2A /* Pods_UrbanEaterRestaurant.framework */; };
+		A309305D21C77AE800D2D1B0 /* RecommendedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */; };
+		A309305E21C77AE800D2D1B0 /* ManageCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */; };
+		A309306021C7EBFA00D2D1B0 /* EarningsHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */; };
 		A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF42F2189A3B800192E7E /* AppDelegate.swift */; };
 		A3BEF4322189A3B800192E7E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4312189A3B800192E7E /* ViewController.swift */; };
 		A3BEF4352189A3B800192E7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BEF4332189A3B800192E7E /* Main.storyboard */; };
@@ -107,6 +110,9 @@
 /* Begin PBXFileReference section */
 		29FAC68086B0EB2643396D2A /* Pods_UrbanEaterRestaurant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UrbanEaterRestaurant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A23F5BE1976B287741E3FCA /* Pods-UrbanEaterRestaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrbanEaterRestaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant.debug.xcconfig"; sourceTree = "<group>"; };
+		A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendedModel.swift; sourceTree = "<group>"; };
+		A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCategoriesModel.swift; sourceTree = "<group>"; };
+		A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarningsHistoryModel.swift; sourceTree = "<group>"; };
 		A3BEF42C2189A3B800192E7E /* UrbanEaterRestaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrbanEaterRestaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BEF42F2189A3B800192E7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3BEF4312189A3B800192E7E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -330,6 +336,9 @@
 				A3FFB13D21C138E700051988 /* RestaurantHomeModel.swift */,
 				A3ED957621C227AB008B17C5 /* RestaurantAllOrdersModel.swift */,
 				A3F1598A21C3AE4700F21FDB /* UpdatePasswordModel.swift */,
+				A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */,
+				A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */,
+				A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -834,20 +843,15 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/EZSwiftExtensions/EZSwiftExtensions.framework",
-				"${BUILT_PRODUCTS_DIR}/GooglePlacesSearchController/GooglePlacesSearchController.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/HTHorizontalSelectionList/HTHorizontalSelectionList.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/JSSAlertView/JSSAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/M13BadgeView/M13BadgeView.framework",
 				"${BUILT_PRODUCTS_DIR}/MMMaterialDesignSpinner/MMMaterialDesignSpinner.framework",
-				"${BUILT_PRODUCTS_DIR}/PopOverMenu/PopOverMenu.framework",
-				"${BUILT_PRODUCTS_DIR}/RAMAnimatedTabBarController/RAMAnimatedTabBarController.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/TPKeyboardAvoiding/TPKeyboardAvoiding.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 			);
@@ -855,20 +859,15 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EZSwiftExtensions.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GooglePlacesSearchController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTHorizontalSelectionList.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSSAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13BadgeView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMMaterialDesignSpinner.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopOverMenu.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RAMAnimatedTabBarController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPKeyboardAvoiding.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 			);
@@ -956,17 +955,20 @@
 				A3FDDB9321AE67A000524AF4 /* EarningsCollectionViewCell.swift in Sources */,
 				A3BEF49F2189D49C00192E7E /* CategoriesViewController.swift in Sources */,
 				A3BEF4B52189D57800192E7E /* RecommendedTableViewCell.swift in Sources */,
+				A309305E21C77AE800D2D1B0 /* ManageCategoriesModel.swift in Sources */,
 				A3F2AF9321BA79DD00A9379A /* ItemsDetailView.swift in Sources */,
 				A3F7859921B648DD0031F1A6 /* NewFoodItemsCell.swift in Sources */,
 				A3BEF4952189CACF00192E7E /* TableBookingHistoryViewController.swift in Sources */,
 				A3BEF4E32189DEC800192E7E /* TableViewCell.swift in Sources */,
 				A3BEF4BC2189D5CA00192E7E /* SelectGroupCell.swift in Sources */,
+				A309305D21C77AE800D2D1B0 /* RecommendedModel.swift in Sources */,
 				A3FFB13E21C138E700051988 /* RestaurantHomeModel.swift in Sources */,
 				A3BEF4D32189DBD800192E7E /* SettingsViewController.swift in Sources */,
 				A3BEF48A2189C98200192E7E /* OrderHistoryViewController.swift in Sources */,
 				A3BEF49A2189D43F00192E7E /* ManageMenuViewController.swift in Sources */,
 				A3FDDBA921B000C800524AF4 /* SliderToOpenView.swift in Sources */,
 				A3F2AF8F21BA40B500A9379A /* ItemsCell.swift in Sources */,
+				A309306021C7EBFA00D2D1B0 /* EarningsHistoryModel.swift in Sources */,
 				A3FDDB8B21AD4EF200524AF4 /* TabBarViewController.swift in Sources */,
 				A3FDDB9921AE67CE00524AF4 /* EarningsSeeAllACollectionViewCell.swift in Sources */,
 				A3F6883821B8F1A600DD37D7 /* ManageBookingsVC.swift in Sources */,
@@ -1134,7 +1136,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = RTL7D867WK;
 				INFOPLIST_FILE = UrbanEaterRestaurant/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1157,7 +1159,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = RTL7D867WK;
 				INFOPLIST_FILE = UrbanEaterRestaurant/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

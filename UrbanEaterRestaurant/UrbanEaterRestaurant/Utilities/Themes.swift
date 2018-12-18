@@ -7,19 +7,25 @@
 //
 
 import UIKit
-import JSSAlertView
 import SwiftMessages
 import MMMaterialDesignSpinner
+import Toast_Swift
+import EZSwiftExtensions
 
 let TheGlobalPoolManager = Themes.sharedInstance
 
 class Themes: NSObject {
-    
+    typealias AlertCallback = (Bool?) -> ()
     static let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
     static let sharedInstance = Themes()
     let screenSize:CGRect = UIScreen.main.bounds
     var spinnerView:MMMaterialDesignSpinner=MMMaterialDesignSpinner()
-    
+    var view:UIView{
+        return (ez.topMostVC?.view)!
+    }
+    var vc:UIViewController{
+        return ez.topMostVC!
+    }
     override init() {
         super.init()
     }
@@ -60,6 +66,24 @@ class Themes: NSObject {
         attributedString1.append(attributedString2)
         return attributedString1
     }
+    //MARK:- UIAlertController
+    func showAlertWith(title:String = "", message:String, singleAction:Bool,  okTitle:String = "Ok", cancelTitle:String = "Cancel", callback:@escaping AlertCallback) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction: UIAlertAction = UIAlertAction(title: okTitle, style: .default) { action -> Void in
+            callback(true)
+        }
+        if !singleAction{
+            let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .default) { action -> Void in
+                //Just dismiss the action sheet
+                callback(false)
+            }
+            alertController.addAction(cancelAction)
+        }
+        alertController.addAction(okAction)
+        ez.runThisInMainThread {
+            self.vc.presentVC(alertController)
+        }
+    }
     func showToastView(_ title: String) {
         topMostVC()?.view.makeToast(title, duration: 2.0, position: .bottom)
     }
@@ -79,9 +103,10 @@ class Themes: NSObject {
     }
     func activityView(View:UIView){
         topMostVC()?.view.isUserInteractionEnabled = true
-        spinnerView.frame=CGRect(x: View.center.x-25, y: View.center.y, width: 50, height: 50)
-        spinnerView.lineWidth = 3.0;
-        spinnerView.tintColor = .themeColor
+        spinnerView.frame=CGRect(x: View.center.x-25, y: View.center.y, width: 30, height: 30)
+        spinnerView.backgroundColor = .restBGColor
+        spinnerView.lineWidth = 3.0
+        spinnerView.tintColor = .greenColor
         topMostVC()?.view.addSubview(spinnerView)
         spinnerView.startAnimating()
     }

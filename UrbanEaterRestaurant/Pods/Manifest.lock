@@ -20,14 +20,12 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (2.7.0):
     - GoogleMaps/Base (= 2.7.0)
-  - GooglePlacesSearchController (0.2.0)
   - GoogleToolboxForMac/Defines (2.1.3)
   - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - HTHorizontalSelectionList (0.7.4):
     - M13BadgeView (~> 1.0.4)
   - IQKeyboardManagerSwift (6.2.0)
-  - JSSAlertView (4.0.0)
   - libwebp (0.6.1):
     - libwebp/core (= 0.6.1)
     - libwebp/dec (= 0.6.1)
@@ -54,8 +52,6 @@ PODS:
   - libwebp/webp (0.6.1)
   - M13BadgeView (1.0.4)
   - MMMaterialDesignSpinner (0.2.5)
-  - PopOverMenu (2.0.4)
-  - RAMAnimatedTabBarController (3.1.0)
   - ReachabilitySwift (4.1.0)
   - SDWebImage/Core (4.3.3)
   - SDWebImage/WebP (4.3.3):
@@ -64,7 +60,6 @@ PODS:
   - SwiftMessages (4.1.2)
   - SwiftyJSON (4.1.0)
   - Toast-Swift (3.0.1)
-  - TPKeyboardAvoiding (1.3.2)
 
 DEPENDENCIES:
   - Alamofire
@@ -72,19 +67,14 @@ DEPENDENCIES:
   - Google
   - GoogleMaps
   - GooglePlaces
-  - GooglePlacesSearchController
   - HTHorizontalSelectionList (~> 0.7.4)
   - IQKeyboardManagerSwift
-  - JSSAlertView
   - MMMaterialDesignSpinner
-  - PopOverMenu
-  - RAMAnimatedTabBarController
   - ReachabilitySwift
   - SDWebImage/WebP
   - SwiftMessages
   - SwiftyJSON
   - Toast-Swift (~> 3.0.1)
-  - TPKeyboardAvoiding
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -96,22 +86,17 @@ SPEC REPOS:
     - Google
     - GoogleMaps
     - GooglePlaces
-    - GooglePlacesSearchController
     - GoogleToolboxForMac
     - HTHorizontalSelectionList
     - IQKeyboardManagerSwift
-    - JSSAlertView
     - libwebp
     - M13BadgeView
     - MMMaterialDesignSpinner
-    - PopOverMenu
-    - RAMAnimatedTabBarController
     - ReachabilitySwift
     - SDWebImage
     - SwiftMessages
     - SwiftyJSON
     - Toast-Swift
-    - TPKeyboardAvoiding
 
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
@@ -122,23 +107,18 @@ SPEC CHECKSUMS:
   Google: 98da4b1a60ed0beb80a290387a28333406a1eb90
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
-  GooglePlacesSearchController: 8cd39908bb40660ea375653f4757133e6d13a258
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   HTHorizontalSelectionList: c38792f4bc87f941ab6c07b02a40abf111c68249
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
-  JSSAlertView: 118a2b17cae7561b514cf74c4b794baea9afd196
   libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
   M13BadgeView: 700dd0714fdc837c0cf1c8c004454963ec22441f
   MMMaterialDesignSpinner: a548042720c2e5f04212048483085d7942ac3e81
-  PopOverMenu: 5d536f08b51d89235378264784a1d265807d3c41
-  RAMAnimatedTabBarController: 3c40472db54eda74d465583f8c7f571b206c54d6
   ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SwiftMessages: d81f48c1f8b6bc1dbebdfffe11226f0344f937ca
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
-  TPKeyboardAvoiding: cb69d5ddbe90ce0170e4bc2db1e5e41d4a3ad9a4
 
-PODFILE CHECKSUM: 3ff8d00529775425e31509ea82ac603abcd88efd
+PODFILE CHECKSUM: 263777412539c58a8ecea116a5755dfd885a8a8c
 
 COCOAPODS: 1.5.3

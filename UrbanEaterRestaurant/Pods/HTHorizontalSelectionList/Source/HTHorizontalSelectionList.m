@@ -20,6 +20,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary *titleColorsByState;
 @property (nonatomic, strong) NSMutableDictionary *titleFontsByState;
+@property (nonatomic, strong) NSMutableDictionary *bgByState;
 
 @property (nonatomic, strong) UIView *edgeFadeGradientView;
 @property (assign, nonatomic) BOOL scrollingDirectly;
@@ -154,6 +155,7 @@ static NSString *ViewCellIdentifier = @"ViewCell";
 
     _titleColorsByState = [NSMutableDictionary dictionaryWithDictionary:@{@(UIControlStateNormal) : [UIColor blackColor]}];
     _titleFontsByState = [NSMutableDictionary dictionaryWithDictionary:@{@(UIControlStateNormal) : [UIFont systemFontOfSize:13]}];
+    _bgByState = [NSMutableDictionary dictionaryWithDictionary:@{@(UIControlStateSelected) : [UIColor whiteColor]}];
 
     _centerOnSelection = NO;
     _centerButtons = NO;
@@ -212,9 +214,11 @@ static NSString *ViewCellIdentifier = @"ViewCell";
 
 - (void)setSelectionIndicatorColor:(UIColor *)selectionIndicatorColor {
     self.selectionIndicatorBar.backgroundColor = selectionIndicatorColor;
-
     if (!self.titleColorsByState[@(UIControlStateSelected)]) {
         self.titleColorsByState[@(UIControlStateSelected)] = selectionIndicatorColor;
+    }
+    if (!self.bgByState[@(UIControlStateSelected)]) {
+        self.bgByState[@(UIControlStateSelected)] = [UIColor whiteColor];
     }
 }
 
@@ -261,7 +265,9 @@ static NSString *ViewCellIdentifier = @"ViewCell";
 - (void)setTitleFont:(UIFont *)font forState:(UIControlState)state {
     self.titleFontsByState[@(state)] = font;
 }
-
+- (void)setBGColor:(UIColor *)color forState:(UIControlState)state{
+    self.bgByState[@(state)] = color;
+}
 - (void)reloadData {
     [self.collectionView reloadData];
     [self.collectionView layoutIfNeeded];
@@ -435,6 +441,10 @@ static NSString *ViewCellIdentifier = @"ViewCell";
 
         for (NSNumber *controlState in [self.titleFontsByState allKeys]) {
             [((HTHorizontalSelectionListLabelCell *)cell) setTitleFont:self.titleFontsByState[controlState]
+                                                              forState:controlState.integerValue];
+        }
+        for (NSNumber *controlState in [self.bgByState allKeys]) {
+            [((HTHorizontalSelectionListLabelCell *)cell) setBGColor:self.bgByState[controlState]
                                                               forState:controlState.integerValue];
         }
     }

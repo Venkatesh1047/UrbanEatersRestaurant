@@ -30,15 +30,15 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="unF-Sf-yd3">
                         <rect key="frame" x="5" y="5" width="310" height="84.5"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PlaceHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="d7b-IH-Hs9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PlaceHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="d7b-IH-Hs9">
                                 <rect key="frame" x="8" y="8" width="69" height="69"/>
-                                <color key="backgroundColor" white="0.91059027780000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="d7b-IH-Hs9" secondAttribute="height" multiplier="1:1" id="Uu1-ZW-qVf"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VzF-9E-5GC">
-                                <rect key="frame" x="85" y="8" width="69" height="16.5"/>
+                                <rect key="frame" x="85" y="8" width="145" height="16.5"/>
                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -59,16 +59,19 @@
                                     <constraint firstAttribute="height" constant="30" id="6kN-gf-laF"/>
                                     <constraint firstAttribute="width" constant="30" id="jxk-qL-M1P"/>
                                 </constraints>
-                                <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                <state key="normal" image="dotsMenu"/>
+                                <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="Delete"/>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="itemUnavailable" translatesAutoresizingMaskIntoConstraints="NO" id="0KD-fJ-Uxh">
-                                <rect key="frame" x="247" y="10" width="20" height="20"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MX6-hs-DNb">
+                                <rect key="frame" x="238" y="5" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="9Ix-KW-5rz"/>
-                                    <constraint firstAttribute="width" constant="20" id="fZt-oM-eTQ"/>
+                                    <constraint firstAttribute="width" constant="30" id="1vN-ai-bwY"/>
+                                    <constraint firstAttribute="height" constant="30" id="fcg-P2-tk6"/>
                                 </constraints>
-                            </imageView>
+                                <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="itemUnavailable"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -78,11 +81,14 @@
                             <constraint firstItem="Cg6-Wv-YCs" firstAttribute="leading" secondItem="d7b-IH-Hs9" secondAttribute="trailing" constant="8" id="MLt-SI-C8M"/>
                             <constraint firstItem="xBJ-sp-dTB" firstAttribute="top" secondItem="unF-Sf-yd3" secondAttribute="top" constant="5" id="MqC-2H-Gra"/>
                             <constraint firstItem="d7b-IH-Hs9" firstAttribute="top" secondItem="unF-Sf-yd3" secondAttribute="top" constant="8" id="SVY-32-y9A"/>
-                            <constraint firstItem="0KD-fJ-Uxh" firstAttribute="centerY" secondItem="xBJ-sp-dTB" secondAttribute="centerY" id="hwD-GL-hD3"/>
+                            <constraint firstItem="MX6-hs-DNb" firstAttribute="height" secondItem="xBJ-sp-dTB" secondAttribute="height" id="Us9-qm-Eml"/>
+                            <constraint firstItem="MX6-hs-DNb" firstAttribute="centerY" secondItem="xBJ-sp-dTB" secondAttribute="centerY" id="WKc-DD-cTf"/>
+                            <constraint firstItem="xBJ-sp-dTB" firstAttribute="leading" secondItem="MX6-hs-DNb" secondAttribute="trailing" constant="4" id="YUQ-7r-r2a"/>
+                            <constraint firstItem="MX6-hs-DNb" firstAttribute="leading" secondItem="VzF-9E-5GC" secondAttribute="trailing" constant="8" id="f1M-rd-SI3"/>
+                            <constraint firstItem="MX6-hs-DNb" firstAttribute="width" secondItem="xBJ-sp-dTB" secondAttribute="width" id="klP-e6-KVK"/>
                             <constraint firstItem="d7b-IH-Hs9" firstAttribute="leading" secondItem="unF-Sf-yd3" secondAttribute="leading" constant="8" id="nyh-Zs-1Qw"/>
                             <constraint firstAttribute="bottom" secondItem="d7b-IH-Hs9" secondAttribute="bottom" constant="7.5" id="qjl-hE-YxE"/>
                             <constraint firstItem="d7b-IH-Hs9" firstAttribute="centerY" secondItem="unF-Sf-yd3" secondAttribute="centerY" id="w4x-wv-cX7"/>
-                            <constraint firstItem="xBJ-sp-dTB" firstAttribute="leading" secondItem="0KD-fJ-Uxh" secondAttribute="trailing" constant="5" id="wZb-0Z-9Vt"/>
                             <constraint firstItem="Cg6-Wv-YCs" firstAttribute="top" secondItem="VzF-9E-5GC" secondAttribute="bottom" constant="15" id="ypA-XX-XNU"/>
                         </constraints>
                     </view>
@@ -97,18 +103,18 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="containerView" destination="unF-Sf-yd3" id="jad-Ja-JYa"/>
-                <outlet property="itemEyeImgView" destination="0KD-fJ-Uxh" id="5ey-BB-ekq"/>
-                <outlet property="itemHideBtn" destination="xBJ-sp-dTB" id="SAi-6x-gU8"/>
+                <outlet property="deleteItem" destination="xBJ-sp-dTB" id="aHA-3c-vK2"/>
                 <outlet property="itemImgView" destination="d7b-IH-Hs9" id="sh2-wC-Ctj"/>
                 <outlet property="itemNameLbl" destination="VzF-9E-5GC" id="t38-jC-KUh"/>
                 <outlet property="itemPriceLbl" destination="Cg6-Wv-YCs" id="neg-sT-ATo"/>
+                <outlet property="visibilityItem" destination="MX6-hs-DNb" id="8Ey-fR-BfX"/>
             </connections>
-            <point key="canvasLocation" x="135" y="86"/>
+            <point key="canvasLocation" x="135" y="85.5"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="Delete" width="30" height="30"/>
         <image name="PlaceHolderImage" width="300" height="250"/>
-        <image name="dotsMenu" width="32" height="32"/>
         <image name="itemUnavailable" width="18" height="18"/>
     </resources>
 </document>

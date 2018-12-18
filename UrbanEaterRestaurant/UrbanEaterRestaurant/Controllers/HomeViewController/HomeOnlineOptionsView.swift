@@ -44,6 +44,7 @@ class HomeOnlineOptionsView: UIViewController {
         selectionView.centerButtons = true
         selectionView.selectionIndicatorColor = .themeColor
         selectionView.selectionIndicatorHeight = 3
+        selectionView.snapToCenter = true
         selectionView.bottomTrimColor = .clear
         selectionView.setTitleColor(.whiteColor, for: .normal)
         selectionView.setTitleColor(.whiteColor, for: .selected)

@@ -25,7 +25,7 @@ class TableBookingHistoryViewController: UIViewController {
         self.updateUI()
     }
     override func viewWillAppear(_ animated: Bool) {
-        self.tableOrderApiHitting()
+        self.tableHistoryApiHitting()
     }
     //MARK:- Update UI
     func updateUI(){
@@ -34,23 +34,36 @@ class TableBookingHistoryViewController: UIViewController {
         self.HistoryTbl.dataSource = self
         TheGlobalPoolManager.cornerAndBorder(dateView, cornerRadius: 3, borderWidth: 1, borderColor: .lightGray)
         datePicker.datePickerMode = UIDatePickerMode.date
+        datePicker.maximumDate = NSDate() as Date
         datePicker.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
-        dateFormatter.dateFormat = "dd/MM/yyyy"
-        let date = Date()
-        sortDateLbl.text =  dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        //let date = Date()
+        //sortDateLbl.text =  dateFormatter.string(from: date)
+        sortDateLbl.text =  "Choose Date"
         let nibName = UINib(nibName:"CompletedTableCell" , bundle: nil)
         HistoryTbl.register(nibName, forCellReuseIdentifier: "CompletedTableCell")
     }
-    //MARK:- Table Order Api Hitting
-    func tableOrderApiHitting(){
+    //MARK:- Table History Api Hitting
+    func tableHistoryApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!]
-        URLhandler.postUrlSession(urlString: Constants.urls.getTableOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        var param = [String : AnyObject]()
+        if dateSelectedString == nil{
+            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
+        }else{
+             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
+                      "date" : dateSelectedString] as [String : AnyObject]
+        }
+        URLhandler.postUrlSession(urlString: Constants.urls.TableBookingHistory, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             print("Profile response ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                GlobalClass.tableOrderModel = TableOrderModel(fromJson: dataResponse.json)
-                self.HistoryTbl.reloadData()
+                GlobalClass.tableHistoryModel = TableOrderModel(fromJson: dataResponse.json)
+                if GlobalClass.tableHistoryModel.data.count == 0{
+                    TheGlobalPoolManager.showToastView("No data available")
+                    self.HistoryTbl.reloadData()
+                }else{
+                     self.HistoryTbl.reloadData()
+                }
             }
         }
     }
@@ -67,6 +80,7 @@ class TableBookingHistoryViewController: UIViewController {
         blurView.isHidden = true
         if  dateSelectedString != nil {
             sortDateLbl.text = dateSelectedString
+            self.tableHistoryApiHitting()
         }
     }
     @IBAction func cancelDatePickerBtnClicked(_ sender: Any) {
@@ -79,11 +93,11 @@ class TableBookingHistoryViewController: UIViewController {
 }
 extension TableBookingHistoryViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-       return GlobalClass.tableOrderModel == nil ? 0 : GlobalClass.tableOrderModel.completed.count
+       return GlobalClass.tableHistoryModel == nil ? 0 : GlobalClass.tableHistoryModel.completed.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedTableCell") as! CompletedTableCell
-        let data = GlobalClass.tableOrderModel.completed[indexPath.row]
+        let data = GlobalClass.tableHistoryModel.completed[indexPath.row]
         cell.stausLbl.isHidden = true
         cell.orderIDLbl.text = "Order ID: \(data.orderId!)"
         cell.dateLbl.text = data.bookedDate!
