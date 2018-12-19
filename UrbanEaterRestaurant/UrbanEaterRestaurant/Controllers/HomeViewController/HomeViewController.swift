@@ -220,7 +220,7 @@ extension HomeViewController : UICollectionViewDataSource,UICollectionViewDelega
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EarningsCollectionViewCell", for: indexPath as IndexPath) as! EarningsCollectionViewCell
             let data =  GlobalClass.restModel.data.earningIdData[indexPath.row]
             let weekday = Date.init(fromString: data.dateString!, format: "yyyy-MM-dd")?.dayOfWeek()!
-            cell.dateLbl.text =  "\(weekday!)\n\(data.dateString!)"
+            cell.dateLbl.text =  "\(weekday!)\n\(TheGlobalPoolManager.convertDateFormater(data.dateString!))"
             cell.ordersLbl.text = data.orderCount.toString
             cell.amountLbl.text = data.earnAmount.toString
             if data.billingStatus! == 0{
@@ -236,7 +236,7 @@ extension HomeViewController : UICollectionViewDataSource,UICollectionViewDelega
             }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DateCell", for: indexPath) as! DateCell
             cell.daylbl.text = past7Days[indexPath.row]
-            cell.dateLbl.text = past7Dates[indexPath.row]
+            cell.dateLbl.text = TheGlobalPoolManager.convertDateFormater(past7Dates[indexPath.row])
             if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
                 cell.daylbl.font = UIFont.appFont(.Medium, size: 12)
                 cell.dateLbl.font = UIFont.appFont(.Regular, size: 12)

@@ -26,8 +26,11 @@ class HomeOnlineOptionsView: UIViewController {
         tableView.register(UINib(nibName: "ScheduleFoodCell", bundle: nil), forCellReuseIdentifier: "ScheduleFoodCell")
         tableView.register(UINib(nibName: "ScheduledTableCell", bundle: nil), forCellReuseIdentifier: "ScheduledTableCell")
         tableView.register(UINib(nibName: "CompletedTableCell", bundle: nil), forCellReuseIdentifier: "CompletedTableCell")
-        self.updateUI()
+        //self.updateUI()
         if self.isFromHome{}
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.updateUI()
     }
     //MARK:- Update UI
     func updateUI(){
