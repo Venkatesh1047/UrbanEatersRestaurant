@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import HTHorizontalSelectionList
+//import HTHorizontalSelectionList
 import EZSwiftExtensions
 
 class OrdersViewController: UIViewController {
@@ -15,7 +15,7 @@ class OrdersViewController: UIViewController {
     @IBOutlet weak var foodBtn: UIButton!
     @IBOutlet weak var tableBtn: UIButton!
     @IBOutlet var manageBookingBtns: [UIButton]!
-    @IBOutlet weak var selectionView: HTHorizontalSelectionList!
+    @IBOutlet weak var selectionView: MXSegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchTF: UITextField!
     @IBOutlet weak var searchBgView: UIView!
@@ -58,26 +58,39 @@ class OrdersViewController: UIViewController {
         tableView.dataSource = self
         //Selection view...............
         selectionView.backgroundColor = .secondaryBGColor
-        selectionView.selectionIndicatorAnimationMode = .heavyBounce
-        selectionView.delegate = self
-        selectionView.dataSource = self
-        settings = ["New","Scheduled","Completed"]
-        selectionView.centerButtons = true
-        selectionView.selectionIndicatorColor = .themeColor
-        selectionView.selectionIndicatorHeight = 3
-        selectionView.evenlySpaceButtons = true
-        selectionView.bottomTrimColor = .clear
-        selectionView.setTitleColor(.whiteColor, for: .normal)
-        selectionView.setTitleColor(.whiteColor, for: .selected)
-        selectionView.setBGColor(.clear, for: .selected)
-        selectionView.setTitleFont(.appFont(.Medium, size: 16), for: .normal)
-        selectionView.setTitleFont(.appFont(.Medium, size: 16), for: .selected)
-        selectionView.layer.masksToBounds = true
+        selectionView.font = UIFont.appFont(.Medium, size: 16)
+        selectionView.append(title: "New")
+            .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
+        selectionView.append(title: "Scheduled")
+            .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
+        selectionView.append(title: "Completed")
+            .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
+        selectionView.addTarget(self, action: #selector(self.selectedSegment(_:)), for: .valueChanged)
         if isScheduledTabSelected {
-            self.selectionView.selectedButtonIndex = 1
+            self.selectionView.select(index: 1, animated: true)
+            self.selectedSegment(self.selectionView)
         }
         self.foodOrderApiHitting()
         self.tableOrderApiHitting()
+    }
+    //MARK:- SelectionView
+    @objc func selectedSegment(_ sender:MXSegmentedControl){
+        switch sender.selectedIndex {
+        case 0:
+            // New ....
+            tableView.reloadData()
+            break
+        case 1:
+            // Scheduled ....
+            tableView.reloadData()
+            break
+        case 2:
+            // Completed ....
+            tableView.reloadData()
+            break
+        default:
+            break
+        }
     }
     //MARK:- Food Order Api Hitting
     func foodOrderApiHitting(){
@@ -134,48 +147,21 @@ class OrdersViewController: UIViewController {
         }
     }
 }
-//MARK : - HTHorizontalSelectionList Delegates
-extension OrdersViewController : HTHorizontalSelectionListDelegate,HTHorizontalSelectionListDataSource{
-    func numberOfItems(in selectionList: HTHorizontalSelectionList) -> Int {
-        return settings.count
-    }
-    func selectionList(_ selectionList: HTHorizontalSelectionList, titleForItemWith index: Int) -> String? {
-        return (settings[index] as! String)
-    }
-    func selectionList(_ selectionList: HTHorizontalSelectionList, didSelectButtonWith index: Int) {
-        switch selectionView.selectedButtonIndex {
-        case 0:
-            // New ....
-            tableView.reloadData()
-            break
-        case 1:
-            // Scheduled ....
-            tableView.reloadData()
-            break
-        case 2:
-            // Completed ....
-            tableView.reloadData()
-            break
-        default:
-            break
-        }
-    }
-}
 //MARK : - UI Table View Delegate Methods
 extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFoodSelectedFlag{
-            if selectionView.selectedButtonIndex == 0{
+            if selectionView.selectedIndex == 0{
                 return GlobalClass.foodOrderModel == nil ? 0 : GlobalClass.foodOrderModel.new.count
-            }else if selectionView.selectedButtonIndex == 1{
+            }else if selectionView.selectedIndex == 1{
                 return GlobalClass.foodOrderModel == nil ? 0 : GlobalClass.foodOrderModel.scheduled.count
             }else{
                 return GlobalClass.foodOrderModel == nil ? 0 : GlobalClass.foodOrderModel.completed.count
             }
         }else{
-            if selectionView.selectedButtonIndex == 0{
+            if selectionView.selectedIndex == 0{
                 return GlobalClass.tableOrderModel == nil ? 0 : GlobalClass.tableOrderModel.new.count
-            }else if selectionView.selectedButtonIndex == 1{
+            }else if selectionView.selectedIndex == 1{
                 return GlobalClass.tableOrderModel == nil ? 0 : GlobalClass.tableOrderModel.scheduled.count
             }else{
                 return GlobalClass.tableOrderModel == nil ? 0 : GlobalClass.tableOrderModel.completed.count
@@ -183,16 +169,16 @@ extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if selectionView.selectedButtonIndex == 0{
+        if selectionView.selectedIndex == 0{
             return self.returnManageNewFoodCell(tableView, indexPath: indexPath)!
-        }else if selectionView.selectedButtonIndex == 1{
+        }else if selectionView.selectedIndex == 1{
             return self.returnManageScheduledCell(tableView, indexPath: indexPath)!
         }else{
             return self.returnManageCompletedCell(tableView, indexPath: indexPath)!
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if selectionView.selectedButtonIndex == 1{
+        if selectionView.selectedIndex == 1{
             if self.isFoodSelectedFlag{
                 let schedule = GlobalClass.foodOrderModel.scheduled[indexPath.row]
                 self.itemsDetailsPopUpView(schedule)
@@ -200,7 +186,7 @@ extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch selectionView.selectedButtonIndex {
+        switch selectionView.selectedIndex {
         case 0:
             if self.isFoodSelectedFlag{
                 return 200

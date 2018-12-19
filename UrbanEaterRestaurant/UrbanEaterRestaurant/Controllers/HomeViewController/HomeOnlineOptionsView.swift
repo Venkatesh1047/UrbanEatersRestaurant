@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import HTHorizontalSelectionList
+//import HTHorizontalSelectionList
 import EZSwiftExtensions
 
 class HomeOnlineOptionsView: UIViewController {
-    @IBOutlet weak var selectionView: HTHorizontalSelectionList!
+    @IBOutlet weak var selectionView: MXSegmentedControl!
     @IBOutlet weak var searchTF: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBgView: UIView!
@@ -37,21 +37,34 @@ class HomeOnlineOptionsView: UIViewController {
         tableView.dataSource = self
         //Selection view...............
         selectionView.backgroundColor = .secondaryBGColor
-        selectionView.selectionIndicatorAnimationMode = .heavyBounce
-        selectionView.delegate = self
-        selectionView.dataSource = self
-        settings = ["New","Scheduled","Completed"]
-        selectionView.centerButtons = true
-        selectionView.selectionIndicatorColor = .themeColor
-        selectionView.selectionIndicatorHeight = 3
-        selectionView.snapToCenter = true
-        selectionView.bottomTrimColor = .clear
-        selectionView.setTitleColor(.whiteColor, for: .normal)
-        selectionView.setTitleColor(.whiteColor, for: .selected)
-        selectionView.setTitleFont(.appFont(.Medium, size: 16), for: .normal)
-        selectionView.setTitleFont(.appFont(.Medium, size: 16), for: .selected)
-        selectionView.layer.masksToBounds = true
+        selectionView.font = UIFont.appFont(.Medium, size: 16)
+        selectionView.append(title: "New")
+            .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
+        selectionView.append(title: "Scheduled")
+            .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
+        selectionView.append(title: "Completed")
+            .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
+        selectionView.addTarget(self, action: #selector(self.selectedSegment(_:)), for: .valueChanged)
         self.restaurantAllOrdersApiHitting()
+    }
+    //MARK:- SelectionView
+    @objc func selectedSegment(_ sender:MXSegmentedControl){
+        switch sender.selectedIndex {
+        case 0:
+            // New ....
+            tableView.reloadData()
+            break
+        case 1:
+            // Scheduled ....
+            tableView.reloadData()
+            break
+        case 2:
+            // Completed ....
+            tableView.reloadData()
+            break
+        default:
+            break
+        }
     }
     //MARK:- Restaurant All Orders Api Hitting
     func restaurantAllOrdersApiHitting(){
@@ -125,56 +138,29 @@ class HomeOnlineOptionsView: UIViewController {
         }
     }
 }
-//MARK : - HTHorizontalSelectionList Delegates
-extension HomeOnlineOptionsView : HTHorizontalSelectionListDelegate,HTHorizontalSelectionListDataSource{
-    func numberOfItems(in selectionList: HTHorizontalSelectionList) -> Int {
-        return settings.count
-    }
-    func selectionList(_ selectionList: HTHorizontalSelectionList, titleForItemWith index: Int) -> String? {
-        return (settings[index] as! String)
-    }
-    func selectionList(_ selectionList: HTHorizontalSelectionList, didSelectButtonWith index: Int) {
-        switch selectionView.selectedButtonIndex {
-        case 0:
-            // New ....
-            tableView.reloadData()
-            break
-        case 1:
-            // Scheduled ....
-            tableView.reloadData()
-            break
-        case 2:
-            // Completed ....
-            tableView.reloadData()
-            break
-        default:
-            break
-        }
-    }
-}
 //MARK : - UI Table View Delegate Methods
 extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if selectionView.selectedButtonIndex == 0{
+        if selectionView.selectedIndex == 0{
             return GlobalClass.restaurantAllOrdersModel == nil ? 0 : GlobalClass.restaurantAllOrdersModel.new.count
-        }else if selectionView.selectedButtonIndex == 1{
+        }else if selectionView.selectedIndex == 1{
             return GlobalClass.restaurantAllOrdersModel == nil ? 0 : GlobalClass.restaurantAllOrdersModel.scheduled.count
         }else{
             return GlobalClass.restaurantAllOrdersModel == nil ? 0 : GlobalClass.restaurantAllOrdersModel.completed.count
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if selectionView.selectedButtonIndex == 0{
+        if selectionView.selectedIndex == 0{
             return self.returnHomeNewFoodCell(tableView, indexPath: indexPath)!
-        }else if selectionView.selectedButtonIndex == 1{
+        }else if selectionView.selectedIndex == 1{
             return self.returnHomeScheduledCell(tableView, indexPath: indexPath)!
         }else{
             return self.returnHomeCompletedCell(tableView, indexPath: indexPath)!
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if selectionView.selectedButtonIndex == 1{
-            let data = GlobalClass.restaurantAllOrdersModel.new[indexPath.row]
+        if selectionView.selectedIndex == 1{
+            let data = GlobalClass.restaurantAllOrdersModel.scheduled[indexPath.row]
             if !data.isOrderTable{
                 let schedule = GlobalClass.restaurantAllOrdersModel.scheduled[indexPath.row]
                 self.itemsDetailsPopUpView(schedule)
@@ -182,7 +168,7 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch selectionView.selectedButtonIndex {
+        switch selectionView.selectedIndex {
         case 0:
             let data = GlobalClass.restaurantAllOrdersModel.new[indexPath.row]
             if !data.isOrderTable{

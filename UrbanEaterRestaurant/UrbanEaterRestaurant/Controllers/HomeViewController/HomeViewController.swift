@@ -22,6 +22,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tblBookingViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var earningViewHightConstraint: NSLayoutConstraint!
     @IBOutlet weak var onlineOptionsContainerView: UIView!
+    @IBOutlet weak var earningsHeaderViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var tableBookingsHeight: NSLayoutConstraint!
+    @IBOutlet weak var tableBookingsHeaderHeight: NSLayoutConstraint!
+    @IBOutlet weak var onlineSwitchHeight: NSLayoutConstraint!
     
     var mainTheme:Themes = Themes()
     var past7Dates = [String]()
@@ -61,6 +65,13 @@ class HomeViewController: UIViewController {
         collectionView.register(UINib(nibName: "EarningsSeeAllACollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EarningsSeeAllACollectionViewCell")
         bookTblCollectionView.register(UINib(nibName: "DateCell", bundle: nil), forCellWithReuseIdentifier: "DateCell")
         bookTblCollectionView.register(UINib(nibName: "DateSeeAll", bundle: nil), forCellWithReuseIdentifier: "DateSeeAll")
+        
+        if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
+            self.earningViewHightConstraint.constant = 250
+            self.earningsHeaderViewHeight.constant = 45
+            self.tableBookingsHeight.constant = 110
+            self.tableBookingsHeaderHeight.constant = 45
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -93,7 +104,11 @@ class HomeViewController: UIViewController {
         
         let layoutBookTbl: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layoutBookTbl.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layoutBookTbl.itemSize = CGSize(width: 100, height: 60)
+        if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
+            layoutBookTbl.itemSize = CGSize(width: 100, height: 50)
+        }else{
+            layoutBookTbl.itemSize = CGSize(width: 100, height: 60)
+        }
         layoutBookTbl.minimumInteritemSpacing = 5
         layoutBookTbl.minimumLineSpacing = 5
         layoutBookTbl.scrollDirection = .horizontal
@@ -222,6 +237,10 @@ extension HomeViewController : UICollectionViewDataSource,UICollectionViewDelega
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DateCell", for: indexPath) as! DateCell
             cell.daylbl.text = past7Days[indexPath.row]
             cell.dateLbl.text = past7Dates[indexPath.row]
+            if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
+                cell.daylbl.font = UIFont.appFont(.Medium, size: 12)
+                cell.dateLbl.font = UIFont.appFont(.Regular, size: 12)
+            }
             return cell
         }
     }
@@ -274,13 +293,12 @@ extension Date {
         return dateFormatter.string(from: self).capitalized
     }
 }
-
 extension HomeViewController : SlideToOpenDelegate{
     func SlideToOpenChangeImage(_ slider:SlideToOpenView, switchStatus: Bool){
         if switchStatus {
             print("on---->>>")
             slider.defaultLabelAttributeText = offlineString
-            slider.thumnailImageView.image = #imageLiteral(resourceName: "online_switch").imageWithInsets(insetDimen: 5)
+            slider.thumnailImageView.image = #imageLiteral(resourceName: "online_switch").imageWithInsets(insetDimen: 15)
             slider.textLabelLeadingDistance = 0
         }else{
             print("off---->>>")
@@ -324,3 +342,4 @@ extension HomeViewController : SlideToOpenDelegate{
         }
     }
 }
+

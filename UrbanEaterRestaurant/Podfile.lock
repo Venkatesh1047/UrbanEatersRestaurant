@@ -23,8 +23,6 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.3)
   - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
     - GoogleToolboxForMac/Defines (= 2.1.3)
-  - HTHorizontalSelectionList (0.7.4):
-    - M13BadgeView (~> 1.0.4)
   - IQKeyboardManagerSwift (6.2.0)
   - libwebp (0.6.1):
     - libwebp/core (= 0.6.1)
@@ -50,7 +48,6 @@ PODS:
   - libwebp/utils (0.6.1):
     - libwebp/core
   - libwebp/webp (0.6.1)
-  - M13BadgeView (1.0.4)
   - MMMaterialDesignSpinner (0.2.5)
   - ReachabilitySwift (4.1.0)
   - SDWebImage/Core (4.3.3)
@@ -67,7 +64,6 @@ DEPENDENCIES:
   - Google
   - GoogleMaps
   - GooglePlaces
-  - HTHorizontalSelectionList (~> 0.7.4)
   - IQKeyboardManagerSwift
   - MMMaterialDesignSpinner
   - ReachabilitySwift
@@ -87,10 +83,8 @@ SPEC REPOS:
     - GoogleMaps
     - GooglePlaces
     - GoogleToolboxForMac
-    - HTHorizontalSelectionList
     - IQKeyboardManagerSwift
     - libwebp
-    - M13BadgeView
     - MMMaterialDesignSpinner
     - ReachabilitySwift
     - SDWebImage
@@ -108,10 +102,8 @@ SPEC CHECKSUMS:
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
-  HTHorizontalSelectionList: c38792f4bc87f941ab6c07b02a40abf111c68249
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
-  M13BadgeView: 700dd0714fdc837c0cf1c8c004454963ec22441f
   MMMaterialDesignSpinner: a548042720c2e5f04212048483085d7942ac3e81
   ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
@@ -119,6 +111,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
 
-PODFILE CHECKSUM: 263777412539c58a8ecea116a5755dfd885a8a8c
+PODFILE CHECKSUM: c9798e05195b52e5be15549fbbdf5b10512617ec
 
 COCOAPODS: 1.5.3

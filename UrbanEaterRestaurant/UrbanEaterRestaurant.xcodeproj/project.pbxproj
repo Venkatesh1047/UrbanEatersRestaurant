@@ -11,6 +11,10 @@
 		A309305D21C77AE800D2D1B0 /* RecommendedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */; };
 		A309305E21C77AE800D2D1B0 /* ManageCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */; };
 		A309306021C7EBFA00D2D1B0 /* EarningsHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */; };
+		A365B5EF21CA1DC9007A5B11 /* MXIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EA21CA1DC9007A5B11 /* MXIndicator.swift */; };
+		A365B5F021CA1DC9007A5B11 /* MXSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EB21CA1DC9007A5B11 /* MXSegmentedControl.swift */; };
+		A365B5F121CA1DC9007A5B11 /* MXSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */; };
+		A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A365B5EE21CA1DC9007A5B11 /* Info.plist */; };
 		A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF42F2189A3B800192E7E /* AppDelegate.swift */; };
 		A3BEF4322189A3B800192E7E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4312189A3B800192E7E /* ViewController.swift */; };
 		A3BEF4352189A3B800192E7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BEF4332189A3B800192E7E /* Main.storyboard */; };
@@ -113,6 +117,11 @@
 		A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendedModel.swift; sourceTree = "<group>"; };
 		A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCategoriesModel.swift; sourceTree = "<group>"; };
 		A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarningsHistoryModel.swift; sourceTree = "<group>"; };
+		A365B5EA21CA1DC9007A5B11 /* MXIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXIndicator.swift; sourceTree = "<group>"; };
+		A365B5EB21CA1DC9007A5B11 /* MXSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXSegmentedControl.swift; sourceTree = "<group>"; };
+		A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXSegment.swift; sourceTree = "<group>"; };
+		A365B5ED21CA1DC9007A5B11 /* MXSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSegmentedControl.h; sourceTree = "<group>"; };
+		A365B5EE21CA1DC9007A5B11 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3BEF42C2189A3B800192E7E /* UrbanEaterRestaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrbanEaterRestaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BEF42F2189A3B800192E7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3BEF4312189A3B800192E7E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -235,6 +244,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A365B5E921CA1DC9007A5B11 /* MXSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				A365B5EA21CA1DC9007A5B11 /* MXIndicator.swift */,
+				A365B5EB21CA1DC9007A5B11 /* MXSegmentedControl.swift */,
+				A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */,
+				A365B5ED21CA1DC9007A5B11 /* MXSegmentedControl.h */,
+				A365B5EE21CA1DC9007A5B11 /* Info.plist */,
+			);
+			path = MXSegmentedControl;
+			sourceTree = "<group>";
+		};
 		A3BEF4232189A3B800192E7E = {
 			isa = PBXGroup;
 			children = (
@@ -346,6 +367,7 @@
 		A3BEF4452189A95500192E7E /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				A365B5E921CA1DC9007A5B11 /* MXSegmentedControl */,
 				A3BEF4C02189D67900192E7E /* MJPOPUP */,
 				A3BEF4962189CB4B00192E7E /* ShadowView.swift */,
 				A3FDDBA821B000C800524AF4 /* SliderToOpenView.swift */,
@@ -807,6 +829,7 @@
 				A3F7859E21B66A140031F1A6 /* NewTableCell.xib in Resources */,
 				A3F785B021B6A29D0031F1A6 /* CompletedTableCell.xib in Resources */,
 				A3BEF4A72189D51000192E7E /* EditCatagoryTableViewCell.xib in Resources */,
+				A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */,
 				A3BEF4BF2189D5CA00192E7E /* SelectGroupCell.xib in Resources */,
 				A3F785A721B6960A0031F1A6 /* ScheduledTableCell.xib in Resources */,
 				A3BEF4BD2189D5CA00192E7E /* SelectGroup.xib in Resources */,
@@ -844,9 +867,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/EZSwiftExtensions/EZSwiftExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/HTHorizontalSelectionList/HTHorizontalSelectionList.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/M13BadgeView/M13BadgeView.framework",
 				"${BUILT_PRODUCTS_DIR}/MMMaterialDesignSpinner/MMMaterialDesignSpinner.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -860,9 +881,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EZSwiftExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTHorizontalSelectionList.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13BadgeView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMMaterialDesignSpinner.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -942,6 +961,7 @@
 				A3EF7BFA21B53DF100C9F9CE /* HomeOnlineOptionsView.swift in Sources */,
 				A3BEF46E2189C6A100192E7E /* OrdersViewController.swift in Sources */,
 				A3BEF4D92189DCED00192E7E /* ChangePasswordViewController.swift in Sources */,
+				A365B5F121CA1DC9007A5B11 /* MXSegment.swift in Sources */,
 				A3BEF4522189B6C400192E7E /* Utilities.swift in Sources */,
 				A3BEF44A2189B33F00192E7E /* CommonNavigationController.swift in Sources */,
 				A3FDDB9F21AFD08B00524AF4 /* DateCell.swift in Sources */,
@@ -962,6 +982,7 @@
 				A3BEF4E32189DEC800192E7E /* TableViewCell.swift in Sources */,
 				A3BEF4BC2189D5CA00192E7E /* SelectGroupCell.swift in Sources */,
 				A309305D21C77AE800D2D1B0 /* RecommendedModel.swift in Sources */,
+				A365B5F021CA1DC9007A5B11 /* MXSegmentedControl.swift in Sources */,
 				A3FFB13E21C138E700051988 /* RestaurantHomeModel.swift in Sources */,
 				A3BEF4D32189DBD800192E7E /* SettingsViewController.swift in Sources */,
 				A3BEF48A2189C98200192E7E /* OrderHistoryViewController.swift in Sources */,
@@ -988,6 +1009,7 @@
 				A3BEF604218D838A00192E7E /* GlobalModel.swift in Sources */,
 				A3BEF4552189B6F800192E7E /* Constants.swift in Sources */,
 				A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */,
+				A365B5EF21CA1DC9007A5B11 /* MXIndicator.swift in Sources */,
 				A3BEF44F2189B3DF00192E7E /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

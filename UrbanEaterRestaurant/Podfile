@@ -16,7 +16,7 @@ target 'UrbanEaterRestaurant' do
   pod 'SwiftyJSON'
   pod 'SwiftMessages'
   pod 'MMMaterialDesignSpinner'
-  pod 'HTHorizontalSelectionList', '~> 0.7.4'
+  #pod 'HTHorizontalSelectionList', '~> 0.7.4'
   pod 'IQKeyboardManagerSwift'
   pod 'EZSwiftExtensions'
 

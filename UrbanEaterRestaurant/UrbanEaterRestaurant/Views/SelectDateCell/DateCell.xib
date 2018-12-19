@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -64,7 +65,7 @@
                 <outlet property="dateLbl" destination="b3a-2f-Yl1" id="Epf-HZ-uLu"/>
                 <outlet property="daylbl" destination="Znm-k1-sQO" id="45l-6X-4sP"/>
             </connections>
-            <point key="canvasLocation" x="13" y="57.5"/>
+            <point key="canvasLocation" x="13" y="57"/>
         </collectionViewCell>
     </objects>
 </document>

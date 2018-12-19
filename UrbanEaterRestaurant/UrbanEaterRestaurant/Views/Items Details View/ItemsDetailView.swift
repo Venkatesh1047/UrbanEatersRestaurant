@@ -59,6 +59,9 @@ class ItemsDetailView: UIViewController {
 }
 extension ItemsDetailView : UICollectionViewDataSource,UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if isComingFromHome{
+            return scheduledFromHome.items.count
+        }
        return schedule.items.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
