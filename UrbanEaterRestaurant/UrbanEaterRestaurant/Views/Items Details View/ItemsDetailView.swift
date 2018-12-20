@@ -43,7 +43,8 @@ class ItemsDetailView: UIViewController {
         collectionView!.collectionViewLayout = layout
         collectionView.delegate = self
         collectionView.dataSource = self
-        
+        self.enterCodeTf.delegate = self
+        self.enterCodeTf.keyboardType = .numberPad
         if isComingFromHome{
             self.orderIDLbl.text = scheduledFromHome.order[0].subOrderId!
             self.driverIDLbl.text = scheduledFromHome.order[0].code!
@@ -94,5 +95,14 @@ extension ItemsDetailView : UICollectionViewDataSource,UICollectionViewDelegate{
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 30)
+    }
+}
+
+extension ItemsDetailView:UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if range.length == 1{
+            return true
+        }
+        return (textField.text?.length)! < 4
     }
 }

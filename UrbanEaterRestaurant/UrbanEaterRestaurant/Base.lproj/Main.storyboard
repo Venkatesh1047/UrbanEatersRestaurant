@@ -879,7 +879,7 @@
                                         <rect key="frame" x="9.9999999999999858" y="8" width="214.33333333333331" height="34"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search" translatesAutoresizingMaskIntoConstraints="NO" id="K3B-Rq-FWJ">
                                         <rect key="frame" x="231.33333333333334" y="15" width="20" height="20"/>
@@ -932,6 +932,7 @@
                     <tabBarItem key="tabBarItem" title="MANAGE" image="Tabbar_Manage1" selectedImage="Tabbar_Manage" id="w8S-rD-RpW"/>
                     <connections>
                         <outlet property="backBtn" destination="cSX-KA-HIo" id="d2d-fI-wpY"/>
+                        <outlet property="clearBtn" destination="K3B-Rq-FWJ" id="aMf-rA-pA2"/>
                         <outlet property="foodBtn" destination="Fha-xu-UNu" id="Jmm-f4-RWq"/>
                         <outlet property="searchBgView" destination="npd-ry-qVu" id="Nxe-1f-pEw"/>
                         <outlet property="searchTF" destination="wcG-5v-uN7" id="uw9-7j-BBy"/>
@@ -1631,7 +1632,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RECOMMENDED" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vl0-QP-agA">
-                                        <rect key="frame" x="124.66666666666669" y="12.666666666666664" width="126.33333333333331" height="20"/>
+                                        <rect key="frame" x="124.33333333333334" y="12.666666666666664" width="126.33333333333334" height="20"/>
                                         <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -3698,10 +3699,11 @@
                                         <rect key="frame" x="10.000000000000014" y="8" width="214.33333333333337" height="34"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search" translatesAutoresizingMaskIntoConstraints="NO" id="gP5-7Y-DNV">
                                         <rect key="frame" x="232.33333333333334" y="15" width="20" height="20"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="Dmi-Od-XJh"/>
                                             <constraint firstAttribute="width" constant="20" id="soH-Tq-VCi"/>
@@ -3742,6 +3744,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="xkK-Aq-KXD"/>
                     <connections>
+                        <outlet property="clearBtn" destination="gP5-7Y-DNV" id="8kW-Ji-pNb"/>
                         <outlet property="searchBgView" destination="2ft-mu-5eP" id="Bcz-IS-JLs"/>
                         <outlet property="searchTF" destination="ubr-xq-I2g" id="EnW-5D-OfD"/>
                         <outlet property="selectionView" destination="0IJ-xZ-w0J" id="yca-55-uoI"/>

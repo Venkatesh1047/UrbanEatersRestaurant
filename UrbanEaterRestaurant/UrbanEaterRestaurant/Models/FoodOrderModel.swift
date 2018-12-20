@@ -31,7 +31,9 @@ class FoodOrderModel{
         new = [FoodOrderModelData]()
         scheduled = [FoodOrderModelData]()
         completed = [FoodOrderModelData]()
-		let dataArray = json["data"].arrayValue
+        let dataArray = json["data"].arrayValue.sorted { (json1, json2) -> Bool in
+            return json1["ctdAt"].stringValue > json2["ctdAt"].stringValue
+        }
 		for dataJson in dataArray{
 			let value = FoodOrderModelData(fromJson: dataJson)
 			data.append(value)

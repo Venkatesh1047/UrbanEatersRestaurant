@@ -316,15 +316,17 @@ extension HomeViewController : SlideToOpenDelegate{
         }
         TheGlobalPoolManager.showAlertWith(title: "\(titleText)", message: "", singleAction: false, okTitle:"Confirm") { (sucess) in
             if sucess!{
-                let data = GlobalClass.restModel.data!
-                if data.available == 0{
-                    self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
-                    self.onlineSwitch.isOn = true
-                    self.changeRestarentStatusWebHit(status: 1)
-                }else{
-                    self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
-                    self.onlineSwitch.isOn = false
-                    self.changeRestarentStatusWebHit(status: 0)
+                if let model = GlobalClass.restModel{
+                    let data = model.data!
+                    if data.available == 0{
+                        self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
+                        self.onlineSwitch.isOn = true
+                        self.changeRestarentStatusWebHit(status: 1)
+                    }else{
+                        self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
+                        self.onlineSwitch.isOn = false
+                        self.changeRestarentStatusWebHit(status: 0)
+                    }
                 }
             }else{
                 if switchStatus{

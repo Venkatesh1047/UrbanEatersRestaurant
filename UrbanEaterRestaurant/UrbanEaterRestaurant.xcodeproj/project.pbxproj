@@ -1155,7 +1155,8 @@
 			baseConfigurationReference = 7A23F5BE1976B287741E3FCA /* Pods-UrbanEaterRestaurant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RTL7D867WK;
 				INFOPLIST_FILE = UrbanEaterRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1165,9 +1166,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hexadots.MealOnCallRestaurant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c55db49f-2152-45d8-ae02-1d0f9ad6909a";
-				PROVISIONING_PROFILE_SPECIFIER = MealOnCallRestaurant_Development;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Vamsi/#Projects/UrbanEater_Restaurant/UrbanEaterRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant-Bridging-Header.h";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hexadots/UrbanEatersRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1178,7 +1179,8 @@
 			baseConfigurationReference = D355F150D52F692499856341 /* Pods-UrbanEaterRestaurant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RTL7D867WK;
 				INFOPLIST_FILE = UrbanEaterRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1188,9 +1190,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hexadots.MealOnCallRestaurant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c55db49f-2152-45d8-ae02-1d0f9ad6909a";
-				PROVISIONING_PROFILE_SPECIFIER = MealOnCallRestaurant_Development;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Vamsi/#Projects/UrbanEater_Restaurant/UrbanEaterRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant-Bridging-Header.h";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hexadots/UrbanEatersRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

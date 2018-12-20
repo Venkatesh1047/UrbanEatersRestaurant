@@ -32,7 +32,9 @@ class TableOrderModel{
         new = [TableOrderData]()
         scheduled = [TableOrderData]()
         completed = [TableOrderData]()
-		let dataArray = json["data"].arrayValue
+        let dataArray = json["data"].arrayValue.sorted { (json1, json2) -> Bool in
+            return json1["ctdAt"].stringValue > json2["ctdAt"].stringValue
+        }
 		for dataJson in dataArray{
 			let value = TableOrderData(fromJson: dataJson)
 			data.append(value)

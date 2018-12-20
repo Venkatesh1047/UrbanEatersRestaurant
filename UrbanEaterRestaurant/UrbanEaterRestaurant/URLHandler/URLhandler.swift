@@ -46,7 +46,7 @@ class URLhandler: NSObject {
         }
     }
     // MARK : - Post Api hitting Model
-    class func postUrlSession(urlString: String, params: [String : AnyObject] ,header : [String : String] ,  completion completionHandler:@escaping (_ response: DataResponse<Any>) -> ()) {
+    class func postUrlSession(_ hideToast:Bool = false, urlString: String, params: [String : AnyObject] ,header : [String : String] ,  completion completionHandler:@escaping (_ response: DataResponse<Any>) -> ()) {
         Alamofire.request(urlString,method: .post, parameters: params,encoding : JSONEncoding.default, headers: header).responseJSON { (response) in
             switch(response.result) {
             case .success(_):
@@ -58,13 +58,17 @@ class URLhandler: NSObject {
                         completionHandler(response)
                     }else{
                         Themes.sharedInstance.removeActivityView(View: (URLhandler.sharedInstance.topMostVC()?.view)!)
-                        Themes.sharedInstance.showToastView(message)
+                        if !hideToast{
+                            Themes.sharedInstance.showToastView(message)
+                        }
                     }
                 }
                 break
             case .failure(_):
                Themes.sharedInstance.removeActivityView(View: (URLhandler.sharedInstance.topMostVC()?.view)!)
-               Themes.sharedInstance.showToastView((response.result.error?.localizedDescription)!)
+               if !hideToast{
+                Themes.sharedInstance.showToastView((response.result.error?.localizedDescription)!)
+               }
                 break
             }
         }

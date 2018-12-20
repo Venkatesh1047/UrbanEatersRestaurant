@@ -28,7 +28,7 @@ class RestaurantAllOrdersModel{
         scheduled = [RestaurantAllOrdersData]()
         completed = [RestaurantAllOrdersData]()
         let dataArray = json["data"].arrayValue.sorted { (json1, json2) -> Bool in
-            return json1["ctdAt"].stringValue < json2["ctdAt"].stringValue
+            return json1["ctdAt"].stringValue > json2["ctdAt"].stringValue
         }
 		for dataJson in dataArray{
 			let value = RestaurantAllOrdersData(fromJson: dataJson)

@@ -15,9 +15,12 @@ class HomeOnlineOptionsView: UIViewController {
     @IBOutlet weak var searchTF: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBgView: UIView!
+    @IBOutlet weak var clearBtn: UIImageView!
     var isFromHome:Bool = false
     var settings = [Any]()
-
+    var searchActive = false
+    var dummyRestaurantAllOrdersModel : RestaurantAllOrdersModel!
+    var newDummy : RestaurantAllOrdersModel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -26,11 +29,20 @@ class HomeOnlineOptionsView: UIViewController {
         tableView.register(UINib(nibName: "ScheduleFoodCell", bundle: nil), forCellReuseIdentifier: "ScheduleFoodCell")
         tableView.register(UINib(nibName: "ScheduledTableCell", bundle: nil), forCellReuseIdentifier: "ScheduledTableCell")
         tableView.register(UINib(nibName: "CompletedTableCell", bundle: nil), forCellReuseIdentifier: "CompletedTableCell")
-        //self.updateUI()
+        self.updateUI()
+        self.clearBtn.addTapGesture(tapNumber: 1, target: self, action: #selector(self.clearBtnPressed(_:)))
         if self.isFromHome{}
     }
     override func viewWillAppear(_ animated: Bool) {
-        self.updateUI()
+        
+    }
+    @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {
+        if self.searchActive || self.clearBtn.image == #imageLiteral(resourceName: "Cancelled").withColor(.greyColor){
+            self.clearBtn.image = #imageLiteral(resourceName: "Search")
+            self.searchActive = false
+            self.searchTF.endEditing(true)
+            self.searchTF.text = ""
+        }
     }
     //MARK:- Update UI
     func updateUI(){
@@ -38,6 +50,7 @@ class HomeOnlineOptionsView: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
+        self.searchTF.delegate = self
         //Selection view...............
         selectionView.backgroundColor = .secondaryBGColor
         selectionView.font = UIFont.appFont(.Medium, size: 16)
@@ -48,7 +61,10 @@ class HomeOnlineOptionsView: UIViewController {
         selectionView.append(title: "Completed")
             .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
         selectionView.addTarget(self, action: #selector(self.selectedSegment(_:)), for: .valueChanged)
-        self.restaurantAllOrdersApiHitting()
+        self.restaurantAllOrdersApiHitting(false)
+        ez.runThisEvery(seconds: 5.0, startAfterSeconds: 5.0) { (timer) in
+            self.restaurantAllOrdersApiHitting(true)
+        }
     }
     //MARK:- SelectionView
     @objc func selectedSegment(_ sender:MXSegmentedControl){
@@ -70,17 +86,23 @@ class HomeOnlineOptionsView: UIViewController {
         }
     }
     //MARK:- Restaurant All Orders Api Hitting
-    func restaurantAllOrdersApiHitting(){
-        Themes.sharedInstance.activityView(View: self.view)
+    func restaurantAllOrdersApiHitting(_ hideToast:Bool){
+        if !hideToast{
+            Themes.sharedInstance.activityView(View: self.view)
+        }
         let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
                                "orderFood": 1,
                                "orderFoodStatus": "",
                                "orderTable": 1,
                                "orderTableStatus": ""] as [String : Any]
-        URLhandler.postUrlSession(urlString: Constants.urls.restaurantAllOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.restaurantAllOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.restaurantAllOrdersModel = RestaurantAllOrdersModel(fromJson: dataResponse.json)
+                if !self.searchActive{
+                    self.dummyRestaurantAllOrdersModel = GlobalClass.restaurantAllOrdersModel
+                    self.newDummy = GlobalClass.restaurantAllOrdersModel
+                }
                 self.tableView.reloadData()
             }
         }
@@ -92,10 +114,9 @@ class HomeOnlineOptionsView: UIViewController {
                                 "restaurantId": [resID],
                                 "status": status] as [String : Any]
         URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
-            Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
-                    self.restaurantAllOrdersApiHitting()
+                    self.restaurantAllOrdersApiHitting(true)
                 }
             }
         }
@@ -107,10 +128,9 @@ class HomeOnlineOptionsView: UIViewController {
                                 "restaurantId": resID,
                                 "status": status] 
         URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
-            Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
-                    self.restaurantAllOrdersApiHitting()
+                    self.restaurantAllOrdersApiHitting(true)
                 }
             }
         }
@@ -124,7 +144,7 @@ class HomeOnlineOptionsView: UIViewController {
     }
     //MARK:- Accept Button method
     @objc func acceptBtnMethod(_ btn : UIButton){
-        let data = GlobalClass.restaurantAllOrdersModel.new[btn.tag]
+        let data = self.dummyRestaurantAllOrdersModel.new[btn.tag]
         if !data.isOrderTable{
             self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
         }else{
@@ -133,7 +153,7 @@ class HomeOnlineOptionsView: UIViewController {
     }
     //MARK:- Reject Button method
     @objc func rejectBtnMethod(_ btn : UIButton){
-        let data = GlobalClass.restaurantAllOrdersModel.new[btn.tag]
+        let data = self.dummyRestaurantAllOrdersModel.new[btn.tag]
         if !data.isOrderTable{
             self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
         }else{
@@ -145,11 +165,11 @@ class HomeOnlineOptionsView: UIViewController {
 extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if selectionView.selectedIndex == 0{
-            return GlobalClass.restaurantAllOrdersModel == nil ? 0 : GlobalClass.restaurantAllOrdersModel.new.count
+            return self.dummyRestaurantAllOrdersModel == nil ? 0 : self.dummyRestaurantAllOrdersModel.new.count
         }else if selectionView.selectedIndex == 1{
-            return GlobalClass.restaurantAllOrdersModel == nil ? 0 : GlobalClass.restaurantAllOrdersModel.scheduled.count
+            return self.dummyRestaurantAllOrdersModel == nil ? 0 : self.dummyRestaurantAllOrdersModel.scheduled.count
         }else{
-            return GlobalClass.restaurantAllOrdersModel == nil ? 0 : GlobalClass.restaurantAllOrdersModel.completed.count
+            return self.dummyRestaurantAllOrdersModel == nil ? 0 : self.dummyRestaurantAllOrdersModel.completed.count
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -163,9 +183,9 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectionView.selectedIndex == 1{
-            let data = GlobalClass.restaurantAllOrdersModel.scheduled[indexPath.row]
+            let data = self.dummyRestaurantAllOrdersModel.scheduled[indexPath.row]
             if !data.isOrderTable{
-                let schedule = GlobalClass.restaurantAllOrdersModel.scheduled[indexPath.row]
+                let schedule = self.dummyRestaurantAllOrdersModel.scheduled[indexPath.row]
                 self.itemsDetailsPopUpView(schedule)
             }
         }
@@ -173,19 +193,19 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch selectionView.selectedIndex {
         case 0:
-            let data = GlobalClass.restaurantAllOrdersModel.new[indexPath.row]
+            let data = self.dummyRestaurantAllOrdersModel.new[indexPath.row]
             if !data.isOrderTable{
                 return 200
             }
             return 160
         case 1:
-            let data = GlobalClass.restaurantAllOrdersModel.scheduled[indexPath.row]
+            let data = self.dummyRestaurantAllOrdersModel.scheduled[indexPath.row]
             if !data.isOrderTable{
                 return 110
             }
             return 110
         case 2:
-            let data = GlobalClass.restaurantAllOrdersModel.completed[indexPath.row]
+            let data = self.dummyRestaurantAllOrdersModel.completed[indexPath.row]
             if !data.isOrderTable{
                 return 110
             }
@@ -199,11 +219,11 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
 //MARK : - UI CollectionView Delegate Methods
 extension HomeOnlineOptionsView : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return GlobalClass.restaurantAllOrdersModel == nil ? 0 :  GlobalClass.restaurantAllOrdersModel.new[collectionView.tag].items.count
+        return self.dummyRestaurantAllOrdersModel == nil ? 0 :  self.dummyRestaurantAllOrdersModel.new[collectionView.tag].items.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewFoodItemsCell", for: indexPath as IndexPath) as! NewFoodItemsCell
-        let data = GlobalClass.restaurantAllOrdersModel.new[collectionView.tag].items[indexPath.row]
+        let data = self.dummyRestaurantAllOrdersModel.new[collectionView.tag].items[indexPath.row]
         if data.vorousType! == 2{
             cell.foodImgView.image = #imageLiteral(resourceName: "NonVeg")
         }else{
@@ -223,7 +243,7 @@ extension HomeOnlineOptionsView : UICollectionViewDelegate,UICollectionViewDataS
 //MARK:- From Home
 extension HomeOnlineOptionsView{
     func returnHomeNewFoodCell(_ tableView: UITableView,  indexPath: IndexPath) -> UITableViewCell?{
-        let data = GlobalClass.restaurantAllOrdersModel.new[indexPath.row]
+        let data = self.dummyRestaurantAllOrdersModel.new[indexPath.row]
         if !data.isOrderTable{
             let cell = tableView.dequeueReusableCell(withIdentifier: "NewFoodCell") as! NewFoodCell
             cell.acceptBtn.tag = indexPath.row
@@ -249,7 +269,7 @@ extension HomeOnlineOptionsView{
         return cell
     }
     func returnHomeScheduledCell(_ tableView: UITableView,  indexPath: IndexPath) -> UITableViewCell?{
-        let data = GlobalClass.restaurantAllOrdersModel.scheduled[indexPath.row]
+        let data = self.dummyRestaurantAllOrdersModel.scheduled[indexPath.row]
         if !data.isOrderTable{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleFoodCell") as! ScheduleFoodCell
             cell.statusLbl.isHidden = true
@@ -268,7 +288,7 @@ extension HomeOnlineOptionsView{
         return cell
     }
     func returnHomeCompletedCell(_ tableView: UITableView,  indexPath: IndexPath) -> UITableViewCell?{
-        let data = GlobalClass.restaurantAllOrdersModel.completed[indexPath.row]
+        let data = self.dummyRestaurantAllOrdersModel.completed[indexPath.row]
         if !data.isOrderTable{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleFoodCell") as! ScheduleFoodCell
             cell.statusLbl.isHidden = true
@@ -301,3 +321,54 @@ extension UIView {
         layer.backgroundColor =  backgroundCGColor
     }
 }
+
+extension HomeOnlineOptionsView : UITextFieldDelegate{
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.searchActive = true
+        self.clearBtn.image = #imageLiteral(resourceName: "Cancelled").withColor(.greyColor)
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if !self.searchActive || (textField.text?.isEmpty)!{
+            self.clearBtn.image = #imageLiteral(resourceName: "Search")
+            self.dummyRestaurantAllOrdersModel = nil
+            self.dummyRestaurantAllOrdersModel = GlobalClass.restaurantAllOrdersModel
+            self.newDummy = GlobalClass.restaurantAllOrdersModel
+            self.tableView.reloadData()
+        }
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var searchString = (textField.text?.isEmpty)! ? "" : textField.text!
+        if range.length == 1{
+            searchString = (searchString as NSString).replacingCharacters(in: range, with: "")
+        }else{
+            searchString = searchString+string
+        }
+        if GlobalClass.restaurantAllOrdersModel != nil && searchString.length > 0{
+            switch self.selectionView.selectedIndex{
+            case 0 :
+                self.dummyRestaurantAllOrdersModel.new = self.newDummy.new.filter({ (data) -> Bool in
+                    return data.orderId.contains(searchString, compareOption: .caseInsensitive)
+                })
+            case 1 :
+                self.dummyRestaurantAllOrdersModel.scheduled = self.newDummy.scheduled.filter({ (data) -> Bool in
+                    return data.orderId.contains(searchString, compareOption: .caseInsensitive)
+                })
+                print(self.dummyRestaurantAllOrdersModel.scheduled.count, self.newDummy.scheduled.count, GlobalClass.restaurantAllOrdersModel.scheduled.count)
+            case 2 :
+                self.dummyRestaurantAllOrdersModel.completed = self.newDummy.completed.filter({ (data) -> Bool in
+                    return data.orderId.contains(searchString, compareOption: .caseInsensitive)
+                })
+                print(self.dummyRestaurantAllOrdersModel.completed.count, self.newDummy.completed.count, GlobalClass.restaurantAllOrdersModel.completed.count)
+            default :
+                break
+            }
+        }else{
+            self.dummyRestaurantAllOrdersModel = nil
+            self.dummyRestaurantAllOrdersModel = GlobalClass.restaurantAllOrdersModel
+            self.newDummy = GlobalClass.restaurantAllOrdersModel
+        }
+        self.tableView.reloadData()
+        return true
+    }
+}
+
