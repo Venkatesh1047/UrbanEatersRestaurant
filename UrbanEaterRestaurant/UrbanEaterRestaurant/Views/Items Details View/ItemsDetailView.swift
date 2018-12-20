@@ -46,16 +46,37 @@ class ItemsDetailView: UIViewController {
         self.enterCodeTf.delegate = self
         self.enterCodeTf.keyboardType = .numberPad
         if isComingFromHome{
-            self.orderIDLbl.text = scheduledFromHome.order[0].subOrderId!
-            self.driverIDLbl.text = scheduledFromHome.order[0].code!
+            self.orderIDLbl.text = "Order ID: \(scheduledFromHome.order[0].subOrderId!)"
+            self.driverIDLbl.text = "ID: \(scheduledFromHome.order[0].code!)"
             self.priceLbl.text = "₹ \(scheduledFromHome.order[0].billing.orderTotal!.toString)"
         }else{
-            self.orderIDLbl.text = schedule.order[0].subOrderId!
-            self.driverIDLbl.text = schedule.order[0].code!
+            self.orderIDLbl.text = "Order ID: \(schedule.order[0].subOrderId!)"
+            self.driverIDLbl.text = "ID: \(schedule.order[0].code!)"
             self.priceLbl.text = "₹ \(schedule.order[0].billing.orderTotal!.toString)"
         }
     }
     @IBAction func doneBtn(_ sender: UIButton) {
+        if enterCodeTf.text?.length != 4{
+            TheGlobalPoolManager.showToastView("Invalid Order Code")
+        }else{
+            if isComingFromHome{
+                self.foodOrderUpdateRequestApiHitting(scheduledFromHome.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: "DRI_PICKED")
+            }else{
+                self.foodOrderUpdateRequestApiHitting(schedule.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: "DRI_PICKED")
+            }
+        }
+    }
+    //MARK:- Food Order Update  Request
+    func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = ["id": orderId,
+                                "restaurantId": [resID],
+                                "status": status] as [String : Any]
+        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            if dataResponse.json.exists(){
+                 NotificationCenter.default.post(name: Notification.Name("DoneButtonClicked"), object: nil)
+            }
+        }
     }
 }
 extension ItemsDetailView : UICollectionViewDataSource,UICollectionViewDelegate{

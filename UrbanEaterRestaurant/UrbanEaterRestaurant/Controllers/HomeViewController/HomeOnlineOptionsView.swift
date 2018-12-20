@@ -32,9 +32,11 @@ class HomeOnlineOptionsView: UIViewController {
         self.updateUI()
         self.clearBtn.addTapGesture(tapNumber: 1, target: self, action: #selector(self.clearBtnPressed(_:)))
         if self.isFromHome{}
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification(notification:)), name: Notification.Name("DoneButtonClicked"), object: nil)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        
+    @objc func methodOfReceivedNotification(notification: Notification){
+        self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
+        self.restaurantAllOrdersApiHitting(true)
     }
     @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {
         if self.searchActive || self.clearBtn.image == #imageLiteral(resourceName: "Cancelled").withColor(.greyColor){

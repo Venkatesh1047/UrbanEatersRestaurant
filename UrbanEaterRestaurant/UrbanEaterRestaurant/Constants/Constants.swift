@@ -20,15 +20,15 @@ class Constants
     var selectedTags = [String]()
     //MARK:- Fonts
     public struct FontName {
-        static let Light              = "Roboto-Light"
+        static let Light                   = "Roboto-Light"
         static let Medium             = "Roboto-Medium"
-        static let Regular            = "Roboto-Regular"
+        static let Regular               = "Roboto-Regular"
     }
     
     public struct urls {
         
         static let loginURL                                               = "\(BaseUrl)restaurant/login"
-        static let logoutURL                                            = "\(BaseUrl)restaurant/logout"
+        static let logoutURL                                            = "\(BaseUrl)restaurant/logout/by-id"
         static let changePasswordURL                          = "\(BaseUrl)restaurant/update-password"
         static let orderHistoryURL                                 = "\(BaseUrl)order/by-restaurant"
         static let businessHourUrl                                 = "\(BaseUrl)restaurant/update/by-id"

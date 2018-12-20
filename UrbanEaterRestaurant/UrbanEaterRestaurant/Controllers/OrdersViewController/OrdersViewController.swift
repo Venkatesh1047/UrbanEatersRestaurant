@@ -31,6 +31,7 @@ class OrdersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(OrdersViewController.methodOfReceivedNotification(notification:)), name: Notification.Name("DoneButtonClicked"), object: nil)
         tableView.register(UINib(nibName: "NewFoodCell", bundle: nil), forCellReuseIdentifier: "NewFoodCell")
         tableView.register(UINib(nibName: "NewTableCell", bundle: nil), forCellReuseIdentifier: "NewTableCell")
         tableView.register(UINib(nibName: "ScheduleFoodCell", bundle: nil), forCellReuseIdentifier: "ScheduleFoodCell")
@@ -51,6 +52,10 @@ class OrdersViewController: UIViewController {
             self.searchTF.endEditing(true)
             self.searchTF.text = ""
         }
+    }
+    @objc func methodOfReceivedNotification(notification: Notification){
+        self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
+        self.foodOrderApiHitting(true)
     }
     //MARK: - Items Detsils Pop Up
     func itemsDetailsPopUpView(_ schedule:FoodOrderModelData){
@@ -154,6 +159,55 @@ class OrdersViewController: UIViewController {
             }
         }
     }
+    //MARK:- Food Order Update  Request
+    func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = ["id": orderId,
+                               "restaurantId": [resID],
+                               "status": status] as [String : Any]
+        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            if dataResponse.json.exists(){
+                ez.runThisInMainThread {
+                    self.foodOrderApiHitting(true)
+                }
+            }
+        }
+    }
+    //MARK:- Table Order Update  Request
+    func tableOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = ["id": orderId,
+                               "restaurantId": resID,
+                                "status": status]
+        URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            if dataResponse.json.exists(){
+                ez.runThisInMainThread {
+                    self.tableOrderApiHitting(true)
+                }
+            }
+        }
+    }
+    //MARK:- Accept Button method
+    @objc func acceptBtnMethod(_ btn : UIButton){
+        if isFoodSelectedFlag{
+            let data = self.dummyFoodOrderModel.new[btn.tag]
+            self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
+        }else{
+            let data = self.dummyTableOrderModel.new[btn.tag]
+            self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
+        }
+    }
+    //MARK:- Reject Button method
+    @objc func rejectBtnMethod(_ btn : UIButton){
+        if isFoodSelectedFlag{
+            let data = self.dummyFoodOrderModel.new[btn.tag]
+            self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+        }else{
+            let data = self.dummyTableOrderModel.new[btn.tag]
+            self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+        }
+    }
+
     //MARK:- IB Action Outlets
     @IBAction func manageBookingBtns(_ sender: UIButton) {
         let foodImage   = foodBtn == sender ?   #imageLiteral(resourceName: "Food_Selected") : #imageLiteral(resourceName: "Food_Normal")
@@ -265,12 +319,21 @@ extension OrdersViewController{
             cell.collectionView.tag = indexPath.row
             cell.collectionView.delegate = self
             cell.collectionView.dataSource = self
+            cell.acceptBtn.tag = indexPath.row
+            cell.rejectBtn.tag = indexPath.row
+            cell.acceptBtn.addTarget(self, action: #selector(self.acceptBtnMethod(_:)), for: .touchUpInside)
+            cell.rejectBtn.addTarget(self, action: #selector(self.rejectBtnMethod(_:)), for: .touchUpInside)
             let data = self.dummyFoodOrderModel.new[indexPath.row]
             cell.orderIdLbl.text = "Order ID: \(data.order[0].subOrderId!)"
+            
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "NewTableCell") as! NewTableCell
             let data = self.dummyTableOrderModel.new[indexPath.row]
+            cell.acceptBtn.tag = indexPath.row
+            cell.rejectBtn.tag = indexPath.row
+            cell.acceptBtn.addTarget(self, action: #selector(self.acceptBtnMethod(_:)), for: .touchUpInside)
+            cell.rejectBtn.addTarget(self, action: #selector(self.rejectBtnMethod(_:)), for: .touchUpInside)
             cell.orderIDLbl.text = "Order ID: \(data.orderId!)"
             cell.dateLbl.text = data.bookedDate!
             cell.timeLbl.text = data.startTime!
