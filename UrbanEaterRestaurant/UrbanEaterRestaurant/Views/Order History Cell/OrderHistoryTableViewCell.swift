@@ -14,6 +14,7 @@ class OrderHistoryTableViewCell: UITableViewCell {
     @IBOutlet weak var noOfItemsLbl: UILabel!
     @IBOutlet weak var orderStatusLbl: UILabel!
     @IBOutlet weak var dropDownBtn: UIButton!
+    @IBOutlet weak var farwardImg: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

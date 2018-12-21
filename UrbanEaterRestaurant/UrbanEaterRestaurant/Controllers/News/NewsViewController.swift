@@ -12,6 +12,7 @@ import SwiftyJSON
 class NewsViewController: UIViewController {
 
     @IBOutlet weak var newsTbl: UITableView!
+    @IBOutlet weak var clearAllBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateUI()
@@ -21,6 +22,9 @@ class NewsViewController: UIViewController {
         newsTbl.tableFooterView = UIView()
         newsTbl.delegate = self
         newsTbl.dataSource = self
+    }
+    //MARK:- IB Action Outlets
+    @IBAction func clearAllBtn(_ sender: UIButton) {
     }
 }
 extension NewsViewController : UITableViewDataSource,UITableViewDelegate {

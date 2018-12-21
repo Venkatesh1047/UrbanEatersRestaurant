@@ -144,6 +144,13 @@ class HomeOnlineOptionsView: UIViewController {
         viewCon.isComingFromHome = true
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
+    //MARK: - Manage Preparation Time Pop Up
+    func managePreparationTimePopUpView(){
+        let viewCon = PreparationTimeView(nibName: "PreparationTimeView", bundle: nil)
+        //viewCon.scheduledFromHome = schedule
+        viewCon.isComingFromHome = true
+        self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
+    }
     //MARK:- Accept Button method
     @objc func acceptBtnMethod(_ btn : UIButton){
         let data = self.dummyRestaurantAllOrdersModel.new[btn.tag]
@@ -226,7 +233,7 @@ extension HomeOnlineOptionsView : UICollectionViewDelegate,UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewFoodItemsCell", for: indexPath as IndexPath) as! NewFoodItemsCell
         let data = self.dummyRestaurantAllOrdersModel.new[collectionView.tag].items[indexPath.row]
-        if data.vorousType! == 2{
+        if data.vorousType! == 1{
             cell.foodImgView.image = #imageLiteral(resourceName: "NonVeg")
         }else{
             cell.foodImgView.image = #imageLiteral(resourceName: "Veg")

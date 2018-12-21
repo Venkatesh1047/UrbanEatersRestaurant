@@ -104,7 +104,7 @@ class Themes: NSObject {
     func activityView(View:UIView){
         topMostVC()?.view.isUserInteractionEnabled = true
         spinnerView.frame=CGRect(x: View.center.x-25, y: View.center.y, width: 30, height: 30)
-        spinnerView.backgroundColor = .restBGColor
+        //spinnerView.backgroundColor = .restBGColor
         spinnerView.lineWidth = 3.0
         spinnerView.tintColor = .greenColor
         topMostVC()?.view.addSubview(spinnerView)

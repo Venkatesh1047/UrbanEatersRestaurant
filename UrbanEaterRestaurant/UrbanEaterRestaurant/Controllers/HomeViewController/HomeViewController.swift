@@ -135,6 +135,7 @@ class HomeViewController: UIViewController {
                         self.slideToOpen.isFinished = false
                         self.slideToOpen.updateThumbnailViewLeadingPosition(0)
                         self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
+                        self.supportBtn.isHidden = false
                     }
                 }else{
                     ez.runThisInMainThread {
@@ -143,6 +144,7 @@ class HomeViewController: UIViewController {
                         self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
                         self.onlineSwitch.isOn = true
                         self.onlineOptionsContainerView.isHidden = false
+                        self.supportBtn.isHidden = true
                     }
                 }
                 self.collectionView.reloadData()

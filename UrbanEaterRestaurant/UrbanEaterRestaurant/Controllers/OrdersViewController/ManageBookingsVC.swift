@@ -16,6 +16,7 @@ class ManageBookingsVC: UIViewController {
     var lbl1TitlesArray = ["New:","Total Items:","Weekdays:"]
     var lbl2TitlesArray = ["Scheduled:","Available:","Weekends:"]
     var lbl3TitlesArray = ["Completed:","Recomended:","Today Closing Time:"]
+    var contentArray = ["Orders","Menu","Time"]
     var lbl1ValuesArray = [String]()
     var lbl2ValuesArray = [String]()
     var lbl3ValuesArray = [String]()
@@ -35,7 +36,16 @@ class ManageBookingsVC: UIViewController {
             let data = GlobalClass.restModel.data.statIdData!
             lbl1ValuesArray = [data.order.totalOrdered!.toString,data.food.total!.toString,"\(GlobalClass.restModel.data.bookTableTimings.weekDay.startAt!) to \(GlobalClass.restModel.data.bookTableTimings.weekDay.endAt!)"]
             lbl2ValuesArray = [data.order.totalAccepted!.toString,data.food.available!.toString,"\(GlobalClass.restModel.data.bookTableTimings.weekEnd.startAt!) to \(GlobalClass.restModel.data.bookTableTimings.weekEnd.endAt!)"]
-            lbl3ValuesArray = [data.order.totalCompleted!.toString,data.food.recommended!.toString,GlobalClass.restModel.data.bookTableTimings.totalTableCount!.toString] 
+            var closingTime  = "-"
+            let today = Date()
+            let calendar = Calendar(identifier: .gregorian)
+            let components = calendar.dateComponents([.weekday], from: today)
+            if components.weekday == 1 || components.weekday == 7 {
+                closingTime = GlobalClass.restModel.data.bookTableTimings.weekEnd.endAt!
+            }else {
+                closingTime = GlobalClass.restModel.data.bookTableTimings.weekDay.endAt!
+            }
+            lbl3ValuesArray = [data.order.totalCompleted!.toString,data.food.recommended!.toString,closingTime]
         }
     }
     //MARK: - Pushing to Order VC
@@ -75,6 +85,14 @@ extension ManageBookingsVC : UITableViewDataSource,UITableViewDelegate {
         cell.lbl1.text = lbl1ValuesArray[indexPath.row]
         cell.lbl2.text = lbl2ValuesArray[indexPath.row]
         cell.lbl3.text = lbl3ValuesArray[indexPath.row]
+        let attrs1 = [NSAttributedStringKey.font : UIFont.appFont(.Regular, size: 11), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
+        let attrs2 = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: 11), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 1)] as [NSAttributedStringKey : Any]
+        let attributedString1 = NSMutableAttributedString(string:"You can manage", attributes:attrs1)
+        let attributedString2 = NSMutableAttributedString(string:" \(contentArray[indexPath.row])", attributes:attrs2)
+        let attributedString3 = NSMutableAttributedString(string:" from here", attributes:attrs1)
+        attributedString1.append(attributedString2)
+        attributedString1.append(attributedString3)
+        cell.contentLbl.attributedText = attributedString1
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -21,13 +21,13 @@ class EarningSummuryViewController: UIViewController {
     @IBOutlet weak var totalOrdersLbl: UILabel!
     @IBOutlet weak var totalEarningsLbl: UILabel!
     @IBOutlet weak var backBtn: UIButton!
-
+    @IBOutlet weak var exportBtn: UIButton!
+    
     var fromDateString : String!
     var toDateString : String!
     var dateSelectedString : String!
     var isFromDateSelected = false
     let dateFormatter = DateFormatter()
-    //let section = ["Header1","Header2"]
     var collapaseHandlerArray = [String]()
      var selectedDate : String = ""
     
@@ -96,6 +96,8 @@ class EarningSummuryViewController: UIViewController {
         }
     }
     //MARK:- IB Action Outlets
+    @IBAction func exportBtn(_ sender: UIButton) {
+    }
     @IBAction func fromDateBtnClicked(_ sender: Any) {
         dateContainerView.isHidden = false
         blurView.isHidden = false
@@ -173,9 +175,11 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
         headerCell.orderStatusLbl.text = data.statusText!
         if self.collapaseHandlerArray.contains(data.subOrderId!){
             headerCell.dropDownBtn.setTitle("1", for: .normal)
+            headerCell.farwardImg.image = #imageLiteral(resourceName: "UpArrow").withColor(.secondaryTextColor)
         }
         else{
             headerCell.dropDownBtn.setTitle("0", for: .normal)
+            headerCell.farwardImg.image = #imageLiteral(resourceName: "Farward").withColor(.secondaryTextColor)
         }
         headerCell.dropDownBtn.addTarget(self, action: #selector(HandleheaderButton(sender:)), for: .touchUpInside)
         return headerCell.contentView

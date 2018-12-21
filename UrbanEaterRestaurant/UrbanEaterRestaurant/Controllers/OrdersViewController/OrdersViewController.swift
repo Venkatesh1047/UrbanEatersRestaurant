@@ -63,6 +63,12 @@ class OrdersViewController: UIViewController {
         viewCon.schedule = schedule
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
+    //MARK: - Manage Preparation Time Pop Up
+    func managePreparationTimePopUpView(_ schedule:FoodOrderModelData){
+        let viewCon = PreparationTimeView(nibName: "PreparationTimeView", bundle: nil)
+        viewCon.schedule = schedule
+        self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
+    }
     @IBAction func backBtn(_ sender: UIButton) {
         ez.topMostVC?.popVC()
     }
@@ -125,7 +131,9 @@ class OrdersViewController: UIViewController {
                 GlobalClass.foodOrderModel = FoodOrderModel(fromJson: dataResponse.json)
                 self.dummyFoodOrderModel = GlobalClass.foodOrderModel
                 if GlobalClass.foodOrderModel.data.count == 0{
-                    TheGlobalPoolManager.showToastView("No data available")
+                    if !hideToast{
+                        TheGlobalPoolManager.showToastView("No data available")
+                    }
                     self.tableView.reloadData()
                 }else{
                     self.tableView.reloadData()
@@ -151,7 +159,9 @@ class OrdersViewController: UIViewController {
                 GlobalClass.tableOrderModel = TableOrderModel(fromJson: dataResponse.json)
                 self.dummyTableOrderModel = GlobalClass.tableOrderModel
                 if GlobalClass.tableOrderModel.data.count == 0{
-                    TheGlobalPoolManager.showToastView("No data available")
+                    if !hideToast{
+                        TheGlobalPoolManager.showToastView("No data available")
+                    }
                     self.tableView.reloadData()
                 }else{
                     self.tableView.reloadData()
@@ -295,7 +305,7 @@ extension OrdersViewController : UICollectionViewDelegate,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewFoodItemsCell", for: indexPath as IndexPath) as! NewFoodItemsCell
         let data = self.dummyFoodOrderModel.new[collectionView.tag].items[indexPath.row]
-        if data.vorousType! == 2{
+        if data.vorousType! == 1{
             cell.foodImgView.image = #imageLiteral(resourceName: "NonVeg")
         }else{
               cell.foodImgView.image = #imageLiteral(resourceName: "Veg")

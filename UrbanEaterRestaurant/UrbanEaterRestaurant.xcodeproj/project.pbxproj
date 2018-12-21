@@ -74,6 +74,8 @@
 		A3F2AF9021BA40B500A9379A /* ItemsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F2AF8E21BA40B500A9379A /* ItemsCell.xib */; };
 		A3F2AF9321BA79DD00A9379A /* ItemsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F2AF9121BA79DD00A9379A /* ItemsDetailView.swift */; };
 		A3F2AF9421BA79DD00A9379A /* ItemsDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F2AF9221BA79DD00A9379A /* ItemsDetailView.xib */; };
+		A3F3872221CCEF7E002122BC /* PreparationTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F3872021CCEF7E002122BC /* PreparationTimeView.swift */; };
+		A3F3872321CCEF7E002122BC /* PreparationTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F3872121CCEF7E002122BC /* PreparationTimeView.xib */; };
 		A3F3FA0921BD082000AF840F /* ItemsDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F3FA0721BD082000AF840F /* ItemsDetailCell.swift */; };
 		A3F3FA0A21BD082000AF840F /* ItemsDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F3FA0821BD082000AF840F /* ItemsDetailCell.xib */; };
 		A3F6883521B8EC1000DD37D7 /* ManageBookingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F6883321B8EC1000DD37D7 /* ManageBookingCell.swift */; };
@@ -186,6 +188,8 @@
 		A3F2AF8E21BA40B500A9379A /* ItemsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemsCell.xib; sourceTree = "<group>"; };
 		A3F2AF9121BA79DD00A9379A /* ItemsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDetailView.swift; sourceTree = "<group>"; };
 		A3F2AF9221BA79DD00A9379A /* ItemsDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemsDetailView.xib; sourceTree = "<group>"; };
+		A3F3872021CCEF7E002122BC /* PreparationTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationTimeView.swift; sourceTree = "<group>"; };
+		A3F3872121CCEF7E002122BC /* PreparationTimeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreparationTimeView.xib; sourceTree = "<group>"; };
 		A3F3FA0721BD082000AF840F /* ItemsDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDetailCell.swift; sourceTree = "<group>"; };
 		A3F3FA0821BD082000AF840F /* ItemsDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemsDetailCell.xib; sourceTree = "<group>"; };
 		A3F6883321B8EC1000DD37D7 /* ManageBookingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBookingCell.swift; sourceTree = "<group>"; };
@@ -327,6 +331,7 @@
 		A3BEF4432189A94700192E7E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A3F3871F21CCEF50002122BC /* Preparation Time View  */,
 				A3F2AF9521BA7E4900A9379A /* Items Details View */,
 				A3F6883221B8EBF100DD37D7 /* Manage Booking Cells */,
 				A3F785A821B69F580031F1A6 /* Completed Group Cells */,
@@ -669,6 +674,15 @@
 			path = "Items Details View";
 			sourceTree = "<group>";
 		};
+		A3F3871F21CCEF50002122BC /* Preparation Time View  */ = {
+			isa = PBXGroup;
+			children = (
+				A3F3872021CCEF7E002122BC /* PreparationTimeView.swift */,
+				A3F3872121CCEF7E002122BC /* PreparationTimeView.xib */,
+			);
+			path = "Preparation Time View ";
+			sourceTree = "<group>";
+		};
 		A3F6883221B8EBF100DD37D7 /* Manage Booking Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -848,6 +862,7 @@
 				A3FDDB9821AE67CE00524AF4 /* EarningsSeeAllACollectionViewCell.xib in Resources */,
 				A3F7859621B648B60031F1A6 /* NewFoodCell.xib in Resources */,
 				A3BEF4AE2189D54A00192E7E /* FoodItemsTableViewCell1.xib in Resources */,
+				A3F3872321CCEF7E002122BC /* PreparationTimeView.xib in Resources */,
 				A3FDDB9421AE67A000524AF4 /* EarningsCollectionViewCell.xib in Resources */,
 				A3F785A321B68FD70031F1A6 /* ScheduleFoodCell.xib in Resources */,
 				A3FDDBA021AFD08B00524AF4 /* DateCell.xib in Resources */,
@@ -943,6 +958,7 @@
 				A3BEF4B02189D54A00192E7E /* FoodItemsTableViewCell.swift in Sources */,
 				A3FDDBA421AFF40C00524AF4 /* DateSeeAll.swift in Sources */,
 				A3BEF4B12189D54A00192E7E /* FoodItemsTableViewCell1.swift in Sources */,
+				A3F3872221CCEF7E002122BC /* PreparationTimeView.swift in Sources */,
 				A3BEF613218D8BDD00192E7E /* URLhandler.swift in Sources */,
 				A3FFB13A21C0CD7700051988 /* TableOrderModel.swift in Sources */,
 				A3F3FA0921BD082000AF840F /* ItemsDetailCell.swift in Sources */,
@@ -1168,7 +1184,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hexadots/UrbanEatersRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1192,7 +1208,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/hexadots/UrbanEatersRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant/UrbanEaterRestaurant-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

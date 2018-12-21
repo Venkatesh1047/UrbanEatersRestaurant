@@ -25,6 +25,8 @@ class ItemsDetailView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        doneBtn.isEnabled = false
+        [enterCodeTf].forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .editingChanged) })
         self.updateUI()
     }
     //MARK:- Update UI
@@ -54,6 +56,21 @@ class ItemsDetailView: UIViewController {
             self.driverIDLbl.text = "ID: \(schedule.order[0].code!)"
             self.priceLbl.text = "₹ \(schedule.order[0].billing.orderTotal!.toString)"
         }
+    }
+    @objc func editingChanged(_ textField: UITextField) {
+        if textField.text?.count == 1 {
+            if textField.text?.first == " " {
+                textField.text = ""
+                return
+            }
+        }
+        guard
+            let code = enterCodeTf.text, !code.isEmpty
+            else {
+                doneBtn.isEnabled = false
+                return
+        }
+        doneBtn.isEnabled = true
     }
     @IBAction func doneBtn(_ sender: UIButton) {
         if enterCodeTf.text?.length != 4{
@@ -90,7 +107,7 @@ extension ItemsDetailView : UICollectionViewDataSource,UICollectionViewDelegate{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemsDetailCell", for: indexPath as IndexPath) as! ItemsDetailCell
         if isComingFromHome{
             let data = scheduledFromHome!
-            if data.items[indexPath.row].vorousType == 2{
+            if data.items[indexPath.row].vorousType == 1{
                 cell.vorousTypeImage.image = #imageLiteral(resourceName: "NonVeg")
             }else{
                 cell.vorousTypeImage.image = #imageLiteral(resourceName: "Veg")
