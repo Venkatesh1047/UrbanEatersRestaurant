@@ -206,28 +206,28 @@ class RestaurantAllOrdersData{
             let value = RestaurantAllOrdersAddon(fromJson: addonsJson)
             addons.append(value)
         }
-        let addressJson = json["address"]
+        let addressJson = json["address"].exists() ? json["address"] : JSON.init([""])
         if !addressJson.isEmpty{
             address = RestaurantAllOrdersAddres(fromJson: addressJson)
         }
-        let billingJson = json["billing"]
+        let billingJson = json["billing"].exists() ? json["billing"] : JSON.init([""])
         if !billingJson.isEmpty{
             billing = RestaurantAllOrdersBilling(fromJson: billingJson)
         }
         bookedDate = json["bookedDate"].string ?? ""
         bookedOn = json["bookedOn"].int ?? 0
         code = json["code"].int ?? 0
-        let contactJson = json["contact"]
+        let contactJson = json["contact"].exists() ? json["contact"] : JSON.init([""])
         if !contactJson.isEmpty{
             contact = RestaurantAllOrdersContact(fromJson: contactJson)
         }
         customerId = json["customerId"].string ?? ""
-        let discountsJson = json["discounts"]
+        let discountsJson = json["discounts"].exists() ? json["discounts"] : JSON.init([""])
         if !discountsJson.isEmpty{
             discounts = RestaurantAllOrdersDiscount(fromJson: discountsJson)
         }
         driverId = json["driverId"].string ?? ""
-        let historyJson = json["history"]
+        let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
         if !historyJson.isEmpty{
             history = RestaurantAllOrdersHistory(fromJson: historyJson)
         }
@@ -241,7 +241,7 @@ class RestaurantAllOrdersData{
                 items.append(value)
             }
         }
-        let locJson = json["loc"]
+        let locJson = json["loc"].exists() ? json["loc"] : JSON.init([""])
         if !locJson.isEmpty{
             loc = RestaurantAllOrdersLoc(fromJson: locJson)
         }
@@ -257,7 +257,7 @@ class RestaurantAllOrdersData{
         orderDate = json["orderDate"].string ?? ""
         orderId = json["orderId"].string ?? ""
         orderOn = json["orderOn"].int ?? 0
-        let paymentJson = json["payment"]
+        let paymentJson = json["payment"].exists() ? json["payment"] : JSON.init([""])
         if !paymentJson.isEmpty{
             payment = RestaurantAllOrdersPayment(fromJson: paymentJson)
         }
@@ -332,7 +332,7 @@ class RestaurantAllOrdersItem{
         if json.isEmpty{
             return
         }
-        let customizeJson = json["customize"]
+        let customizeJson = json["customize"].exists() ? json["customize"] : JSON.init([""])
         if !customizeJson.isEmpty{
             customize = RestaurantAllOrdersCustomize(fromJson: customizeJson)
         }
@@ -340,7 +340,7 @@ class RestaurantAllOrdersItem{
         instruction = json["instruction"].string ?? ""
         itemId = json["itemId"].string ?? ""
         name = json["name"].string ?? ""
-        let offerJson = json["offer"]
+        let offerJson = json["offer"].exists() ? json["offer"] : JSON.init([""])
         if !offerJson.isEmpty{
             offer = RestaurantAllOrdersOffer(fromJson: offerJson)
         }
@@ -400,12 +400,12 @@ class RestaurantAllOrdersOrder{
         if json.isEmpty{
             return
         }
-        let billingJson = json["billing"]
+        let billingJson = json["billing"].exists() ? json["billing"] : JSON.init([""])
         if !billingJson.isEmpty{
             billing = RestaurantAllOrdersBilling(fromJson: billingJson)
         }
         code = json["code"].string ?? ""
-        let historyJson = json["history"]
+        let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
         if !historyJson.isEmpty{
             history = RestaurantAllOrdersHistory(fromJson: historyJson)
         }
@@ -454,7 +454,7 @@ class RestaurantAllOrdersRestaurantIdData{
         if json.isEmpty{
             return
         }
-        let addressJson = json["address"]
+        let addressJson = json["address"].exists() ? json["address"] : JSON.init([""])
         if !addressJson.isEmpty{
             address = RestaurantAllOrdersAddres(fromJson: addressJson)
         }
@@ -462,7 +462,7 @@ class RestaurantAllOrdersRestaurantIdData{
         avatar = json["avatar"].string ?? ""
         deliveryTime = json["deliveryTime"].int ?? 0
         id = json["id"].string ?? ""
-        let locJson = json["loc"]
+        let locJson = json["loc"].exists() ? json["loc"] : JSON.init([""])
         if !locJson.isEmpty{
             loc = RestaurantAllOrdersLoc(fromJson: locJson)
         }

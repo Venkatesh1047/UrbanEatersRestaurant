@@ -111,7 +111,7 @@ class RecommendedData{
         id = json["id"].string ?? ""
         mainCategoryId = json["mainCategoryId"].string ?? ""
         name = json["name"].string ?? ""
-        let offerJson = json["offer"]
+        let offerJson = json["offer"].exists() ? json["offer"] : JSON.init([""])
         if !offerJson.isEmpty{
             offer = RecommendedOffer(fromJson: offerJson)
         }
@@ -127,7 +127,7 @@ class RecommendedData{
         for subCategoryIdJson in subCategoryIdArray{
             subCategoryId.append(subCategoryIdJson.string ?? "")
         }
-        let timingsJson = json["timings"]
+        let timingsJson = json["timings"].exists() ? json["timings"] : JSON.init([""])
         if !timingsJson.isEmpty{
             timings = RecommendedTiming(fromJson: timingsJson)
         }

@@ -628,21 +628,21 @@ class RestaurantHomeStatIdData{
         if json.isEmpty{
             return
         }
-        let foodJson = json["food"]
+        let foodJson = json["food"].exists() ? json["food"] : JSON.init([""])
         if !foodJson.isEmpty{
             food = RestaurantHomeFood(fromJson: foodJson)
         }
         id = json["id"].string ?? ""
-        let orderJson = json["order"]
+        let orderJson = json["order"].exists() ? json["order"] : JSON.init([""])
         if !orderJson.isEmpty{
             order = RestaurantHomeOrder(fromJson: orderJson)
         }
-        let ratingJson = json["rating"]
+        let ratingJson = json["rating"].exists() ? json["rating"] : JSON.init([""])
         if !ratingJson.isEmpty{
             rating = RestaurantHomeRating(fromJson: ratingJson)
         }
         restaurantId = json["restaurantId"].string ?? ""
-        let reviewJson = json["review"]
+        let reviewJson = json["review"].exists() ? json["review"] : JSON.init([""])
         if !reviewJson.isEmpty{
             review = RestaurantHomeRating(fromJson: reviewJson)
         }
@@ -661,11 +661,11 @@ class RestaurantHomeTiming{
         if json.isEmpty{
             return
         }
-        let weekDayJson = json["weekDay"]
+        let weekDayJson = json["weekDay"].exists() ? json["weekDay"] : JSON.init([""])
         if !weekDayJson.isEmpty{
             weekDay = RestaurantHomeWeekDay(fromJson: weekDayJson)
         }
-        let weekEndJson = json["weekEnd"]
+        let weekEndJson = json["weekEnd"].exists() ? json["weekEnd"] : JSON.init([""])
         if !weekEndJson.isEmpty{
             weekEnd = RestaurantHomeWeekDay(fromJson: weekEndJson)
         }

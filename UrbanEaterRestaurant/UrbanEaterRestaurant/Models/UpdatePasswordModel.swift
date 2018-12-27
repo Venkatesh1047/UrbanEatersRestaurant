@@ -20,7 +20,7 @@ class UpdatePasswordModel{
 			return
 		}
 		code = json["code"].int ?? 0
-		let dataJson = json["data"]
+		let dataJson = json["data"].exists() ? json["data"] : JSON.init([""])
 		if !dataJson.isEmpty{
 			data = UpdatePasswordData(fromJson: dataJson)
 		}

@@ -133,35 +133,35 @@ class TableOrderData{
         if json.isEmpty{
             return
         }
-        let addressJson = json["address"]
+        let addressJson = json["address"].exists() ? json["address"] : JSON.init([""])
         if !addressJson.isEmpty{
             address = TableOrderAddres(fromJson: addressJson)
         }
         bookedDate = json["bookedDate"].string ?? ""
         bookedOn = json["bookedOn"].int ?? 0
         code = json["code"].int ?? 0
-        let contactJson = json["contact"]
+        let contactJson = json["contact"].exists() ? json["contact"] : JSON.init([""])
         if !contactJson.isEmpty{
             contact = TableOrderContact(fromJson: contactJson)
         }
         customerId = json["customerId"].string ?? ""
-        let historyJson = json["history"]
+        let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
         if !historyJson.isEmpty{
             history = TableOrderHistory(fromJson: historyJson)
         }
         id = json["id"].string ?? ""
-        let locJson = json["loc"]
+        let locJson = json["loc"].exists() ? json["loc"] : JSON.init([""])
         if !locJson.isEmpty{
             loc = TableOrderLoc(fromJson: locJson)
         }
         orderId = json["orderId"].string ?? ""
         personCount = json["personCount"].int ?? 0
         restaurantId = json["restaurantId"].string ?? ""
-        let restaurantIdDataJson = json["restaurantIdData"]
+        let restaurantIdDataJson = json["restaurantIdData"].exists() ? json["restaurantIdData"] : JSON.init([""])
         if !restaurantIdDataJson.isEmpty{
             restaurantIdData = TableOrderRestaurantIdData(fromJson: restaurantIdDataJson)
         }
-        let reviewIdDataJson = json["reviewIdData"]
+        let reviewIdDataJson = json["reviewIdData"].exists() ? json["reviewIdData"] : JSON.init([""])
         if !reviewIdDataJson.isEmpty{
             reviewIdData = TableOrderReviewIdData(fromJson: reviewIdDataJson)
         }
@@ -229,13 +229,13 @@ class TableOrderRestaurantIdData{
         if json.isEmpty{
             return
         }
-        let addressJson = json["address"]
+        let addressJson = json["address"].exists() ? json["address"] : JSON.init([""])
         if !addressJson.isEmpty{
             address = TableOrderAddres(fromJson: addressJson)
         }
         avatar = json["avatar"].string ?? ""
         id = json["id"].string ?? ""
-        let locJson = json["loc"]
+        let locJson = json["loc"].exists() ? json["loc"] : JSON.init([""])
         if !locJson.isEmpty{
             loc = TableOrderLoc(fromJson: locJson)
         }

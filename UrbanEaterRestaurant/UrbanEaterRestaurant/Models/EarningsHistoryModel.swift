@@ -25,7 +25,7 @@ class EarningsHistoryModel{
 			return
 		}
 		code = json["code"].int ?? 0
-		let dataJson = json["data"]
+		let dataJson = json["data"].exists() ? json["data"] : JSON.init([""])
 		if !dataJson.isEmpty{
 			data = EarningsHistoryData(fromJson: dataJson)
 		}
@@ -76,23 +76,23 @@ class EarningsHistoryOrderFoodData{
             let value = EarningsHistoryAddon(fromJson: addonsJson)
             addons.append(value)
         }
-        let addressJson = json["address"]
+        let addressJson = json["address"].exists() ? json["address"] : JSON.init([""])
         if !addressJson.isEmpty{
             address = EarningsHistoryAddres(fromJson: addressJson)
         }
-        let billingJson = json["billing"]
+        let billingJson = json["billing"].exists() ? json["billing"] : JSON.init([""])
         if !billingJson.isEmpty{
             billing = EarningsHistoryBilling(fromJson: billingJson)
         }
         code = json["code"].int ?? 0
         ctdAt = json["ctdAt"].string ?? ""
         customerId = json["customerId"].string ?? ""
-        let discountsJson = json["discounts"]
+        let discountsJson = json["discounts"].exists() ? json["discounts"] : JSON.init([""])
         if !discountsJson.isEmpty{
             discounts = EarningsHistoryDiscount(fromJson: discountsJson)
         }
         driverId = json["driverId"].string ?? ""
-        let historyJson = json["history"]
+        let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
         if !historyJson.isEmpty{
             history = EarningsHistoryHistory(fromJson: historyJson)
         }
@@ -105,7 +105,7 @@ class EarningsHistoryOrderFoodData{
                 items.append(value)
             }
         }
-        let locJson = json["loc"]
+        let locJson = json["loc"].exists() ? json["loc"] : JSON.init([""])
         if !locJson.isEmpty{
             loc = EarningsHistoryLoc(fromJson: locJson)
         }
@@ -121,7 +121,7 @@ class EarningsHistoryOrderFoodData{
         orderDate = json["orderDate"].string ?? ""
         orderId = json["orderId"].string ?? ""
         orderOn = json["orderOn"].int ?? 0
-        let paymentJson = json["payment"]
+        let paymentJson = json["payment"].exists() ? json["payment"] : JSON.init([""])
         if !paymentJson.isEmpty{
             payment = EarningsHistoryPayment(fromJson: paymentJson)
         }
@@ -353,7 +353,7 @@ class EarningsHistoryItem{
         if json.isEmpty{
             return
         }
-        let customizeJson = json["customize"]
+        let customizeJson = json["customize"].exists() ? json["customize"] : JSON.init([""])
         if !customizeJson.isEmpty{
             customize = EarningsHistoryCustomize(fromJson: customizeJson)
         }
@@ -361,7 +361,7 @@ class EarningsHistoryItem{
         instruction = json["instruction"].string ?? ""
         itemId = json["itemId"].string ?? ""
         name = json["name"].string ?? ""
-        let offerJson = json["offer"]
+        let offerJson = json["offer"].exists() ? json["offer"] : JSON.init([""])
         if !offerJson.isEmpty{
             offer = EarningsHistoryOffer(fromJson: offerJson)
         }
@@ -436,17 +436,17 @@ class EarningsHistoryOrder{
             return
         }
         base = json["base"].int ?? 0
-        let billingJson = json["billing"]
+        let billingJson = json["billing"].exists() ? json["billing"] : JSON.init([""])
         if !billingJson.isEmpty{
             billing = EarningsHistoryBilling(fromJson: billingJson)
         }
         code = json["code"].string ?? ""
-        let historyJson = json["history"]
+        let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
         if !historyJson.isEmpty{
             history = EarningsHistoryHistory(fromJson: historyJson)
         }
         instruction = json["instruction"].string ?? ""
-        let locJson = json["loc"]
+        let locJson = json["loc"].exists() ? json["loc"] : JSON.init([""])
         if !locJson.isEmpty{
             loc = EarningsHistoryLoc(fromJson: locJson)
         }

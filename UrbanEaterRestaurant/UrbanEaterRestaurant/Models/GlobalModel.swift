@@ -13,28 +13,28 @@ let GlobalClass = GlobalModel.sharedInstance
 
 class GlobalModel:NSObject {
     static let sharedInstance = GlobalModel()
-    var restaurantLoginModel : RestaurantLoginModel!
-    var foodOrderModel : FoodOrderModel!
-    var tableOrderModel : TableOrderModel!
-    var tableHistoryModel : TableOrderModel!
-    var restModel:RestaurantHomeModel!
+    var restaurantLoginModel     : RestaurantLoginModel!
+    var foodOrderModel           : FoodOrderModel!
+    var tableOrderModel          : TableOrderModel!
+    var tableHistoryModel        : TableOrderModel!
+    var restModel                : RestaurantHomeModel!
     var restaurantAllOrdersModel : RestaurantAllOrdersModel!
-    var updatePasswordModel : UpdatePasswordModel!
-    var manageCategoriesModel : ManageCategoriesModel!
-    var recommendedModel : RecommendedModel!
-    var earningsHistoryModel : EarningsHistoryModel!
+    var updatePasswordModel      : UpdatePasswordModel!
+    var manageCategoriesModel    : ManageCategoriesModel!
+    var recommendedModel         : RecommendedModel!
+    var earningsHistoryModel     : EarningsHistoryModel!
  
     
-    let KEY_ACCEPTED           = "RES_ACCEPTED"
-    let KEY_REJECTED            = "RES_REJECTED"
-    let KEY_ID                            = "id"
-    let KEY_DELIVERYTIME     = "deliveryTime"
-    let KEY_TIMINGS                = "timings"
-    let KEY_WEEKDAY             = "weekDay"
-    let KEY_WEEKEND             = "weekEnd"
-    let KEY_STARTAT                = "startAt"
-    let KEY_ENDAT                   = "endAt"
-    let KEY_STATUS                  = "status"
+    let KEY_ACCEPTED     = "RES_ACCEPTED"
+    let KEY_REJECTED     = "RES_REJECTED"
+    let KEY_ID           = "id"
+    let KEY_DELIVERYTIME = "deliveryTime"
+    let KEY_TIMINGS      = "timings"
+    let KEY_WEEKDAY      = "weekDay"
+    let KEY_WEEKEND      = "weekEnd"
+    let KEY_STARTAT      = "startAt"
+    let KEY_ENDAT        = "endAt"
+    let KEY_STATUS       = "status"
     
     override init() {
         super.init()

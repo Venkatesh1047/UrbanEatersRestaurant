@@ -190,21 +190,21 @@ class FoodOrderModelData{
             let value = FoodOrderModelAddon(fromJson: addonsJson)
             addons.append(value)
         }
-        let addressJson = json["address"]
+        let addressJson = json["address"].exists() ? json["address"] : JSON.init([""])
         if !addressJson.isEmpty{
             address = FoodOrderModelAddres(fromJson: addressJson)
         }
-        let billingJson = json["billing"]
+        let billingJson = json["billing"].exists() ? json["billing"] : JSON.init([""])
         if !billingJson.isEmpty{
             billing = FoodOrderModelBilling(fromJson: billingJson)
         }
         code = json["code"].int ?? 0
         customerId = json["customerId"].string ?? ""
-        let discountsJson = json["discounts"]
+        let discountsJson = json["discounts"].exists() ? json["discounts"] : JSON.init([""])
         if !discountsJson.isEmpty{
             discounts = FoodOrderModelDiscount(fromJson: discountsJson)
         }
-        let historyJson = json["history"]
+        let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
         if !historyJson.isEmpty{
             history = FoodOrderModelHistory(fromJson: historyJson)
         }
@@ -217,7 +217,7 @@ class FoodOrderModelData{
                items.append(value)
             }
         }
-        let locJson = json["loc"]
+        let locJson = json["loc"].exists() ? json["loc"] : JSON.init([""])
         if !locJson.isEmpty{
             loc = FoodOrderModelLoc(fromJson: locJson)
         }
@@ -233,7 +233,7 @@ class FoodOrderModelData{
         orderDate = json["orderDate"].string ?? ""
         orderId = json["orderId"].string ?? ""
         orderOn = json["orderOn"].int ?? 0
-        let paymentJson = json["payment"]
+        let paymentJson = json["payment"].exists() ? json["payment"] : JSON.init([""])
         if !paymentJson.isEmpty{
             payment = FoodOrderModelPayment(fromJson: paymentJson)
         }
@@ -316,7 +316,7 @@ class FoodOrderModelItem{
         instruction = json["instruction"].string ?? ""
         itemId = json["itemId"].string ?? ""
         name = json["name"].string ?? ""
-        let offerJson = json["offer"]
+        let offerJson = json["offer"].exists() ? json["offer"] : JSON.init([""])
         if !offerJson.isEmpty{
             offer = FoodOrderModelOffer(fromJson: offerJson)
         }
@@ -388,12 +388,12 @@ class FoodOrderModelOrder{
         if json.isEmpty{
             return
         }
-        let billingJson = json["billing"]
+        let billingJson = json["billing"].exists() ? json["billing"] : JSON.init([""])
         if !billingJson.isEmpty{
             billing = FoodOrderModelBilling(fromJson: billingJson)
         }
         code = json["code"].string ?? ""
-        let historyJson = json["history"]
+        let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
         if !historyJson.isEmpty{
             history = FoodOrderModelHistory(fromJson: historyJson)
         }
