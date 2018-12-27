@@ -21,6 +21,8 @@ class OrdersViewController: UIViewController {
     @IBOutlet weak var searchBgView: UIView!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var clearBtn: UIImageView!
+    @IBOutlet weak var newCountLbl: UILabel!
+    
     var searchActive = false
     var dummyFoodOrderModel : FoodOrderModel!
     var dummyTableOrderModel : TableOrderModel!
@@ -74,6 +76,7 @@ class OrdersViewController: UIViewController {
     }
     //MARK:- Update UI
     func updateUI(){
+        TheGlobalPoolManager.cornerAndBorder(newCountLbl, cornerRadius: newCountLbl.bounds.h / 2, borderWidth: 0, borderColor: .clear)
         self.searchBgView.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : self.searchBgView.layer.bounds.h / 2)
         tableView.tableFooterView = UIView()
         tableView.delegate = self
@@ -105,6 +108,7 @@ class OrdersViewController: UIViewController {
         switch sender.selectedIndex {
         case 0:
             // New ....
+            self.newCountLbl.isHidden = true
             tableView.reloadData()
             break
         case 1:

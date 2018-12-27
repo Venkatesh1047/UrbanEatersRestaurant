@@ -66,10 +66,11 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate {
         }
     }
     //MARK:- ManageCategory  Item Update Api Hitting
-    func manageCategoryItemUpdateApiHitting(_ itemID : String, availableStatus : Int){
+    func manageCategoryItemUpdateApiHitting(_ itemID : String, availableStatus : Int , time : String){
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["id": itemID,
-                     "available": availableStatus] as [String : Any]
+                                "available": availableStatus,
+                                "nextAvailableTime": time] as [String : Any]
         URLhandler.postUrlSession(urlString: Constants.urls.CategoryFoodItemUpdate, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
@@ -128,7 +129,6 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         cell.deleteItem.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
         cell.visibilityItem.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
         cell.deleteItem.addTarget(self, action: #selector(deleteBtnMethod(_:)), for: .touchUpInside)
-        cell.visibilityItem.addTarget(self, action: #selector(visibilityBtnMethod(_:)), for: .touchUpInside)
         cell.itemNameLbl.text = data.name!
         cell.itemPriceLbl.text = "₹ \(data.price!.toString)"
         let url = URL.init(string: Constants.BASEURL_IMAGE + data.avatar!)
@@ -140,8 +140,10 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         }
         if data.available == 1{
             cell.visibilityItem.setImage(#imageLiteral(resourceName: "Visible").withColor(.secondaryBGColor), for: .normal)
+            cell.visibilityItem.addTarget(self, action: #selector(showToHideItemAlert(_:)), for: .touchUpInside)
         }else{
             cell.visibilityItem.setImage(#imageLiteral(resourceName: "NotVisible").withColor(.secondaryBGColor), for: .normal)
+            cell.visibilityItem.addTarget(self, action: #selector(showToUnHideItemAlert(_:)), for: .touchUpInside)
         }
         return cell
     }
@@ -182,21 +184,60 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         }
     }
     //MARK:- Visibility Button method
-    @objc func visibilityBtnMethod(_ btn : UIButton){
-        TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "You want to delete?", singleAction: false, okTitle:"Confirm") { (sucess) in
-            if sucess!{
-                let selectedSection = btn.tag.toString
-                let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
-                let selectedIndex = Int(btn.tag.toString.dropFirst())
-                print("Section ===== \(selectedSection[index].toInt! - 1) >>>>>>>>> Index ===== \(selectedIndex!)")
-                let data = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!]
-                if data.available == 1{
-                    self.manageCategoryItemUpdateApiHitting(data.itemId!, availableStatus: 0)
-                }else{
-                    self.manageCategoryItemUpdateApiHitting(data.itemId!, availableStatus: 1)
-                }
-            }
+    @objc func showToUnHideItemAlert(_ btn : UIButton){
+        let selectedSection = btn.tag.toString
+        let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
+        let selectedIndex = Int(btn.tag.toString.dropFirst())
+        print("Section ===== \(selectedSection[index].toInt! - 1) >>>>>>>>> Index ===== \(selectedIndex!)")
+        let data = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!]
+        let titleText = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: 16), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
+        let titleAttributed = NSMutableAttributedString(string: "\(data.name!) Unavailable ...", attributes:titleText)
+        let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let firstAction: UIAlertAction = UIAlertAction(title: "Change Unavailable Time", style: .default) { action -> Void in
+            self.showToHideItemAlert(btn)
         }
+        let secondAction: UIAlertAction = UIAlertAction(title: "Available This Item", style: .default) { action -> Void in
+            self.updateCategoryItem(btn, nextAvailableTime: "", itemID: data.itemId!, availableStatus: 1)
+        }
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
+        actionSheetController.addAction(firstAction)
+        actionSheetController.addAction(secondAction)
+        actionSheetController.addAction(cancelAction)
+        actionSheetController.setValue(titleAttributed, forKey : "attributedTitle")
+        present(actionSheetController, animated: true, completion: nil)
+    }
+    @objc func showToHideItemAlert(_ btn: UIButton) {
+        let selectedSection = btn.tag.toString
+        let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
+        let selectedIndex = Int(btn.tag.toString.dropFirst())
+        print("Section ===== \(selectedSection[index].toInt! - 1) >>>>>>>>> Index ===== \(selectedIndex!)")
+        let data = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!]
+        let titleText = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: 16), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
+        let titleAttributed = NSMutableAttributedString(string: "\(data.name!) Unavailable ...", attributes:titleText)
+        let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let firstAction: UIAlertAction = UIAlertAction(title: "Upto 1 Hour", style: .default) { action -> Void in
+            self.updateCategoryItem(btn, nextAvailableTime: Date().adding(minutes: 60), itemID: data.itemId!, availableStatus: 0)
+        }
+        let secondAction: UIAlertAction = UIAlertAction(title: "Upto 4 Hours", style: .default) { action -> Void in
+            self.updateCategoryItem(btn, nextAvailableTime: Date().adding(minutes: 240), itemID: data.itemId!, availableStatus: 0)
+        }
+        let thirdAction: UIAlertAction = UIAlertAction(title: "Upto 8 Hours", style: .default) { action -> Void in
+            self.updateCategoryItem(btn, nextAvailableTime: Date().adding(minutes: 480), itemID: data.itemId!, availableStatus: 0)
+        }
+        let fourthAction: UIAlertAction = UIAlertAction(title: "Next Start Time", style: .default) { action -> Void in
+            self.updateCategoryItem(btn, nextAvailableTime: Date().adding(minutes: 720), itemID: data.itemId!, availableStatus: 0)
+        }
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
+        actionSheetController.addAction(firstAction)
+        actionSheetController.addAction(secondAction)
+        actionSheetController.addAction(thirdAction)
+        actionSheetController.addAction(fourthAction)
+        actionSheetController.addAction(cancelAction)
+        actionSheetController.setValue(titleAttributed, forKey : "attributedTitle")
+        present(actionSheetController, animated: true, completion: nil)
+    }
+    func updateCategoryItem(_ btn : UIButton, nextAvailableTime : String , itemID : String,availableStatus : Int){
+        self.manageCategoryItemUpdateApiHitting(itemID, availableStatus: availableStatus, time: nextAvailableTime)
     }
 }
 

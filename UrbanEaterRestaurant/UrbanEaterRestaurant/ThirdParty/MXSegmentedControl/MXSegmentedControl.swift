@@ -259,9 +259,9 @@ import UIKit
     /// :nodoc:
     open override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
-        append(title: "First")
-        append(title: "Second")
-        append(title: "Third")
+        append(title: "New")
+        append(title: "Scheduled")
+        append(title: "Completed")
         setNeedsLayout()
     }
     

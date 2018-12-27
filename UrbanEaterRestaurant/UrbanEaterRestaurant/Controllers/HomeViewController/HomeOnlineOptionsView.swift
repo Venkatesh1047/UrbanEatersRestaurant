@@ -16,6 +16,8 @@ class HomeOnlineOptionsView: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBgView: UIView!
     @IBOutlet weak var clearBtn: UIImageView!
+    @IBOutlet weak var newCountLbl: UILabel!
+    
     var isFromHome:Bool = false
     var settings = [Any]()
     var searchActive = false
@@ -48,6 +50,8 @@ class HomeOnlineOptionsView: UIViewController {
     }
     //MARK:- Update UI
     func updateUI(){
+        self.newCountLbl.isHidden = true
+        TheGlobalPoolManager.cornerAndBorder(newCountLbl, cornerRadius: newCountLbl.bounds.h / 2, borderWidth: 0, borderColor: .clear)
         self.searchBgView.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : self.searchBgView.layer.bounds.h / 2)
         tableView.tableFooterView = UIView()
         tableView.delegate = self
@@ -73,6 +77,7 @@ class HomeOnlineOptionsView: UIViewController {
         switch sender.selectedIndex {
         case 0:
             // New ....
+            self.newCountLbl.isHidden = true
             tableView.reloadData()
             break
         case 1:
@@ -100,7 +105,16 @@ class HomeOnlineOptionsView: UIViewController {
         URLhandler.postUrlSession(hideToast, urlString: Constants.urls.restaurantAllOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                GlobalClass.restaurantAllOrdersModel = RestaurantAllOrdersModel(fromJson: dataResponse.json)
+                let restModel = RestaurantAllOrdersModel(fromJson: dataResponse.json)
+                if GlobalClass.restaurantAllOrdersModel != nil && self.selectionView.selectedIndex != 0{
+                    if restModel.new.count > GlobalClass.restaurantAllOrdersModel.new.count{
+                        self.newCountLbl.isHidden = false
+                        self.newCountLbl.text = "\(restModel.new.count - GlobalClass.restaurantAllOrdersModel.new.count)"
+                    }else{
+                        self.newCountLbl.isHidden = true
+                    }
+                }
+                GlobalClass.restaurantAllOrdersModel = restModel
                 if !self.searchActive{
                     self.dummyRestaurantAllOrdersModel = GlobalClass.restaurantAllOrdersModel
                     self.newDummy = GlobalClass.restaurantAllOrdersModel

@@ -224,6 +224,12 @@ extension Date {
         }
         return (datesArray, daysArray)
     }
+    func adding(minutes: Int) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let convertedDate: String = dateFormatter.string(from: Calendar.current.date(byAdding: .minute, value: minutes, to: self)!)
+        return convertedDate
+    }
 }
 extension UIImage{
     func imageWithInsets(insetDimen: CGFloat) -> UIImage {
