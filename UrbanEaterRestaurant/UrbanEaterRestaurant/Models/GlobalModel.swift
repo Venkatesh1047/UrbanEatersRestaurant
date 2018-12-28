@@ -17,7 +17,7 @@ class GlobalModel:NSObject {
     var foodOrderModel           : FoodOrderModel!
     var tableOrderModel          : TableOrderModel!
     var tableHistoryModel        : TableOrderModel!
-    var restModel                : RestaurantHomeModel!
+    var restModel                        : RestaurantHomeModel!
     var restaurantAllOrdersModel : RestaurantAllOrdersModel!
     var updatePasswordModel      : UpdatePasswordModel!
     var manageCategoriesModel    : ManageCategoriesModel!

@@ -35,8 +35,13 @@ class HomeOnlineOptionsView: UIViewController {
         self.clearBtn.addTapGesture(tapNumber: 1, target: self, action: #selector(self.clearBtnPressed(_:)))
         if self.isFromHome{}
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification(notification:)), name: Notification.Name("DoneButtonClicked"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification1(notification:)), name: Notification.Name("FoodAccepted"), object: nil)
     }
     @objc func methodOfReceivedNotification(notification: Notification){
+        self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
+        self.restaurantAllOrdersApiHitting(true)
+    }
+    @objc func methodOfReceivedNotification1(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
         self.restaurantAllOrdersApiHitting(true)
     }
@@ -159,17 +164,17 @@ class HomeOnlineOptionsView: UIViewController {
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
     //MARK: - Manage Preparation Time Pop Up
-    func managePreparationTimePopUpView(){
+    func managePreparationTimePopUpView(_ orderID : String){
         let viewCon = PreparationTimeView(nibName: "PreparationTimeView", bundle: nil)
-        //viewCon.scheduledFromHome = schedule
         viewCon.isComingFromHome = true
+        viewCon.orderID = orderID
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
     //MARK:- Accept Button method
     @objc func acceptBtnMethod(_ btn : UIButton){
         let data = self.dummyRestaurantAllOrdersModel.new[btn.tag]
         if !data.isOrderTable{
-            self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
+            self.managePreparationTimePopUpView(data.id!)
         }else{
             self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
         }

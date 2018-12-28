@@ -148,8 +148,7 @@ class HomeViewController: UIViewController {
                     }
                 }
                 if data?.statIdData.food.total != data?.statIdData.food.available{
-                    TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Someitems are still unavailable?", singleAction: true, okTitle: "Ok", cancelTitle: "", callback: { (success) in
-                        
+                    TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Some items are still unavailable?", singleAction: true, okTitle: "Ok", cancelTitle: "", callback: { (success) in
                     })
                 }
                 self.collectionView.reloadData()

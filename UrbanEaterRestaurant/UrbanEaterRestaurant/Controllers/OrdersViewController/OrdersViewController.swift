@@ -34,6 +34,7 @@ class OrdersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(OrdersViewController.methodOfReceivedNotification(notification:)), name: Notification.Name("DoneButtonClicked"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification1(notification:)), name: Notification.Name("FoodAccepted"), object: nil)
         tableView.register(UINib(nibName: "NewFoodCell", bundle: nil), forCellReuseIdentifier: "NewFoodCell")
         tableView.register(UINib(nibName: "NewTableCell", bundle: nil), forCellReuseIdentifier: "NewTableCell")
         tableView.register(UINib(nibName: "ScheduleFoodCell", bundle: nil), forCellReuseIdentifier: "ScheduleFoodCell")
@@ -59,6 +60,10 @@ class OrdersViewController: UIViewController {
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
         self.foodOrderApiHitting(true)
     }
+    @objc func methodOfReceivedNotification1(notification: Notification){
+        self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
+        self.foodOrderApiHitting(true)
+    }
     //MARK: - Items Detsils Pop Up
     func itemsDetailsPopUpView(_ schedule:FoodOrderModelData){
         let viewCon = ItemsDetailView(nibName: "ItemsDetailView", bundle: nil)
@@ -66,9 +71,9 @@ class OrdersViewController: UIViewController {
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
     //MARK: - Manage Preparation Time Pop Up
-    func managePreparationTimePopUpView(_ schedule:FoodOrderModelData){
+    func managePreparationTimePopUpView(_ orderID : String){
         let viewCon = PreparationTimeView(nibName: "PreparationTimeView", bundle: nil)
-        viewCon.schedule = schedule
+        viewCon.orderID = orderID
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
     @IBAction func backBtn(_ sender: UIButton) {
@@ -205,7 +210,7 @@ class OrdersViewController: UIViewController {
     @objc func acceptBtnMethod(_ btn : UIButton){
         if isFoodSelectedFlag{
             let data = self.dummyFoodOrderModel.new[btn.tag]
-            self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
+            self.managePreparationTimePopUpView(data.id!)
         }else{
             let data = self.dummyTableOrderModel.new[btn.tag]
             self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
