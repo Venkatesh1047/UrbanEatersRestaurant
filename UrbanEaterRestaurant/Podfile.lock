@@ -1,18 +1,45 @@
 PODS:
   - Alamofire (4.8.0)
   - EZSwiftExtensions (2.0)
-  - FirebaseAnalytics (3.9.0):
-    - FirebaseCore (~> 3.6)
-    - FirebaseInstanceID (~> 1.0)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseCore (3.6.0):
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseInstanceID (1.0.10):
-    - FirebaseCore (~> 3.6)
-  - Google (3.1.0):
-    - Google/Core (= 3.1.0)
-  - Google/Core (3.1.0):
-    - FirebaseAnalytics (~> 3.2)
+  - Firebase (5.15.0):
+    - Firebase/Core (= 5.15.0)
+  - Firebase/Core (5.15.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 5.4.0)
+  - Firebase/CoreOnly (5.15.0):
+    - FirebaseCore (= 5.1.10)
+  - Firebase/Messaging (5.15.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (= 3.2.2)
+  - FirebaseAnalytics (5.4.0):
+    - FirebaseCore (~> 5.1)
+    - FirebaseInstanceID (~> 3.3)
+    - GoogleAppMeasurement (= 5.4.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+    - nanopb (~> 0.3)
+  - FirebaseAnalyticsInterop (1.1.0)
+  - FirebaseCore (5.1.10):
+    - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseInstanceID (3.3.0):
+    - FirebaseCore (~> 5.1)
+    - GoogleUtilities/Environment (~> 5.3)
+    - GoogleUtilities/UserDefaults (~> 5.3)
+  - FirebaseMessaging (3.2.2):
+    - FirebaseAnalyticsInterop (~> 1.1)
+    - FirebaseCore (~> 5.1)
+    - FirebaseInstanceID (~> 3.0)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/Reachability (~> 5.2)
+    - Protobuf (~> 3.1)
+  - GoogleAppMeasurement (5.4.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+    - nanopb (~> 0.3)
   - GoogleMaps (2.7.0):
     - GoogleMaps/Maps (= 2.7.0)
   - GoogleMaps/Base (2.7.0)
@@ -20,9 +47,24 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (2.7.0):
     - GoogleMaps/Base (= 2.7.0)
-  - GoogleToolboxForMac/Defines (2.1.3)
-  - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
-    - GoogleToolboxForMac/Defines (= 2.1.3)
+  - GoogleUtilities/AppDelegateSwizzler (5.3.6):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (5.3.6)
+  - GoogleUtilities/Logger (5.3.6):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (5.3.6):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (5.3.6):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (5.3.6)"
+  - GoogleUtilities/Reachability (5.3.6):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (5.3.6):
+    - GoogleUtilities/Logger
   - IQKeyboardManagerSwift (6.2.0)
   - libwebp (0.6.1):
     - libwebp/core (= 0.6.1)
@@ -49,26 +91,36 @@ PODS:
     - libwebp/core
   - libwebp/webp (0.6.1)
   - MMMaterialDesignSpinner (0.2.5)
-  - ReachabilitySwift (4.1.0)
-  - SDWebImage/Core (4.3.3)
-  - SDWebImage/WebP (4.3.3):
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
+  - Protobuf (3.6.1)
+  - ReachabilitySwift (4.3.0)
+  - SDWebImage/Core (4.4.3)
+  - SDWebImage/WebP (4.4.3):
     - libwebp (~> 0.5)
     - SDWebImage/Core
-  - SwiftMessages (4.1.2)
-  - SwiftyJSON (4.1.0)
+  - SwiftMessages (5.0.1):
+    - SwiftMessages/App (= 5.0.1)
+  - SwiftMessages/App (5.0.1)
+  - SwiftyJSON (4.2.0)
   - Toast-Swift (3.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - EZSwiftExtensions
-  - Google
+  - Firebase
+  - Firebase/Core
+  - Firebase/Messaging
   - GoogleMaps
   - GooglePlaces
   - IQKeyboardManagerSwift
   - MMMaterialDesignSpinner
   - ReachabilitySwift
   - SDWebImage/WebP
-  - SwiftMessages
+  - SwiftMessages (~> 5.0.1)
   - SwiftyJSON
   - Toast-Swift (~> 3.0.1)
 
@@ -76,16 +128,21 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - EZSwiftExtensions
+    - Firebase
     - FirebaseAnalytics
+    - FirebaseAnalyticsInterop
     - FirebaseCore
     - FirebaseInstanceID
-    - Google
+    - FirebaseMessaging
+    - GoogleAppMeasurement
     - GoogleMaps
     - GooglePlaces
-    - GoogleToolboxForMac
+    - GoogleUtilities
     - IQKeyboardManagerSwift
     - libwebp
     - MMMaterialDesignSpinner
+    - nanopb
+    - Protobuf
     - ReachabilitySwift
     - SDWebImage
     - SwiftMessages
@@ -95,22 +152,27 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
   EZSwiftExtensions: f73648a591e529a1dbd83c22b19fd3e57df6fb7d
-  FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
-  FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
-  FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
-  Google: 98da4b1a60ed0beb80a290387a28333406a1eb90
+  Firebase: 8bb9268bff82374f2cbaaabb143e725743c316ae
+  FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
+  FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
+  FirebaseCore: 35747502d9e8c6ee217385ad04446c7c2aaf9c5c
+  FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
+  FirebaseMessaging: b412996f6a09337d232bb3a6676ce4d1f353d024
+  GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
-  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
+  GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
   MMMaterialDesignSpinner: a548042720c2e5f04212048483085d7942ac3e81
-  ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
-  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
-  SwiftMessages: d81f48c1f8b6bc1dbebdfffe11226f0344f937ca
-  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
+  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
+  SwiftMessages: 32ce3cfc8388b41aae56ff4853cc752a20101147
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
 
-PODFILE CHECKSUM: c9798e05195b52e5be15549fbbdf5b10512617ec
+PODFILE CHECKSUM: 8e6992440011ae3ed8e5183c05782ef86080f7da
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.2

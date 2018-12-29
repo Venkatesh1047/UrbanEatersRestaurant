@@ -20,13 +20,6 @@ open class MessageView: BaseView, Identifiable, AccessibleMessage {
     /// configured to call this tap handler on `.TouchUpInside`.
     open var buttonTapHandler: ((_ button: UIButton) -> Void)?
     
-    open var viewTapHandler: ((_ sender: UITapGestureRecognizer) -> Void)?
-    
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        viewTapHandler?(sender)
-    }
-    
-    
     @objc func buttonTapped(_ button: UIButton) {
         buttonTapHandler?(button)
     }
@@ -179,12 +172,6 @@ extension MessageView {
          This view is typically used with `.center` presentation style.         
          */
         case centeredView = "CenteredView"
-
-        /**
-         A standard message view like `MessageView`, but without
-         stack views for iOS 8.
-         */
-        case messageViewIOS8 = "MessageViewIOS8"
     }
     
     /**
@@ -223,7 +210,6 @@ extension MessageView {
  */
 
 extension MessageView {
-    @available(iOS 9, *)
     /**
      Constrains the image view to a specified size. By default, the size of the
      image view is determined by its `intrinsicContentSize`.
@@ -267,8 +253,7 @@ extension MessageView {
         let iconImage = iconStyle.image(theme: theme)
         switch theme {
         case .info:
-            let backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.7529411765, blue: 0.1843137255, alpha: 1)
-                //UIColor(red: 225.0/255.0, green: 225.0/255.0, blue: 225.0/255.0, alpha: 1.0)
+            let backgroundColor = UIColor(red: 225.0/255.0, green: 225.0/255.0, blue: 225.0/255.0, alpha: 1.0)
             let foregroundColor = UIColor.darkText
             configureTheme(backgroundColor: backgroundColor, foregroundColor: foregroundColor, iconImage: iconImage)
         case .success:
@@ -356,11 +341,8 @@ extension MessageView {
      - Parameter body: The message body text to use.
      - Parameter iconImage: The icon image to use.
      */
-    public func configureContent(title: String, body: String, iconImage: UIImage,viewTapHandler: ((_ sender: UITapGestureRecognizer) -> Void)?) {
+    public func configureContent(title: String, body: String, iconImage: UIImage) {
         configureContent(title: title, body: body)
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
-        self.addGestureRecognizer(tap)
-        self.viewTapHandler = viewTapHandler
         iconImageView?.image = iconImage
         iconImageView?.isHidden = false
         iconLabel?.text = nil

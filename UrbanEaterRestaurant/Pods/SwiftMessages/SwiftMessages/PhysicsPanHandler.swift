@@ -114,7 +114,7 @@ open class PhysicsPanHandler {
             let attachmentBehavior = UIAttachmentBehavior(item: messageView, offsetFromCenter: offset, attachedToAnchor: anchorPoint)
             state.attachmentBehavior = attachmentBehavior
             state.itemBehavior.action = { [weak self, weak messageView, weak containerView] in
-                guard let strongSelf = self, let messageView = messageView, let containerView = containerView, let animator = strongSelf.animator else { return }
+                guard let strongSelf = self, !strongSelf.isOffScreen, let messageView = messageView, let containerView = containerView, let animator = strongSelf.animator else { return }
                 let view = (messageView as? BackgroundViewable)?.backgroundView ?? messageView
                 let frame = containerView.convert(view.bounds, from: view)
                 if !containerView.bounds.intersects(frame) {
@@ -145,9 +145,9 @@ open class PhysicsPanHandler {
                 state.itemBehavior.addAngularVelocity(escapeAngularVelocity, for: messageView)
                 state.attachmentBehavior = nil
             } else {
-                animator.delegate?.panEnded(animator: animator)
                 state.stop()
                 self.state = nil
+                animator.delegate?.panEnded(animator: animator)
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0, options: .beginFromCurrentState, animations: {
                     messageView.center = self.restingCenter ?? CGPoint(x: containerView.bounds.width / 2, y: containerView.bounds.height / 2)
                     messageView.transform = CGAffineTransform.identity

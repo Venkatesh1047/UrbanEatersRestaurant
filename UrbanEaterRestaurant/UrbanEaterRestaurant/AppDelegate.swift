@@ -12,16 +12,19 @@ import GoogleMaps
 import GooglePlaces
 import IQKeyboardManagerSwift
 import SwiftyJSON
-
+import Firebase
+import FirebaseMessaging
+import UserNotifications
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var IsInternetconnected:Bool=Bool()
     let googleApiKey = "AIzaSyAufQUMZP7qdjtOcGIuNFRSL-8uU6uuvGY"
+    let gcmMessageIDKey = "gcm.message_id"
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+        FirebaseApp.configure()
         GMSPlacesClient.provideAPIKey(googleApiKey)
         GMSServices.provideAPIKey(googleApiKey)
         IQKeyboardManager.shared.enable = true
@@ -29,11 +32,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().unselectedItemTintColor = .greyColor
         UITabBar.appearance().barTintColor = .whiteColor
         UITabBar.appearance().isTranslucent = false
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        application.registerForRemoteNotifications()
+        Messaging.messaging().delegate = self
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instance ID: \(error)")
+            } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                GlobalClass.instanceIDTokenMessage  = result.token
+            }
+        }
         self.ReachabilityListener()
         self.SetInitialViewController()
         return true
     }
-    
     func SetInitialViewController(){
         if UserDefaults.standard.value(forKey: "restaurantInfo") != nil{
             let dic = TheGlobalPoolManager.retrieveFromDefaultsFor("restaurantInfo") as! NSDictionary
@@ -107,5 +132,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    //MARK:- Chnage Restaurant Status Api
+    func updateDeviceToken(token:String){
+        if let restmodel = GlobalClass.restaurantLoginModel{
+            if let dataS = restmodel.data{
+                let param =     [
+                    "id": dataS.subId,
+                    "deviceInfo": ["deviceToken": token]] as  [String:AnyObject]
+                URLhandler.postUrlSession(urlString: Constants.urls.businessHourUrl, params: param, header: [:]) { (dataResponse) in
+                }
+            }
+        }
+    }
+    
 }
 
+extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    // Receive displayed notifications for iOS 10 devices.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        // Change this to your preferred presentation option
+        completionHandler([])
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print("222",userInfo)
+        
+        completionHandler()
+    }
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        
+    }
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+        GlobalClass.instanceIDTokenMessage  = fcmToken
+        self.updateDeviceToken(token: fcmToken)
+        let dataDict:[String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+    }
+}

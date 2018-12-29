@@ -15,6 +15,7 @@
 		A365B5F021CA1DC9007A5B11 /* MXSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EB21CA1DC9007A5B11 /* MXSegmentedControl.swift */; };
 		A365B5F121CA1DC9007A5B11 /* MXSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */; };
 		A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A365B5EE21CA1DC9007A5B11 /* Info.plist */; };
+		A3797DE521D7501600AEF0FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3797DE421D7501600AEF0FE /* GoogleService-Info.plist */; };
 		A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF42F2189A3B800192E7E /* AppDelegate.swift */; };
 		A3BEF4322189A3B800192E7E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4312189A3B800192E7E /* ViewController.swift */; };
 		A3BEF4352189A3B800192E7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BEF4332189A3B800192E7E /* Main.storyboard */; };
@@ -124,6 +125,7 @@
 		A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXSegment.swift; sourceTree = "<group>"; };
 		A365B5ED21CA1DC9007A5B11 /* MXSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSegmentedControl.h; sourceTree = "<group>"; };
 		A365B5EE21CA1DC9007A5B11 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3797DE421D7501600AEF0FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A3BEF42C2189A3B800192E7E /* UrbanEaterRestaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrbanEaterRestaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BEF42F2189A3B800192E7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3BEF4312189A3B800192E7E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				A3BEF4D02189D93900192E7E /* UrbanEaterRestaurant-Bridging-Header.h */,
 				A3BEF4382189A3B900192E7E /* LaunchScreen.storyboard */,
 				A3BEF43B2189A3B900192E7E /* Info.plist */,
+				A3797DE421D7501600AEF0FE /* GoogleService-Info.plist */,
 			);
 			path = UrbanEaterRestaurant;
 			sourceTree = "<group>";
@@ -788,7 +791,7 @@
 				A3BEF4292189A3B800192E7E /* Frameworks */,
 				A3BEF42A2189A3B800192E7E /* Resources */,
 				0C1B090E3D9B94DF3D20D86F /* [CP] Embed Pods Frameworks */,
-				DA9BA2F3015AD1374C1A7F8C /* [CP] Copy Pods Resources */,
+				BAAAC06ED69248749380AA32 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -867,6 +870,7 @@
 				A3F2AF9421BA79DD00A9379A /* ItemsDetailView.xib in Resources */,
 				A3BEF4B62189D57800192E7E /* RecommendedTableViewCell.xib in Resources */,
 				A3FDDB9821AE67CE00524AF4 /* EarningsSeeAllACollectionViewCell.xib in Resources */,
+				A3797DE521D7501600AEF0FE /* GoogleService-Info.plist in Resources */,
 				A3F7859621B648B60031F1A6 /* NewFoodCell.xib in Resources */,
 				A3BEF4AE2189D54A00192E7E /* FoodItemsTableViewCell1.xib in Resources */,
 				A3F3872321CCEF7E002122BC /* PreparationTimeView.xib in Resources */,
@@ -885,36 +889,60 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/EZSwiftExtensions/EZSwiftExtensions.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MMMaterialDesignSpinner/MMMaterialDesignSpinner.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EZSwiftExtensions.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMMaterialDesignSpinner.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BAAAC06ED69248749380AA32 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BE9B7EB49D4CCC2A1DFF1CAD /* [CP] Check Pods Manifest.lock */ = {
@@ -933,26 +961,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DA9BA2F3015AD1374C1A7F8C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1183,7 +1191,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RTL7D867WK;
 				INFOPLIST_FILE = UrbanEaterRestaurant/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1208,7 +1216,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RTL7D867WK;
 				INFOPLIST_FILE = UrbanEaterRestaurant/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

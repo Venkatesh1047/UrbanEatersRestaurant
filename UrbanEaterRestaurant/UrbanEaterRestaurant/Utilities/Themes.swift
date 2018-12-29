@@ -90,10 +90,10 @@ class Themes: NSObject {
     func shownotificationBanner(Msg: String ){
         let success = MessageView.viewFromNib(layout: .cardView)
         success.configureTheme(.info)
-        success.configureContent(title: "Alert!", body: Msg, iconImage: UIImage.init(named: "NotificationIcon")!, viewTapHandler:  { _ in
+        success.configureContent(title: "Alert!", body: Msg, iconImage: UIImage.init(named: "NotificationIcon")!, iconText: nil, buttonImage: nil, buttonTitle: nil) { (button) in
             print("Notification View Tap")
             SwiftMessages.hide()
-        })
+        }
         success.button?.isHidden = true
         var successConfig = SwiftMessages.defaultConfig
         successConfig.presentationStyle = .top

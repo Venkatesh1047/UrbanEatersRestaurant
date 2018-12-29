@@ -37,8 +37,9 @@ class LoginVC: UIViewController{
     func LoginWebHit(){
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["emailId": emailTxt.text!,
-                               "password": passwordTxt.text!,
-                               "through": "MOBILE"] 
+                     "password": passwordTxt.text!,
+                     "through": "MOBILE",
+                     "deviceInfo": ["deviceToken": GlobalClass.instanceIDTokenMessage]] as [String:AnyObject]
         
         URLhandler.postUrlSession(urlString: Constants.urls.loginURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             print("Response login ----->>> ", dataResponse.json)

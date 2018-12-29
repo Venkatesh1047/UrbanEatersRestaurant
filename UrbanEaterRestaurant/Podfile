@@ -1,5 +1,6 @@
+source 'https://github.com/CocoaPods/Specs.git'
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+# platform :ios, '10.0'
 
 target 'UrbanEaterRestaurant' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -8,16 +9,18 @@ target 'UrbanEaterRestaurant' do
   # Pods for UrbanEaterRestaurant
   pod 'Alamofire'
   pod 'ReachabilitySwift'
-  pod 'Google'
+  #pod 'Google'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Toast-Swift', '~> 3.0.1'
   pod 'SDWebImage/WebP'
   pod 'SwiftyJSON'
-  pod 'SwiftMessages'
+  pod 'SwiftMessages', '~> 5.0.1'
   pod 'MMMaterialDesignSpinner'
   #pod 'HTHorizontalSelectionList', '~> 0.7.4'
   pod 'IQKeyboardManagerSwift'
   pod 'EZSwiftExtensions'
-
+  pod 'Firebase'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
 end

@@ -9,6 +9,26 @@
 import Foundation
 import EZSwiftExtensions
 
+enum NotificationKey:String {
+    case ORDER_NEW_RESTAURANT, ORDER_NEW_DRIVER, ORDER_RESTAURANT_ACCEPTED, ORDER_RESTAURANT_REJECTED, ORDER_RESTAURANT_DENIED, ORDER_DRIVER_ALLOCATED, ORDER_DRIVER_REACHED, ORDER_DRIVER_PICKED, ORDER_DELIVERED, ORDER_CANCELLED, ORDER_UNKNOWN_ACTION
+    var Status : (Bool){
+        switch self{
+        case .ORDER_NEW_RESTAURANT      : return true
+        case .ORDER_NEW_DRIVER          : return false
+        case .ORDER_RESTAURANT_ACCEPTED : return false
+        case .ORDER_RESTAURANT_REJECTED : return false
+        case .ORDER_RESTAURANT_DENIED   : return false
+        case .ORDER_DRIVER_ALLOCATED    : return false
+        case .ORDER_DRIVER_REACHED      : return false
+        case .ORDER_DRIVER_PICKED       : return false
+        case .ORDER_DELIVERED           : return false
+        case .ORDER_CANCELLED           : return false
+        case .ORDER_UNKNOWN_ACTION      : return false
+        }
+    }
+}
+
+
 let GlobalClass = GlobalModel.sharedInstance
 
 class GlobalModel:NSObject {
@@ -23,7 +43,7 @@ class GlobalModel:NSObject {
     var manageCategoriesModel    : ManageCategoriesModel!
     var recommendedModel         : RecommendedModel!
     var earningsHistoryModel     : EarningsHistoryModel!
- 
+    var instanceIDTokenMessage:String = ""
     
     let KEY_ACCEPTED     = "RES_ACCEPTED"
     let KEY_REJECTED     = "RES_REJECTED"
@@ -53,6 +73,10 @@ class GlobalModel:NSObject {
         dayTimePeriodFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"  // Example : 2018-11-27T13:08:20.663Z
         let dateString = dayTimePeriodFormatter.string(from: date as Date)
         return dateString
+    }
+    //MARK:- Getting Notification Keys
+    func notificationKey(){
+        
     }
 }
 class ButtonWithShadow: UIButton {
