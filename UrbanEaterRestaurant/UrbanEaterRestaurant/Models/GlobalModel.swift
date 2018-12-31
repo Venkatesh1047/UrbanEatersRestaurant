@@ -78,6 +78,20 @@ class GlobalModel:NSObject {
     func notificationKey(){
         
     }
+    //MARK:- Table History
+    func returnStatus(_ status:Int) -> (String, UIColor){
+        switch status {
+        case 1  : return ("ORDER CREATED", .themeColor)
+        case -1 : return ("CANCELLED", .redColor)
+        case 2  : return ("ACCEPTED", .greenColor)
+        case -2 : return ("REJECTED", .redColor)
+        case 3  : return ("DRIVER ALLOCATED", .greenColor)
+        case 4 : return ("DRIVER REACHED", .secondaryBGColor)
+        case 5  : return ("ORDER PICKED UP", .greenColor)
+        case 6 : return ("ORDER PICKED UP", .secondaryBGColor)
+        default : return ("CANCELLED", .redColor)
+        }
+    }
 }
 class ButtonWithShadow: UIButton {
     override func draw(_ rect: CGRect) {

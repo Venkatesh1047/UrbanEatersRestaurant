@@ -39,7 +39,7 @@ class PreparationTimeView: UIViewController {
         let param = ["id": orderId,
                      "restaurantId": [resID],
                      "status": status,
-                     "foodPrepTime" : preparationTime] as [String : Any]
+                     "foodPrepTime" : preparationTime.toInt()!] as [String : Any]
         URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             if dataResponse.json.exists(){
                 // Success.....
@@ -59,7 +59,7 @@ class PreparationTimeView: UIViewController {
     @IBAction func reduceBtn(_ sender: UIButton) {
         let value = ((self.minutesTF.text?.toInt())! - 10)
         if value < 20{
-            TheGlobalPoolManager.showToastView("Minimum 10 mins required")
+            TheGlobalPoolManager.showToastView("Minimum 20 mins required")
             return
         }
         self.minutesTF.text = value.toString

@@ -132,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
-    //MARK:- Chnage Restaurant Status Api
+    //MARK:- UpdateDeviceToken Api
     func updateDeviceToken(token:String){
         if let restmodel = GlobalClass.restaurantLoginModel{
             if let dataS = restmodel.data{
