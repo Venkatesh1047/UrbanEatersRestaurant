@@ -77,19 +77,20 @@ class ItemsDetailView: UIViewController {
             TheGlobalPoolManager.showToastView("Invalid Order Code")
         }else{
             if isComingFromHome{
-                self.foodOrderUpdateRequestApiHitting(scheduledFromHome.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: "DRI_PICKED")
+                self.foodOrderUpdateRequestApiHitting(scheduledFromHome.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: "DRI_PICKED", code: enterCodeTf.text!)
             }else{
-                self.foodOrderUpdateRequestApiHitting(schedule.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: "DRI_PICKED")
+                self.foodOrderUpdateRequestApiHitting(schedule.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: "DRI_PICKED", code: enterCodeTf.text!)
             }
         }
     }
     //MARK:- Food Order Update  Request
-    func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String){
+    func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String, code:String){
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["id": orderId,
-                                "restaurantId": [resID],
-                                "status": status] as [String : Any]
-        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+                     "restaurantId": [resID],
+                     "status": status,
+                     "code":code] as [String : AnyObject]
+        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param, header: [:]) { (dataResponse) in
             if dataResponse.json.exists(){
                  NotificationCenter.default.post(name: Notification.Name("DoneButtonClicked"), object: nil)
             }

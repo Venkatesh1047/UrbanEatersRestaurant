@@ -36,7 +36,7 @@ class RestaurantAllOrdersModel{
             if value.isOrderTable {
                 if value.status == 1{
                     self.new.append(value)
-                }else if value.status == 2{
+                }else if value.status >= 2 && value.status < 5{
                     self.scheduled.append(value)
                 }else {
                     self.completed.append(value)
@@ -44,7 +44,7 @@ class RestaurantAllOrdersModel{
             }else{
                 if value.order[0].status == 1{
                     self.new.append(value)
-                }else if value.order[0].status == 2{
+                }else if value.order[0].status >= 2 && value.order[0].status < 5{
                     self.scheduled.append(value)
                 }else {
                     self.completed.append(value)

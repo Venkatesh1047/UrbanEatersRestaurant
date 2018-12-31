@@ -319,11 +319,11 @@ extension HomeOnlineOptionsView{
         let data = self.dummyRestaurantAllOrdersModel.completed[indexPath.row]
         if !data.isOrderTable{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleFoodCell") as! ScheduleFoodCell
-            cell.statusLbl.isHidden = true
+            cell.statusLbl.isHidden = false
             cell.orderLbl.text = "Order ID: \(data.order[0].subOrderId!)"
             cell.noOfItemsLbl.text = data.items.count.toString
             cell.totalCostLbl.text = "₹ \(data.order[0].billing.orderTotal!.toString)"
-            cell.statusLbl.text = data.order[0].statusText!
+            cell.statusLbl.text = GlobalClass.returnStatus(data.order[0].status!).0
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedTableCell") as! CompletedTableCell
@@ -332,7 +332,7 @@ extension HomeOnlineOptionsView{
         cell.timeLbl.text = data.startTime!
         cell.personsLbl.text = data.personCount!.toString
         cell.nameLbl.text = data.contact.name!
-        cell.redeemedStatusLbl.text = data.statusText!
+        cell.redeemedStatusLbl.text = GlobalClass.returnStatus(data.status!).0
         return cell
     }
 }
