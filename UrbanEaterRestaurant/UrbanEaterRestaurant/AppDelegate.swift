@@ -98,7 +98,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
     func ReachabilityListener(){
         NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: Notification.Name.reachabilityChanged,object: Reachability())
         do{
@@ -109,7 +108,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("could not start reachability notifier")
         }
     }
-    
     @objc func reachabilityChanged(note: NSNotification){
         let reachability = note.object as! Reachability
         
@@ -130,8 +128,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Network not reachable")
         }
     }
-
-
     //MARK:- Chnage Restaurant Status Api
     func updateDeviceToken(token:String){
         if let restmodel = GlobalClass.restaurantLoginModel{
@@ -144,9 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
 }
-
 extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
@@ -156,18 +150,14 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
-        
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
-        
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-        
         // Print full message.
         print(userInfo)
-        
         // Change this to your preferred presentation option
         completionHandler([])
     }
@@ -177,14 +167,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-        
         // Print full message.
         print("222",userInfo)
-        
         completionHandler()
     }
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        
     }
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")

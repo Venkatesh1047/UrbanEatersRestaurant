@@ -118,10 +118,12 @@ class OrdersViewController: UIViewController {
             break
         case 1:
             // Scheduled ....
+            self.newCountLbl.isHidden = false
             tableView.reloadData()
             break
         case 2:
             // Completed ....
+            self.newCountLbl.isHidden = false
             tableView.reloadData()
             break
         default:
@@ -137,8 +139,17 @@ class OrdersViewController: UIViewController {
         URLhandler.postUrlSession(hideToast, urlString: Constants.urls.getFoodOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                GlobalClass.foodOrderModel = FoodOrderModel(fromJson: dataResponse.json)
-                self.dummyFoodOrderModel = GlobalClass.foodOrderModel
+                let foodModel = FoodOrderModel(fromJson: dataResponse.json)
+                if GlobalClass.foodOrderModel != nil && self.selectionView.selectedIndex != 0 && self.isFoodSelectedFlag{
+                    if foodModel.new.count > GlobalClass.foodOrderModel.new.count{
+                        self.newCountLbl.isHidden = false
+                        self.newCountLbl.text = "\(foodModel.new.count - GlobalClass.foodOrderModel.new.count)"
+                    }else{
+                        self.newCountLbl.isHidden = true
+                    }
+                }
+                GlobalClass.foodOrderModel = foodModel
+                self.dummyFoodOrderModel = foodModel
                 if GlobalClass.foodOrderModel.data.count == 0{
                     if !hideToast{
                         TheGlobalPoolManager.showToastView("No data available")
@@ -165,8 +176,17 @@ class OrdersViewController: UIViewController {
         URLhandler.postUrlSession(hideToast, urlString: Constants.urls.getTableOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                GlobalClass.tableOrderModel = TableOrderModel(fromJson: dataResponse.json)
-                self.dummyTableOrderModel = GlobalClass.tableOrderModel
+                let tableModel = TableOrderModel(fromJson: dataResponse.json)
+                if GlobalClass.foodOrderModel != nil && self.selectionView.selectedIndex != 0 && !self.isFoodSelectedFlag{
+                    if tableModel.new.count > GlobalClass.tableOrderModel.new.count{
+                        self.newCountLbl.isHidden = false
+                        self.newCountLbl.text = "\(tableModel.new.count - GlobalClass.tableOrderModel.new.count)"
+                    }else{
+                        self.newCountLbl.isHidden = true
+                    }
+                }
+                GlobalClass.tableOrderModel = tableModel
+                self.dummyTableOrderModel = tableModel
                 if GlobalClass.tableOrderModel.data.count == 0{
                     if !hideToast{
                         TheGlobalPoolManager.showToastView("No data available")
