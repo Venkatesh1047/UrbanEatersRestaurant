@@ -12,6 +12,7 @@ class RecommendedModel{
 
 	var code : Int!
 	var data : [RecommendedData]!
+    var hiddenItems : [RecommendedData]!
 	var message : String!
 	var name : String!
 	var statusCode : Int!
@@ -26,16 +27,19 @@ class RecommendedModel{
 		}
 		code = json["code"].int ?? 0
 		data = [RecommendedData]()
+        hiddenItems = [RecommendedData]()
 		let dataArray = json["data"].arrayValue
 		for dataJson in dataArray{
 			let value = RecommendedData(fromJson: dataJson)
 			data.append(value)
+            if value.recommended == 0{
+                hiddenItems.append(value)
+            }
 		}
 		message = json["message"].string ?? ""
 		name = json["name"].string ?? ""
 		statusCode = json["statusCode"].int ?? 0
-	}
-
+    }
 }
 
 

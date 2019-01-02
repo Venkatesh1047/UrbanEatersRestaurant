@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -47,15 +46,24 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trh-xc-z8A">
-                                <rect key="frame" x="8" y="35" width="111" height="16.5"/>
+                                <rect key="frame" x="8" y="38" width="60" height="16.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="F4I-Jb-TRG"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Completed" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BH3-bY-Bxr">
-                                <rect key="frame" x="129" y="34.5" width="160" height="16.5"/>
+                                <rect key="frame" x="126.5" y="38" width="68.5" height="17"/>
                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                 <color key="textColor" red="0.28235294119999998" green="0.70588235290000001" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan 2, 2019" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov4-Yy-8oo">
+                                <rect key="frame" x="226" y="39.5" width="63" height="14.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="12"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Farward" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GV6-nI-GE8">
@@ -75,19 +83,19 @@
                         <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="GV6-nI-GE8" firstAttribute="leading" secondItem="FPN-6a-3mJ" secondAttribute="trailing" constant="8" id="0E4-Oa-OpB"/>
+                            <constraint firstItem="BH3-bY-Bxr" firstAttribute="centerY" secondItem="trh-xc-z8A" secondAttribute="centerY" id="75l-Q1-FTn"/>
                             <constraint firstItem="FPN-6a-3mJ" firstAttribute="leading" secondItem="65R-gO-Th4" secondAttribute="trailing" constant="10" id="APg-UY-qZb"/>
-                            <constraint firstItem="trh-xc-z8A" firstAttribute="centerY" secondItem="BH3-bY-Bxr" secondAttribute="centerY" id="CIC-Ot-21C"/>
                             <constraint firstAttribute="bottom" secondItem="m44-ru-OnN" secondAttribute="bottom" id="CLK-AJ-02m"/>
+                            <constraint firstItem="Ov4-Yy-8oo" firstAttribute="trailing" secondItem="FPN-6a-3mJ" secondAttribute="trailing" id="CXC-Ju-9UM"/>
                             <constraint firstItem="FPN-6a-3mJ" firstAttribute="top" secondItem="FNr-va-2Wg" secondAttribute="top" constant="8" id="Czh-XO-IM3"/>
+                            <constraint firstItem="Ov4-Yy-8oo" firstAttribute="centerY" secondItem="trh-xc-z8A" secondAttribute="centerY" id="Gup-AO-wSx"/>
+                            <constraint firstItem="BH3-bY-Bxr" firstAttribute="centerX" secondItem="FNr-va-2Wg" secondAttribute="centerX" id="NxF-XY-SFT"/>
                             <constraint firstItem="m44-ru-OnN" firstAttribute="leading" secondItem="FNr-va-2Wg" secondAttribute="leading" id="OMk-vJ-7Jj"/>
-                            <constraint firstItem="BH3-bY-Bxr" firstAttribute="width" secondItem="FNr-va-2Wg" secondAttribute="width" multiplier="0.5" id="R8x-7c-DGE"/>
                             <constraint firstItem="trh-xc-z8A" firstAttribute="leading" secondItem="FNr-va-2Wg" secondAttribute="leading" constant="8" id="Rni-aP-T4t"/>
-                            <constraint firstItem="GV6-nI-GE8" firstAttribute="leading" secondItem="BH3-bY-Bxr" secondAttribute="trailing" constant="8" id="SZQ-dN-MWI"/>
                             <constraint firstItem="65R-gO-Th4" firstAttribute="top" secondItem="FNr-va-2Wg" secondAttribute="top" constant="8" id="XDU-Pd-QHk"/>
                             <constraint firstAttribute="trailing" secondItem="m44-ru-OnN" secondAttribute="trailing" id="ZuI-0u-qr9"/>
                             <constraint firstItem="m44-ru-OnN" firstAttribute="top" secondItem="FNr-va-2Wg" secondAttribute="top" id="iyW-7H-Pqj"/>
-                            <constraint firstItem="BH3-bY-Bxr" firstAttribute="leading" secondItem="trh-xc-z8A" secondAttribute="trailing" constant="10" id="rRm-2U-9I9"/>
-                            <constraint firstItem="BH3-bY-Bxr" firstAttribute="top" secondItem="FPN-6a-3mJ" secondAttribute="bottom" constant="10" id="sOs-zT-EZs"/>
+                            <constraint firstAttribute="bottom" secondItem="trh-xc-z8A" secondAttribute="bottom" constant="10" id="ote-Xb-0ej"/>
                             <constraint firstAttribute="trailing" secondItem="GV6-nI-GE8" secondAttribute="trailing" constant="8" id="uvY-qH-67f"/>
                             <constraint firstItem="GV6-nI-GE8" firstAttribute="centerY" secondItem="FNr-va-2Wg" secondAttribute="centerY" id="xFA-V3-iz3"/>
                             <constraint firstItem="65R-gO-Th4" firstAttribute="leading" secondItem="FNr-va-2Wg" secondAttribute="leading" constant="8" id="xcP-yJ-Va9"/>
@@ -103,6 +111,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="dateLbl" destination="Ov4-Yy-8oo" id="gZZ-jx-Bz7"/>
                 <outlet property="dropDownBtn" destination="m44-ru-OnN" id="qAG-jO-CFx"/>
                 <outlet property="farwardImg" destination="GV6-nI-GE8" id="5d9-Jg-Eqo"/>
                 <outlet property="noOfItemsLbl" destination="trh-xc-z8A" id="8eh-bq-l5u"/>

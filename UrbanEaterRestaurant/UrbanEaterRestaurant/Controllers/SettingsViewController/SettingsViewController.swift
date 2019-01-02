@@ -14,30 +14,23 @@ class SettingsViewController: UIViewController {
     var menuList = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
         menuList = ["Edit Profile","Change Password","Business Hours"]
     }
-    
+        //MARK:- IB Action Outlets
     @IBAction func backButtonClicked(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
 }
-
 extension SettingsViewController: UITableViewDataSource,UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuList.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // create a new cell if needed or reuse an old one MenuList
         let cell:MenuTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MenuList", for: indexPath) as! MenuTableViewCell
-        
         cell.titleLabel.text = self.menuList[indexPath.row]
         cell.selectionStyle = .none
         return cell
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // ["Edit Profile","Change Password","Business Hours"]
         let value = menuList[indexPath.row]
@@ -53,10 +46,13 @@ extension SettingsViewController: UITableViewDataSource,UITableViewDelegate {
             break
             
         case "Business Hours":
-            let businessHoursVC = self.storyboard?.instantiateViewController(withIdentifier: "BusinessHoursVCID") as! BusinessHoursViewController
-            self.navigationController?.pushViewController(businessHoursVC, animated: true)
+            if GlobalClass.restModel.data.available == 0{
+                TheGlobalPoolManager.showToastView("Please be in Online to change the Business hours")
+            }else{
+                let businessHoursVC = self.storyboard?.instantiateViewController(withIdentifier: "BusinessHoursVCID") as! BusinessHoursViewController
+                self.navigationController?.pushViewController(businessHoursVC, animated: true)
+            }
             break
-            
         default:
             break
         }

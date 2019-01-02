@@ -36,6 +36,7 @@ class HomeOnlineOptionsView: UIViewController {
         if self.isFromHome{}
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification(notification:)), name: Notification.Name("DoneButtonClicked"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification1(notification:)), name: Notification.Name("FoodAccepted"), object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification2(notification:)), name: Notification.Name("OrderReceived"), object: nil)
     }
     @objc func methodOfReceivedNotification(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
@@ -43,6 +44,9 @@ class HomeOnlineOptionsView: UIViewController {
     }
     @objc func methodOfReceivedNotification1(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
+        self.restaurantAllOrdersApiHitting(true)
+    }
+    @objc func methodOfReceivedNotification2(notification: Notification){
         self.restaurantAllOrdersApiHitting(true)
     }
     @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {
@@ -73,12 +77,13 @@ class HomeOnlineOptionsView: UIViewController {
             .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
         selectionView.addTarget(self, action: #selector(self.selectedSegment(_:)), for: .valueChanged)
         self.restaurantAllOrdersApiHitting(false)
-        ez.runThisEvery(seconds: 5.0, startAfterSeconds: 5.0) { (timer) in
-            self.restaurantAllOrdersApiHitting(true)
-        }
+//        ez.runThisEvery(seconds: 5.0, startAfterSeconds: 5.0) { (timer) in
+//            self.restaurantAllOrdersApiHitting(true)
+//        }
     }
     //MARK:- SelectionView
     @objc func selectedSegment(_ sender:MXSegmentedControl){
+        self.view.endEditing(true)
         switch sender.selectedIndex {
         case 0:
             // New ....
@@ -124,7 +129,11 @@ class HomeOnlineOptionsView: UIViewController {
                     self.dummyRestaurantAllOrdersModel = GlobalClass.restaurantAllOrdersModel
                     self.newDummy = GlobalClass.restaurantAllOrdersModel
                 }
-                self.tableView.reloadData()
+                if GlobalClass.restaurantAllOrdersModel.data.count == 0{
+                    TheGlobalPoolManager.showToastView("No data available...")
+                }else{
+                    self.tableView.reloadData()
+                }
             }
         }
     }
@@ -163,6 +172,13 @@ class HomeOnlineOptionsView: UIViewController {
         viewCon.isComingFromHome = true
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
+    //MARK: - Completed Items Detsils Pop Up
+    func completdItemsDetailsPopUpView(_ schedule:RestaurantAllOrdersData){
+        let viewCon = CompletedItemsPopUp(nibName: "CompletedItemsPopUp", bundle: nil)
+        viewCon.scheduledFromHome = schedule
+        viewCon.isComingFromHome = true
+        self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
+    }
     //MARK: - Manage Preparation Time Pop Up
     func managePreparationTimePopUpView(_ orderID : String){
         let viewCon = PreparationTimeView(nibName: "PreparationTimeView", bundle: nil)
@@ -176,16 +192,28 @@ class HomeOnlineOptionsView: UIViewController {
         if !data.isOrderTable{
             self.managePreparationTimePopUpView(data.id!)
         }else{
-            self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Accept?", singleAction: false, okTitle:"confirm") { (sucess) in
+                if sucess!{
+                    self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
+                }
+            }
         }
     }
     //MARK:- Reject Button method
     @objc func rejectBtnMethod(_ btn : UIButton){
         let data = self.dummyRestaurantAllOrdersModel.new[btn.tag]
         if !data.isOrderTable{
-            self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject this Order?", singleAction: false, okTitle:"confirm") { (sucess) in
+                if sucess!{
+                    self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+                }
+            }
         }else{
-            self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"confirm") { (sucess) in
+                if sucess!{
+                    self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+                }
+            }
         }
     }
 }
@@ -216,6 +244,12 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
                 let schedule = self.dummyRestaurantAllOrdersModel.scheduled[indexPath.row]
                 self.itemsDetailsPopUpView(schedule)
             }
+        }else if selectionView.selectedIndex == 2{
+            let data = self.dummyRestaurantAllOrdersModel.completed[indexPath.row]
+            if !data.isOrderTable{
+                let schedule = self.dummyRestaurantAllOrdersModel.completed[indexPath.row]
+                self.completdItemsDetailsPopUpView(schedule)
+            }
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -235,7 +269,7 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
         case 2:
             let data = self.dummyRestaurantAllOrdersModel.completed[indexPath.row]
             if !data.isOrderTable{
-                return 110
+                return 130
             }
             return 130
         default:
@@ -252,7 +286,7 @@ extension HomeOnlineOptionsView : UICollectionViewDelegate,UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewFoodItemsCell", for: indexPath as IndexPath) as! NewFoodItemsCell
         let data = self.dummyRestaurantAllOrdersModel.new[collectionView.tag].items[indexPath.row]
-        if data.vorousType! == 1{
+        if data.vorousType! == 2 {
             cell.foodImgView.image = #imageLiteral(resourceName: "NonVeg")
         }else{
             cell.foodImgView.image = #imageLiteral(resourceName: "Veg")
@@ -303,7 +337,7 @@ extension HomeOnlineOptionsView{
             cell.statusLbl.isHidden = true
             cell.orderLbl.text = "Order ID: \(data.order[0].subOrderId!)"
             cell.noOfItemsLbl.text = data.items.count.toString
-            cell.totalCostLbl.text = data.order[0].billing.orderTotal!.toString
+            cell.totalCostLbl.text = "₹ \(data.order[0].billing.orderTotal!.toString)"
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduledTableCell") as! ScheduledTableCell
@@ -323,7 +357,9 @@ extension HomeOnlineOptionsView{
             cell.orderLbl.text = "Order ID: \(data.order[0].subOrderId!)"
             cell.noOfItemsLbl.text = data.items.count.toString
             cell.totalCostLbl.text = "₹ \(data.order[0].billing.orderTotal!.toString)"
-            cell.statusLbl.text = GlobalClass.returnStatus(data.order[0].status!).0
+            let status = GlobalClass.returnStatus(data.order[0].status!)
+            cell.statusLbl.text = status.0
+            cell.statusLbl.backgroundColor = status.1
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedTableCell") as! CompletedTableCell
@@ -332,7 +368,9 @@ extension HomeOnlineOptionsView{
         cell.timeLbl.text = data.startTime!
         cell.personsLbl.text = data.personCount!.toString
         cell.nameLbl.text = data.contact.name!
-        cell.redeemedStatusLbl.text = GlobalClass.returnStatus(data.status!).0
+        let status = GlobalClass.returnStatus(data.status!)
+        cell.redeemedStatusLbl.text = status.0
+        cell.redeemedStatusLbl.textColor = status.1
         return cell
     }
 }

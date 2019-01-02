@@ -80,6 +80,7 @@ extension CategoriesViewController : UITableViewDelegate,UITableViewDataSource{
         let data = GlobalClass.manageCategoriesModel.data[indexPath.row]
         cell.expandBtn.isHidden = true
         cell.headerNameLbl.text = data.name!
+        cell.selectionStyle = .none
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var IsInternetconnected:Bool=Bool()
     let googleApiKey = "AIzaSyAufQUMZP7qdjtOcGIuNFRSL-8uU6uuvGY"
     let gcmMessageIDKey = "gcm.message_id"
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         GMSPlacesClient.provideAPIKey(googleApiKey)
@@ -159,6 +158,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
         // Print full message.
         print(userInfo)
         // Change this to your preferred presentation option
+        if let key = userInfo["key"] as? String{
+            if key == "ORDER_NEW_RESTAURANT"{
+                NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
+            }
+        }
         completionHandler([])
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {

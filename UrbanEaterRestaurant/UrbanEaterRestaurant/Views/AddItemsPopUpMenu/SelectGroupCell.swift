@@ -19,7 +19,7 @@ class SelectGroupCell: UITableViewCell {
         let checkImage: UIImage? =  #imageLiteral(resourceName: "ic_check").withRenderingMode(.alwaysTemplate)
         selectedImg.image = uncheckImage
         selectedImg.highlightedImage = checkImage
-        selectedImg.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+        selectedImg.tintColor = #colorLiteral(red: 0.2509803922, green: 0.2901960784, blue: 0.4078431373, alpha: 1)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

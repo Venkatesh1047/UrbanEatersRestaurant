@@ -42,7 +42,9 @@ class GlobalModel:NSObject {
     var updatePasswordModel      : UpdatePasswordModel!
     var manageCategoriesModel    : ManageCategoriesModel!
     var recommendedModel         : RecommendedModel!
+    var recommendedItemsModel         : RecommendedModel!
     var earningsHistoryModel     : EarningsHistoryModel!
+    var notificationsModel : NotificationsModel!
     var instanceIDTokenMessage:String = ""
     
     let KEY_ACCEPTED     = "RES_ACCEPTED"
@@ -70,7 +72,7 @@ class GlobalModel:NSObject {
     func getDateFromTimeStamp(timeStamp : Double) -> String {
         let date = NSDate(timeIntervalSince1970: timeStamp)
         let dayTimePeriodFormatter = DateFormatter()
-        dayTimePeriodFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"  // Example : 2018-11-27T13:08:20.663Z
+        dayTimePeriodFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"  // Example : 2018-11-27T13:08:20.663Z
         let dateString = dayTimePeriodFormatter.string(from: date as Date)
         return dateString
     }
@@ -84,11 +86,11 @@ class GlobalModel:NSObject {
         case 1  : return ("ORDER CREATED", .themeColor)
         case -1 : return ("CANCELLED", .redColor)
         case 2  : return ("ACCEPTED", .greenColor)
-        case -2 : return ("REJECTED", .redColor)
-        case 3  : return ("DRIVER ALLOCATED", .greenColor)
+        case -2 : return ("DENIED", .redColor) 
+        case 3  : return ("DELIVERED", .greenColor)
         case 4 : return ("DRIVER REACHED", .secondaryBGColor)
-        case 5  : return ("ORDER PICKED UP", .greenColor)
-        case 6 : return ("ORDER PICKED UP", .secondaryBGColor)
+        case 5  : return ("PICKED UP", .themeColor)
+        case 6 : return ("PICKED UP", .themeColor)
         default : return ("CANCELLED", .redColor)
         }
     }

@@ -18,81 +18,72 @@ class SelectGroup: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var nextBtn: UIButton!
     var delegate : SelectGroupDelegate!
-    var selectedGroup : [String] = []
-   // var selectedTags = [String]()
-    var itemsList = [String]()
+    var selectedItems = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        itemsList = ["Manchow Soup","Chicken Roll","Hot Dogg","Brownie","Donut","French Fries","Sweet Corn Soup","Veg Manchurain"]
         updateUI()
     }
     //MARK : - Methods
     func updateUI(){
-        selectClubLbl.backgroundColor  = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        nextBtn.backgroundColor = #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 1)
-        //self.view.layer.cornerRadius = 10
+        self.view.layer.cornerRadius = 10
         self.tableView.register(UINib(nibName: "SelectGroupCell", bundle: nil), forCellReuseIdentifier: "Cell")
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
-        nextBtn.layer.cornerRadius = 5.0
-        nextBtn.layer.masksToBounds = true
-        
-//        TheGlobalPoolManager.groupNamesApiHitting(self) { (success, reponse) -> (Void) in
-//            if success{
-//                if TheGlobalPoolManager.groupNamesModel.data.count == 0{
-//                    self.nextBtn.isEnabled = false
-//                    self.nextBtn.alpha = 0.5
-//                }else{
-//                     self.nextBtn.isEnabled = true
-//                    self.nextBtn.alpha = 1.0
-//                     self.tableView.reloadData()
-//                }
-//            }
-//        }
-        
-        if itemsList.count == 0{
-            self.nextBtn.isEnabled = false
-            self.nextBtn.alpha = 0.5
-        }else{
-            self.nextBtn.isEnabled = true
-            self.nextBtn.alpha = 1.0
-            self.tableView.reloadData()
+        TheGlobalPoolManager.cornerAndBorder(nextBtn, cornerRadius: 8, borderWidth: 0, borderColor: .clear)
+        self.recommendedItemsApiHitting()
+    }
+    //MARK:- Recommended  Items Api Hitting
+    func recommendedItemsApiHitting(){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItems, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            if dataResponse.json.exists(){
+                GlobalClass.recommendedItemsModel = RecommendedModel(fromJson: dataResponse.json)
+                if GlobalClass.recommendedItemsModel.hiddenItems.count == 0{
+                    self.nextBtn.isEnabled = false
+                    self.nextBtn.alpha = 0.5
+                    TheGlobalPoolManager.showToastView("No Items available...")
+                }else{
+                    self.nextBtn.isEnabled = true
+                    self.nextBtn.alpha = 1.0
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    //MARK:- Update Recommended Items Hitting
+    func updateRecommendedItemsApiHitting(){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = ["itemList": self.selectedItems]
+        URLhandler.postUrlSession(urlString: Constants.urls.UpdateRecommendedItems, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            if dataResponse.json.exists(){
+                NotificationCenter.default.post(name: Notification.Name("UpdateRecommendedItems"), object: nil)
+            }
         }
     }
     //MARK : -  IB Action Outlets
     @IBAction func nextBtn(_ sender: UIButton) {
-       // If checklist not update, setting previous data
-        if selectedGroup.count == 0 {
-            self.selectedGroup = Constants.sharedInstance.selectedTags
-        }
-        if selectedGroup != nil{
-            if delegate != nil{
-                self.delegate.delegateForSelectedGroup(selectedGroup: selectedGroup, viewCon:self)
-            }
-        }
-        else{
-           // TheGlobalPoolManager.showToastView("Please select your Group")
-            print("Please select your Group --->>")
+        if selectedItems.count == 0{
+            TheGlobalPoolManager.showToastView("Please select atleast one item to continue")
+        }else{
+            print(selectedItems)
+            self.updateRecommendedItemsApiHitting()
         }
     }
 }
 // MARK : - Table View Methods
 extension SelectGroup : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if TheGlobalPoolManager.groupNamesModel == nil{
-//            return 0
-//        }
-//        return TheGlobalPoolManager.groupNamesModel.data.count
-        return itemsList.count
+        return GlobalClass.recommendedItemsModel == nil ? 0 : GlobalClass.recommendedItemsModel.hiddenItems.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SelectGroupCell
-       // cell.titleLbl.text = TheGlobalPoolManager.groupNamesModel.data[indexPath.row].groupName!
-        cell.titleLbl.text = itemsList[indexPath.row]
-        cell.titleLbl.font = UIFont(name: Constants.FontName.Regular, size: 15)
-        let selectedValue = Constants.sharedInstance.selectedTags.contains((itemsList[indexPath.row]))
+        let data = GlobalClass.recommendedItemsModel.hiddenItems[indexPath.row]
+        cell.titleLbl.text = data.name!
+        let selectedValue = self.selectedItems.contains((data.id!))
         if selectedValue {
             cell.cellSelected(true)
         }
@@ -104,36 +95,27 @@ extension SelectGroup : UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let data = itemsList[indexPath.row]
-        let selectedValue = Constants.sharedInstance.selectedTags.contains(data)
+        let data = GlobalClass.recommendedItemsModel.hiddenItems[indexPath.row]
+        let selectedValue = self.selectedItems.contains(data.id!)
         if !selectedValue{
-            Constants.sharedInstance.selectedTags.append(data)
+            self.selectedItems.append(data.id!)
         }else{
-            let indx = Constants.sharedInstance.selectedTags.index(of: data)
-            Constants.sharedInstance.selectedTags.remove(at: indx!)
+            let indx = self.selectedItems.index(of: data.id!)
+            self.selectedItems.remove(at: indx!)
         }
         tableView.reloadData()
-        print(Constants.sharedInstance.selectedTags)
-        self.selectedGroup = Constants.sharedInstance.selectedTags
+        print(self.selectedItems)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let data = itemsList[indexPath.row]
-        let selectedValue = Constants.sharedInstance.selectedTags.contains(data)
+        let data = GlobalClass.recommendedItemsModel.hiddenItems[indexPath.row]
+        let selectedValue = self.selectedItems.contains(data.id!)
         if selectedValue{
-            let indx = Constants.sharedInstance.selectedTags.index(of: data)
-            Constants.sharedInstance.selectedTags.remove(at: indx!)
+            let indx = self.selectedItems.index(of: data.id!)
+            self.selectedItems.remove(at: indx!)
         }
         tableView.reloadData()
-        print(Constants.sharedInstance.selectedTags)
-        self.selectedGroup = Constants.sharedInstance.selectedTags
+        print(self.selectedItems)
     }
 }
-
-
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = tableView.cellForRow(at: indexPath) as! SelectGroupCell
-//        cell.cellSelected(true)
-//        self.selectedGroup = itemsList[indexPath.row]
-//    }
 

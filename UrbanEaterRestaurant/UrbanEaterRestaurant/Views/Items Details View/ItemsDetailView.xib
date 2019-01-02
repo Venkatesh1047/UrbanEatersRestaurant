@@ -77,7 +77,7 @@
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID:456256" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2q-uq-N4O">
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID:456256" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2q-uq-N4O">
                             <rect key="frame" x="185" y="49.5" width="100" height="16.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="100" id="fEI-uz-Fxm"/>
@@ -92,12 +92,9 @@
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Epq-yB-4pp">
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Epq-yB-4pp">
                             <rect key="frame" x="15" y="105" width="270" height="100"/>
                             <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="100" id="SJ9-QS-0IF"/>
-                            </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sFP-Nh-za4">
                                 <size key="itemSize" width="50" height="50"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -143,6 +140,7 @@
                     </subviews>
                     <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="ttu-8m-MNm" secondAttribute="bottom" constant="10" id="2Kx-ua-wlY"/>
                         <constraint firstItem="Epq-yB-4pp" firstAttribute="leading" secondItem="hI9-tH-akV" secondAttribute="leading" id="7fU-RS-2Dm"/>
                         <constraint firstItem="Mlx-6U-yoE" firstAttribute="top" secondItem="wtD-vh-QoX" secondAttribute="bottom" constant="8" id="A4f-7U-Mdu"/>
                         <constraint firstItem="hI9-tH-akV" firstAttribute="leading" secondItem="Mlx-6U-yoE" secondAttribute="leading" id="BBd-sJ-dMe"/>
@@ -150,6 +148,7 @@
                         <constraint firstItem="ttu-8m-MNm" firstAttribute="leading" secondItem="Epq-yB-4pp" secondAttribute="leading" id="KtF-Lu-7W7"/>
                         <constraint firstItem="hI9-tH-akV" firstAttribute="top" secondItem="Mlx-6U-yoE" secondAttribute="bottom" constant="15" id="M9F-s0-Y0c"/>
                         <constraint firstItem="wtD-vh-QoX" firstAttribute="centerX" secondItem="YMq-1g-9R9" secondAttribute="centerX" id="NIg-VU-6EV"/>
+                        <constraint firstItem="ttu-8m-MNm" firstAttribute="top" secondItem="Epq-yB-4pp" secondAttribute="bottom" constant="15" id="QI4-St-RbH"/>
                         <constraint firstItem="Mlx-6U-yoE" firstAttribute="leading" secondItem="T9K-Wg-fG3" secondAttribute="leading" id="TuN-lY-pZK"/>
                         <constraint firstItem="wZD-X9-FMI" firstAttribute="centerY" secondItem="6Dw-OR-Tmw" secondAttribute="centerY" id="Xus-51-tWe"/>
                         <constraint firstItem="KHG-gq-MkC" firstAttribute="leading" secondItem="YMq-1g-9R9" secondAttribute="leading" constant="15" id="Yu5-gX-oO4"/>
@@ -158,7 +157,6 @@
                         <constraint firstItem="KHG-gq-MkC" firstAttribute="top" secondItem="YMq-1g-9R9" secondAttribute="top" constant="15" id="e8N-Uj-Drb"/>
                         <constraint firstItem="wZD-X9-FMI" firstAttribute="trailing" secondItem="Epq-yB-4pp" secondAttribute="trailing" constant="-8" id="gnJ-V3-wGM"/>
                         <constraint firstAttribute="trailing" secondItem="KHG-gq-MkC" secondAttribute="trailing" constant="15" id="hFQ-xG-HUc"/>
-                        <constraint firstItem="ttu-8m-MNm" firstAttribute="top" secondItem="Epq-yB-4pp" secondAttribute="bottom" constant="15" id="i8m-G6-vfY"/>
                         <constraint firstItem="Epq-yB-4pp" firstAttribute="top" secondItem="hI9-tH-akV" secondAttribute="bottom" constant="8" id="noV-3O-8ID"/>
                         <constraint firstItem="w2q-uq-N4O" firstAttribute="trailing" secondItem="RGc-hO-Lna" secondAttribute="trailing" id="pCj-3h-KRc"/>
                         <constraint firstItem="w2q-uq-N4O" firstAttribute="centerY" secondItem="Mlx-6U-yoE" secondAttribute="centerY" id="vuk-ed-OG6"/>
@@ -175,6 +173,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="34" y="53.5"/>
         </view>
     </objects>
 </document>

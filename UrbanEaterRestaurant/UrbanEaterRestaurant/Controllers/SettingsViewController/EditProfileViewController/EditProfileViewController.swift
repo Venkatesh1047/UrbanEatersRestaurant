@@ -55,8 +55,8 @@ class EditProfileViewController: UIViewController {
     //MARK:- Update UI
     func updateUI(){
         let restarent = GlobalClass.restModel!
-        let imgstr = Constants.BASEURL_IMAGE + restarent.data.logo!
-        let logoUrl = NSURL(string:imgstr)!
+        let sourceString = restarent.data.logo!.contains("http", compareOption: .caseInsensitive) ? restarent.data.logo! : Constants.BASEURL_IMAGE + restarent.data.logo!
+        let logoUrl = NSURL(string:sourceString)!
         self.profilePicImgView.sd_setImage(with: logoUrl as URL, placeholderImage: #imageLiteral(resourceName: "PlaceHolderImage"), options: .cacheMemoryOnly, completed: nil)
         self.nameTxt.text = restarent.data.name!
         self.cuisineTxt.text = restarent.data.cuisineIdData[0].name!

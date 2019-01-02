@@ -9,7 +9,6 @@ target 'UrbanEaterRestaurant' do
   # Pods for UrbanEaterRestaurant
   pod 'Alamofire'
   pod 'ReachabilitySwift'
-  #pod 'Google'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Toast-Swift', '~> 3.0.1'
@@ -17,7 +16,6 @@ target 'UrbanEaterRestaurant' do
   pod 'SwiftyJSON'
   pod 'SwiftMessages', '~> 5.0.1'
   pod 'MMMaterialDesignSpinner'
-  #pod 'HTHorizontalSelectionList', '~> 0.7.4'
   pod 'IQKeyboardManagerSwift'
   pod 'EZSwiftExtensions'
   pod 'Firebase'

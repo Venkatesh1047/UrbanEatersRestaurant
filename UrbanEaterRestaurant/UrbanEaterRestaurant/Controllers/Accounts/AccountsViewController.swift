@@ -41,32 +41,40 @@ class AccountsViewController: UIViewController {
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.restModel = RestaurantHomeModel(fromJson: dataResponse.json)
-                self.updateRestUI()
+                if GlobalClass.restModel != nil{
+                    self.updateRestUI()
+                }else{
+                    TheGlobalPoolManager.showToastView("No data available")
+                }
             }
         }
     }
     //MARK:- Update RestUI
     func updateRestUI(){
+        if GlobalClass.restModel.data.statIdData != nil{
+            self.resStartRating.setTitle(String(GlobalClass.restModel.data.statIdData.rating.average!.rounded(toPlaces: 1)), for: .normal)
+        }else{
+            self.resStartRating.setTitle(String(0.0), for: .normal)
+        }
         let restarent = GlobalClass.restModel!
-        let imgstr = Constants.BASEURL_IMAGE + restarent.data.logo
-        let logoUrl = NSURL(string:imgstr)!
+        let sourceString = restarent.data.logo!.contains("http", compareOption: .caseInsensitive) ? restarent.data.logo! : Constants.BASEURL_IMAGE + restarent.data.logo!
+        let logoUrl = NSURL(string:sourceString)!
         self.restarentImgView.sd_setImage(with: logoUrl as URL, placeholderImage: nil, options: .cacheMemoryOnly, completed: nil)
         self.restarentNameLbl.text = GlobalClass.restModel.data.name
-        self.resStartRating.setTitle(String(GlobalClass.restModel.data.statIdData.rating.average!.rounded(toPlaces: 1)), for: .normal)
     }
     //MARK:- Logout Method
     func logoutAction(){
-        TheGlobalPoolManager.showAlertWith(message: "Are you sure you want to Logout?", singleAction: true, callback: { (success) in
-            if success!{
+        TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Logout?", singleAction: false, okTitle:"confirm") { (sucess) in
+            if sucess!{
                 self.LogOutWebHit()
                 Themes.sharedInstance.activityView(View: self.view)
             }
-        })
+        }
     }
     //MARK:- Logout Api Hitting
     func LogOutWebHit(){
         let param = [
-            "emailId": GlobalClass.restaurantLoginModel.data.subId!,
+            "id": GlobalClass.restaurantLoginModel.data.subId!,
             "through": "MOBILE"
         ]
 
@@ -74,6 +82,7 @@ class AccountsViewController: UIViewController {
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 Themes.sharedInstance.showToastView(ToastMessages.Logout)
+                GlobalClass.logout()
                 self.moveToLogin()
             }
         }
@@ -119,8 +128,12 @@ extension AccountsViewController : UITableViewDelegate,UITableViewDataSource{
             self.navigationController?.pushViewController(bookingHistory, animated: true)
             break
         case "Manage Menu":
-            let settings = self.storyboard?.instantiateViewController(withIdentifier: "ManageMenuVCID") as! ManageMenuViewController
-            self.navigationController?.pushViewController(settings, animated: true)
+            if GlobalClass.restModel.data.available == 0{
+                TheGlobalPoolManager.showToastView("Please be in Online to change the Business hours")
+            }else{
+                let settings = self.storyboard?.instantiateViewController(withIdentifier: "ManageMenuVCID") as! ManageMenuViewController
+                self.navigationController?.pushViewController(settings, animated: true)
+            }
             break
         case "Settings":
             let settings = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewControllerID") as! SettingsViewController

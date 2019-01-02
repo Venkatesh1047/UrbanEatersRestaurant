@@ -18,5 +18,4 @@ class ItemsDetailCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
 }

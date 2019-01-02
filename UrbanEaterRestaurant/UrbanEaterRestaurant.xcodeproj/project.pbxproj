@@ -77,6 +77,7 @@
 		A3F2AF9421BA79DD00A9379A /* ItemsDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F2AF9221BA79DD00A9379A /* ItemsDetailView.xib */; };
 		A3F3872221CCEF7E002122BC /* PreparationTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F3872021CCEF7E002122BC /* PreparationTimeView.swift */; };
 		A3F3872321CCEF7E002122BC /* PreparationTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F3872121CCEF7E002122BC /* PreparationTimeView.xib */; };
+		A3F3B8B221DA4E400094E3DA /* NotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F3B8B121DA4E400094E3DA /* NotificationsModel.swift */; };
 		A3F3FA0921BD082000AF840F /* ItemsDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F3FA0721BD082000AF840F /* ItemsDetailCell.swift */; };
 		A3F3FA0A21BD082000AF840F /* ItemsDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F3FA0821BD082000AF840F /* ItemsDetailCell.xib */; };
 		A3F6883521B8EC1000DD37D7 /* ManageBookingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F6883321B8EC1000DD37D7 /* ManageBookingCell.swift */; };
@@ -94,6 +95,8 @@
 		A3F785A721B6960A0031F1A6 /* ScheduledTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F785A521B6960A0031F1A6 /* ScheduledTableCell.xib */; };
 		A3F785AF21B6A29D0031F1A6 /* CompletedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F785AD21B6A29D0031F1A6 /* CompletedTableCell.swift */; };
 		A3F785B021B6A29D0031F1A6 /* CompletedTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F785AE21B6A29D0031F1A6 /* CompletedTableCell.xib */; };
+		A3F7AF6321DB46B80004BAF7 /* CompletedItemsPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F7AF6121DB46B80004BAF7 /* CompletedItemsPopUp.swift */; };
+		A3F7AF6421DB46B80004BAF7 /* CompletedItemsPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F7AF6221DB46B80004BAF7 /* CompletedItemsPopUp.xib */; };
 		A3F9315421BF8FE100AD18C6 /* RestaurantLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F9315321BF8FE100AD18C6 /* RestaurantLoginModel.swift */; };
 		A3FDDB8921AD2FB400524AF4 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FDDB8821AD2FB400524AF4 /* AccountsViewController.swift */; };
 		A3FDDB8B21AD4EF200524AF4 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FDDB8A21AD4EF200524AF4 /* TabBarViewController.swift */; };
@@ -193,6 +196,7 @@
 		A3F3872021CCEF7E002122BC /* PreparationTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationTimeView.swift; sourceTree = "<group>"; };
 		A3F3872121CCEF7E002122BC /* PreparationTimeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreparationTimeView.xib; sourceTree = "<group>"; };
 		A3F3B8AE21D628CB0094E3DA /* UrbanEaterRestaurant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UrbanEaterRestaurant.entitlements; sourceTree = "<group>"; };
+		A3F3B8B121DA4E400094E3DA /* NotificationsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsModel.swift; sourceTree = "<group>"; };
 		A3F3FA0721BD082000AF840F /* ItemsDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDetailCell.swift; sourceTree = "<group>"; };
 		A3F3FA0821BD082000AF840F /* ItemsDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemsDetailCell.xib; sourceTree = "<group>"; };
 		A3F6883321B8EC1000DD37D7 /* ManageBookingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBookingCell.swift; sourceTree = "<group>"; };
@@ -210,6 +214,8 @@
 		A3F785A521B6960A0031F1A6 /* ScheduledTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScheduledTableCell.xib; sourceTree = "<group>"; };
 		A3F785AD21B6A29D0031F1A6 /* CompletedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTableCell.swift; sourceTree = "<group>"; };
 		A3F785AE21B6A29D0031F1A6 /* CompletedTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompletedTableCell.xib; sourceTree = "<group>"; };
+		A3F7AF6121DB46B80004BAF7 /* CompletedItemsPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedItemsPopUp.swift; sourceTree = "<group>"; };
+		A3F7AF6221DB46B80004BAF7 /* CompletedItemsPopUp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompletedItemsPopUp.xib; sourceTree = "<group>"; };
 		A3F9315321BF8FE100AD18C6 /* RestaurantLoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantLoginModel.swift; sourceTree = "<group>"; };
 		A3FDDB8821AD2FB400524AF4 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		A3FDDB8A21AD4EF200524AF4 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -370,6 +376,7 @@
 				A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */,
 				A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */,
 				A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */,
+				A3F3B8B121DA4E400094E3DA /* NotificationsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -675,6 +682,8 @@
 				A3F2AF9221BA79DD00A9379A /* ItemsDetailView.xib */,
 				A3F3FA0721BD082000AF840F /* ItemsDetailCell.swift */,
 				A3F3FA0821BD082000AF840F /* ItemsDetailCell.xib */,
+				A3F7AF6121DB46B80004BAF7 /* CompletedItemsPopUp.swift */,
+				A3F7AF6221DB46B80004BAF7 /* CompletedItemsPopUp.xib */,
 			);
 			path = "Items Details View";
 			sourceTree = "<group>";
@@ -855,6 +864,7 @@
 				A3BEF4A72189D51000192E7E /* EditCatagoryTableViewCell.xib in Resources */,
 				A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */,
 				A3BEF4BF2189D5CA00192E7E /* SelectGroupCell.xib in Resources */,
+				A3F7AF6421DB46B80004BAF7 /* CompletedItemsPopUp.xib in Resources */,
 				A3F785A721B6960A0031F1A6 /* ScheduledTableCell.xib in Resources */,
 				A3BEF4BD2189D5CA00192E7E /* SelectGroup.xib in Resources */,
 				A3BEF4AF2189D54A00192E7E /* FoodItemsTableViewCell.xib in Resources */,
@@ -981,6 +991,7 @@
 				A3BEF4CF2189D90A00192E7E /* UIViewController+MJPopupViewController.m in Sources */,
 				A3BEF48D2189CA0F00192E7E /* EarningSummuryViewController.swift in Sources */,
 				A3BEF4CC2189D90100192E7E /* MJPopupBackgroundView.m in Sources */,
+				A3F3B8B221DA4E400094E3DA /* NotificationsModel.swift in Sources */,
 				A3BEF4DC2189DD0400192E7E /* BusinessHoursViewController.swift in Sources */,
 				A3FDDB8F21AE676200524AF4 /* HomeViewController.swift in Sources */,
 				A3BEF4D62189DCC100192E7E /* EditProfileViewController.swift in Sources */,
@@ -1038,6 +1049,7 @@
 				A3BEF4A12189D4A700192E7E /* FoodItemsViewController.swift in Sources */,
 				A3F785A621B6960A0031F1A6 /* ScheduledTableCell.swift in Sources */,
 				A3BEF604218D838A00192E7E /* GlobalModel.swift in Sources */,
+				A3F7AF6321DB46B80004BAF7 /* CompletedItemsPopUp.swift in Sources */,
 				A3BEF4552189B6F800192E7E /* Constants.swift in Sources */,
 				A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */,
 				A365B5EF21CA1DC9007A5B11 /* MXIndicator.swift in Sources */,

@@ -25,27 +25,50 @@ class ManageBookingsVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         tableView.register(UINib(nibName: "ManageBookingCell", bundle: nil), forCellReuseIdentifier: "ManageBookingCell")
-        self.updateUI()
+        //self.updateUI()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+       self.getRestarentDataModel()
     }
     //MARK:- Update UI
     func updateUI(){
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
-        if GlobalClass.restModel != nil{
+        tableView.reloadData()
+        if GlobalClass.restModel != nil && GlobalClass.restModel.data.statIdData != nil{
             let data = GlobalClass.restModel.data.statIdData!
-            lbl1ValuesArray = [data.order.totalOrdered!.toString,data.food.total!.toString,"\(GlobalClass.restModel.data.bookTableTimings.weekDay.startAt!) to \(GlobalClass.restModel.data.bookTableTimings.weekDay.endAt!)"]
-            lbl2ValuesArray = [data.order.totalAccepted!.toString,data.food.available!.toString,"\(GlobalClass.restModel.data.bookTableTimings.weekEnd.startAt!) to \(GlobalClass.restModel.data.bookTableTimings.weekEnd.endAt!)"]
-            var closingTime  = "-"
-            let today = Date()
-            let calendar = Calendar(identifier: .gregorian)
-            let components = calendar.dateComponents([.weekday], from: today)
-            if components.weekday == 1 || components.weekday == 7 {
-                closingTime = GlobalClass.restModel.data.bookTableTimings.weekEnd.endAt!
-            }else {
-                closingTime = GlobalClass.restModel.data.bookTableTimings.weekDay.endAt!
+            if GlobalClass.restModel.data.timings != nil{
+                lbl1ValuesArray = [data.order.totalOrdered!.toString,data.food.total!.toString,"\(GlobalClass.restModel.data.timings.weekDay.startAt!) to \(GlobalClass.restModel.data.timings.weekDay.endAt!)"]
+                lbl2ValuesArray = [data.order.totalAccepted!.toString,data.food.available!.toString,"\(GlobalClass.restModel.data.timings.weekEnd.startAt!) to \(GlobalClass.restModel.data.timings.weekEnd.endAt!)"]
+                var closingTime  = "_"
+                let today = Date()
+                let calendar = Calendar(identifier: .gregorian)
+                let components = calendar.dateComponents([.weekday], from: today)
+                if components.weekday == 1 || components.weekday == 7 {
+                    closingTime = GlobalClass.restModel.data.timings.weekEnd.endAt!
+                }else {
+                    closingTime = GlobalClass.restModel.data.timings.weekDay.endAt!
+                }
+                lbl3ValuesArray = [data.order.totalCompleted!.toString,data.food.recommended!.toString,closingTime]
+            }else{
+                lbl1ValuesArray = [data.order.totalOrdered!.toString,data.food.total!.toString," _"]
+                lbl2ValuesArray = [data.order.totalAccepted!.toString,data.food.available!.toString," _"]
+                lbl3ValuesArray = [data.order.totalCompleted!.toString,data.food.recommended!.toString,"_"]
             }
-            lbl3ValuesArray = [data.order.totalCompleted!.toString,data.food.recommended!.toString,closingTime]
+        }
+    }
+    //MARK:- Get Restaurant  Data Api
+    func getRestarentDataModel(){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = [ "id": GlobalClass.restaurantLoginModel.data.subId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            if dataResponse.json.exists(){
+                print(dataResponse.json)
+                GlobalClass.restModel = RestaurantHomeModel(fromJson: dataResponse.json)
+                self.updateUI()
+            }
         }
     }
     //MARK: - Pushing to Order VC
@@ -82,9 +105,11 @@ extension ManageBookingsVC : UITableViewDataSource,UITableViewDelegate {
         cell.lbl1Title.text = lbl1TitlesArray[indexPath.row]
         cell.lbl2Title.text = lbl2TitlesArray[indexPath.row]
         cell.lbl3Title.text = lbl3TitlesArray[indexPath.row]
-        cell.lbl1.text = lbl1ValuesArray[indexPath.row]
-        cell.lbl2.text = lbl2ValuesArray[indexPath.row]
-        cell.lbl3.text = lbl3ValuesArray[indexPath.row]
+         if GlobalClass.restModel != nil && GlobalClass.restModel.data.statIdData != nil{
+            cell.lbl1.text = lbl1ValuesArray[indexPath.row]
+            cell.lbl2.text = lbl2ValuesArray[indexPath.row]
+            cell.lbl3.text = lbl3ValuesArray[indexPath.row]
+        }
         let attrs1 = [NSAttributedStringKey.font : UIFont.appFont(.Regular, size: 11), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
         let attrs2 = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: 11), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 1)] as [NSAttributedStringKey : Any]
         let attributedString1 = NSMutableAttributedString(string:"You can manage", attributes:attrs1)
@@ -105,7 +130,11 @@ extension ManageBookingsVC : UITableViewDataSource,UITableViewDelegate {
         case 1:
             self.pushingToManageMenuVC()
         case 2:
-            self.pushingToManageTimingsVC()
+            if GlobalClass.restModel.data.available == 0{
+                TheGlobalPoolManager.showToastView("Please be in Online to change the Business hours")
+            }else{
+                self.pushingToManageTimingsVC()
+            }
         default:
             break
         }

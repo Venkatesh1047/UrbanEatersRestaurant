@@ -17,7 +17,7 @@ class Constants
     static let BaseUrl = "http://13.233.109.143:1234/api/v1/"
     static let BaseUrl1 = "http://192.168.100.88:1234/api/v1/"
     
-    var selectedTags = [String]()
+    //var selectedTags = [String]()
     //MARK:- Fonts
     public struct FontName {
         static let Light   = "Roboto-Light"
@@ -41,6 +41,7 @@ class Constants
         static let ForgotPassword          = "\(BaseUrl)restaurant/forgot-password"
         static let UpdateNewPassword       = "\(BaseUrl)restaurant/change-password"
         static let RecommendedItems        = "\(BaseUrl)food/by-restaurant"
+        static let UpdateRecommendedItems    = "\(BaseUrl)food/make/recommended"
         static let RecommendedItemDelete   = "\(BaseUrl)food/remove/recommended"
         static let ManageCaegories         = "\(BaseUrl)food/by-restaurant-raw"
         static let CategoryFoodItemDelete  = "\(BaseUrl)food/delete/by-id"

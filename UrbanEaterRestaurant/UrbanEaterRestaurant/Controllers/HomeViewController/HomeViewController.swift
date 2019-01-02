@@ -26,6 +26,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tableBookingsHeight: NSLayoutConstraint!
     @IBOutlet weak var tableBookingsHeaderHeight: NSLayoutConstraint!
     @IBOutlet weak var onlineSwitchHeight: NSLayoutConstraint!
+    @IBOutlet weak var noDataAvailableLbl: UILabel!
     
     var mainTheme:Themes = Themes()
     var past7Dates = [String]()
@@ -88,7 +89,9 @@ class HomeViewController: UIViewController {
     }
     //MARK:- Update UI
     func updateUI(){
+        self.noDataAvailableLbl.isHidden = true
         onlineSwitch.layer.cornerRadius = 16
+        self.collectionView.isHidden = true
         TheGlobalPoolManager.cornerAndBorder(self.earningsViewInView, cornerRadius: 8, borderWidth: 0.5, borderColor: .lightGray)
         TheGlobalPoolManager.cornerRadiusForParticularCornerr(self.earningsViewInView, corners: [.bottomRight,.topRight], size: CGSize(width: 8, height: 0))
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -126,6 +129,7 @@ class HomeViewController: UIViewController {
         URLhandler.postUrlSession(urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
+                print(dataResponse.json)
                 GlobalClass.restModel = RestaurantHomeModel(fromJson: dataResponse.json)
                 let data = GlobalClass.restModel.data
                 if data?.available == 0{
@@ -147,14 +151,24 @@ class HomeViewController: UIViewController {
                         self.supportBtn.isHidden = true
                     }
                 }
-                if data?.statIdData.food.total != data?.statIdData.food.available{
-                    TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Some items are still unavailable?", singleAction: true, okTitle: "Ok", cancelTitle: "", callback: { (success) in
-                    })
+                if data?.statIdData != nil{
+                    if data?.statIdData.food.total != data?.statIdData.food.available{
+                        TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Some items are still unavailable?", singleAction: true, okTitle: "Ok", cancelTitle: "", callback: { (success) in
+                        })
+                    }
                 }
-                self.collectionView.reloadData()
+                if data?.earningIdData.count == 0{
+                    self.noDataAvailableLbl.isHidden = false
+                    self.collectionView.isHidden = true
+                    self.collectionView.reloadData()
+                }else{
+                    self.collectionView.isHidden = false
+                    self.noDataAvailableLbl.isHidden = true
+                    self.collectionView.reloadData()
+                }
             }
         }
-    }
+    }   
     //MARK:- Chnage Restaurant Status Api
     func changeRestarentStatusWebHit(status:Int){
         let param =     [

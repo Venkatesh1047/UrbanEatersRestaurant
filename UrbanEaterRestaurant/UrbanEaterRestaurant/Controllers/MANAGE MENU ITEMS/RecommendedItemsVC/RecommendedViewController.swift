@@ -16,7 +16,12 @@ class RecommendedViewController:UIViewController,SelectGroupDelegate {
         super.viewDidLoad()
         let nibName = UINib(nibName:"RecommendedTableViewCell" , bundle: nil)
         recommendItemTbl.register(nibName, forCellReuseIdentifier: "RecommendedTableViewCell")
+        NotificationCenter.default.addObserver(self, selector: #selector(RecommendedViewController.methodOfReceivedNotification(notification:)), name: Notification.Name("UpdateRecommendedItems"), object: nil)
         self.updateUI()
+    }
+    @objc func methodOfReceivedNotification(notification: Notification){
+        self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
+        self.recommendedItemsApiHitting()
     }
     //MARK:- Update UI
     func updateUI(){
@@ -48,14 +53,18 @@ class RecommendedViewController:UIViewController,SelectGroupDelegate {
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.recommendedModel = RecommendedModel(fromJson: dataResponse.json)
-                self.recommendItemTbl.reloadData()
+                if GlobalClass.recommendedModel.data.count == 0{
+                    TheGlobalPoolManager.showToastView("No items available.Please add from add button")
+                }else{
+                    self.recommendItemTbl.reloadData()
+                }
             }
         }
     }
     //MARK:- Recommended Item Items Delete Api Hitting
     func recommendedItemDeleteApiHitting(_ itemID : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["id": [itemID]]
+        let param = ["itemList": [itemID]]
         URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItemDelete, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
@@ -83,7 +92,8 @@ extension  RecommendedViewController : UITableViewDelegate,UITableViewDataSource
         cell.itemDeleteBtn.addTarget(self, action: #selector(self.itemDeleteBtnAction(_:)), for: .touchUpInside)
         cell.itemNameLbl.text = data.name!
         cell.itemPriceLbl.text = "₹ \(data.price!.toString)"
-        let url = URL.init(string: Constants.BASEURL_IMAGE + data.avatar!)
+        let sourceString = data.avatar!.contains("http", compareOption: .caseInsensitive) ? data.avatar! : Constants.BASEURL_IMAGE + data.avatar!
+        let url = URL.init(string: sourceString)
         cell.itemImgView.sd_setImage(with: url ,placeholderImage:  #imageLiteral(resourceName: "PlaceHolderImage")) { (image, error, cache, url) in
             if error != nil{
             }else{

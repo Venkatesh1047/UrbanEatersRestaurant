@@ -21,8 +21,8 @@ class LoginVC: UIViewController{
     }
     //MARK:- Update UI
     func updateUI(){
-        emailTxt.text = "krithunga_gachibowli@gmail.com"
-        passwordTxt.text = "Krithunga@1234"
+        emailTxt.text = "lunchbox@gmail.com"
+        passwordTxt.text = "Password@1234"
         emailTxt.placeholderColor("Email", color: .placeholderColor)
         passwordTxt.placeholderColor("Password", color: .placeholderColor)
     }

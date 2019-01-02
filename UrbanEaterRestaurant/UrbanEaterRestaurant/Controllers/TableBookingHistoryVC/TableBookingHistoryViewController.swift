@@ -104,7 +104,9 @@ extension TableBookingHistoryViewController : UITableViewDelegate,UITableViewDat
         cell.timeLbl.text = data.startTime!
         cell.personsLbl.text = data.personCount!.toString
         cell.nameLbl.text = data.contact.name!
-        cell.redeemedStatusLbl.text = data.statusText!
+        let status = GlobalClass.returnStatus(data.status!)
+        cell.redeemedStatusLbl.text = status.0
+        cell.redeemedStatusLbl.textColor = status.1
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

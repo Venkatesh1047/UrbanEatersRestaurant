@@ -172,7 +172,11 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
         headerCell.orderIDLbl.text = "Order ID: \(data.subOrderId!)"
         headerCell.noOfItemsLbl.text = "\(GlobalClass.earningsHistoryModel.data.orderFoodData[section].items.count) Items"
         headerCell.orderAmountLbl.text = "₹ \(data.billing.orderTotal!.toString)"
-        headerCell.orderStatusLbl.text = data.statusText!
+        let status = GlobalClass.returnStatus(data.status!)
+        headerCell.orderStatusLbl.text = status.0
+        headerCell.orderStatusLbl.textColor = status.1
+        print(data.history.orderedAt!)
+        headerCell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForFullDate(data.history.orderedAt!)
         if self.collapaseHandlerArray.contains(data.subOrderId!){
             headerCell.dropDownBtn.setTitle("1", for: .normal)
             headerCell.farwardImg.image = #imageLiteral(resourceName: "UpArrow").withColor(.secondaryTextColor)
@@ -194,11 +198,11 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemsCell") as! ItemsCell
-        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[0].items[indexPath.row]
+        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[indexPath.section].items[indexPath.row]
         cell.contentLbl.text = data.name!
-        cell.priceLbl.text = "₹ \(data.price!.toString)"
+        cell.priceLbl.text = "₹ \(data.finalPrice!.toString)"
         cell.quantityLbl.text = "✕\(data.quantity!)"
-        if data.vorousType! == 0{
+        if data.vorousType! == 2{
             cell.vorousTypeImg.image = #imageLiteral(resourceName: "NonVeg")
         }else{
            cell.vorousTypeImg.image = #imageLiteral(resourceName: "Veg")

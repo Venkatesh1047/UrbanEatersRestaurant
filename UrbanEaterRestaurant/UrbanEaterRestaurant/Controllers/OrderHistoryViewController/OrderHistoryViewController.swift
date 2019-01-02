@@ -63,7 +63,11 @@ class OrderHistoryViewController: UIViewController {
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.foodOrderModel = FoodOrderModel(fromJson: dataResponse.json)
-                self.orderHistoryTbl.reloadData()
+                if GlobalClass.foodOrderModel.data.count == 0{
+                    TheGlobalPoolManager.showToastView("No data available...")
+                }else{
+                    self.orderHistoryTbl.reloadData()
+                }
             }
         }
     }
@@ -139,9 +143,12 @@ extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate
         headerCell.dropDownBtn.tag = section
         let data = GlobalClass.foodOrderModel.completed[section]
         headerCell.orderIDLbl.text = "Order ID: \(data.order[0].subOrderId!)"
-        headerCell.noOfItemsLbl.text = data.items.count.toString
+        headerCell.noOfItemsLbl.text = "\(data.items.count.toString) Items"
         headerCell.orderAmountLbl.text = "₹\(data.order[0].billing.orderTotal!.toString)"
-        headerCell.orderStatusLbl.text = data.order[0].statusText!
+        let status = GlobalClass.returnStatus(data.status!)
+        headerCell.orderStatusLbl.text = status.0
+        headerCell.orderStatusLbl.textColor = status.1
+        headerCell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForFullDate(data.history.orderedAt!)
         if self.collapaseHandlerArray.contains(data.order[0].subOrderId!){
             headerCell.dropDownBtn.setTitle("1", for: .normal)
             headerCell.farwardImg.image = #imageLiteral(resourceName: "UpArrow").withColor(.secondaryTextColor)
@@ -165,7 +172,7 @@ extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemsCell") as! ItemsCell
         let data = GlobalClass.foodOrderModel.completed[0].items[indexPath.row]
         cell.contentLbl.text = data.name!
-        cell.priceLbl.text = "₹\(data.price.toString)"
+        cell.priceLbl.text = "₹\(data.finalPrice.toString)"
         if data.vorousType == 1{
             cell.vorousTypeImg.image = #imageLiteral(resourceName: "Veg")
         }else{

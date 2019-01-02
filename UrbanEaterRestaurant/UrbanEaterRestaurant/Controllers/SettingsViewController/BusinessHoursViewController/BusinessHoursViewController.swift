@@ -32,6 +32,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
     @IBOutlet weak var minutesPicker: UIPickerView!
     @IBOutlet weak var minutesContainerView: UIView!
     
+    @IBOutlet var dropDownBtns: [UIButton]!
     var btnTag = 0
     var gradePickerValues = [String]()
     var dateSelectedString = ""
@@ -46,7 +47,9 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         for i in 0..<60 {
             gradePickerValues.append(String(i))
         }
-
+        for btn in dropDownBtns{
+            btn.setImage(#imageLiteral(resourceName: "Drop_Down").withColor(.whiteColor), for: .normal)
+        }
         weekDaysView.layer.cornerRadius = 5.0
         weekEndsView.layer.cornerRadius = 5.0
         
@@ -63,12 +66,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         datePicker.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
         minutesPicker.dataSource = self
         minutesPicker.delegate = self
-        
-        if let _ = GlobalClass.restModel {
-            updateUI()
-        }else{
-             getRestarentProfile()
-        }
+        self.getRestarentProfile()
     }
     func getRestarentProfile(){
         Themes.sharedInstance.activityView(View: self.view)
@@ -82,12 +80,14 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         }
     }
     func updateUI(){
+        if GlobalClass.restModel.data.timings != nil{
         self.weekDayFromLbl.text = GlobalClass.restModel.data.timings.weekDay.startAt!
         self.weekDayToLbl.text = GlobalClass.restModel.data.timings.weekDay.endAt!
         self.weekEndFromLbl.text = GlobalClass.restModel.data.timings.weekEnd.startAt!
         self.weekEndToLbl.text = GlobalClass.restModel.data.timings.weekEnd.endAt!
         minutesSelectedString = String(GlobalClass.restModel.data.deliveryTime!)
         self.minLbl.text = "\(minutesSelectedString) min"
+        }
     }
     
     func validateInputs(){
@@ -126,6 +126,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         sender.locale = Locale(identifier: "en_GB")
         sender.locale = NSLocale(localeIdentifier: "en_GB") as Locale
         dateFormatter.timeStyle = DateFormatter.Style.short
+        dateFormatter.dateFormat = "HH:mm a"
         dateSelectedString = dateFormatter.string(from: sender.date)
         print("dateSelectedString ---->>> \(dateSelectedString)")
     }
@@ -139,11 +140,9 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
     @IBAction func datePickDoneClicked(_ sender: Any) {
         dateContainerView.isHidden = true
         blurView.isHidden = true
-        let date = Date()
         if dateSelectedString.count == 0 {
-            dateSelectedString =  dateFormatter.string(from: date)
+            dateSelectedString =  dateFormatter.string(from: datePicker.date)
         }
-        
         dateSelectedString = commonUtlity.removeMeridiansfromTime(string: dateSelectedString)
         dateSelectedString = commonUtlity.trimString(string: dateSelectedString)
 

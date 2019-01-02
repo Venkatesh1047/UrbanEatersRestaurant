@@ -35,6 +35,7 @@ class OrdersViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(OrdersViewController.methodOfReceivedNotification(notification:)), name: Notification.Name("DoneButtonClicked"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification1(notification:)), name: Notification.Name("FoodAccepted"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification2(notification:)), name: Notification.Name("OrderReceived"), object: nil)
         tableView.register(UINib(nibName: "NewFoodCell", bundle: nil), forCellReuseIdentifier: "NewFoodCell")
         tableView.register(UINib(nibName: "NewTableCell", bundle: nil), forCellReuseIdentifier: "NewTableCell")
         tableView.register(UINib(nibName: "ScheduleFoodCell", bundle: nil), forCellReuseIdentifier: "ScheduleFoodCell")
@@ -64,9 +65,19 @@ class OrdersViewController: UIViewController {
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
         self.foodOrderApiHitting(true)
     }
+    @objc func methodOfReceivedNotification2(notification: Notification){
+        self.foodOrderApiHitting(false)
+        self.tableOrderApiHitting(false)
+    }
     //MARK: - Items Detsils Pop Up
     func itemsDetailsPopUpView(_ schedule:FoodOrderModelData){
         let viewCon = ItemsDetailView(nibName: "ItemsDetailView", bundle: nil)
+        viewCon.schedule = schedule
+        self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
+    }
+    //MARK: - Completed Items Detsils Pop Up
+    func completdItemsDetailsPopUpView(_ schedule:FoodOrderModelData){
+        let viewCon = CompletedItemsPopUp(nibName: "CompletedItemsPopUp", bundle: nil)
         viewCon.schedule = schedule
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
@@ -81,6 +92,7 @@ class OrdersViewController: UIViewController {
     }
     //MARK:- Update UI
     func updateUI(){
+        self.newCountLbl.isHidden = true
         TheGlobalPoolManager.cornerAndBorder(newCountLbl, cornerRadius: newCountLbl.bounds.h / 2, borderWidth: 0, borderColor: .clear)
         self.searchBgView.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : self.searchBgView.layer.bounds.h / 2)
         tableView.tableFooterView = UIView()
@@ -103,13 +115,14 @@ class OrdersViewController: UIViewController {
         }
         self.foodOrderApiHitting(false)
         self.tableOrderApiHitting(false)
-        ez.runThisEvery(seconds: 5.0, startAfterSeconds: 5.0) { (timer) in
-            self.foodOrderApiHitting(true)
-            self.tableOrderApiHitting(true)
-        }
+//        ez.runThisEvery(seconds: 5.0, startAfterSeconds: 5.0) { (timer) in
+//            self.foodOrderApiHitting(true)
+//            self.tableOrderApiHitting(true)
+//        }
     }
     //MARK:- SelectionView
     @objc func selectedSegment(_ sender:MXSegmentedControl){
+        self.view.endEditing(true)
         switch sender.selectedIndex {
         case 0:
             // New ....
@@ -118,12 +131,12 @@ class OrdersViewController: UIViewController {
             break
         case 1:
             // Scheduled ....
-            self.newCountLbl.isHidden = false
+            //self.newCountLbl.isHidden = false
             tableView.reloadData()
             break
         case 2:
             // Completed ....
-            self.newCountLbl.isHidden = false
+            //self.newCountLbl.isHidden = false
             tableView.reloadData()
             break
         default:
@@ -226,6 +239,29 @@ class OrdersViewController: UIViewController {
             }
         }
     }
+    //MARK:- Call Button method
+    @objc func callButtonMethod(_ btn : UIButton){
+        var number = ""
+        if !isFoodSelectedFlag{
+            if selectionView.selectedIndex == 0{
+                let data = self.dummyTableOrderModel.new[btn.tag]
+                number = data.contact.phone!
+            }else if selectionView.selectedIndex == 1{
+                let data = self.dummyTableOrderModel.scheduled[btn.tag]
+                number = data.contact.phone!
+            }
+        }
+        if let url = URL(string: "tel://\(number)"),
+            UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler:nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        } else {
+            TheGlobalPoolManager.showToastView("Invalid Phone Number")
+        }
+    }
     //MARK:- Accept Button method
     @objc func acceptBtnMethod(_ btn : UIButton){
         if isFoodSelectedFlag{
@@ -233,20 +269,31 @@ class OrdersViewController: UIViewController {
             self.managePreparationTimePopUpView(data.id!)
         }else{
             let data = self.dummyTableOrderModel.new[btn.tag]
-            self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Accept?", singleAction: false, okTitle:"confirm") { (sucess) in
+                if sucess!{
+                    self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
+                }
+            }
         }
     }
     //MARK:- Reject Button method
     @objc func rejectBtnMethod(_ btn : UIButton){
         if isFoodSelectedFlag{
             let data = self.dummyFoodOrderModel.new[btn.tag]
-            self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"confirm") { (sucess) in
+                if sucess!{
+                    self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+                }
+            }
         }else{
             let data = self.dummyTableOrderModel.new[btn.tag]
-            self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"confirm") { (sucess) in
+                if sucess!{
+                    self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
+                }
+            }
         }
     }
-
     //MARK:- IB Action Outlets
     @IBAction func manageBookingBtns(_ sender: UIButton) {
         let foodImage   = foodBtn == sender ?   #imageLiteral(resourceName: "Food_Selected") : #imageLiteral(resourceName: "Food_Normal")
@@ -298,6 +345,11 @@ extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
                 let schedule = self.dummyFoodOrderModel.scheduled[indexPath.row]
                 self.itemsDetailsPopUpView(schedule)
             }
+        }else if selectionView.selectedIndex == 2{
+            if self.isFoodSelectedFlag{
+                let schedule = self.dummyFoodOrderModel.completed[indexPath.row]
+                self.completdItemsDetailsPopUpView(schedule)
+            }
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -310,13 +362,13 @@ extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
             }
         case 1:
             if self.isFoodSelectedFlag{
-                return 100
+                return 110
             }else{
                 return 150
             }
         case 2:
             if self.isFoodSelectedFlag{
-                return 100
+                return 130
             }else{
                 return 130
             }
@@ -334,7 +386,7 @@ extension OrdersViewController : UICollectionViewDelegate,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewFoodItemsCell", for: indexPath as IndexPath) as! NewFoodItemsCell
         let data = self.dummyFoodOrderModel.new[collectionView.tag].items[indexPath.row]
-        if data.vorousType! == 1{
+        if data.vorousType! == 2{
             cell.foodImgView.image = #imageLiteral(resourceName: "NonVeg")
         }else{
               cell.foodImgView.image = #imageLiteral(resourceName: "Veg")
@@ -379,6 +431,8 @@ extension OrdersViewController{
             cell.personsLbl.text = data.personCount!.toString
             cell.nameLbl.text = data.contact.name!
             cell.emailLbl.text = data.contact.email!
+            cell.callBtn.tag = indexPath.row
+            cell.callBtn.addTarget(self, action: #selector(callButtonMethod(_:)), for: .touchUpInside)
             return cell
         }
     }
@@ -400,6 +454,8 @@ extension OrdersViewController{
             cell.personsLbl.text = data.personCount!.toString
             cell.nameLbl.text = data.contact.name!
             cell.emailLbl.text = data.contact.email!
+            cell.callBtn.tag = indexPath.row
+            cell.callBtn.addTarget(self, action: #selector(callButtonMethod(_:)), for: .touchUpInside)
             return cell
         }
     }
@@ -411,7 +467,9 @@ extension OrdersViewController{
             cell.orderLbl.text = "Order ID: \(data.order[0].subOrderId!)"
             cell.noOfItemsLbl.text = data.items.count.toString
             cell.totalCostLbl.text = "₹ \(data.order[0].billing.orderTotal!.toString)"
-            cell.statusLbl.text = data.order[0].statusText!
+            let status = GlobalClass.returnStatus(data.order[0].status!)
+            cell.statusLbl.text = status.0
+            cell.statusLbl.backgroundColor = status.1
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedTableCell") as! CompletedTableCell
@@ -421,12 +479,13 @@ extension OrdersViewController{
             cell.timeLbl.text = data.startTime!
             cell.personsLbl.text = data.personCount!.toString
             cell.nameLbl.text = data.contact.name!
-            cell.redeemedStatusLbl.text = data.statusText!
+            let status = GlobalClass.returnStatus(data.status!)
+            cell.redeemedStatusLbl.text = status.0
+            cell.redeemedStatusLbl.textColor = status.1
             return cell
         }
     }
 }
-
 extension OrdersViewController : UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.searchActive = true
