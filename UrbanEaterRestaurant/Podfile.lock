@@ -1,6 +1,9 @@
 PODS:
   - Alamofire (4.8.0)
+  - Crashlytics (3.12.0):
+    - Fabric (~> 1.9.0)
   - EZSwiftExtensions (2.0)
+  - Fabric (1.9.0)
   - Firebase (5.15.0):
     - Firebase/Core (= 5.15.0)
   - Firebase/Core (5.15.0):
@@ -110,7 +113,9 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Crashlytics
   - EZSwiftExtensions
+  - Fabric
   - Firebase
   - Firebase/Core
   - Firebase/Messaging
@@ -127,7 +132,9 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - Crashlytics
     - EZSwiftExtensions
+    - Fabric
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -151,7 +158,9 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   EZSwiftExtensions: f73648a591e529a1dbd83c22b19fd3e57df6fb7d
+  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   Firebase: 8bb9268bff82374f2cbaaabb143e725743c316ae
   FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
   FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
@@ -173,6 +182,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
 
-PODFILE CHECKSUM: 8e6992440011ae3ed8e5183c05782ef86080f7da
+PODFILE CHECKSUM: 9f3350a12446db4e418dd942152bc4df9a1b912b
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.5.3

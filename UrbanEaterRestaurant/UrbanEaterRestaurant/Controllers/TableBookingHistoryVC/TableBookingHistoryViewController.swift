@@ -18,7 +18,7 @@ class TableBookingHistoryViewController: UIViewController {
     @IBOutlet weak var sortDateLbl: UILabel!
     var dateSelectedString : String!
     let dateFormatter = DateFormatter()
-    var commonUtlity:Utilities = Utilities()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,7 @@ class TableBookingHistoryViewController: UIViewController {
             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
         }else{
              param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                      "date" : dateSelectedString] as [String : AnyObject]
+                              "date" : dateSelectedString] as [String : AnyObject]
         }
         URLhandler.postUrlSession(urlString: Constants.urls.TableBookingHistory, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             print("Profile response ----->>> ", dataResponse.json)
@@ -59,7 +59,7 @@ class TableBookingHistoryViewController: UIViewController {
             if dataResponse.json.exists(){
                 GlobalClass.tableHistoryModel = TableOrderModel(fromJson: dataResponse.json)
                 if GlobalClass.tableHistoryModel.data.count == 0{
-                    TheGlobalPoolManager.showToastView("No data available")
+                    TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
                     self.HistoryTbl.reloadData()
                 }else{
                      self.HistoryTbl.reloadData()

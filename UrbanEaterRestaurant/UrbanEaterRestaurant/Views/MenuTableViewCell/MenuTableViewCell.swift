@@ -13,6 +13,8 @@ class MenuTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.titleLabel.textColor = .textColor
+        self.titleLabel.font = UIFont.appFont(.Regular, size: 16)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

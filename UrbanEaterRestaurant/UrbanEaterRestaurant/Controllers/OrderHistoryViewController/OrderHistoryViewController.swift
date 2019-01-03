@@ -64,7 +64,8 @@ class OrderHistoryViewController: UIViewController {
             if dataResponse.json.exists(){
                 GlobalClass.foodOrderModel = FoodOrderModel(fromJson: dataResponse.json)
                 if GlobalClass.foodOrderModel.data.count == 0{
-                    TheGlobalPoolManager.showToastView("No data available...")
+                    self.orderHistoryTbl.reloadData()
+                    TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
                 }else{
                     self.orderHistoryTbl.reloadData()
                 }

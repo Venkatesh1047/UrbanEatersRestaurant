@@ -11,13 +11,6 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-/**
- Nagaraju/#Projects/UrbanEater_Restaurant/UrbanEaterRestaurant/Pods/Alamofire/Source/Request.swift -------- DataRequest Func
- urlRequest.timeoutInterval = 10.0 // Update TimeInterval for timeout
- Change
- */
-
-
 class URLhandler: NSObject {
     static let sharedInstance = URLhandler()
     

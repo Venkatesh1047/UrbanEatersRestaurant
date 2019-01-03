@@ -13,7 +13,7 @@ class ChangePasswordViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
     @IBOutlet weak var updateBtn: UIButton!
-    var commonUtlity:Utilities = Utilities()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,14 +22,15 @@ class ChangePasswordViewController: UIViewController {
     //MARK:- Update UI
     func updateUI(){
         TheGlobalPoolManager.cornerAndBorder(updateBtn, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
+        self.updateBtn.backgroundColor = .secondaryBGColor
     }
     //MARK:- Change Password Api Hitting
     func changeNewPassword(){
-        if self.commonUtlity.trimString(string: oldpassword.text!) == ""{
+        if TheGlobalPoolManager.trimString(string: oldpassword.text!) == ""{
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.Invalid_Password)
         }else if !self.isStrongPassword(password: oldpassword.text!) || !isvalidPassword(oldpassword.text!){
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.Invalid_Strong_Password)
-        }else if self.commonUtlity.trimString(string: password.text!) == ""{
+        }else if TheGlobalPoolManager.trimString(string: password.text!) == ""{
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.Invalid_Password)
         }else if !self.isStrongPassword(password: password.text!) || !isvalidPassword(password.text!){
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.Invalid_Strong_Password)

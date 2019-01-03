@@ -269,7 +269,7 @@ class OrdersViewController: UIViewController {
             self.managePreparationTimePopUpView(data.id!)
         }else{
             let data = self.dummyTableOrderModel.new[btn.tag]
-            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Accept?", singleAction: false, okTitle:"confirm") { (sucess) in
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Accept?", singleAction: false, okTitle:"Confirm") { (sucess) in
                 if sucess!{
                     self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
                 }
@@ -280,14 +280,14 @@ class OrdersViewController: UIViewController {
     @objc func rejectBtnMethod(_ btn : UIButton){
         if isFoodSelectedFlag{
             let data = self.dummyFoodOrderModel.new[btn.tag]
-            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"confirm") { (sucess) in
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"Confirm") { (sucess) in
                 if sucess!{
                     self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
                 }
             }
         }else{
             let data = self.dummyTableOrderModel.new[btn.tag]
-            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"confirm") { (sucess) in
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"Confirm") { (sucess) in
                 if sucess!{
                     self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
                 }

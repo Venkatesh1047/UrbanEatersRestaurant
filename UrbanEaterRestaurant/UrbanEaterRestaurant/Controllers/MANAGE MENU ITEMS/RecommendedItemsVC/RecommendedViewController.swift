@@ -54,6 +54,7 @@ class RecommendedViewController:UIViewController,SelectGroupDelegate {
             if dataResponse.json.exists(){
                 GlobalClass.recommendedModel = RecommendedModel(fromJson: dataResponse.json)
                 if GlobalClass.recommendedModel.data.count == 0{
+                    self.recommendItemTbl.reloadData()
                     TheGlobalPoolManager.showToastView("No items available.Please add from add button")
                 }else{
                     self.recommendItemTbl.reloadData()
@@ -64,7 +65,8 @@ class RecommendedViewController:UIViewController,SelectGroupDelegate {
     //MARK:- Recommended Item Items Delete Api Hitting
     func recommendedItemDeleteApiHitting(_ itemID : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["itemList": [itemID]]
+        let param = ["itemList": [itemID],
+                               "restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
         URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItemDelete, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){

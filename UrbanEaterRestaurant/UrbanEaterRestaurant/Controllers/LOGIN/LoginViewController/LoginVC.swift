@@ -12,7 +12,8 @@ class LoginVC: UIViewController{
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
-
+    @IBOutlet weak var passwordHideBtn: UIButton!
+    
     var mainTheme:Themes = Themes()
 
     override func viewDidLoad(){
@@ -25,6 +26,7 @@ class LoginVC: UIViewController{
         passwordTxt.text = "Password@1234"
         emailTxt.placeholderColor("Email", color: .placeholderColor)
         passwordTxt.placeholderColor("Password", color: .placeholderColor)
+        passwordHideBtn.setImage(#imageLiteral(resourceName: "NotVisible").withColor(.whiteColor), for: .normal)
     }
     @objc func movoToHome() {
         (UIApplication.shared.delegate as! AppDelegate).SetInitialViewController()
@@ -52,16 +54,22 @@ class LoginVC: UIViewController{
         }
     }
     //MARK:- IB Action Outlets
+    @IBAction func passwordHideBtn(_ sender: UIButton) {
+        self.passwordHideBtn.setImage(#imageLiteral(resourceName: "NotVisible").withColor(.whiteColor), for: .normal)
+        self.passwordHideBtn.setImage(#imageLiteral(resourceName: "Visible").withColor(.whiteColor), for: .selected)
+        sender.isSelected = !sender.isSelected
+        self.passwordTxt.isSecureTextEntry = !sender.isSelected
+    }
     @IBAction func ActionForgotPassword(_ sender: Any){
         let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "ForgotPasswordVC")as? ForgotPasswordVC
         self.present(viewCon!, animated: true, completion: nil)
     }
     @IBAction func ActionLogin(_ sender: Any){
-        if Utilities().trimString(string: self.emailTxt.text!)  == ""{
+        if TheGlobalPoolManager.trimString(string: self.emailTxt.text!)  == ""{
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.Email_Address_Is_Empty)
-        }else if  !Utilities().isValidEmail(testStr: self.emailTxt.text!){
+        }else if  !TheGlobalPoolManager.isValidEmail(testStr: self.emailTxt.text!){
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.Invalid_Email)
-        }else if Utilities().trimString(string: self.passwordTxt.text!) == "" {
+        }else if TheGlobalPoolManager.trimString(string: self.passwordTxt.text!) == "" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.password_empty)
         }else{
             self.LoginWebHit()

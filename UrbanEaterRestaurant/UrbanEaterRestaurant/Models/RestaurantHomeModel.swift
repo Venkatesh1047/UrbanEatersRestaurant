@@ -390,6 +390,7 @@ class RestaurantHomeFoodIdData{
     var restaurantId : String!
     var subCategoryId : [String]!
     var vorousType : Int!
+    var recommended : Int!
     
     
     /**
@@ -399,6 +400,7 @@ class RestaurantHomeFoodIdData{
         if json.isEmpty{
             return
         }
+        recommended = json["recommended"].int ?? 0
         available = json["available"].int ?? 0
         avatar = json["avatar"].string ?? ""
         categoryId = [String]()

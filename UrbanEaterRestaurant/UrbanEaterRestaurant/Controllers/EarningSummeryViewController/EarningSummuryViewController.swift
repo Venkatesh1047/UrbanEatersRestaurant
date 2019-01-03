@@ -87,7 +87,7 @@ class EarningSummuryViewController: UIViewController {
                     self.totalEarningsLbl.text = ""
                 }
                 if GlobalClass.earningsHistoryModel.data.orderFoodData.count == 0{
-                    TheGlobalPoolManager.showToastView("No data available")
+                    TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
                     self.earningSTable.reloadData()
                 }else{
                     self.earningSTable.reloadData()

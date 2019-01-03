@@ -77,9 +77,6 @@ class HomeOnlineOptionsView: UIViewController {
             .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
         selectionView.addTarget(self, action: #selector(self.selectedSegment(_:)), for: .valueChanged)
         self.restaurantAllOrdersApiHitting(false)
-//        ez.runThisEvery(seconds: 5.0, startAfterSeconds: 5.0) { (timer) in
-//            self.restaurantAllOrdersApiHitting(true)
-//        }
     }
     //MARK:- SelectionView
     @objc func selectedSegment(_ sender:MXSegmentedControl){
@@ -130,7 +127,8 @@ class HomeOnlineOptionsView: UIViewController {
                     self.newDummy = GlobalClass.restaurantAllOrdersModel
                 }
                 if GlobalClass.restaurantAllOrdersModel.data.count == 0{
-                    TheGlobalPoolManager.showToastView("No data available...")
+                    self.tableView.reloadData()
+                    TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
                 }else{
                     self.tableView.reloadData()
                 }
@@ -192,7 +190,7 @@ class HomeOnlineOptionsView: UIViewController {
         if !data.isOrderTable{
             self.managePreparationTimePopUpView(data.id!)
         }else{
-            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Accept?", singleAction: false, okTitle:"confirm") { (sucess) in
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Accept?", singleAction: false, okTitle:"Confirm") { (sucess) in
                 if sucess!{
                     self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_ACCEPTED)
                 }
@@ -203,13 +201,13 @@ class HomeOnlineOptionsView: UIViewController {
     @objc func rejectBtnMethod(_ btn : UIButton){
         let data = self.dummyRestaurantAllOrdersModel.new[btn.tag]
         if !data.isOrderTable{
-            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject this Order?", singleAction: false, okTitle:"confirm") { (sucess) in
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject this Order?", singleAction: false, okTitle:"Confirm") { (sucess) in
                 if sucess!{
                     self.foodOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
                 }
             }
         }else{
-            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"confirm") { (sucess) in
+            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Reject?", singleAction: false, okTitle:"Confirm") { (sucess) in
                 if sucess!{
                     self.tableOrderUpdateRequestApiHitting(data.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: GlobalClass.KEY_REJECTED)
                 }

@@ -30,7 +30,7 @@ class ForgotPasswordVC: UIViewController {
         if (self.emailID.text?.isEmpty)! {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.Email_Address_Is_Empty)
             return false
-        }else if !Utilities().isValidEmail(testStr: self.emailID.text!){
+        }else if !TheGlobalPoolManager.isValidEmail(testStr: self.emailID.text!){
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.Invalid_Email)
             return false
         }

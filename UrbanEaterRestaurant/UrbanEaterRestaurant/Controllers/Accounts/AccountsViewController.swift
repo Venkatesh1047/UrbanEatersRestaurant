@@ -27,11 +27,7 @@ class AccountsViewController: UIViewController {
         menuList = ["Order History","Earning Summary","Table Booking History","Manage Menu","Settings","Help & Support","Logout"]
         menuTbl.delegate = self
         menuTbl.dataSource = self
-        if let _ = GlobalClass.restModel {
-            self.updateRestUI()
-        }else{
-            getRestarentProfile()
-        }
+       self.getRestarentProfile()
     }
     //MARK:- IB Action Outlets
     func getRestarentProfile(){
@@ -64,7 +60,7 @@ class AccountsViewController: UIViewController {
     }
     //MARK:- Logout Method
     func logoutAction(){
-        TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Logout?", singleAction: false, okTitle:"confirm") { (sucess) in
+        TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to Logout?", singleAction: false, okTitle:"Confirm") { (sucess) in
             if sucess!{
                 self.LogOutWebHit()
                 Themes.sharedInstance.activityView(View: self.view)
@@ -75,9 +71,8 @@ class AccountsViewController: UIViewController {
     func LogOutWebHit(){
         let param = [
             "id": GlobalClass.restaurantLoginModel.data.subId!,
-            "through": "MOBILE"
-        ]
-
+            "through": "MOBILE"]
+        
         URLhandler.postUrlSession(urlString: Constants.urls.logoutURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
@@ -118,15 +113,12 @@ extension AccountsViewController : UITableViewDelegate,UITableViewDataSource{
         case "Order History":
             let orederHistory = self.storyboard?.instantiateViewController(withIdentifier: "OrderHistoryVCID") as! OrderHistoryViewController
             self.navigationController?.pushViewController(orederHistory, animated: true)
-            break
         case "Earning Summary":
             let orederHistory = self.storyboard?.instantiateViewController(withIdentifier: "EarningSummuryVCID") as! EarningSummuryViewController
             self.navigationController?.pushViewController(orederHistory, animated: true)
-            break
         case "Table Booking History":
             let bookingHistory = self.storyboard?.instantiateViewController(withIdentifier: "TableBookingHistoryVCID") as! TableBookingHistoryViewController
             self.navigationController?.pushViewController(bookingHistory, animated: true)
-            break
         case "Manage Menu":
             if GlobalClass.restModel.data.available == 0{
                 TheGlobalPoolManager.showToastView("Please be in Online to change the Business hours")
@@ -134,15 +126,12 @@ extension AccountsViewController : UITableViewDelegate,UITableViewDataSource{
                 let settings = self.storyboard?.instantiateViewController(withIdentifier: "ManageMenuVCID") as! ManageMenuViewController
                 self.navigationController?.pushViewController(settings, animated: true)
             }
-            break
         case "Settings":
             let settings = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewControllerID") as! SettingsViewController
             self.navigationController?.pushViewController(settings, animated: true)
-            break
         case "Help & Support":
             let helpNsupport = self.storyboard?.instantiateViewController(withIdentifier: "HelpSupportVCID") as! HelpSupportViewController
             self.navigationController?.pushViewController(helpNsupport, animated: true)
-            break
         case "Logout":
             print("log out -------->>>")
             DispatchQueue.main.async {

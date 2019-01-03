@@ -79,7 +79,7 @@ class EditProfileViewController: UIViewController {
         
         self.editProfileParams = EditProfileParameters.init(id: data.object(forKey: "subId") as! String, name: nameTxt.text!, userName: ownerTxt.text!, address: addressTxt.text!, locality: localityTxt.text!, city: flotNoTxt.text!, state: landmarkTxt.text!, mobileNumber: phoneNumberTxt.text!, offerType: (self.offerTypeBtn.titleLabel?.text!)!, value: Int(targetAmtTxt.text!)!, minAmount: Int(offerAmtTxt.text!)!, MaxDiscountAmt: Int(maxOffAmtTxt.text!)!)
         
-        URLhandler.postUrlSession(urlString: Constants.urls.businessHourUrl, params: self.editProfileParams.parameters, header: [:]) { (dataResponse) in
+        URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: self.editProfileParams.parameters, header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let dict = dataResponse.dictionaryFromJson! as NSDictionary

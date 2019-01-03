@@ -24,7 +24,6 @@
 		A3BEF44A2189B33F00192E7E /* CommonNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4492189B33F00192E7E /* CommonNavigationController.swift */; };
 		A3BEF44C2189B3AE00192E7E /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3BEF44B2189B3AD00192E7E /* Media.xcassets */; };
 		A3BEF44F2189B3DF00192E7E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF44E2189B3DF00192E7E /* LoginVC.swift */; };
-		A3BEF4522189B6C400192E7E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4512189B6C400192E7E /* Utilities.swift */; };
 		A3BEF4552189B6F800192E7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4542189B6F800192E7E /* Constants.swift */; };
 		A3BEF45E2189C09A00192E7E /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF45D2189C09A00192E7E /* MenuTableViewCell.swift */; };
 		A3BEF4682189C4A100192E7E /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A3BEF4672189C49D00192E7E /* Roboto-Light.ttf */; };
@@ -139,7 +138,6 @@
 		A3BEF4492189B33F00192E7E /* CommonNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNavigationController.swift; sourceTree = "<group>"; };
 		A3BEF44B2189B3AD00192E7E /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		A3BEF44E2189B3DF00192E7E /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		A3BEF4512189B6C400192E7E /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		A3BEF4542189B6F800192E7E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A3BEF45D2189C09A00192E7E /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		A3BEF4652189C49D00192E7E /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
@@ -413,7 +411,6 @@
 			children = (
 				A3BEF6D821994B9B00192E7E /* ExtensionClass.swift */,
 				A3BEF4462189AB3B00192E7E /* Themes.swift */,
-				A3BEF4512189B6C400192E7E /* Utilities.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -801,6 +798,7 @@
 				A3BEF42A2189A3B800192E7E /* Resources */,
 				0C1B090E3D9B94DF3D20D86F /* [CP] Embed Pods Frameworks */,
 				BAAAC06ED69248749380AA32 /* [CP] Copy Pods Resources */,
+				A38A2B5321DDE0DF0084A5B2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -899,7 +897,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/EZSwiftExtensions/EZSwiftExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -932,8 +930,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		A38A2B5321DDE0DF0084A5B2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" de8a2599b02bab8fd0a70e238300a91f850b2a7a fa59ad04a4c884205ec9268a3922d3a6358c9eb50d17ad7d90da642f9041eaf6\n";
 		};
 		BAAAC06ED69248749380AA32 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -941,7 +952,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
@@ -952,7 +963,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BE9B7EB49D4CCC2A1DFF1CAD /* [CP] Check Pods Manifest.lock */ = {
@@ -1004,7 +1015,6 @@
 				A3BEF46E2189C6A100192E7E /* OrdersViewController.swift in Sources */,
 				A3BEF4D92189DCED00192E7E /* ChangePasswordViewController.swift in Sources */,
 				A365B5F121CA1DC9007A5B11 /* MXSegment.swift in Sources */,
-				A3BEF4522189B6C400192E7E /* Utilities.swift in Sources */,
 				A3BEF44A2189B33F00192E7E /* CommonNavigationController.swift in Sources */,
 				A3FDDB9F21AFD08B00524AF4 /* DateCell.swift in Sources */,
 				A3FFB13B21C0CD7700051988 /* FoodOrderModel.swift in Sources */,

@@ -38,12 +38,10 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
     var dateSelectedString = ""
     var minutesSelectedString = ""
     let dateFormatter = DateFormatter()
-    var commonUtlity:Utilities = Utilities()
     var businessHoursParams:BusinessHourParameters!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 0 ..< 10
         for i in 0..<60 {
             gradePickerValues.append(String(i))
         }
@@ -92,13 +90,13 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
     
     func validateInputs(){
         let delivaryTime = minutesBtn.titleLabel?.text
-        if Utilities().trimString(string: self.weekDayFromLbl.text!) == "" {
+        if TheGlobalPoolManager.trimString(string: self.weekDayFromLbl.text!) == "" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKDAY_START_TIME_EMPTY)
-        }else if Utilities().trimString(string: self.weekDayToLbl.text!) == "" {
+        }else if TheGlobalPoolManager.trimString(string: self.weekDayToLbl.text!) == "" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKDAY_END_TIME_EMPTY)
-        }else if Utilities().trimString(string: self.weekEndFromLbl.text!) == "" {
+        }else if TheGlobalPoolManager.trimString(string: self.weekEndFromLbl.text!) == "" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKEND_START_TIME_EMPTY)
-        }else if Utilities().trimString(string: self.weekEndToLbl.text!) == "" {
+        }else if TheGlobalPoolManager.trimString(string: self.weekEndToLbl.text!) == "" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKEND_END_TIME_EMPTY)
         }else if delivaryTime == "" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.DELIVARY_TIME_EMPTY)
@@ -112,7 +110,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         let restarentInfo = UserDefaults.standard.object(forKey: "restaurantInfo") as! NSDictionary
         let data = restarentInfo.object(forKey: "data") as! NSDictionary
         self.businessHoursParams = BusinessHourParameters.init(data.object(forKey: "subId") as! String, deliveryTime: Int(minutesSelectedString)!, weekday_startAt: weekDayFromLbl.text!, weekday_endAt: weekDayToLbl.text!, weekend_startAt: weekEndFromLbl.text!, weekend_endAt: weekEndToLbl.text!)
-        URLhandler.postUrlSession(urlString: Constants.urls.businessHourUrl, params: self.businessHoursParams.parameters, header: [:]) { (dataResponse) in
+        URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: self.businessHoursParams.parameters, header: [:]) { (dataResponse) in
             print("Response ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
@@ -143,8 +141,8 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         if dateSelectedString.count == 0 {
             dateSelectedString =  dateFormatter.string(from: datePicker.date)
         }
-        dateSelectedString = commonUtlity.removeMeridiansfromTime(string: dateSelectedString)
-        dateSelectedString = commonUtlity.trimString(string: dateSelectedString)
+        dateSelectedString = TheGlobalPoolManager.removeMeridiansfromTime(string: dateSelectedString)
+        dateSelectedString = TheGlobalPoolManager.trimString(string: dateSelectedString)
 
         if btnTag == 1 {
             weekDayFromLbl.text = dateSelectedString

@@ -15,6 +15,9 @@ import SwiftyJSON
 import Firebase
 import FirebaseMessaging
 import UserNotifications
+import Fabric
+import Crashlytics
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -24,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        Fabric.with([Crashlytics.self])
         GMSPlacesClient.provideAPIKey(googleApiKey)
         GMSServices.provideAPIKey(googleApiKey)
         IQKeyboardManager.shared.enable = true
@@ -76,27 +80,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.makeKeyAndVisible()
         }
     }
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
+    func applicationWillResignActive(_ application: UIApplication) {}
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
+    func applicationDidEnterBackground(_ application: UIApplication) {}
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
+    func applicationWillEnterForeground(_ application: UIApplication) {}
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
+    func applicationDidBecomeActive(_ application: UIApplication) {}
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
+    func applicationWillTerminate(_ application: UIApplication) {}
+    
+    //MARK:- Network Reachability Listener
     func ReachabilityListener(){
         NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: Notification.Name.reachabilityChanged,object: Reachability())
         do{
@@ -107,22 +101,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("could not start reachability notifier")
         }
     }
+    //MARK:- Network Reachability Status
     @objc func reachabilityChanged(note: NSNotification){
         let reachability = note.object as! Reachability
-        
-        if reachability.connection != .none //reachability.isReachable
-        {
+        if reachability.connection != .none {
             IsInternetconnected=true
-            
-            if reachability.connection == .wifi //reachability.isReachableViaWiFi
-            {
+            if reachability.connection == .wifi {
                 print("Reachable via WiFi")
-            } else {
+            }else {
                 print("Reachable via Cellular")
             }
-        }
-        else
-        {
+        }else{
             IsInternetconnected=false
             print("Network not reachable")
         }
@@ -134,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let param =     [
                     "id": dataS.subId,
                     "deviceInfo": ["deviceToken": token]] as  [String:AnyObject]
-                URLhandler.postUrlSession(urlString: Constants.urls.businessHourUrl, params: param, header: [:]) { (dataResponse) in
+                URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: param, header: [:]) { (dataResponse) in
                 }
             }
         }
@@ -149,15 +138,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-        // Print full message.
         print(userInfo)
-        // Change this to your preferred presentation option
         if let key = userInfo["key"] as? String{
             if key == "ORDER_NEW_RESTAURANT"{
                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
@@ -167,11 +151,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
-        // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-        // Print full message.
         print("222",userInfo)
         completionHandler()
     }

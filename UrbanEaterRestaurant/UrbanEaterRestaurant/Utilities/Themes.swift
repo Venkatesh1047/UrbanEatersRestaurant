@@ -104,7 +104,6 @@ class Themes: NSObject {
     func activityView(View:UIView){
         topMostVC()?.view.isUserInteractionEnabled = true
         spinnerView.frame=CGRect(x: View.center.x-25, y: View.center.y, width: 30, height: 30)
-        //spinnerView.backgroundColor = .restBGColor
         spinnerView.lineWidth = 3.0
         spinnerView.tintColor = .greenColor
         topMostVC()?.view.addSubview(spinnerView)
@@ -127,12 +126,9 @@ class Themes: NSObject {
     }
     func CheckNullvalue(Passed_value:Any?) -> String {
         var Param:Any?=Passed_value
-        if(Param == nil || Param is NSNull)
-        {
+        if(Param == nil || Param is NSNull){
             Param=""
-        }
-        else
-        {
+        }else{
             Param = String(describing: Passed_value!)
         }
         return Param as! String
@@ -163,5 +159,28 @@ class Themes: NSObject {
             return dateFormatter.string(from: formattedDate)
         }
         return date
+    }
+    //MARK: - Trim String
+    func trimString(string : String) -> String {
+        let trimmedString = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        return trimmedString;
+    }
+    //MARK: -  IS Valid Email Address
+    func isValidEmail(testStr:String) -> Bool{
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        let result = emailTest.evaluate(with: testStr)
+        return result
+    }
+    //MARK: -  Remove Meridians Fron Time
+    func removeMeridiansfromTime(string : String) -> String {
+        var trimmedString = ""
+        if string.range(of:"PM") != nil {
+            trimmedString = string.replacingOccurrences(of: "PM", with: "")
+        }
+        if string.range(of:"AM") != nil {
+            trimmedString = string.replacingOccurrences(of: "AM", with: "")
+        }
+        return trimmedString;
     }
 }

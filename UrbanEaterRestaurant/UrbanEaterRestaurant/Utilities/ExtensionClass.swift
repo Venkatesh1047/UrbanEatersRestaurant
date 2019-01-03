@@ -55,12 +55,10 @@ enum AppFonts {
         }
     }
 }
-
 extension UITextField{
     func placeholderColor(_ placeholder:String, color:UIColor){
         self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : color])
     }
-    
     func leftViewImage(_ image:UIImage){
         self.leftViewMode = UITextFieldViewMode.always
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
@@ -70,7 +68,6 @@ extension UITextField{
         view.addSubview(imageView)
         self.leftView = view
     }
-    
     func rightViewImage(_ image:UIImage){
         self.rightViewMode = UITextFieldViewMode.always
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
@@ -81,7 +78,6 @@ extension UITextField{
         self.rightView = view
     }
 }
-
 //MARK:- UIColor
 extension UIColor{
     static var themeColor:UIColor{
@@ -136,28 +132,24 @@ extension UIColor{
         return #colorLiteral(red: 0, green: 0.7333333333, blue: 0.3176470588, alpha: 0.5)
     }
 }
-
 extension UIFont{
     static func appFont(_ font:AppFonts, size:CGFloat) -> UIFont{
         return UIFont(name: font.fonts, size: size) ??  UIFont(name: AppFonts.Regular.fonts, size: size)!
     }
 }
-
 extension UIButton{
     func cornerRadius(_ radius:CGFloat = 5.0){
         self.layer.cornerRadius = radius
         self.layer.masksToBounds = true
     }
 }
-
 extension StringProtocol where Index == String.Index {
     func nsRange(from range: Range<Index>) -> NSRange {
         return NSRange(range, in: self)
     }
 }
-
+//MARK:- UILabel
 extension UILabel {
-    ///Find the index of character (in the attributedText) at point
     func indexOfAttributedTextCharacterAtPoint(point: CGPoint) -> Int {
         assert(self.attributedText != nil, "This method is developed for attributed string")
         let textStorage = NSTextStorage(attributedString: self.attributedText!)
@@ -172,32 +164,12 @@ extension UILabel {
         return index
     }
 }
-
+//MARK:- NSRange
 extension NSRange{
-    /**
-     Used to check textfiled condition.
-     ## Example:
-     
-     If mobile number textfiled lenght has 10 digits then need to enable button otherwise disable the button.
-     ````
-     let enableBtn = range.locAndLen >= 9
-     button.isEnabled = enableBtn
-     ````
-     */
     var locAndLen:Int{
         let location = self.location
         let length = self.length == 1 ? (location - 1) : location
         return length
-    }
-}
-
-extension UIViewController{
-    func disableKeyBoardOnTap(){
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    @objc func tapped(_ sender:UIGestureRecognizer){
-        self.view.endEditing(true)
     }
 }
 //MARK:- Getting Past 7 days
@@ -231,6 +203,7 @@ extension Date {
         return convertedDate
     }
 }
+//MARK:- UI Image
 extension UIImage{
     func imageWithInsets(insetDimen: CGFloat) -> UIImage {
         return imageWithInset(insets: UIEdgeInsets(top: insetDimen, left: insetDimen, bottom: insetDimen, right: insetDimen))
@@ -246,12 +219,14 @@ extension UIImage{
         return imageWithInsets!
     }
 }
+//MARK:- UILabel Padded
 class UILabelPadded: UILabel {
     override func drawText(in rect: CGRect) {
         let insets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10)
         super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
     }
 }
+//MARK:- UI Devices
 extension UIDevice {
     var iPhoneX: Bool {
         return UIScreen.main.nativeBounds.height == 2436

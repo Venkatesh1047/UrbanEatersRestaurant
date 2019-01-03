@@ -39,8 +39,8 @@ class ManageBookingsVC: UIViewController {
         if GlobalClass.restModel != nil && GlobalClass.restModel.data.statIdData != nil{
             let data = GlobalClass.restModel.data.statIdData!
             if GlobalClass.restModel.data.timings != nil{
-                lbl1ValuesArray = [data.order.totalOrdered!.toString,data.food.total!.toString,"\(GlobalClass.restModel.data.timings.weekDay.startAt!) to \(GlobalClass.restModel.data.timings.weekDay.endAt!)"]
-                lbl2ValuesArray = [data.order.totalAccepted!.toString,data.food.available!.toString,"\(GlobalClass.restModel.data.timings.weekEnd.startAt!) to \(GlobalClass.restModel.data.timings.weekEnd.endAt!)"]
+                lbl1ValuesArray = [data.order.totalOrdered!.toString,data.food.total!.toString,"\(GlobalClass.restModel.data.timings.weekDay.startAt!)  to  \(GlobalClass.restModel.data.timings.weekDay.endAt!)"]
+                lbl2ValuesArray = [data.order.totalAccepted!.toString,data.food.available!.toString,"\(GlobalClass.restModel.data.timings.weekEnd.startAt!)  to  \(GlobalClass.restModel.data.timings.weekEnd.endAt!)"]
                 var closingTime  = "_"
                 let today = Date()
                 let calendar = Calendar(identifier: .gregorian)

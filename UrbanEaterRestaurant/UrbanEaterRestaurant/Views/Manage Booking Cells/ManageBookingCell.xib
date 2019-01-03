@@ -58,7 +58,7 @@
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qi7-SR-qB2" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qi7-SR-qB2" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
                                                 <rect key="frame" x="90" y="0.0" width="70" height="20"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -88,7 +88,7 @@
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MqV-gX-Xea" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MqV-gX-Xea" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
                                                 <rect key="frame" x="90" y="0.0" width="70" height="20"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -109,7 +109,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Txq-As-KAg">
                                         <rect key="frame" x="0.0" y="56" width="160" height="20"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Completed:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eqx-zu-4sT">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today Closing Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eqx-zu-4sT">
                                                 <rect key="frame" x="0.0" y="0.0" width="120" height="20.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="120" id="cie-T4-RCL"/>
@@ -118,8 +118,8 @@
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0TK-qN-PaO" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
-                                                <rect key="frame" x="130" y="0.0" width="30" height="20.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0TK-qN-PaO" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
+                                                <rect key="frame" x="124" y="0.0" width="36" height="20.5"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -132,7 +132,7 @@
                                             <constraint firstAttribute="bottom" secondItem="0TK-qN-PaO" secondAttribute="bottom" id="AdZ-M2-615"/>
                                             <constraint firstItem="eqx-zu-4sT" firstAttribute="leading" secondItem="Txq-As-KAg" secondAttribute="leading" id="Bbm-kz-Gd4"/>
                                             <constraint firstItem="eqx-zu-4sT" firstAttribute="top" secondItem="Txq-As-KAg" secondAttribute="top" id="BhU-0d-8Mq"/>
-                                            <constraint firstItem="0TK-qN-PaO" firstAttribute="leading" secondItem="eqx-zu-4sT" secondAttribute="trailing" constant="10" id="eAw-pW-oyN"/>
+                                            <constraint firstItem="0TK-qN-PaO" firstAttribute="leading" secondItem="eqx-zu-4sT" secondAttribute="trailing" constant="4" id="eAw-pW-oyN"/>
                                             <constraint firstAttribute="bottom" secondItem="eqx-zu-4sT" secondAttribute="bottom" id="scV-5A-1vb"/>
                                         </constraints>
                                     </view>

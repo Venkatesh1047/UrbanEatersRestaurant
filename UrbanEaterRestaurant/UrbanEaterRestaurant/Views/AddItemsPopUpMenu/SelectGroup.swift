@@ -56,7 +56,8 @@ class SelectGroup: UIViewController {
     //MARK:- Update Recommended Items Hitting
     func updateRecommendedItemsApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["itemList": self.selectedItems]
+        let param = ["itemList": self.selectedItems,
+                               "restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
         URLhandler.postUrlSession(urlString: Constants.urls.UpdateRecommendedItems, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){

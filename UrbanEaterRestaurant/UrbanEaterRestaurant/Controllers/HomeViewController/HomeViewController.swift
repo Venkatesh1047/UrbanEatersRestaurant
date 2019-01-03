@@ -152,7 +152,7 @@ class HomeViewController: UIViewController {
                     }
                 }
                 if data?.statIdData != nil{
-                    if data?.statIdData.food.total != data?.statIdData.food.available{
+                    if data?.statIdData.food.total != data?.statIdData.food.available!{
                         TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Some items are still unavailable?", singleAction: true, okTitle: "Ok", cancelTitle: "", callback: { (success) in
                         })
                     }
@@ -174,7 +174,7 @@ class HomeViewController: UIViewController {
         let param =     [
             "id": GlobalClass.restaurantLoginModel.data.subId,
             "available": status] as  [String:AnyObject]
-        URLhandler.postUrlSession(urlString: Constants.urls.businessHourUrl, params: param, header: [:]) { (dataResponse) in
+        URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: param, header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let dict = dataResponse.dictionaryFromJson! as NSDictionary
