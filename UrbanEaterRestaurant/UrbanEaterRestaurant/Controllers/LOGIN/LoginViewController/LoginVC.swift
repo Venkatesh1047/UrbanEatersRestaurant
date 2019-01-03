@@ -13,7 +13,7 @@ class LoginVC: UIViewController{
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var passwordHideBtn: UIButton!
-    
+    @IBOutlet weak var loginBtn: UIButton!
     var mainTheme:Themes = Themes()
 
     override func viewDidLoad(){
@@ -22,11 +22,10 @@ class LoginVC: UIViewController{
     }
     //MARK:- Update UI
     func updateUI(){
-        emailTxt.text = "lunchbox@gmail.com"
-        passwordTxt.text = "Password@1234"
         emailTxt.placeholderColor("Email", color: .placeholderColor)
         passwordTxt.placeholderColor("Password", color: .placeholderColor)
         passwordHideBtn.setImage(#imageLiteral(resourceName: "NotVisible").withColor(.whiteColor), for: .normal)
+        TheGlobalPoolManager.cornerAndBorder(loginBtn, cornerRadius: 8, borderWidth: 0, borderColor: .clear)
     }
     @objc func movoToHome() {
         (UIApplication.shared.delegate as! AppDelegate).SetInitialViewController()

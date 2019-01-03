@@ -17,6 +17,8 @@ import FirebaseMessaging
 import UserNotifications
 import Fabric
 import Crashlytics
+import AVFoundation
+import EZSwiftExtensions
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var IsInternetconnected:Bool=Bool()
     let googleApiKey = "AIzaSyAufQUMZP7qdjtOcGIuNFRSL-8uU6uuvGY"
     let gcmMessageIDKey = "gcm.message_id"
+    var player = AVAudioPlayer()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         Fabric.with([Crashlytics.self])
@@ -86,7 +90,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {}
 
-    func applicationDidBecomeActive(_ application: UIApplication) {}
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        print("Heloooo......")
+        NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
+    }
 
     func applicationWillTerminate(_ application: UIApplication) {}
     
@@ -144,7 +151,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
         print(userInfo)
         if let key = userInfo["key"] as? String{
             if key == "ORDER_NEW_RESTAURANT"{
+                self.playSound()
                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
+                ez.runThisAfterDelay(seconds: 3) {
+                    self.player.stop()
+                }
             }
         }
         completionHandler([])
@@ -165,5 +176,16 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
         self.updateDeviceToken(token: fcmToken)
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+    }
+    func playSound(){
+        let path = Bundle.main.path(forResource: "Sound", ofType : "mp3")!
+        let url = URL(fileURLWithPath : path)
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player.numberOfLoops = 0
+            player.play()
+        } catch {
+            print ("There is an issue with this code!")
+        }
     }
 }

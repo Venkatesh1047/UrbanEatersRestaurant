@@ -45,8 +45,13 @@ class HomeOnlineOptionsView: UIViewController {
     @objc func methodOfReceivedNotification1(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
         self.restaurantAllOrdersApiHitting(true)
+        if GlobalClass.restaurantAllOrdersModel != nil{
+            if GlobalClass.restaurantAllOrdersModel.new.count == 0{
+            }
+        }
     }
     @objc func methodOfReceivedNotification2(notification: Notification){
+        print("Helooo its in active now......")
         self.restaurantAllOrdersApiHitting(true)
     }
     @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {

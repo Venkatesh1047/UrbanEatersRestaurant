@@ -233,6 +233,7 @@
                     <navigationItem key="navigationItem" id="REr-oM-4aQ"/>
                     <connections>
                         <outlet property="emailTxt" destination="4uC-Rs-T8u" id="qNY-fN-4Ga"/>
+                        <outlet property="loginBtn" destination="qMc-j2-4fQ" id="8F2-rc-0iv"/>
                         <outlet property="mainView" destination="0xb-Nr-s5t" id="JIa-ox-2s4"/>
                         <outlet property="passwordHideBtn" destination="Guo-Ve-QMy" id="D6U-SU-S9p"/>
                         <outlet property="passwordTxt" destination="j66-MT-Usi" id="iql-7E-nyg"/>

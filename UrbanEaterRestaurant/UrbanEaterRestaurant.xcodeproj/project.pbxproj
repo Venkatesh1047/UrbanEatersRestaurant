@@ -15,7 +15,7 @@
 		A365B5F021CA1DC9007A5B11 /* MXSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EB21CA1DC9007A5B11 /* MXSegmentedControl.swift */; };
 		A365B5F121CA1DC9007A5B11 /* MXSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */; };
 		A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A365B5EE21CA1DC9007A5B11 /* Info.plist */; };
-		A3797DE521D7501600AEF0FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3797DE421D7501600AEF0FE /* GoogleService-Info.plist */; };
+		A38A2B5621DE13F60084A5B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */; };
 		A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF42F2189A3B800192E7E /* AppDelegate.swift */; };
 		A3BEF4322189A3B800192E7E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4312189A3B800192E7E /* ViewController.swift */; };
 		A3BEF4352189A3B800192E7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BEF4332189A3B800192E7E /* Main.storyboard */; };
@@ -63,6 +63,7 @@
 		A3BEF613218D8BDD00192E7E /* URLhandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF612218D8BDD00192E7E /* URLhandler.swift */; };
 		A3BEF6D72194378900192E7E /* NewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3BEF6D62194378900192E7E /* NewAssets.xcassets */; };
 		A3BEF6D921994B9B00192E7E /* ExtensionClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF6D821994B9B00192E7E /* ExtensionClass.swift */; };
+		A3D9C9FC21DE3AE100A8C9DE /* Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A3D9C9FB21DE3AE000A8C9DE /* Sound.mp3 */; };
 		A3ED957721C227AB008B17C5 /* RestaurantAllOrdersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3ED957621C227AB008B17C5 /* RestaurantAllOrdersModel.swift */; };
 		A3EF7BED21B5221300C9F9CE /* OrderHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EF7BEB21B5221300C9F9CE /* OrderHistoryTableViewCell.swift */; };
 		A3EF7BEE21B5221300C9F9CE /* OrderHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3EF7BEC21B5221300C9F9CE /* OrderHistoryTableViewCell.xib */; };
@@ -127,7 +128,7 @@
 		A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXSegment.swift; sourceTree = "<group>"; };
 		A365B5ED21CA1DC9007A5B11 /* MXSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSegmentedControl.h; sourceTree = "<group>"; };
 		A365B5EE21CA1DC9007A5B11 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A3797DE421D7501600AEF0FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A3BEF42C2189A3B800192E7E /* UrbanEaterRestaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrbanEaterRestaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BEF42F2189A3B800192E7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3BEF4312189A3B800192E7E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -180,6 +181,7 @@
 		A3BEF612218D8BDD00192E7E /* URLhandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLhandler.swift; sourceTree = "<group>"; };
 		A3BEF6D62194378900192E7E /* NewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NewAssets.xcassets; sourceTree = "<group>"; };
 		A3BEF6D821994B9B00192E7E /* ExtensionClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionClass.swift; sourceTree = "<group>"; };
+		A3D9C9FB21DE3AE000A8C9DE /* Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sound.mp3; sourceTree = "<group>"; };
 		A3ED957621C227AB008B17C5 /* RestaurantAllOrdersModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantAllOrdersModel.swift; sourceTree = "<group>"; };
 		A3EF7BEB21B5221300C9F9CE /* OrderHistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		A3EF7BEC21B5221300C9F9CE /* OrderHistoryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderHistoryTableViewCell.xib; sourceTree = "<group>"; };
@@ -306,7 +308,7 @@
 				A3BEF4D02189D93900192E7E /* UrbanEaterRestaurant-Bridging-Header.h */,
 				A3BEF4382189A3B900192E7E /* LaunchScreen.storyboard */,
 				A3BEF43B2189A3B900192E7E /* Info.plist */,
-				A3797DE421D7501600AEF0FE /* GoogleService-Info.plist */,
+				A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */,
 			);
 			path = UrbanEaterRestaurant;
 			sourceTree = "<group>";
@@ -332,6 +334,7 @@
 		A3BEF4422189A93F00192E7E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A3D9C9FB21DE3AE000A8C9DE /* Sound.mp3 */,
 				A3BEF4642189C49000192E7E /* Font */,
 			);
 			path = Resources;
@@ -860,6 +863,7 @@
 				A3F7859E21B66A140031F1A6 /* NewTableCell.xib in Resources */,
 				A3F785B021B6A29D0031F1A6 /* CompletedTableCell.xib in Resources */,
 				A3BEF4A72189D51000192E7E /* EditCatagoryTableViewCell.xib in Resources */,
+				A38A2B5621DE13F60084A5B2 /* GoogleService-Info.plist in Resources */,
 				A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */,
 				A3BEF4BF2189D5CA00192E7E /* SelectGroupCell.xib in Resources */,
 				A3F7AF6421DB46B80004BAF7 /* CompletedItemsPopUp.xib in Resources */,
@@ -878,9 +882,9 @@
 				A3F2AF9421BA79DD00A9379A /* ItemsDetailView.xib in Resources */,
 				A3BEF4B62189D57800192E7E /* RecommendedTableViewCell.xib in Resources */,
 				A3FDDB9821AE67CE00524AF4 /* EarningsSeeAllACollectionViewCell.xib in Resources */,
-				A3797DE521D7501600AEF0FE /* GoogleService-Info.plist in Resources */,
 				A3F7859621B648B60031F1A6 /* NewFoodCell.xib in Resources */,
 				A3BEF4AE2189D54A00192E7E /* FoodItemsTableViewCell1.xib in Resources */,
+				A3D9C9FC21DE3AE100A8C9DE /* Sound.mp3 in Resources */,
 				A3F3872321CCEF7E002122BC /* PreparationTimeView.xib in Resources */,
 				A3FDDB9421AE67A000524AF4 /* EarningsCollectionViewCell.xib in Resources */,
 				A3F785A321B68FD70031F1A6 /* ScheduleFoodCell.xib in Resources */,

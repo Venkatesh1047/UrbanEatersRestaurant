@@ -115,10 +115,6 @@ class OrdersViewController: UIViewController {
         }
         self.foodOrderApiHitting(false)
         self.tableOrderApiHitting(false)
-//        ez.runThisEvery(seconds: 5.0, startAfterSeconds: 5.0) { (timer) in
-//            self.foodOrderApiHitting(true)
-//            self.tableOrderApiHitting(true)
-//        }
     }
     //MARK:- SelectionView
     @objc func selectedSegment(_ sender:MXSegmentedControl){
@@ -131,12 +127,10 @@ class OrdersViewController: UIViewController {
             break
         case 1:
             // Scheduled ....
-            //self.newCountLbl.isHidden = false
             tableView.reloadData()
             break
         case 2:
             // Completed ....
-            //self.newCountLbl.isHidden = false
             tableView.reloadData()
             break
         default:
