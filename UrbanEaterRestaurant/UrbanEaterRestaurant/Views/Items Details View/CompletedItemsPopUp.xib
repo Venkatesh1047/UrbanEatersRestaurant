@@ -72,7 +72,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Driver Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tMk-WS-CNR">
                             <rect key="frame" x="15" y="64" width="150" height="16.5"/>
                             <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
-                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textColor" red="0.25098039220000001" green="0.2901960784" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID:456256" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6dO-EX-VOa">
@@ -91,11 +91,8 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="6l2-Bk-oa9">
-                            <rect key="frame" x="15" y="120" width="270" height="100"/>
+                            <rect key="frame" x="15" y="120" width="270" height="90"/>
                             <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="100" id="hfs-Fj-cg1"/>
-                            </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Y4z-fe-MFL">
                                 <size key="itemSize" width="50" height="50"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -109,6 +106,7 @@
                         <constraint firstItem="OAm-mS-e6J" firstAttribute="top" secondItem="XkD-HL-4n0" secondAttribute="top" constant="30" id="0hY-g9-QLH"/>
                         <constraint firstItem="C1J-mC-vy7" firstAttribute="centerX" secondItem="XkD-HL-4n0" secondAttribute="centerX" id="54G-KK-FIG"/>
                         <constraint firstItem="6F8-c7-f3E" firstAttribute="top" secondItem="tMk-WS-CNR" secondAttribute="bottom" constant="15" id="8ON-iH-MZ9"/>
+                        <constraint firstAttribute="bottom" secondItem="6l2-Bk-oa9" secondAttribute="bottom" constant="20" id="ADa-vX-Aft"/>
                         <constraint firstItem="tMk-WS-CNR" firstAttribute="top" secondItem="C1J-mC-vy7" secondAttribute="bottom" constant="8" id="CVi-8j-RQe"/>
                         <constraint firstItem="6dO-EX-VOa" firstAttribute="trailing" secondItem="Z7z-tN-dXZ" secondAttribute="trailing" id="N2K-Zj-240"/>
                         <constraint firstItem="tMk-WS-CNR" firstAttribute="leading" secondItem="BsL-ad-IiY" secondAttribute="leading" id="QeZ-qr-340"/>

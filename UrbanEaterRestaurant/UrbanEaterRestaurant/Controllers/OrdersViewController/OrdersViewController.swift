@@ -49,6 +49,9 @@ class OrdersViewController: UIViewController {
         }
          self.updateUI()
      }
+    override func viewWillAppear(_ animated: Bool) {
+        self.selectionView.select(index: 0, animated: true)
+    }
     @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {
         if self.searchActive || self.clearBtn.image == #imageLiteral(resourceName: "Cancelled").withColor(.greyColor){
             self.clearBtn.image = #imageLiteral(resourceName: "Search")
@@ -85,6 +88,12 @@ class OrdersViewController: UIViewController {
     func managePreparationTimePopUpView(_ orderID : String){
         let viewCon = PreparationTimeView(nibName: "PreparationTimeView", bundle: nil)
         viewCon.orderID = orderID
+        self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
+    }
+    //MARK: - Table Reedemed Pop Up
+    func tableReedeemedPopUpView(_ schedule:TableOrderData){
+        let viewCon = TableAcceptedView(nibName: "TableAcceptedView", bundle: nil)
+        viewCon.schedule = schedule
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
     @IBAction func backBtn(_ sender: UIButton) {
@@ -338,6 +347,9 @@ extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
             if self.isFoodSelectedFlag{
                 let schedule = self.dummyFoodOrderModel.scheduled[indexPath.row]
                 self.itemsDetailsPopUpView(schedule)
+            }else{
+                let schedule = self.dummyTableOrderModel.scheduled[indexPath.row]
+                self.tableReedeemedPopUpView(schedule)
             }
         }else if selectionView.selectedIndex == 2{
             if self.isFoodSelectedFlag{
@@ -387,6 +399,7 @@ extension OrdersViewController : UICollectionViewDelegate,UICollectionViewDataSo
         }
        cell.itemsLbl.text = "✕\(data.quantity!.toString)"
        cell.nameLbl.text = data.name!
+       cell.priceLbl.text = "₹ \(data.finalPrice!.toString)"
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -404,13 +417,22 @@ extension OrdersViewController{
             cell.collectionView.tag = indexPath.row
             cell.collectionView.delegate = self
             cell.collectionView.dataSource = self
+            cell.collectionView.reloadData()
             cell.acceptBtn.tag = indexPath.row
             cell.rejectBtn.tag = indexPath.row
             cell.acceptBtn.addTarget(self, action: #selector(self.acceptBtnMethod(_:)), for: .touchUpInside)
             cell.rejectBtn.addTarget(self, action: #selector(self.rejectBtnMethod(_:)), for: .touchUpInside)
             let data = self.dummyFoodOrderModel.new[indexPath.row]
             cell.orderIdLbl.text = "Order ID: \(data.order[0].subOrderId!)"
-            
+            if data.history != nil{
+                if data.history.orderedAt != ""{
+                    cell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForOnlyTime(data.history.orderedAt!)
+                }else{
+                    cell.dateLbl.text = ""
+                }
+            }else{
+                cell.dateLbl.text = ""
+            }
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "NewTableCell") as! NewTableCell
@@ -436,8 +458,17 @@ extension OrdersViewController{
             cell.statusLbl.isHidden =  true
             let data = self.dummyFoodOrderModel.scheduled[indexPath.row]
             cell.orderLbl.text = "Order ID: \(data.order[0].subOrderId!)"
-            cell.noOfItemsLbl.text = data.items.count.toString
-            cell.totalCostLbl.text = "₹ \(data.order[0].billing.orderTotal!.toString)"
+            cell.noOfItemsLbl.text = "No of Items : \(data.items.count.toString)"
+            cell.totalCostLbl.text = "Total Cost: ₹ \(data.order[0].billing.orderTotal!.toString)"
+            if data.history != nil{
+                if data.history.orderedAt != ""{
+                    cell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForOnlyTime(data.history.orderedAt!)
+                }else{
+                    cell.dateLbl.text = ""
+                }
+            }else{
+                cell.dateLbl.text = ""
+            }
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduledTableCell") as! ScheduledTableCell
@@ -459,8 +490,8 @@ extension OrdersViewController{
             cell.statusLbl.isHidden =  false
             let data = self.dummyFoodOrderModel.completed[indexPath.row]
             cell.orderLbl.text = "Order ID: \(data.order[0].subOrderId!)"
-            cell.noOfItemsLbl.text = data.items.count.toString
-            cell.totalCostLbl.text = "₹ \(data.order[0].billing.orderTotal!.toString)"
+            cell.noOfItemsLbl.text = "No of Items : \(data.items.count.toString)"
+            cell.totalCostLbl.text = "Total Cost: ₹ \(data.order[0].billing.orderTotal!.toString)"
             let status = GlobalClass.returnStatus(data.order[0].status!)
             cell.statusLbl.text = status.0
             cell.statusLbl.backgroundColor = status.1
@@ -473,7 +504,7 @@ extension OrdersViewController{
             cell.timeLbl.text = data.startTime!
             cell.personsLbl.text = data.personCount!.toString
             cell.nameLbl.text = data.contact.name!
-            let status = GlobalClass.returnStatus(data.status!)
+            let status = GlobalClass.returnTableStatus(data.status!)
             cell.redeemedStatusLbl.text = status.0
             cell.redeemedStatusLbl.textColor = status.1
             return cell

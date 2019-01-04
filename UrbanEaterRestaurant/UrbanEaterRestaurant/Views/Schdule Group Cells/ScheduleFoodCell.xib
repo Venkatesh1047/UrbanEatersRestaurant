@@ -54,29 +54,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Of Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gma-Ea-sXB">
-                                <rect key="frame" x="98" y="55.5" width="75" height="16.5"/>
+                                <rect key="frame" x="98" y="55.5" width="136" height="16.5"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Cost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uka-OJ-Wnx">
-                                <rect key="frame" x="98" y="82" width="75" height="16.5"/>
+                                <rect key="frame" x="98" y="82" width="136" height="16.5"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="03" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vby-4X-l2V" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
-                                <rect key="frame" x="228" y="55.5" width="80" height="16.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="0zD-iV-rcQ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="₹ 500" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cG6-hT-KVY" customClass="UILabelPadded" customModule="UrbanEaterRestaurant" customModuleProvider="target">
-                                <rect key="frame" x="228" y="82" width="80" height="16.5"/>
-                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -91,26 +76,33 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="03-01-2019 02:30 PM" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HF9-B6-5xY">
+                                <rect key="frame" x="242" y="55.5" width="70" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="hfg-rR-dlR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="12"/>
+                                <color key="textColor" red="0.28235294119999998" green="0.70588235290000001" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="HF9-B6-5xY" firstAttribute="bottom" secondItem="Uka-OJ-Wnx" secondAttribute="bottom" id="1o8-UM-rvd"/>
                             <constraint firstItem="Gma-Ea-sXB" firstAttribute="leading" secondItem="wyY-F2-83T" secondAttribute="leading" id="6b2-7X-zEJ"/>
-                            <constraint firstItem="cG6-hT-KVY" firstAttribute="centerY" secondItem="Uka-OJ-Wnx" secondAttribute="centerY" id="9SN-iW-cZ6"/>
                             <constraint firstItem="QXp-O8-abC" firstAttribute="leading" secondItem="Aeb-hT-WCo" secondAttribute="leading" id="9Tg-DH-2td"/>
-                            <constraint firstItem="vby-4X-l2V" firstAttribute="centerY" secondItem="Gma-Ea-sXB" secondAttribute="centerY" id="AZ7-q2-CXJ"/>
-                            <constraint firstAttribute="trailing" secondItem="vby-4X-l2V" secondAttribute="trailing" constant="12" id="Bmq-jL-LN5"/>
+                            <constraint firstItem="HF9-B6-5xY" firstAttribute="top" secondItem="Gma-Ea-sXB" secondAttribute="top" id="ET3-Yx-nq4"/>
                             <constraint firstItem="Uka-OJ-Wnx" firstAttribute="leading" secondItem="Gma-Ea-sXB" secondAttribute="leading" id="HJG-B0-eaX"/>
-                            <constraint firstItem="cG6-hT-KVY" firstAttribute="trailing" secondItem="vby-4X-l2V" secondAttribute="trailing" id="J9F-Sj-7O5"/>
+                            <constraint firstItem="Uka-OJ-Wnx" firstAttribute="width" secondItem="Gma-Ea-sXB" secondAttribute="width" id="I3k-i6-lN6"/>
                             <constraint firstItem="b4l-Qo-JOx" firstAttribute="top" secondItem="wyY-F2-83T" secondAttribute="bottom" constant="4" id="M9z-tQ-0Yv"/>
-                            <constraint firstItem="cG6-hT-KVY" firstAttribute="centerX" secondItem="vby-4X-l2V" secondAttribute="centerX" id="QUy-hm-o6R"/>
+                            <constraint firstAttribute="trailing" secondItem="HF9-B6-5xY" secondAttribute="trailing" constant="8" id="O0V-hU-OfW"/>
                             <constraint firstItem="920-K5-RDa" firstAttribute="top" secondItem="Aeb-hT-WCo" secondAttribute="top" id="Qta-28-icf"/>
                             <constraint firstItem="Uka-OJ-Wnx" firstAttribute="centerX" secondItem="Gma-Ea-sXB" secondAttribute="centerX" id="T8h-0q-NYL"/>
+                            <constraint firstItem="HF9-B6-5xY" firstAttribute="leading" secondItem="Gma-Ea-sXB" secondAttribute="trailing" constant="8" id="Ymv-5O-BrT"/>
                             <constraint firstItem="wyY-F2-83T" firstAttribute="leading" secondItem="QXp-O8-abC" secondAttribute="trailing" constant="8" id="ZpC-mV-q4e"/>
                             <constraint firstItem="wyY-F2-83T" firstAttribute="top" secondItem="QXp-O8-abC" secondAttribute="top" constant="8" id="aCH-lh-YQ3"/>
-                            <constraint firstItem="cG6-hT-KVY" firstAttribute="width" secondItem="vby-4X-l2V" secondAttribute="width" id="bVy-Hw-mRW"/>
                             <constraint firstAttribute="trailing" secondItem="920-K5-RDa" secondAttribute="trailing" id="brZ-gJ-1nU"/>
                             <constraint firstAttribute="trailing" secondItem="wyY-F2-83T" secondAttribute="trailing" constant="8" id="dJA-1n-ZKL"/>
-                            <constraint firstItem="Uka-OJ-Wnx" firstAttribute="width" secondItem="Gma-Ea-sXB" secondAttribute="width" id="de3-hv-Clm"/>
                             <constraint firstItem="Gma-Ea-sXB" firstAttribute="top" secondItem="b4l-Qo-JOx" secondAttribute="bottom" constant="8" id="gpW-Qv-wwg"/>
                             <constraint firstItem="Uka-OJ-Wnx" firstAttribute="top" secondItem="Gma-Ea-sXB" secondAttribute="bottom" constant="10" id="i1p-MQ-Zfx"/>
                             <constraint firstItem="b4l-Qo-JOx" firstAttribute="centerX" secondItem="wyY-F2-83T" secondAttribute="centerX" id="vWS-go-ylV"/>
@@ -127,13 +119,14 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="dateLbl" destination="HF9-B6-5xY" id="MmZ-b4-2fg"/>
                 <outlet property="imgView" destination="QXp-O8-abC" id="Wjf-P9-3ay"/>
-                <outlet property="noOfItemsLbl" destination="vby-4X-l2V" id="W4a-bE-hwz"/>
+                <outlet property="noOfItemsLbl" destination="Gma-Ea-sXB" id="uKi-JJ-pnW"/>
                 <outlet property="orderLbl" destination="wyY-F2-83T" id="E0S-P9-Iff"/>
                 <outlet property="statusLbl" destination="920-K5-RDa" id="wmE-zF-j1Y"/>
-                <outlet property="totalCostLbl" destination="cG6-hT-KVY" id="2cA-4I-uuf"/>
+                <outlet property="totalCostLbl" destination="Uka-OJ-Wnx" id="5bR-Zc-BvW"/>
             </connections>
-            <point key="canvasLocation" x="34" y="53.5"/>
+            <point key="canvasLocation" x="34" y="53"/>
         </tableViewCell>
     </objects>
     <resources>

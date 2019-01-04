@@ -13,6 +13,7 @@ class NewFoodItemsCell: UICollectionViewCell {
     @IBOutlet weak var foodImgView: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var itemsLbl: UILabel!
+    @IBOutlet weak var priceLbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

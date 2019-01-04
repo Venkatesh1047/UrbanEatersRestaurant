@@ -28,6 +28,7 @@ class Constants{
         static let getTableOrdersURL                               = "\(BaseUrl)order-table/by-restaurant"
         static let restaurantAllOrdersURL                        = "\(BaseUrl)restaurant/all/orders"
         static let FoodOrderUpdateReqURL                   = "\(BaseUrl)order/update/by-res-id"
+        static let TableUpdateByResID                             = "\(BaseUrl)order-table/update/by-res-id"
         static let TableOrderUpdatetReqURL                 = "\(BaseUrl)order-table/update/by-res-id"
         static let ForgotPassword                                      = "\(BaseUrl)restaurant/forgot-password"
         static let UpdateNewPassword                            = "\(BaseUrl)restaurant/change-password"

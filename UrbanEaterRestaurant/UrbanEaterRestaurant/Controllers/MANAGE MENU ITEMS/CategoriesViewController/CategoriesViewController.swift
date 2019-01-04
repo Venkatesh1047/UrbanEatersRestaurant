@@ -78,7 +78,9 @@ extension CategoriesViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "FoodItemsTableViewCell") as! FoodItemsTableViewCell
         let data = GlobalClass.manageCategoriesModel.data[indexPath.row]
-        cell.expandBtn.isHidden = true
+        //cell.expandBtn.isHidden = true
+        cell.expandBtn.setImage(#imageLiteral(resourceName: "Visible").withColor(.secondaryBGColor), for: .normal)
+        cell.expandBtn.imageEdgeInsets = UIEdgeInsets.init(top: 6, left: 6, bottom: 6, right: 6)
         cell.headerNameLbl.text = data.name!
         cell.selectionStyle = .none
         return cell
@@ -87,7 +89,7 @@ extension CategoriesViewController : UITableViewDelegate,UITableViewDataSource{
         return 50
     }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return false
     }
     func tableView(_ tableView: UITableView, commit editingStyle:  UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete{

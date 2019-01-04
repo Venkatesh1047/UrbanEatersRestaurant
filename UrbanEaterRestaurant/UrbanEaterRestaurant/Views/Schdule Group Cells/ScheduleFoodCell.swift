@@ -15,6 +15,7 @@ class ScheduleFoodCell: UITableViewCell {
     @IBOutlet weak var statusLbl: UILabelPadded!
     @IBOutlet weak var noOfItemsLbl: UILabel!
     @IBOutlet weak var totalCostLbl: UILabel!
+    @IBOutlet weak var dateLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

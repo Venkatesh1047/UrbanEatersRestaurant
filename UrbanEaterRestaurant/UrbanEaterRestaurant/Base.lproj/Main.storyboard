@@ -156,7 +156,6 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O7r-8o-ZMP">
                                                         <rect key="frame" x="87" y="168" width="200" height="35"/>
-                                                        <color key="backgroundColor" red="0.25098039220000001" green="0.2901960784" blue="0.40784313729999999" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="200" id="7wH-ri-7W6"/>
                                                             <constraint firstAttribute="height" constant="35" id="Ess-YC-6dZ"/>
@@ -575,6 +574,12 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data Available..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HNh-Hl-1ck">
+                                <rect key="frame" x="117.99999999999999" y="396.33333333333331" width="138.66666666666663" height="19"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="16"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -582,6 +587,8 @@
                             <constraint firstItem="h7q-R3-ash" firstAttribute="trailing" secondItem="rK7-vN-zeu" secondAttribute="trailing" id="2MX-LQ-U9Z"/>
                             <constraint firstItem="rK7-vN-zeu" firstAttribute="leading" secondItem="3op-tr-YFG" secondAttribute="leading" id="D5b-sa-dza"/>
                             <constraint firstItem="POp-nD-pfT" firstAttribute="top" secondItem="rK7-vN-zeu" secondAttribute="bottom" id="N8d-C2-KxN"/>
+                            <constraint firstItem="HNh-Hl-1ck" firstAttribute="centerX" secondItem="3op-tr-YFG" secondAttribute="centerX" id="OcT-K6-sTK"/>
+                            <constraint firstItem="HNh-Hl-1ck" firstAttribute="centerY" secondItem="3op-tr-YFG" secondAttribute="centerY" id="fsq-ZN-t66"/>
                             <constraint firstItem="h7q-R3-ash" firstAttribute="trailing" secondItem="POp-nD-pfT" secondAttribute="trailing" id="oN9-Z4-mek"/>
                             <constraint firstItem="POp-nD-pfT" firstAttribute="leading" secondItem="h7q-R3-ash" secondAttribute="leading" id="r6o-u5-BHo"/>
                             <constraint firstItem="h7q-R3-ash" firstAttribute="bottom" secondItem="POp-nD-pfT" secondAttribute="bottom" id="u0t-Y2-rF9"/>
@@ -592,6 +599,7 @@
                     <connections>
                         <outlet property="clearAllBtn" destination="Nu1-dO-i3z" id="NaO-hE-xLs"/>
                         <outlet property="newsTbl" destination="POp-nD-pfT" id="XWy-B8-eBN"/>
+                        <outlet property="statusLbl" destination="HNh-Hl-1ck" id="WnB-y0-cht"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Qt-ke-fVZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -690,10 +698,10 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                                     <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="4.1" image="Star"/>
+                                                    <state key="normal" title="0.0" image="Star"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="kritunga restaurant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6I-G5-EjY">
-                                                    <rect key="frame" x="12" y="15" width="281" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6I-G5-EjY">
+                                                    <rect key="frame" x="12" y="25" width="281" height="0.0"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="17"/>
                                                     <color key="textColor" red="0.95294117649999999" green="0.75294117650000003" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>

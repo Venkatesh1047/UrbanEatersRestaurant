@@ -38,6 +38,9 @@ class HomeOnlineOptionsView: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification1(notification:)), name: Notification.Name("FoodAccepted"), object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification2(notification:)), name: Notification.Name("OrderReceived"), object: nil)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.selectionView.select(index: 0, animated: true)
+    }
     @objc func methodOfReceivedNotification(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
         self.restaurantAllOrdersApiHitting(true)
@@ -47,6 +50,7 @@ class HomeOnlineOptionsView: UIViewController {
         self.restaurantAllOrdersApiHitting(true)
         if GlobalClass.restaurantAllOrdersModel != nil{
             if GlobalClass.restaurantAllOrdersModel.new.count == 0{
+                // Need to write logic....
             }
         }
     }
@@ -189,6 +193,13 @@ class HomeOnlineOptionsView: UIViewController {
         viewCon.orderID = orderID
         self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
+    //MARK: - Table Reedemed Pop Up
+    func tableReedeemedPopUpView(_ schedule:RestaurantAllOrdersData){
+        let viewCon = TableAcceptedView(nibName: "TableAcceptedView", bundle: nil)
+        viewCon.scheduledFromHome = schedule
+        viewCon.isComingFromHome = true
+        self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
+    }
     //MARK:- Accept Button method
     @objc func acceptBtnMethod(_ btn : UIButton){
         let data = self.dummyRestaurantAllOrdersModel.new[btn.tag]
@@ -246,6 +257,9 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
             if !data.isOrderTable{
                 let schedule = self.dummyRestaurantAllOrdersModel.scheduled[indexPath.row]
                 self.itemsDetailsPopUpView(schedule)
+            }else{
+                let schedule = self.dummyRestaurantAllOrdersModel.scheduled[indexPath.row]
+                self.tableReedeemedPopUpView(schedule)
             }
         }else if selectionView.selectedIndex == 2{
             let data = self.dummyRestaurantAllOrdersModel.completed[indexPath.row]
@@ -260,6 +274,9 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
         case 0:
             let data = self.dummyRestaurantAllOrdersModel.new[indexPath.row]
             if !data.isOrderTable{
+                if data.items.count > 3{
+                    return CGFloat(135 + Int(data.items.count * 30))
+                }
                 return 200
             }
             return 160
@@ -296,6 +313,7 @@ extension HomeOnlineOptionsView : UICollectionViewDelegate,UICollectionViewDataS
         }
         cell.itemsLbl.text = "✕\(data.quantity!.toString)"
         cell.nameLbl.text = data.name!
+        cell.priceLbl.text = "₹ \(data.finalPrice!.toString)"
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -318,7 +336,17 @@ extension HomeOnlineOptionsView{
             cell.collectionView.tag = indexPath.row
             cell.collectionView.delegate = self
             cell.collectionView.dataSource = self
+            cell.collectionView.reloadData()
             cell.orderIdLbl.text = "Order ID: \(data.order[0].subOrderId!)"
+            if data.history != nil{
+                if data.history.orderedAt != ""{
+                    cell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForOnlyTime(data.history.orderedAt!)
+                }else{
+                    cell.dateLbl.text = ""
+                }
+            }else{
+                cell.dateLbl.text = ""
+            }
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewTableCell") as! NewTableCell
@@ -339,8 +367,17 @@ extension HomeOnlineOptionsView{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleFoodCell") as! ScheduleFoodCell
             cell.statusLbl.isHidden = true
             cell.orderLbl.text = "Order ID: \(data.order[0].subOrderId!)"
-            cell.noOfItemsLbl.text = data.items.count.toString
-            cell.totalCostLbl.text = "₹ \(data.order[0].billing.orderTotal!.toString)"
+            cell.noOfItemsLbl.text = "No of Items :  \(data.items.count.toString)"
+            cell.totalCostLbl.text   = "Total Cost:  ₹ \(data.order[0].billing.orderTotal!.toString)"
+            if data.history != nil{
+                if data.history.orderedAt != ""{
+                    cell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForOnlyTime(data.history.orderedAt!)
+                }else{
+                    cell.dateLbl.text = ""
+                }
+            }else{
+                cell.dateLbl.text = ""
+            }
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduledTableCell") as! ScheduledTableCell
@@ -358,8 +395,8 @@ extension HomeOnlineOptionsView{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleFoodCell") as! ScheduleFoodCell
             cell.statusLbl.isHidden = false
             cell.orderLbl.text = "Order ID: \(data.order[0].subOrderId!)"
-            cell.noOfItemsLbl.text = data.items.count.toString
-            cell.totalCostLbl.text = "₹ \(data.order[0].billing.orderTotal!.toString)"
+            cell.noOfItemsLbl.text = "No of Items :  \(data.items.count.toString)"
+            cell.totalCostLbl.text = "Total Cost:  ₹ \(data.order[0].billing.orderTotal!.toString)"
             let status = GlobalClass.returnStatus(data.order[0].status!)
             cell.statusLbl.text = status.0
             cell.statusLbl.backgroundColor = status.1
@@ -371,7 +408,7 @@ extension HomeOnlineOptionsView{
         cell.timeLbl.text = data.startTime!
         cell.personsLbl.text = data.personCount!.toString
         cell.nameLbl.text = data.contact.name!
-        let status = GlobalClass.returnStatus(data.status!)
+        let status = GlobalClass.returnTableStatus(data.status!)
         cell.redeemedStatusLbl.text = status.0
         cell.redeemedStatusLbl.textColor = status.1
         return cell

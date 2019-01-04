@@ -36,7 +36,7 @@ class RestaurantAllOrdersModel{
             if value.isOrderTable {
                 if value.status == 1{
                     self.new.append(value)
-                }else if value.status >= 2 && value.status < 5{
+                }else if value.status == 2 {
                     self.scheduled.append(value)
                 }else {
                     self.completed.append(value)
@@ -172,6 +172,7 @@ class RestaurantAllOrdersData{
     var customerId : String!
     var discounts : RestaurantAllOrdersDiscount!
     var driverId : String!
+    var driverIdData : RestaurantAllOrdersDriverIdData!
     var history : RestaurantAllOrdersHistory!
     var id : String!
     var isOrderTable : Bool!
@@ -227,6 +228,10 @@ class RestaurantAllOrdersData{
             discounts = RestaurantAllOrdersDiscount(fromJson: discountsJson)
         }
         driverId = json["driverId"].string ?? ""
+        let driverIdDataJson = json["driverIdData"]
+        if !driverIdDataJson.isEmpty{
+            driverIdData = RestaurantAllOrdersDriverIdData(fromJson: driverIdDataJson)
+        }
         let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
         if !historyJson.isEmpty{
             history = RestaurantAllOrdersHistory(fromJson: historyJson)
@@ -303,13 +308,25 @@ class RestaurantAllOrdersDiscount{
 
 class RestaurantAllOrdersHistory{
     
+    var allocatedAt : String!
+    var deliveredAt : String!
     var orderedAt : String!
+    var pickedAt : String!
+    var reachedAt : String!
+    var rejectedAt : String!
+    var acceptedAt : String!
     
     init(fromJson json: JSON!){
         if json.isEmpty{
             return
         }
+        allocatedAt = json["allocatedAt"].string ?? ""
+        deliveredAt = json["deliveredAt"].string ?? ""
         orderedAt = json["orderedAt"].string ?? ""
+        pickedAt = json["pickedAt"].string ?? ""
+        reachedAt = json["reachedAt"].string ?? ""
+        rejectedAt = json["rejectedAt"].string ?? ""
+        acceptedAt = json["acceptedAt"].string ?? ""
     }
 }
 
@@ -472,4 +489,40 @@ class RestaurantAllOrdersRestaurantIdData{
     }
 }
 
+class RestaurantAllOrdersDriverIdData{
+    
+    var accuracy : Float!
+    var address : RestaurantAllOrdersAddres!
+    var bearing : Float!
+    var emailId : String!
+    var id : String!
+    var loc : RestaurantAllOrdersLoc!
+    var mobileId : String!
+    var name : String!
+    
+    
+    /**
+     * Instantiate the instance using the passed json values to set the properties values
+     */
+    init(fromJson json: JSON!){
+        if json.isEmpty{
+            return
+        }
+        accuracy = json["accuracy"].float ?? 0.0
+        let addressJson = json["address"]
+        if !addressJson.isEmpty{
+            address = RestaurantAllOrdersAddres(fromJson: addressJson)
+        }
+        bearing = json["bearing"].float ?? 0.0
+        emailId = json["emailId"].string ?? ""
+        id = json["id"].string ?? ""
+        let locJson = json["loc"]
+        if !locJson.isEmpty{
+            loc = RestaurantAllOrdersLoc(fromJson: locJson)
+        }
+        mobileId = json["mobileId"].string ?? ""
+        name = json["name"].string ?? ""
+    }
+    
+}
 

@@ -11,6 +11,7 @@ import SwiftyJSON
 
 class NewsViewController: UIViewController {
 
+    @IBOutlet weak var statusLbl: UILabel!
     @IBOutlet weak var newsTbl: UITableView!
     @IBOutlet weak var clearAllBtn: UIButton!
     override func viewDidLoad() {
@@ -22,6 +23,7 @@ class NewsViewController: UIViewController {
         newsTbl.tableFooterView = UIView()
         newsTbl.delegate = self
         newsTbl.dataSource = self
+        self.clearAllBtn.isHidden = true
     }
     //MARK:- IB Action Outlets
     @IBAction func clearAllBtn(_ sender: UIButton) {
@@ -29,11 +31,10 @@ class NewsViewController: UIViewController {
 }
 extension NewsViewController : UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 4
+        return 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell : NotificationTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NotificationCell") as! NotificationTableViewCell
-        cell.titleLbl.text = "Notification 0\(indexPath.row + 1)"
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

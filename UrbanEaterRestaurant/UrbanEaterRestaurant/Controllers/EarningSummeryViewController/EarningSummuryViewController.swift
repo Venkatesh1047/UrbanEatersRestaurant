@@ -71,6 +71,7 @@ class EarningSummuryViewController: UIViewController {
                     "to": toDateString
                 ],
                 "earningStatus": 1
+                
                 ] as [String : AnyObject]
         }
         URLhandler.postUrlSession(urlString: Constants.urls.EarningsSummary, params: param as [String : AnyObject], header: [:]) { (dataResponse) in

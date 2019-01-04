@@ -32,7 +32,7 @@ class FoodOrderModel{
         scheduled = [FoodOrderModelData]()
         completed = [FoodOrderModelData]()
         let dataArray = json["data"].arrayValue.sorted { (json1, json2) -> Bool in
-            return json1["ctdAt"].stringValue > json2["ctdAt"].stringValue
+            return json1["ctdAt"].string ?? "" > json2["ctdAt"].string ?? ""
         }
 		for dataJson in dataArray{
 			let value = FoodOrderModelData(fromJson: dataJson)
@@ -157,9 +157,12 @@ class FoodOrderModelData{
     var addons : [FoodOrderModelAddon]!
     var address : FoodOrderModelAddres!
     var billing : FoodOrderModelBilling!
-    var code : Int!
+    var code : String!
+    var ctdAt : String!
     var customerId : String!
     var discounts : FoodOrderModelDiscount!
+    var driverId : String!
+    var driverIdData : FoodOrderModelDriverIdData!
     var history : FoodOrderModelHistory!
     var id : String!
     var items : [FoodOrderModelItem]!
@@ -167,9 +170,11 @@ class FoodOrderModelData{
     var order : [FoodOrderModelOrder]!
     var orderAddressId : String!
     var orderDate : String!
+    var orderDateString : String!
     var orderId : String!
     var orderOn : Int!
     var payment : FoodOrderModelPayment!
+    var paymentStatus : Int!
     var ratingStatus : Int!
     var restaurantId : [String]!
     var status : Int!
@@ -177,9 +182,6 @@ class FoodOrderModelData{
     var transactionId : String!
     
     
-    /**
-     * Instantiate the instance using the passed json values to set the properties values
-     */
     init(fromJson json: JSON!){
         if json.isEmpty{
             return
@@ -190,21 +192,27 @@ class FoodOrderModelData{
             let value = FoodOrderModelAddon(fromJson: addonsJson)
             addons.append(value)
         }
-        let addressJson = json["address"].exists() ? json["address"] : JSON.init([""])
+        let addressJson = json["address"]
         if !addressJson.isEmpty{
             address = FoodOrderModelAddres(fromJson: addressJson)
         }
-        let billingJson = json["billing"].exists() ? json["billing"] : JSON.init([""])
+        let billingJson = json["billing"]
         if !billingJson.isEmpty{
             billing = FoodOrderModelBilling(fromJson: billingJson)
         }
-        code = json["code"].int ?? 0
+        code = json["code"].string ?? ""
+        ctdAt = json["ctdAt"].string ?? ""
         customerId = json["customerId"].string ?? ""
-        let discountsJson = json["discounts"].exists() ? json["discounts"] : JSON.init([""])
+        let discountsJson = json["discounts"]
         if !discountsJson.isEmpty{
             discounts = FoodOrderModelDiscount(fromJson: discountsJson)
         }
-        let historyJson = json["history"].exists() ? json["history"] : JSON.init([""])
+        driverId = json["driverId"].string ?? ""
+        let driverIdDataJson = json["driverIdData"]
+        if !driverIdDataJson.isEmpty{
+            driverIdData = FoodOrderModelDriverIdData(fromJson: driverIdDataJson)
+        }
+        let historyJson = json["history"]
         if !historyJson.isEmpty{
             history = FoodOrderModelHistory(fromJson: historyJson)
         }
@@ -213,11 +221,9 @@ class FoodOrderModelData{
         let itemsArray = json["items"].arrayValue
         for itemsJson in itemsArray{
             let value = FoodOrderModelItem(fromJson: itemsJson)
-            if value.restaurantId == GlobalClass.restaurantLoginModel.data.subId!{
-               items.append(value)
-            }
+            items.append(value)
         }
-        let locJson = json["loc"].exists() ? json["loc"] : JSON.init([""])
+        let locJson = json["loc"]
         if !locJson.isEmpty{
             loc = FoodOrderModelLoc(fromJson: locJson)
         }
@@ -225,18 +231,18 @@ class FoodOrderModelData{
         let orderArray = json["order"].arrayValue
         for orderJson in orderArray{
             let value = FoodOrderModelOrder(fromJson: orderJson)
-            if value.restaurantId == GlobalClass.restaurantLoginModel.data.subId!{
-                order.append(value)
-            }
+            order.append(value)
         }
         orderAddressId = json["orderAddressId"].string ?? ""
         orderDate = json["orderDate"].string ?? ""
+        orderDateString = json["orderDateString"].string ?? ""
         orderId = json["orderId"].string ?? ""
         orderOn = json["orderOn"].int ?? 0
-        let paymentJson = json["payment"].exists() ? json["payment"] : JSON.init([""])
+        let paymentJson = json["payment"]
         if !paymentJson.isEmpty{
             payment = FoodOrderModelPayment(fromJson: paymentJson)
         }
+        paymentStatus = json["paymentStatus"].int ?? 0
         ratingStatus = json["ratingStatus"].int ?? 0
         restaurantId = [String]()
         let restaurantIdArray = json["restaurantId"].arrayValue
@@ -247,7 +253,6 @@ class FoodOrderModelData{
         statusText = json["statusText"].string ?? ""
         transactionId = json["transactionId"].string ?? ""
     }
-    
 }
 
 class FoodOrderModelDiscount{
@@ -271,7 +276,14 @@ class FoodOrderModelDiscount{
 
 class FoodOrderModelHistory{
     
+    var allocatedAt : String!
+    var deliveredAt : String!
     var orderedAt : String!
+    var pickedAt : String!
+    var reachedAt : String!
+    var rejectedAt : String!
+    var acceptedAt : String!
+
     
     
     /**
@@ -281,7 +293,13 @@ class FoodOrderModelHistory{
         if json.isEmpty{
             return
         }
+        allocatedAt = json["allocatedAt"].string ?? ""
+        deliveredAt = json["deliveredAt"].string ?? ""
         orderedAt = json["orderedAt"].string ?? ""
+        pickedAt = json["pickedAt"].string ?? ""
+        reachedAt = json["reachedAt"].string ?? ""
+        rejectedAt = json["rejectedAt"].string ?? ""
+        acceptedAt = json["acceptedAt"].string ?? ""
     }
     
 }
@@ -425,6 +443,43 @@ class FoodOrderModelPayment{
         repayStatus = json["repayStatus"].int ?? 0
         status = json["status"].int ?? 0
         throughType = json["throughType"].string ?? ""
+    }
+    
+}
+
+class FoodOrderModelDriverIdData{
+    
+    var accuracy : Float!
+    var address : FoodOrderModelAddres!
+    var bearing : Float!
+    var emailId : String!
+    var id : String!
+    var loc : FoodOrderModelLoc!
+    var mobileId : String!
+    var name : String!
+    
+    
+    /**
+     * Instantiate the instance using the passed json values to set the properties values
+     */
+    init(fromJson json: JSON!){
+        if json.isEmpty{
+            return
+        }
+        accuracy = json["accuracy"].float ?? 0.0
+        let addressJson = json["address"]
+        if !addressJson.isEmpty{
+            address = FoodOrderModelAddres(fromJson: addressJson)
+        }
+        bearing = json["bearing"].float ?? 0.0
+        emailId = json["emailId"].string ?? ""
+        id = json["id"].string ?? ""
+        let locJson = json["loc"]
+        if !locJson.isEmpty{
+            loc = FoodOrderModelLoc(fromJson: locJson)
+        }
+        mobileId = json["mobileId"].string ?? ""
+        name = json["name"].string ?? ""
     }
     
 }

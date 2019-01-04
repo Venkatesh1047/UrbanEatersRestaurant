@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EZSwiftExtensions
 
 class CompletedItemsPopUp: UIViewController {
     
@@ -45,7 +46,18 @@ class CompletedItemsPopUp: UIViewController {
             self.orderIDLbl.text = "Order ID: \(scheduledFromHome.order[0].subOrderId!)"
             self.driverIDLbl.text = "ID: \(scheduledFromHome.order[0].code!)"
             self.priceLbl.text = "₹ \(scheduledFromHome.order[0].billing.orderTotal!.toString)"
-            self.stausLbl.text = scheduledFromHome.order[0].statusText!
+            let status = GlobalClass.returnStatus(scheduledFromHome.order[0].status!)
+            self.stausLbl.text = status.0
+            self.stausLbl.backgroundColor = status.1
+            if scheduledFromHome.driverId != nil{
+                if scheduledFromHome.driverIdData != nil {
+                    self.nameLbl.text = scheduledFromHome.driverIdData.name!
+                }else{
+                    self.nameLbl.text = GlobalClass.DRIVER_NOT_ALLOCATED
+                }
+            }else{
+                self.nameLbl.text = GlobalClass.DRIVER_NOT_ALLOCATED
+            }
         }else{
             self.orderIDLbl.text = "Order ID: \(schedule.order[0].subOrderId!)"
             self.driverIDLbl.text = "ID: \(schedule.order[0].code!)"
@@ -53,6 +65,15 @@ class CompletedItemsPopUp: UIViewController {
             let status = GlobalClass.returnStatus(schedule.order[0].status!)
             self.stausLbl.text = status.0
             self.stausLbl.backgroundColor = status.1
+            if schedule.driverId != nil{
+                if schedule.driverIdData != nil {
+                    self.nameLbl.text = schedule.driverIdData.name!
+                }else{
+                    self.nameLbl.text = GlobalClass.DRIVER_NOT_ALLOCATED
+                }
+            }else{
+                self.nameLbl.text = GlobalClass.DRIVER_NOT_ALLOCATED
+            }
         }
     }
 }
@@ -68,6 +89,15 @@ extension CompletedItemsPopUp : UICollectionViewDataSource,UICollectionViewDeleg
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemsDetailCell", for: indexPath as IndexPath) as! ItemsDetailCell
         if isComingFromHome{
             let data = scheduledFromHome!
+            ez.runThisInMainThread {
+                if data.items.count > 0{
+                    self.view.frame.h = CGFloat(150 + data.items.count * 30)
+                }else if data.items.count > 5 {
+                    self.view.frame.h = 300
+                }else{
+                    self.view.frame.h = 170
+                }
+            }
             if data.items[indexPath.row].vorousType! == 2{
                 cell.vorousTypeImage.image = #imageLiteral(resourceName: "NonVeg")
             }else{
@@ -75,9 +105,18 @@ extension CompletedItemsPopUp : UICollectionViewDataSource,UICollectionViewDeleg
             }
             cell.itemLbl.text = data.items[indexPath.row].name!
             cell.itemsLbl.text = "✕\(data.items[indexPath.row].quantity!)"
-            cell.priceLbl.text =  "₹ \(data.items[indexPath.row].price!.toString)"
+            cell.priceLbl.text =  "₹ \(data.items[indexPath.row].finalPrice!.toString)"
         }else{
             let data = schedule!
+            ez.runThisInMainThread {
+                if data.items.count > 0{
+                    self.view.frame.h = CGFloat(185 + data.items.count * 30)
+                }else if data.items.count > 5 {
+                    self.view.frame.h = 335
+                }else{
+                    self.view.frame.h = 205
+                }
+            }
             if data.items[indexPath.row].vorousType! == 2{
                 cell.vorousTypeImage.image = #imageLiteral(resourceName: "NonVeg")
             }else{
@@ -85,7 +124,7 @@ extension CompletedItemsPopUp : UICollectionViewDataSource,UICollectionViewDeleg
             }
             cell.itemLbl.text = data.items[indexPath.row].name!
             cell.itemsLbl.text = "✕\(data.items[indexPath.row].quantity!)"
-            cell.priceLbl.text =  "₹ \(data.items[indexPath.row].price!.toString)"
+            cell.priceLbl.text =  "₹ \(data.items[indexPath.row].finalPrice!.toString)"
         }
         return cell
     }

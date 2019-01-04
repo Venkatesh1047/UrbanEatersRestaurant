@@ -15,6 +15,7 @@ class NewFoodCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var rejectBtn: UIButton!
     @IBOutlet weak var acceptBtn: UIButton!
+    @IBOutlet weak var dateLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

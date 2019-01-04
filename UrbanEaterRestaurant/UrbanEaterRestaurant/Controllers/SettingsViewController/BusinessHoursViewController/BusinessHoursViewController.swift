@@ -100,8 +100,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKEND_END_TIME_EMPTY)
         }else if delivaryTime == "" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.DELIVARY_TIME_EMPTY)
-        }
-        else{
+        }else{
             updateBusinessHoursWebHit()
         }
     }

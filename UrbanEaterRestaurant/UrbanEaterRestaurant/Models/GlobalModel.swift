@@ -47,8 +47,11 @@ class GlobalModel:NSObject {
     var notificationsModel : NotificationsModel!
     var instanceIDTokenMessage:String = ""
     
+    let ORDER_NEW_RESTAURANT = "ORDER_NEW_RESTAURANT"
+    let ORDER_TABLE_NEW_RESTAURANT = "ORDER_TABLE_NEW_RESTAURANT"
     let KEY_ACCEPTED     = "RES_ACCEPTED"
     let KEY_REJECTED     = "RES_REJECTED"
+    let DRIVER_NOT_ALLOCATED = "Driver Not Allocated"
     let KEY_ID           = "id"
     let KEY_DELIVERYTIME = "deliveryTime"
     let KEY_TIMINGS      = "timings"
@@ -80,7 +83,7 @@ class GlobalModel:NSObject {
     func notificationKey(){
         
     }
-    //MARK:- Table History
+    //MARK:- Food Status History
     func returnStatus(_ status:Int) -> (String, UIColor){
         switch status {
         case 1  : return ("ORDER CREATED", .themeColor)
@@ -90,7 +93,21 @@ class GlobalModel:NSObject {
         case 3  : return ("DELIVERED", .greenColor)
         case 4 : return ("DRIVER REACHED", .secondaryBGColor)
         case 5  : return ("PICKED UP", .themeColor)
-        case 6 : return ("PICKED UP", .themeColor)
+        case 6 : return ("DELIVERED", .greenColor)
+        default : return ("CANCELLED", .redColor)
+        }
+    }
+    //MARK:- Table Status History
+    func returnTableStatus(_ status:Int) -> (String, UIColor){
+        switch status {
+        case 1  : return ("BOOKED", .themeColor)
+        case -1 : return ("CANCELLED", .redColor)
+        case 2  : return ("ACCEPTED", .greenColor)
+        case -2 : return ("DENIED", .redColor)
+        case 3  : return ("REDEEMED", .greenColor)
+        case 4 : return ("REACHED", .secondaryBGColor)
+        case 5  : return ("REDEEMED", .themeColor)
+        case 6 : return ("REDEEMED", .greenColor)
         default : return ("CANCELLED", .redColor)
         }
     }

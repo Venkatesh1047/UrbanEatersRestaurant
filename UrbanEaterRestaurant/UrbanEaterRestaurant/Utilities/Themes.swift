@@ -20,6 +20,8 @@ class Themes: NSObject {
     static let sharedInstance = Themes()
     let screenSize:CGRect = UIScreen.main.bounds
     var spinnerView:MMMaterialDesignSpinner=MMMaterialDesignSpinner()
+    var isShow : Bool = false
+    
     var view:UIView{
         return (ez.topMostVC?.view)!
     }
@@ -156,6 +158,16 @@ class Themes: NSObject {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         if let formattedDate = dateFormatter.date(from: date) {
             dateFormatter.dateFormat = "MMM dd, yyyy"
+            return dateFormatter.string(from: formattedDate)
+        }
+        return date
+    }
+    //MARK: - Change the Date Formatter
+    func convertDateFormaterForOnlyTime(_ date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        if let formattedDate = dateFormatter.date(from: date) {
+            dateFormatter.dateFormat = "dd-MM-yyyy \n\nhh:mm a"
             return dateFormatter.string(from: formattedDate)
         }
         return date

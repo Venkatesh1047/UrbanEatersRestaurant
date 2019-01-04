@@ -76,6 +76,7 @@ class HomeViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
         self.getRestarentDataModel()
         self.updateUI()
     }
@@ -151,10 +152,21 @@ class HomeViewController: UIViewController {
                         self.supportBtn.isHidden = true
                     }
                 }
-                if data?.statIdData != nil{
-                    if data?.statIdData.food.total != data?.statIdData.food.available!{
-                        TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Some items are still unavailable?", singleAction: true, okTitle: "Ok", cancelTitle: "", callback: { (success) in
-                        })
+                if !TheGlobalPoolManager.isShow{
+                    if data?.available == 1{
+                        if data?.statIdData != nil{
+                            if data?.statIdData.food.total != data?.statIdData.food.available!{
+                                TheGlobalPoolManager.showAlertWith(title: "Some items are still unavailable?", message: "\n Do you want to Manage?", singleAction: false, okTitle:"Yes", cancelTitle: "No") { (sucess) in
+                                    if sucess!{
+                                         TheGlobalPoolManager.isShow = true
+                                        let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "FoodItemsVCID") as! FoodItemsViewController
+                                        self.navigationController?.pushViewController(viewCon, animated: true)
+                                    }else{
+                                        TheGlobalPoolManager.isShow = true
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 if data?.earningIdData.count == 0{
@@ -331,11 +343,8 @@ extension HomeViewController : SlideToOpenDelegate{
         var titleText : String = "Are you sure you want to Go"
         if switchStatus {
             titleText = titleText + " Online?"
-        }else{
-            titleText = titleText + " Offline?"
-        }
-        TheGlobalPoolManager.showAlertWith(title: "\(titleText)", message: "", singleAction: false, okTitle:"Confirm") { (sucess) in
-            if sucess!{
+           //TheGlobalPoolManager.isShow = false
+            ez.runThisInMainThread {
                 if let model = GlobalClass.restModel{
                     let data = model.data!
                     if data.available == 0{
@@ -348,17 +357,35 @@ extension HomeViewController : SlideToOpenDelegate{
                         self.changeRestarentStatusWebHit(status: 0)
                     }
                 }
-            }else{
-                if switchStatus{
-                    self.onlineSwitch.isOn = false
-                    self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
-                    self.slideToOpen.updateThumbnailViewLeadingPosition(0)
-                    self.slideToOpen.isFinished = false
+            }
+        }else{
+            titleText = titleText + " Offline?"
+            TheGlobalPoolManager.showAlertWith(title: "\(titleText)", message: "", singleAction: false, okTitle:"Confirm") { (sucess) in
+                if sucess!{
+                    if let model = GlobalClass.restModel{
+                        let data = model.data!
+                        if data.available == 0{
+                            self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
+                            self.onlineSwitch.isOn = true
+                            self.changeRestarentStatusWebHit(status: 1)
+                        }else{
+                            self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
+                            self.onlineSwitch.isOn = false
+                            self.changeRestarentStatusWebHit(status: 0)
+                        }
+                    }
                 }else{
-                    self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
-                    self.onlineSwitch.isOn = true
-                    self.slideToOpen.updateThumbnailViewLeadingPosition(self.slideToOpen.xEndingPoint)
-                    self.slideToOpen.isFinished = true
+                    if switchStatus{
+                        self.onlineSwitch.isOn = false
+                        self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: false)
+                        self.slideToOpen.updateThumbnailViewLeadingPosition(0)
+                        self.slideToOpen.isFinished = false
+                    }else{
+                        self.SlideToOpenChangeImage(self.slideToOpen, switchStatus: true)
+                        self.onlineSwitch.isOn = true
+                        self.slideToOpen.updateThumbnailViewLeadingPosition(self.slideToOpen.xEndingPoint)
+                        self.slideToOpen.isFinished = true
+                    }
                 }
             }
         }

@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var IsInternetconnected:Bool=Bool()
     let googleApiKey = "AIzaSyAufQUMZP7qdjtOcGIuNFRSL-8uU6uuvGY"
     let gcmMessageIDKey = "gcm.message_id"
+    var gcmNotificationIDKey = "gcm.notification.payload"
     var player = AVAudioPlayer()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -150,12 +151,28 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
         }
         print(userInfo)
         if let key = userInfo["key"] as? String{
-            if key == "ORDER_NEW_RESTAURANT"{
+            if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT{
                 self.playSound()
                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
-                ez.runThisAfterDelay(seconds: 3) {
+                ez.runThisAfterDelay(seconds: 4) {
                     self.player.stop()
                 }
+            }
+        }
+        let toGetAlert = userInfo["aps"] as! [String:AnyObject]
+        if toGetAlert["alert"] is [String:AnyObject]{
+            let toGetTitle = toGetAlert["alert"] as! [String:AnyObject]
+            let title = toGetTitle["title"] as! String
+            let body = toGetTitle["body"] as! String
+            let applicationState = UIApplication.shared.applicationState
+            switch applicationState {
+            case .active:
+                print("App is active")
+                AGPushNoteView.show(withNotificationMessage: title, description: body)
+            case .background:
+                print("App is in background")
+            case .inactive:
+                print("App is in InActive")
             }
         }
         completionHandler([])
