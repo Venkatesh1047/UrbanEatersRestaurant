@@ -51,13 +51,13 @@ class OrderHistoryViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         datePicker.maximumDate = NSDate() as Date
         datePicker.maximumDate = Date()
-         self.earningsSummaryApiHitting()
+         self.orderHistoryApiHitting()
     }
     @objc func datePickerValueChanged(sender:UIDatePicker) {
         dateSelectedString = dateFormatter.string(from: sender.date)
     }
-    //MARK:- Earnings Summary Api Hitting
-    func earningsSummaryApiHitting(){
+    //MARK:- Order History Api Hitting
+    func orderHistoryApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
         var param = [String : AnyObject]()
         if toDateString == nil{
@@ -132,7 +132,7 @@ class OrderHistoryViewController: UIViewController {
             if date1 == date2{
                 toDateLbl.text = dateSelectedString
                 toDateLbl.textColor = .textColor
-                self.earningsSummaryApiHitting()
+                self.orderHistoryApiHitting()
             }else if date1! > date2! {
                 TheGlobalPoolManager.showAlertWith(message: "Oops!, 'To Date' is past date when compared to 'From Date", singleAction: true, callback: { (success) in
                     if success!{}
@@ -141,7 +141,7 @@ class OrderHistoryViewController: UIViewController {
             }else if date1! < date2! {
                 toDateLbl.text = dateSelectedString
                 toDateLbl.textColor = .textColor
-                self.earningsSummaryApiHitting()
+                self.orderHistoryApiHitting()
             }
         }
     }
