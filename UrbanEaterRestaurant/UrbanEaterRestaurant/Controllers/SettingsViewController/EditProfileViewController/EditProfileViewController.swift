@@ -35,7 +35,6 @@ class EditProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let value = GlobalClass.restModel{
-            print("value ---->>",value)
             self.updateUI()
         }else{
             getRestarentProfile()

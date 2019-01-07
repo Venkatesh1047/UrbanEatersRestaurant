@@ -37,7 +37,6 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate {
     }
     func delegateForSelectedGroup(selectedGroup: [String], viewCon: SelectGroup) {
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideBottomBottom)
-        print("selected Items ---->>> \(selectedGroup)")
         if selectedGroup.count != 0 {
             self.foodItemsTbl.reloadData()
         }
@@ -173,7 +172,6 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
                 let selectedSection = btn.tag.toString
                 let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
                 let selectedIndex = Int(btn.tag.toString.dropFirst())
-                print("Section ===== \(selectedSection[index].toInt! - 1) >>>>>>>>> Index ===== \(selectedIndex!)")
                 let itemID = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!].itemId!
                 self.manageCategoryItemDeleteApiHitting(itemID)
             }
@@ -184,7 +182,6 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         let selectedSection = btn.tag.toString
         let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
         let selectedIndex = Int(btn.tag.toString.dropFirst())
-        print("Section ===== \(selectedSection[index].toInt! - 1) >>>>>>>>> Index ===== \(selectedIndex!)")
         let data = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!]
         if data.available == 1{
             self.setUnavailable(data.itemId!, itemName: data.name!)

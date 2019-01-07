@@ -55,7 +55,6 @@ class HomeOnlineOptionsView: UIViewController {
         }
     }
     @objc func methodOfReceivedNotification2(notification: Notification){
-        print("Helooo its in active now......")
         self.restaurantAllOrdersApiHitting(true)
     }
     @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {
@@ -64,6 +63,7 @@ class HomeOnlineOptionsView: UIViewController {
             self.searchActive = false
             self.searchTF.endEditing(true)
             self.searchTF.text = ""
+            self.restaurantAllOrdersApiHitting(true)
         }
     }
     //MARK:- Update UI
@@ -317,7 +317,6 @@ extension HomeOnlineOptionsView : UICollectionViewDelegate,UICollectionViewDataS
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Selected Index >>>>>>>",indexPath.row)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
        return CGSize(width: collectionView.bounds.width, height: 20)
@@ -459,12 +458,10 @@ extension HomeOnlineOptionsView : UITextFieldDelegate{
                 self.dummyRestaurantAllOrdersModel.scheduled = self.newDummy.scheduled.filter({ (data) -> Bool in
                     return data.orderId.contains(searchString, compareOption: .caseInsensitive)
                 })
-                print(self.dummyRestaurantAllOrdersModel.scheduled.count, self.newDummy.scheduled.count, GlobalClass.restaurantAllOrdersModel.scheduled.count)
             case 2 :
                 self.dummyRestaurantAllOrdersModel.completed = self.newDummy.completed.filter({ (data) -> Bool in
                     return data.orderId.contains(searchString, compareOption: .caseInsensitive)
                 })
-                print(self.dummyRestaurantAllOrdersModel.completed.count, self.newDummy.completed.count, GlobalClass.restaurantAllOrdersModel.completed.count)
             default :
                 break
             }

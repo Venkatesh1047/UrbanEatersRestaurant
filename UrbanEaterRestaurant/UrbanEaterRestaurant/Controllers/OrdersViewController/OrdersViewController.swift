@@ -58,6 +58,8 @@ class OrdersViewController: UIViewController {
             self.searchActive = false
             self.searchTF.endEditing(true)
             self.searchTF.text = ""
+            self.foodOrderApiHitting(false)
+            self.tableOrderApiHitting(false)
         }
     }
     @objc func methodOfReceivedNotification(notification: Notification){
@@ -403,7 +405,6 @@ extension OrdersViewController : UICollectionViewDelegate,UICollectionViewDataSo
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Selected Index >>>>>>>",indexPath.row)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 20)

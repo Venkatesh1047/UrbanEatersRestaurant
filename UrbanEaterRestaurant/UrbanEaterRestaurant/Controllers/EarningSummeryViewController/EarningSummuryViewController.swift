@@ -61,7 +61,8 @@ class EarningSummuryViewController: UIViewController {
         if toDateString == nil{
             param = [
                 "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
-                "earningStatus": 1
+                "earningStatus": 1,
+                "statusArray": ["DRI_PICKED", "DELIVERED", "COMPLETED"]
                 ] as [String : AnyObject]
         }else{
             param = [
@@ -70,12 +71,12 @@ class EarningSummuryViewController: UIViewController {
                     "from": fromDateString,
                     "to": toDateString
                 ],
-                "earningStatus": 1
+                "earningStatus": 1,
+                "statusArray": ["DRI_PICKED", "DELIVERED", "COMPLETED"]
                 
                 ] as [String : AnyObject]
         }
         URLhandler.postUrlSession(urlString: Constants.urls.EarningsSummary, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
-            print("Profile response ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.earningsHistoryModel = EarningsHistoryModel(fromJson: dataResponse.json)
@@ -116,7 +117,6 @@ class EarningSummuryViewController: UIViewController {
     @IBAction func datePickDoneClicked(_ sender: Any) {
         dateContainerView.isHidden = true
         blurView.isHidden = true
-        print("dateSelectedString ---->>> \(dateSelectedString)")
         let date = Date()
         if (dateSelectedString ?? "").isEmpty {
             dateSelectedString =  dateFormatter.string(from: date)
@@ -176,7 +176,6 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
         let status = GlobalClass.returnStatus(data.status!)
         headerCell.orderStatusLbl.text = status.0
         headerCell.orderStatusLbl.textColor = status.1
-        print(data.history.orderedAt!)
         headerCell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForFullDate(data.history.orderedAt!)
         if self.collapaseHandlerArray.contains(data.subOrderId!){
             headerCell.dropDownBtn.setTitle("1", for: .normal)

@@ -46,7 +46,6 @@ class ChangePasswordViewController: UIViewController {
                                 "currentPassword": oldpassword.text!,
                                 "newPassword": password.text!]
         URLhandler.postUrlSession(urlString: Constants.urls.changePasswordURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
-            print("Response ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let dict = dataResponse.dictionaryFromJson! as NSDictionary

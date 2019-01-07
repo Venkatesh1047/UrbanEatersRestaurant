@@ -43,7 +43,6 @@ class LoginVC: UIViewController{
                      "deviceInfo": ["deviceToken": GlobalClass.instanceIDTokenMessage]] as [String:AnyObject]
         
         URLhandler.postUrlSession(urlString: Constants.urls.loginURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
-            print("Response login ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.restaurantLoginModel = RestaurantLoginModel.init(fromJson: dataResponse.json)

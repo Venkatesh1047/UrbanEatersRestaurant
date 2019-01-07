@@ -84,7 +84,6 @@ class AccountsViewController: UIViewController {
     }
     //MARK:- Move to Login
     func moveToLogin(){
-        print("go to login")
         Themes.sharedInstance.removeActivityView(View: self.view)
         GlobalClass.logout()
         if let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "LoginVCID") as? LoginVC{
@@ -108,7 +107,6 @@ extension AccountsViewController : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item : String = menuList[indexPath.row]
-        print("item ---->>>",item)
         switch item {
         case "Order History":
             let orederHistory = self.storyboard?.instantiateViewController(withIdentifier: "OrderHistoryVCID") as! OrderHistoryViewController
@@ -133,7 +131,6 @@ extension AccountsViewController : UITableViewDelegate,UITableViewDataSource{
             let helpNsupport = self.storyboard?.instantiateViewController(withIdentifier: "HelpSupportVCID") as! HelpSupportViewController
             self.navigationController?.pushViewController(helpNsupport, animated: true)
         case "Logout":
-            print("log out -------->>>")
             DispatchQueue.main.async {
                 self.logoutAction()
             }

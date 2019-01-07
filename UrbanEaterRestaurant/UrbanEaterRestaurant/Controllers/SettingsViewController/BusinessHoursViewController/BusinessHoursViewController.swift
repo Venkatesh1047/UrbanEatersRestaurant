@@ -110,7 +110,6 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         let data = restarentInfo.object(forKey: "data") as! NSDictionary
         self.businessHoursParams = BusinessHourParameters.init(data.object(forKey: "subId") as! String, deliveryTime: Int(minutesSelectedString)!, weekday_startAt: weekDayFromLbl.text!, weekday_endAt: weekDayToLbl.text!, weekend_startAt: weekEndFromLbl.text!, weekend_endAt: weekEndToLbl.text!)
         URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: self.businessHoursParams.parameters, header: [:]) { (dataResponse) in
-            print("Response ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let dict = dataResponse.dictionaryFromJson! as NSDictionary
@@ -125,7 +124,6 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         dateFormatter.timeStyle = DateFormatter.Style.short
         dateFormatter.dateFormat = "HH:mm a"
         dateSelectedString = dateFormatter.string(from: sender.date)
-        print("dateSelectedString ---->>> \(dateSelectedString)")
     }
     
     @IBAction func timeChangeBtnClicked(_ sender: UIButton) {

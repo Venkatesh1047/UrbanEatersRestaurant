@@ -37,8 +37,6 @@ class TableBookingHistoryViewController: UIViewController {
         datePicker.maximumDate = NSDate() as Date
         datePicker.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        //let date = Date()
-        //sortDateLbl.text =  dateFormatter.string(from: date)
         sortDateLbl.text =  "Choose Date"
         let nibName = UINib(nibName:"CompletedTableCell" , bundle: nil)
         HistoryTbl.register(nibName, forCellReuseIdentifier: "CompletedTableCell")
@@ -54,7 +52,6 @@ class TableBookingHistoryViewController: UIViewController {
                               "date" : dateSelectedString] as [String : AnyObject]
         }
         URLhandler.postUrlSession(urlString: Constants.urls.TableBookingHistory, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
-            print("Profile response ----->>> ", dataResponse.json)
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.tableHistoryModel = TableOrderModel(fromJson: dataResponse.json)

@@ -92,7 +92,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {}
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        print("Heloooo......")
         NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
     }
 
@@ -106,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             try reachability.startNotifier()
         }catch{
-            print("could not start reachability notifier")
+            //print("could not start reachability notifier")
         }
     }
     //MARK:- Network Reachability Status
@@ -115,13 +114,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if reachability.connection != .none {
             IsInternetconnected=true
             if reachability.connection == .wifi {
-                print("Reachable via WiFi")
+                //print("Reachable via WiFi")
             }else {
-                print("Reachable via Cellular")
+                //print("Reachable via Cellular")
             }
         }else{
             IsInternetconnected=false
-            print("Network not reachable")
+            //print("Network not reachable")
         }
     }
     //MARK:- Chnage Restaurant Status Api
@@ -130,7 +129,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let dataS = restmodel.data{
                 let param =     [
                     "id": dataS.subId,
-                    "deviceInfo": ["deviceToken": token]] as  [String:AnyObject]
+                    "deviceInfo": ["deviceToken": token,
+                                             "os" : "IOS"]] as  [String:AnyObject]
                 URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: param, header: [:]) { (dataResponse) in
                 }
             }
@@ -188,7 +188,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
     }
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("Firebase registration token: \(fcmToken)")
         GlobalClass.instanceIDTokenMessage  = fcmToken
         self.updateDeviceToken(token: fcmToken)
         let dataDict:[String: String] = ["token": fcmToken]
@@ -202,7 +201,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
             player.numberOfLoops = 0
             player.play()
         } catch {
-            print ("There is an issue with this code!")
+            //print ("There is an issue with this code!")
         }
     }
 }

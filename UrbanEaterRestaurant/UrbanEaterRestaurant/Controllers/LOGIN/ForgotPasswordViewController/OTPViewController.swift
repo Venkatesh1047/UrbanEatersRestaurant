@@ -72,7 +72,6 @@ class OTPViewController: UIViewController,OTPTextFieldDelegate {
             URLhandler.postUrlSession(urlString: Constants.urls.UpdateNewPassword, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
                 Themes.sharedInstance.removeActivityView(View: self.view)
                 if dataResponse.json.exists(){
-                    print("Response  ----->>> ", dataResponse.json)
                     self.moveToLogin()
                 }
             }

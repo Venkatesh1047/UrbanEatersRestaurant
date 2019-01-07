@@ -130,7 +130,6 @@ class HomeViewController: UIViewController {
         URLhandler.postUrlSession(urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                print(dataResponse.json)
                 GlobalClass.restModel = RestaurantHomeModel(fromJson: dataResponse.json)
                 let data = GlobalClass.restModel.data
                 if data?.available == 0{
@@ -277,7 +276,6 @@ extension HomeViewController : UICollectionViewDataSource,UICollectionViewDelega
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("You selected cell #\(indexPath.item)!")
         if collectionView.tag == 111{
             if indexPath.row == GlobalClass.restModel.data.earningIdData.count{
                 self.pushingToEarningsVC("")
@@ -328,12 +326,10 @@ extension Date {
 extension HomeViewController : SlideToOpenDelegate{
     func SlideToOpenChangeImage(_ slider:SlideToOpenView, switchStatus: Bool){
         if switchStatus {
-            print("on---->>>")
             slider.defaultLabelAttributeText = offlineString
             slider.thumnailImageView.image = #imageLiteral(resourceName: "online_switch").imageWithInsets(insetDimen: 15)
             slider.textLabelLeadingDistance = 0
         }else{
-            print("off---->>>")
             slider.defaultLabelAttributeText = onlineString
             slider.thumnailImageView.image = #imageLiteral(resourceName: "offline_switch").imageWithInsets(insetDimen: 5)
             slider.textLabelLeadingDistance = 40

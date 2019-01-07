@@ -22,6 +22,7 @@ class OrderHistoryViewController: UIViewController {
     @IBOutlet weak var totalEarningsLbl: UILabel!
     @IBOutlet weak var exportBtn: UIButton!
     @IBOutlet weak var orderHistoryTbl: UITableView!
+    
     var collapaseHandlerArray = [String]()
     var fromDateString : String!
     var toDateString : String!
@@ -50,22 +51,46 @@ class OrderHistoryViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         datePicker.maximumDate = NSDate() as Date
         datePicker.maximumDate = Date()
-        self.foodOrderApiHitting()
+         self.earningsSummaryApiHitting()
     }
     @objc func datePickerValueChanged(sender:UIDatePicker) {
         dateSelectedString = dateFormatter.string(from: sender.date)
     }
-    //MARK:- Food Order Api Hitting
-    func foodOrderApiHitting(){
+    //MARK:- Earnings Summary Api Hitting
+    func earningsSummaryApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["restaurantId": [GlobalClass.restaurantLoginModel.data.subId!]]
-        URLhandler.postUrlSession(urlString: Constants.urls.getFoodOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        var param = [String : AnyObject]()
+        if toDateString == nil{
+            param = [
+                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
+                "earningStatus": 1
+                ] as [String : AnyObject]
+        }else{
+            param = [
+                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
+                "dateRange": [
+                    "from": fromDateString,
+                    "to": toDateString
+                ],
+                "earningStatus": 1
+                
+                ] as [String : AnyObject]
+        }
+        URLhandler.postUrlSession(urlString: Constants.urls.EarningsSummary, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                GlobalClass.foodOrderModel = FoodOrderModel(fromJson: dataResponse.json)
-                if GlobalClass.foodOrderModel.data.count == 0{
-                    self.orderHistoryTbl.reloadData()
+                GlobalClass.earningsHistoryModel = EarningsHistoryModel(fromJson: dataResponse.json)
+                if GlobalClass.earningsHistoryModel.data.earningData.count != 0{
+                    let data = GlobalClass.earningsHistoryModel.data.earningData[0]
+                    self.totalOrdersLbl.text = data.totalOrderCount!.toString
+                    self.totalEarningsLbl.text = "₹ \(data.totalEarnAmount!.toString)"
+                }else{
+                    self.totalOrdersLbl.text = ""
+                    self.totalEarningsLbl.text = ""
+                }
+                if GlobalClass.earningsHistoryModel.data.orderFoodData.count == 0{
                     TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
+                    self.orderHistoryTbl.reloadData()
                 }else{
                     self.orderHistoryTbl.reloadData()
                 }
@@ -90,7 +115,6 @@ class OrderHistoryViewController: UIViewController {
     @IBAction func datePickDoneClicked(_ sender: Any) {
         dateContainerView.isHidden = true
         blurView.isHidden = true
-        print("dateSelectedString ---->>> \(dateSelectedString)")
         let date = Date()
         if (dateSelectedString ?? "").isEmpty {
             dateSelectedString =  dateFormatter.string(from: date)
@@ -108,7 +132,7 @@ class OrderHistoryViewController: UIViewController {
             if date1 == date2{
                 toDateLbl.text = dateSelectedString
                 toDateLbl.textColor = .textColor
-                //self.foodOrderApiHitting()
+                self.earningsSummaryApiHitting()
             }else if date1! > date2! {
                 TheGlobalPoolManager.showAlertWith(message: "Oops!, 'To Date' is past date when compared to 'From Date", singleAction: true, callback: { (success) in
                     if success!{}
@@ -117,7 +141,7 @@ class OrderHistoryViewController: UIViewController {
             }else if date1! < date2! {
                 toDateLbl.text = dateSelectedString
                 toDateLbl.textColor = .textColor
-                //self.foodOrderApiHitting()
+                self.earningsSummaryApiHitting()
             }
         }
     }
@@ -134,7 +158,7 @@ class OrderHistoryViewController: UIViewController {
 //MARK:-----TableView Methods------
 extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return GlobalClass.foodOrderModel == nil ? 0 : GlobalClass.foodOrderModel.completed.count
+        return GlobalClass.earningsHistoryModel == nil ? 0 : GlobalClass.earningsHistoryModel.data.orderFoodData.count
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 65
@@ -142,15 +166,15 @@ extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "OrderHistoryTableViewCell") as! OrderHistoryTableViewCell
         headerCell.dropDownBtn.tag = section
-        let data = GlobalClass.foodOrderModel.completed[section]
-        headerCell.orderIDLbl.text = "Order ID: \(data.order[0].subOrderId!)"
-        headerCell.noOfItemsLbl.text = "\(data.items.count.toString) Items"
-        headerCell.orderAmountLbl.text = "₹\(data.order[0].billing.orderTotal!.toString)"
+        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[section].order[0]
+        headerCell.orderIDLbl.text = "Order ID: \(data.subOrderId!)"
+        headerCell.noOfItemsLbl.text = "\(GlobalClass.earningsHistoryModel.data.orderFoodData[section].items.count) Items"
+        headerCell.orderAmountLbl.text = "₹ \(data.billing.orderTotal!.toString)"
         let status = GlobalClass.returnStatus(data.status!)
         headerCell.orderStatusLbl.text = status.0
         headerCell.orderStatusLbl.textColor = status.1
         headerCell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForFullDate(data.history.orderedAt!)
-        if self.collapaseHandlerArray.contains(data.order[0].subOrderId!){
+        if self.collapaseHandlerArray.contains(data.subOrderId!){
             headerCell.dropDownBtn.setTitle("1", for: .normal)
             headerCell.farwardImg.image = #imageLiteral(resourceName: "UpArrow").withColor(.secondaryTextColor)
         }
@@ -162,24 +186,24 @@ extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate
         return headerCell.contentView
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let data = GlobalClass.foodOrderModel.completed[section]
-        if self.collapaseHandlerArray.contains(data.order[0].subOrderId!){
-            return GlobalClass.foodOrderModel.completed[section].items.count
+        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[section].order[0].subOrderId!
+        if self.collapaseHandlerArray.contains(data){
+            return GlobalClass.earningsHistoryModel.data.orderFoodData[section].items.count
         }else{
             return 0
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemsCell") as! ItemsCell
-        let data = GlobalClass.foodOrderModel.completed[0].items[indexPath.row]
+        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[indexPath.section].items[indexPath.row]
         cell.contentLbl.text = data.name!
-        cell.priceLbl.text = "₹\(data.finalPrice.toString)"
-        if data.vorousType == 1{
-            cell.vorousTypeImg.image = #imageLiteral(resourceName: "Veg")
-        }else{
+        cell.priceLbl.text = "₹ \(data.finalPrice!.toString)"
+        cell.quantityLbl.text = "✕\(data.quantity!)"
+        if data.vorousType! == 2{
             cell.vorousTypeImg.image = #imageLiteral(resourceName: "NonVeg")
+        }else{
+            cell.vorousTypeImg.image = #imageLiteral(resourceName: "Veg")
         }
-        cell.quantityLbl.text = "✕\(data.quantity!.toString)"
         return cell
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -196,14 +220,14 @@ extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate
     @objc func HandleheaderButton(sender: UIButton){
         if let buttonTitle = sender.title(for: .normal) {
             if buttonTitle == "0"{
-                let data = GlobalClass.foodOrderModel.completed[sender.tag]
-                self.collapaseHandlerArray.append(data.order[0].subOrderId!)
+                let data = GlobalClass.earningsHistoryModel.data.orderFoodData[sender.tag].order[0].subOrderId!
+                self.collapaseHandlerArray.append(data)
                 sender.setTitle("1", for: .normal)
             }
             else {
-                let data = GlobalClass.foodOrderModel.completed[sender.tag]
-                while self.collapaseHandlerArray.contains(data.order[0].subOrderId!){
-                    if let itemToRemoveIndex = self.collapaseHandlerArray.index(of: data.order[0].subOrderId!) {
+                let data = GlobalClass.earningsHistoryModel.data.orderFoodData[sender.tag].order[0].subOrderId!
+                while self.collapaseHandlerArray.contains(data){
+                    if let itemToRemoveIndex = self.collapaseHandlerArray.index(of: data) {
                         self.collapaseHandlerArray.remove(at: itemToRemoveIndex)
                         sender.setTitle("0", for: .normal)
                     }

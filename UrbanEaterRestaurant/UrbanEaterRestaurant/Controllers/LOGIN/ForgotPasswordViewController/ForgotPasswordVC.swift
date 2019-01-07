@@ -51,7 +51,6 @@ class ForgotPasswordVC: UIViewController {
                 ] 
             
             URLhandler.postUrlSession(urlString: Constants.urls.ForgotPassword, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
-                print("Response  ----->>> ", dataResponse.json)
                 Themes.sharedInstance.removeActivityView(View: self.view)
                 if dataResponse.json.exists(){
                     GlobalClass.updatePasswordModel = UpdatePasswordModel.init(fromJson: dataResponse.json)

@@ -70,7 +70,6 @@ class SelectGroup: UIViewController {
         if selectedItems.count == 0{
             TheGlobalPoolManager.showToastView("Please select atleast one item to continue")
         }else{
-            print(selectedItems)
             self.updateRecommendedItemsApiHitting()
         }
     }
@@ -105,7 +104,6 @@ extension SelectGroup : UITableViewDelegate,UITableViewDataSource{
             self.selectedItems.remove(at: indx!)
         }
         tableView.reloadData()
-        print(self.selectedItems)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -116,7 +114,6 @@ extension SelectGroup : UITableViewDelegate,UITableViewDataSource{
             self.selectedItems.remove(at: indx!)
         }
         tableView.reloadData()
-        print(self.selectedItems)
     }
 }
 

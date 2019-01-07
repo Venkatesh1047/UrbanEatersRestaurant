@@ -65,7 +65,6 @@ class ManageBookingsVC: UIViewController {
         URLhandler.postUrlSession(urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                print(dataResponse.json)
                 GlobalClass.restModel = RestaurantHomeModel(fromJson: dataResponse.json)
                 self.updateUI()
             }

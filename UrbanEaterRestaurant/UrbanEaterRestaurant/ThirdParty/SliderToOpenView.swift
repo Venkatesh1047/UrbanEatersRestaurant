@@ -210,7 +210,6 @@ public class SlideToOpenView: UIView {
     
     public func swipeLeft(_ sender: UIPanGestureRecognizer){
         let translatedPoint = xEndingPoint + sender.translation(in: view).x
-      //  print("Left",translatedPoint,xEndingPoint,thumbnailViewLeadingDistance)
         switch sender.state {
         case .began:
             break
@@ -220,25 +219,19 @@ public class SlideToOpenView: UIView {
                 return
             }
             if translatedPoint <= thumbnailViewLeadingDistance {
-                //textLabel.alpha = 1
                 updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
                 return
             }
             updateThumbnailViewLeadingPosition(translatedPoint)
-            //textLabel.alpha = (xEndingPoint - translatedPoint) / xEndingPoint
             break
         case .ended:
             if translatedPoint >= xEndingPoint {
-                //textLabel.alpha = 0
                 updateThumbnailViewLeadingPosition(xEndingPoint)
-                // Finish action
                 isFinished = false
                 return
             }
             if translatedPoint <= thumbnailViewLeadingDistance {
-                //textLabel.alpha = 1
                 isFinished = false
-                print("left --->>>")
                 delegate?.SlideToOpenDelegateDidFinish(self, switchStatus: false)
                 updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
                 return
@@ -262,7 +255,6 @@ public class SlideToOpenView: UIView {
     
     public func swipeRight(_ sender: UIPanGestureRecognizer){
         let translatedPoint = sender.translation(in: view).x
-       // print("Right",translatedPoint,xEndingPoint,thumbnailViewLeadingDistance)
         switch sender.state {
         case .began:
             break
@@ -285,7 +277,6 @@ public class SlideToOpenView: UIView {
                 updateThumbnailViewLeadingPosition(xEndingPoint)
                 // Finish action
                 isFinished = true
-                print("right --->>>")
                 delegate?.SlideToOpenDelegateDidFinish(self, switchStatus: isEnabled)
                 return
             }
