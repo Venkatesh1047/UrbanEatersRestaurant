@@ -138,3 +138,11 @@ class viewWithShadow: UIView {
         self.layer.masksToBounds = true
     }
 }
+
+class UILabelPadded: UILabel {
+    override func drawText(in rect: CGRect) {
+        let insets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10)
+        super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
+    }
+}
+

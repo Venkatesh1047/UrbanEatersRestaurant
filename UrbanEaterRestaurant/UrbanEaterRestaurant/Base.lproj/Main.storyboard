@@ -518,7 +518,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3i-F4-myF">
-                                                    <rect key="frame" x="10" y="10" width="295" height="21"/>
+                                                    <rect key="frame" x="10" y="10" width="270" height="21"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="SE1-bl-wmB"/>
@@ -541,11 +541,11 @@
                                                         <constraint firstAttribute="height" constant="0.5" id="YEw-w1-taQ"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="17th Oct" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dYX-rG-Oy4">
-                                                    <rect key="frame" x="315" y="18" width="50" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="17th Oct" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dYX-rG-Oy4">
+                                                    <rect key="frame" x="290" y="18" width="75" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="ZDV-a5-DqE"/>
-                                                        <constraint firstAttribute="width" constant="50" id="ti5-9w-20S"/>
+                                                        <constraint firstAttribute="width" constant="75" id="ti5-9w-20S"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
                                                     <color key="textColor" red="0.32941176470588235" green="0.32941176470588235" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -568,6 +568,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="dateLbl" destination="dYX-rG-Oy4" id="K96-ME-2aG"/>
                                             <outlet property="descLbl" destination="dvJ-iM-U8h" id="oag-KX-wPV"/>
                                             <outlet property="titleLbl" destination="E3i-F4-myF" id="lN6-rg-hR0"/>
                                         </connections>
@@ -599,6 +600,7 @@
                     <connections>
                         <outlet property="clearAllBtn" destination="Nu1-dO-i3z" id="NaO-hE-xLs"/>
                         <outlet property="newsTbl" destination="POp-nD-pfT" id="XWy-B8-eBN"/>
+                        <outlet property="noDataAvailableLbl" destination="HNh-Hl-1ck" id="hDe-jh-10s"/>
                         <outlet property="statusLbl" destination="HNh-Hl-1ck" id="WnB-y0-cht"/>
                     </connections>
                 </viewController>

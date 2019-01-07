@@ -7,15 +7,17 @@
 //
 
 /**
-    * This class was written according to the app recuriment, these are the extension of an existing Types.
+ * This class was written according to the app recuriment, these are the extension of an existing Types.
  */
 
 import Foundation
 import UIKit
+import ImageIO
+import EZSwiftExtensions
+
 let APP_FONT = "Roboto"
 enum AppFonts {
     case Bold, Medium, Regular, Black, BlackItalic, BoldItalic, ExtraBold, ExtraBoldItalic, ExtraLight, Italic, Light, LightItalic, MediumItalic, SemiBold, SemiBoldItalic, Thin, ThinItalic
-    
     var fonts:String{
         switch self {
         case .Bold:
@@ -55,10 +57,12 @@ enum AppFonts {
         }
     }
 }
+//MARK:- UITeaxt Field
 extension UITextField{
     func placeholderColor(_ placeholder:String, color:UIColor){
         self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : color])
     }
+    
     func leftViewImage(_ image:UIImage){
         self.leftViewMode = UITextFieldViewMode.always
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
@@ -68,6 +72,7 @@ extension UITextField{
         view.addSubview(imageView)
         self.leftView = view
     }
+    
     func rightViewImage(_ image:UIImage){
         self.rightViewMode = UITextFieldViewMode.always
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
@@ -77,6 +82,7 @@ extension UITextField{
         view.addSubview(imageView)
         self.rightView = view
     }
+    
 }
 //MARK:- UIColor
 extension UIColor{
@@ -129,20 +135,26 @@ extension UIColor{
         return #colorLiteral(red: 0.2509803922, green: 0.2901960784, blue: 0.4078431373, alpha: 0.5) //404A68 Opacity 50%
     }
     static var bookATableBG:UIColor{
-        return #colorLiteral(red: 0, green: 0.7333333333, blue: 0.3176470588, alpha: 0.5)
+        return #colorLiteral(red: 0, green: 0.7333333333, blue: 0.3176470588, alpha: 0.5) //00BB51 Opacity 50%
+    }
+    static var disableColor:UIColor{
+        return #colorLiteral(red: 0.6666666667, green: 0.6666666865, blue: 0.6666666865, alpha: 0.5) //AAAAAA Opacity 50%
     }
 }
+//MARK:- UIFont
 extension UIFont{
-    static func appFont(_ font:AppFonts, size:CGFloat) -> UIFont{
+    static func appFont(_ font:AppFonts, size:CGFloat = 16.0) -> UIFont{
         return UIFont(name: font.fonts, size: size) ??  UIFont(name: AppFonts.Regular.fonts, size: size)!
     }
 }
+//MARK:- UIButton
 extension UIButton{
     func cornerRadius(_ radius:CGFloat = 5.0){
         self.layer.cornerRadius = radius
         self.layer.masksToBounds = true
     }
 }
+//MARK:- String
 extension StringProtocol where Index == String.Index {
     func nsRange(from range: Range<Index>) -> NSRange {
         return NSRange(range, in: self)
@@ -150,6 +162,7 @@ extension StringProtocol where Index == String.Index {
 }
 //MARK:- UILabel
 extension UILabel {
+    ///Find the index of character (in the attributedText) at point
     func indexOfAttributedTextCharacterAtPoint(point: CGPoint) -> Int {
         assert(self.attributedText != nil, "This method is developed for attributed string")
         let textStorage = NSTextStorage(attributedString: self.attributedText!)
@@ -163,23 +176,128 @@ extension UILabel {
         let index = layoutManager.characterIndex(for: point, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
         return index
     }
+    func strikeSomeText(_ strikeText:String, wholeString:String, size:CGFloat = 14.0, available:Bool){
+        let firstColor = available ? UIColor.secondaryTextColor : UIColor.lightGray
+        let secondColor = available ? UIColor.strikeColor : UIColor.lightGray
+        let somePartStringRange = (wholeString as NSString).range(of: strikeText)
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: wholeString, attributes: [NSAttributedStringKey.foregroundColor : firstColor, NSAttributedStringKey.font : UIFont.appFont(.Regular,size: size)])
+        attributeString.addAttributes([NSAttributedStringKey.strikethroughStyle: 2, NSAttributedStringKey.foregroundColor : secondColor, NSAttributedStringKey.font : UIFont.appFont(.Medium,size: size)], range: somePartStringRange)
+        self.attributedText = attributeString
+    }
+    func attributeText(_ mainText:String, wholeString:String, wholesize:CGFloat = 12.0, mainSize:CGFloat = 14.0, available:Bool){
+        let firstColor = available ? UIColor.secondaryTextColor : UIColor.lightGray
+        let secondColor = available ? UIColor.secondaryBGColor : UIColor.lightGray
+        let somePartStringRange = (wholeString as NSString).range(of: mainText)
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: wholeString, attributes: [NSAttributedStringKey.foregroundColor : firstColor, NSAttributedStringKey.font : UIFont.appFont(.Regular,size: wholesize)])
+        attributeString.addAttributes([NSAttributedStringKey.foregroundColor : secondColor, NSAttributedStringKey.font : UIFont.appFont(.Medium,size: mainSize)], range: somePartStringRange)
+        self.attributedText = attributeString
+    }
 }
 //MARK:- NSRange
 extension NSRange{
+    /**
+     Used to check textfiled condition.
+     ## Example:
+     
+     If mobile number textfiled lenght has 10 digits then need to enable button otherwise disable the button.
+     ````
+     let enableBtn = range.locAndLen >= 9
+     button.isEnabled = enableBtn
+     ````
+     */
     var locAndLen:Int{
         let location = self.location
         let length = self.length == 1 ? (location - 1) : location
         return length
     }
 }
+//MARK:- View Controller
+extension UIViewController{
+    func disableKeyBoardOnTap(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    @objc func tapped(_ sender:UIGestureRecognizer){
+        self.view.endEditing(true)
+    }
+}
+//MARK:- Date
+extension Date {
+    var convertedDate:Date {
+        let dateFormatter = DateFormatter();
+        let dateFormat = "yyyy-MM-dd HH:mm:ss";
+        dateFormatter.dateFormat = dateFormat;
+        let formattedDate = dateFormatter.string(from: self);
+        dateFormatter.locale = NSLocale.current;
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00");
+        dateFormatter.dateFormat = dateFormat as String;
+        let sourceDate = dateFormatter.date(from: formattedDate as String);
+        return sourceDate!;
+    }
+}
+//MARK:- Version number and Build Number
+extension Bundle {
+    var releaseVersionNumber: String? {
+        return infoDictionary?["CFBundleShortVersionString"] as? String
+    }
+    var buildVersionNumber: String? {
+        return infoDictionary?["CFBundleVersion"] as? String
+    }
+}
+//MARK:- Captilaize First Letter
+extension String {
+    var firstUppercased: String {
+        guard let first = first else { return "" }
+        return String(first).uppercased() + dropFirst()
+    }
+    func toJSON() -> AnyObject? {
+        guard let data = self.data(using: .utf8, allowLossyConversion: false) else { return nil }
+        return try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as AnyObject
+    }
+}
+//MARK:- Text Field Padding
+extension UITextField {
+    func setLeftPaddingPoints(_ amount:CGFloat){
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
+    }
+    func setRightPaddingPoints(_ amount:CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.rightView = paddingView
+        self.rightViewMode = .always
+    }
+}
+//MARK:- UIView Animation
+extension UIView{
+    func animShow(){
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn],
+                       animations: {
+                        self.center.y -= self.bounds.height
+                        self.layoutIfNeeded()
+        }, completion: nil)
+        self.isHidden = false
+    }
+    func animHide(){
+        UIView.animate(withDuration: 2, delay: 0, options: [.curveEaseOut],
+                       animations: {
+                        self.center.y += self.bounds.height
+                        self.layoutIfNeeded()
+                        
+        },  completion: {(_ completed: Bool) -> Void in
+            self.isHidden = true
+        })
+    }
+}
 //MARK:- Getting Past 7 days
 extension Date {
-    static func getDates(forLastNDays nDays: Int) -> ([String],[String]) {
+    static func getDates(forLastNDays nDays: Int) -> ([String],[String],[String]) {
         let cal = NSCalendar.current
         var date = cal.startOfDay(for: Date())
         var day = cal.startOfDay(for: Date())
         var datesArray = [String]()
         var daysArray = [String]()
+        var weekDaysName = [String]()
         var value = 0
         for val in 0 ... nDays {
             if val != 0{
@@ -193,8 +311,9 @@ extension Date {
             let dayString = day.isToday ? "Today" : day.weekday
             datesArray.append(dateString)
             daysArray.append(dayString)
+            weekDaysName.append(day.weekday)
         }
-        return (datesArray, daysArray)
+        return (datesArray, daysArray, weekDaysName)
     }
     func adding(minutes: Int) -> String {
         let dateFormatter = DateFormatter()
@@ -203,8 +322,277 @@ extension Date {
         return convertedDate
     }
 }
-//MARK:- UI Image
-extension UIImage{
+
+extension Float{
+    var toString:String{
+        return "\(self)"
+    }
+    var toDouble:Double{
+        return Double(self)
+    }
+    var toInt:Int{
+        return Int(self)
+    }
+}
+
+extension Double{
+    var dateString:String{
+        let date = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current //Set timezone that you want
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "dd, MMM - hh:mm a" //Specify your format that you want
+        let strDate = dateFormatter.string(from: date)
+        return strDate
+    }
+}
+
+/// Extend UITextView and implemented UITextViewDelegate to listen for changes
+extension UITextView: UITextViewDelegate {
+    
+    /// Resize the placeholder when the UITextView bounds change
+    override open var bounds: CGRect {
+        didSet {
+            self.resizePlaceholder()
+        }
+    }
+    
+    /// The UITextView placeholder text
+    public var placeholder: String? {
+        get {
+            var placeholderText: String?
+            
+            if let placeholderLabel = self.viewWithTag(100) as? UILabel {
+                placeholderText = placeholderLabel.text
+            }
+            
+            return placeholderText
+        }
+        set {
+            if let placeholderLabel = self.viewWithTag(100) as! UILabel? {
+                placeholderLabel.text = newValue
+                placeholderLabel.sizeToFit()
+            } else {
+                self.addPlaceholder(newValue!)
+            }
+        }
+    }
+    
+    /// When the UITextView did change, show or hide the label based on if the UITextView is empty or not
+    ///
+    /// - Parameter textView: The UITextView that got updated
+    public func textViewDidChange(_ textView: UITextView) {
+        if let placeholderLabel = self.viewWithTag(100) as? UILabel {
+            placeholderLabel.isHidden = self.text.length > 0
+        }
+    }
+    
+    /// Resize the placeholder UILabel to make sure it's in the same position as the UITextView text
+    private func resizePlaceholder() {
+        if let placeholderLabel = self.viewWithTag(100) as! UILabel? {
+            let labelX = self.textContainer.lineFragmentPadding
+            let labelY = self.textContainerInset.top - 2
+            let labelWidth = self.frame.width - (labelX * 2)
+            let labelHeight = placeholderLabel.frame.height
+            
+            placeholderLabel.frame = CGRect(x: labelX, y: labelY, width: labelWidth, height: labelHeight)
+        }
+    }
+    
+    /// Adds a placeholder UILabel to this UITextView
+    private func addPlaceholder(_ placeholderText: String) {
+        let placeholderLabel = UILabel()
+        
+        placeholderLabel.text = placeholderText
+        placeholderLabel.sizeToFit()
+        
+        placeholderLabel.font = self.font
+        placeholderLabel.textColor = UIColor.lightGray
+        placeholderLabel.tag = 100
+        
+        placeholderLabel.isHidden = self.text.length > 0
+        
+        self.addSubview(placeholderLabel)
+        self.resizePlaceholder()
+        self.delegate = self
+    }
+    
+}
+
+
+//MARK:- GIF Image
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l < r
+    case (nil, _?):
+        return true
+    default:
+        return false
+    }
+}
+
+
+
+extension UIImage {
+    
+    public class func gifImageWithData(_ data: Data) -> UIImage? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
+            print("image doesn't exist")
+            return nil
+        }
+        
+        return UIImage.animatedImageWithSource(source)
+    }
+    
+    public class func gifImageWithURL(_ gifUrl:String) -> UIImage? {
+        guard let bundleURL:URL? = URL(string: gifUrl)
+            else {
+                print("image named \"\(gifUrl)\" doesn't exist")
+                return nil
+        }
+        guard let imageData = try? Data(contentsOf: bundleURL!) else {
+            print("image named \"\(gifUrl)\" into NSData")
+            return nil
+        }
+        
+        return gifImageWithData(imageData)
+    }
+    
+    public class func gifImageWithName(_ name: String) -> UIImage? {
+        guard let bundleURL = Bundle.main
+            .url(forResource: name, withExtension: "gif") else {
+                print("SwiftGif: This image named \"\(name)\" does not exist")
+                return nil
+        }
+        guard let imageData = try? Data(contentsOf: bundleURL) else {
+            print("SwiftGif: Cannot turn image named \"\(name)\" into NSData")
+            return nil
+        }
+        
+        return gifImageWithData(imageData)
+    }
+    
+    class func delayForImageAtIndex(_ index: Int, source: CGImageSource!) -> Double {
+        var delay = 0.1
+        
+        let cfProperties = CGImageSourceCopyPropertiesAtIndex(source, index, nil)
+        let gifProperties: CFDictionary = unsafeBitCast(
+            CFDictionaryGetValue(cfProperties,
+                                 Unmanaged.passUnretained(kCGImagePropertyGIFDictionary).toOpaque()),
+            to: CFDictionary.self)
+        
+        var delayObject: AnyObject = unsafeBitCast(
+            CFDictionaryGetValue(gifProperties,
+                                 Unmanaged.passUnretained(kCGImagePropertyGIFUnclampedDelayTime).toOpaque()),
+            to: AnyObject.self)
+        if delayObject.doubleValue == 0 {
+            delayObject = unsafeBitCast(CFDictionaryGetValue(gifProperties,
+                                                             Unmanaged.passUnretained(kCGImagePropertyGIFDelayTime).toOpaque()), to: AnyObject.self)
+        }
+        
+        delay = delayObject as! Double
+        
+        if delay < 0.1 {
+            delay = 0.1
+        }
+        
+        return delay
+    }
+    
+    class func gcdForPair(_ a: Int?, _ b: Int?) -> Int {
+        var a = a
+        var b = b
+        if b == nil || a == nil {
+            if b != nil {
+                return b!
+            } else if a != nil {
+                return a!
+            } else {
+                return 0
+            }
+        }
+        
+        if a < b {
+            let c = a
+            a = b
+            b = c
+        }
+        
+        var rest: Int
+        while true {
+            rest = a! % b!
+            
+            if rest == 0 {
+                return b!
+            } else {
+                a = b
+                b = rest
+            }
+        }
+    }
+    
+    class func gcdForArray(_ array: Array<Int>) -> Int {
+        if array.isEmpty {
+            return 1
+        }
+        
+        var gcd = array[0]
+        
+        for val in array {
+            gcd = UIImage.gcdForPair(val, gcd)
+        }
+        
+        return gcd
+    }
+    
+    class func animatedImageWithSource(_ source: CGImageSource) -> UIImage? {
+        let count = CGImageSourceGetCount(source)
+        var images = [CGImage]()
+        var delays = [Int]()
+        
+        for i in 0..<count {
+            if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
+                images.append(image)
+            }
+            
+            let delaySeconds = UIImage.delayForImageAtIndex(Int(i),
+                                                            source: source)
+            delays.append(Int(delaySeconds * 1000.0)) // Seconds to ms
+        }
+        
+        let duration: Int = {
+            var sum = 0
+            
+            for val: Int in delays {
+                sum += val
+            }
+            
+            return sum
+        }()
+        
+        let gcd = gcdForArray(delays)
+        var frames = [UIImage]()
+        
+        var frame: UIImage
+        var frameCount: Int
+        for i in 0..<count {
+            frame = UIImage(cgImage: images[Int(i)])
+            frameCount = Int(delays[Int(i)] / gcd)
+            
+            for _ in 0..<frameCount {
+                frames.append(frame)
+            }
+        }
+        
+        let animation = UIImage.animatedImage(with: frames,
+                                              duration: Double(duration) / 1000.0)
+        
+        return animation
+    }
+    
     func imageWithInsets(insetDimen: CGFloat) -> UIImage {
         return imageWithInset(insets: UIEdgeInsets(top: insetDimen, left: insetDimen, bottom: insetDimen, right: insetDimen))
     }
@@ -219,13 +607,7 @@ extension UIImage{
         return imageWithInsets!
     }
 }
-//MARK:- UILabel Padded
-class UILabelPadded: UILabel {
-    override func drawText(in rect: CGRect) {
-        let insets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10)
-        super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
-    }
-}
+
 //MARK:- UI Devices
 extension UIDevice {
     var iPhoneX: Bool {

@@ -39,6 +39,10 @@ class Themes: NSObject {
     func retrieveFromDefaultsFor(_ key:String) -> AnyObject?{
         return UserDefaults.standard.object(forKey: key) as AnyObject
     }
+    //MARK: Remove from userdefaults
+    func removeFromDefaultsFor(_ key:String){
+        UserDefaults.standard.removeObject(forKey: key)
+    }
     func cornerRadius(_ object:AnyObject, cornerRad:CGFloat){
         object.layer.cornerRadius = cornerRad
         object.layer.masksToBounds = true
@@ -194,5 +198,15 @@ class Themes: NSObject {
             trimmedString = string.replacingOccurrences(of: "AM", with: "")
         }
         return trimmedString;
+    }
+    //MARK: - Printing JSON Object.
+    func jsonToString(json: AnyObject){
+        do {
+            let data1 =  try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted) // first of all convert json to the data
+            let convertedString = String(data: data1, encoding: String.Encoding.utf8) // the data will be converted to the string
+            print(convertedString ?? "defaultvalue jsonToString")
+        } catch let myJSONError {
+            print("Error jsonToString",myJSONError)
+        }
     }
 }
