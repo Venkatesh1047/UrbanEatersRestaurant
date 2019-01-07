@@ -9,8 +9,6 @@ target 'UrbanEaterRestaurant' do
   # Pods for UrbanEaterRestaurant
   pod 'Alamofire'
   pod 'ReachabilitySwift'
-  pod 'GoogleMaps'
-  pod 'GooglePlaces'
   pod 'Toast-Swift', '~> 3.0.1'
   pod 'SDWebImage/WebP'
   pod 'SwiftyJSON'

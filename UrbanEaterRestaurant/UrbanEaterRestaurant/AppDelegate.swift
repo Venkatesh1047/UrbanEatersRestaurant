@@ -8,8 +8,6 @@
 
 import UIKit
 import Reachability
-import GoogleMaps
-import GooglePlaces
 import IQKeyboardManagerSwift
 import SwiftyJSON
 import Firebase
@@ -25,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var IsInternetconnected:Bool=Bool()
-    let googleApiKey = "AIzaSyAufQUMZP7qdjtOcGIuNFRSL-8uU6uuvGY"
     let gcmMessageIDKey = "gcm.message_id"
     var gcmNotificationIDKey = "gcm.notification.payload"
     var player = AVAudioPlayer()
@@ -33,8 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         Fabric.with([Crashlytics.self])
-        GMSPlacesClient.provideAPIKey(googleApiKey)
-        GMSServices.provideAPIKey(googleApiKey)
         IQKeyboardManager.shared.enable = true
         UITabBar.appearance().tintColor = .themeColor
         UITabBar.appearance().unselectedItemTintColor = .greyColor
@@ -168,6 +163,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
             switch applicationState {
             case .active:
                 print("App is active")
+                //Themes.sharedInstance.shownotificationBanner(Msg: "\(body)")
                 AGPushNoteView.show(withNotificationMessage: title, description: body)
             case .background:
                 print("App is in background")

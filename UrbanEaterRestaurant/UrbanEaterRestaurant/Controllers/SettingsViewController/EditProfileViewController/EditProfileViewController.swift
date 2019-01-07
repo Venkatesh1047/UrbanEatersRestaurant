@@ -37,7 +37,7 @@ class EditProfileViewController: UIViewController {
         if let value = GlobalClass.restModel{
             self.updateUI()
         }else{
-            getRestarentProfile()
+            self.getRestarentProfile()
         }
     }
     func getRestarentProfile(){

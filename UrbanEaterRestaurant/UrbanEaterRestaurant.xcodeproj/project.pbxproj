@@ -830,7 +830,6 @@
 				A3BEF4292189A3B800192E7E /* Frameworks */,
 				A3BEF42A2189A3B800192E7E /* Resources */,
 				0C1B090E3D9B94DF3D20D86F /* [CP] Embed Pods Frameworks */,
-				BAAAC06ED69248749380AA32 /* [CP] Copy Pods Resources */,
 				A38A2B5321DDE0DF0084A5B2 /* ShellScript */,
 			);
 			buildRules = (
@@ -981,26 +980,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" de8a2599b02bab8fd0a70e238300a91f850b2a7a fa59ad04a4c884205ec9268a3922d3a6358c9eb50d17ad7d90da642f9041eaf6\n";
-		};
-		BAAAC06ED69248749380AA32 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		BE9B7EB49D4CCC2A1DFF1CAD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
