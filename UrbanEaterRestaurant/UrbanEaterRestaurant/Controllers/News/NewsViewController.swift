@@ -11,18 +11,28 @@ import SwiftyJSON
 
 class NewsViewController: UIViewController {
 
+    @IBOutlet weak var shadowView: ShadowView!
     @IBOutlet weak var statusLbl: UILabel!
     @IBOutlet weak var newsTbl: UITableView!
     @IBOutlet weak var clearAllBtn: UIButton!
     @IBOutlet weak var noDataAvailableLbl: UILabel!
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var descripLbl: UILabel!
+    @IBOutlet weak var viewInView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationsReceived(_:)), name: NSNotification.Name.init("NotifyReceived"), object: nil)
         self.updateUI()
+    }
+    //MARK:- ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationsReceived(_:)), name: NSNotification.Name.init("NotifyReceived"), object: nil)
     }
     //MARK:- Received Notifications
     @objc func notificationsReceived(_ notification:Notification){
+        self.clearAllBtn.isHidden = false
+        self.noDataAvailableLbl.isHidden = true
         self.newsTbl.reloadData()
     }
     //MARK:- Update UI
@@ -30,6 +40,10 @@ class NewsViewController: UIViewController {
         newsTbl.tableFooterView = UIView()
         newsTbl.delegate = self
         newsTbl.dataSource = self
+        self.viewInView.isHidden = true
+        self.viewInView.addTapGesture { (gesture) in
+            self.viewInView.isHidden = true
+        }
         self.clearAllBtn.isHidden = true
         var notificationObject = [String:[AnyObject]]()
         if let notifications = TheGlobalPoolManager.retrieveFromDefaultsFor("Notifications"){
@@ -46,11 +60,14 @@ class NewsViewController: UIViewController {
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
+        self.viewInView.isHidden = true
         NotificationCenter.default.removeObserver(self)
     }
     //MARK:- IB Action Outlets
     @IBAction func clearAllBtn(_ sender: UIButton) {
+        self.clearAllBtn.isHidden = true
         GlobalClass.notificationsModel = nil
+        self.noDataAvailableLbl.isHidden = false
         TheGlobalPoolManager.removeFromDefaultsFor("Notifications")
         self.newsTbl.reloadData()
     }
@@ -74,7 +91,14 @@ extension NewsViewController : UITableViewDataSource,UITableViewDelegate {
         return UITableViewAutomaticDimension
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        self.viewInView.isHidden = false
+        let data = GlobalClass.notificationsModel.notifications[indexPath.row]
+        self.titleLbl.text   = data.aps.alert.title
+        self.descripLbl.text = data.aps.alert.body
+        self.shadowView.frame.origin.y = 0
+        UIView.animate(withDuration: 0.7) {
+            self.shadowView.frame.origin.y = (self.view.centerY - (self.shadowView.h/2))
+        }
     }
 }
 
