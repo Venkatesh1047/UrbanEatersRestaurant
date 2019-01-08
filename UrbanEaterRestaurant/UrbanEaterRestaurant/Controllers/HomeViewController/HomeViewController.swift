@@ -33,11 +33,11 @@ class HomeViewController: UIViewController {
     var past7Days = [String]()
     
     var onlineString:NSAttributedString{
-        let attributeString = TheGlobalPoolManager.attributedTextWithTwoDifferentTextsWithFont("Swipe right to come ", attr2Text: "Online", attr1Color: .secondaryTextColor, attr2Color: .textColor, attr1Font: 14, attr2Font: 16, attr1FontName: .Regular, attr2FontName: .Medium)
+        let attributeString = TheGlobalPoolManager.attributedTextWithTwoDifferentTextsWithFont("Swipe right to come ", attr2Text: "Online", attr1Color: .secondaryTextColor, attr2Color: .textColor, attr1Font: UIDevice.isPhone() ? 14 : 18, attr2Font: UIDevice.isPhone() ? 16 : 20, attr1FontName: .Regular, attr2FontName: .Medium)
         return attributeString
     }
     var offlineString:NSAttributedString{
-        let attributeString = TheGlobalPoolManager.attributedTextWithTwoDifferentTextsWithFont("Swipe left to go ", attr2Text: "Offline", attr1Color: .secondaryTextColor, attr2Color: .textColor, attr1Font: 14, attr2Font: 16, attr1FontName: .Regular, attr2FontName: .Medium)
+        let attributeString = TheGlobalPoolManager.attributedTextWithTwoDifferentTextsWithFont("Swipe left to go ", attr2Text: "Offline", attr1Color: .secondaryTextColor, attr2Color: .textColor, attr1Font: UIDevice.isPhone() ? 14 : 18, attr2Font: UIDevice.isPhone() ? 16 : 20, attr1FontName: .Regular, attr2FontName: .Medium)
         return attributeString
     }
     
@@ -97,9 +97,9 @@ class HomeViewController: UIViewController {
         TheGlobalPoolManager.cornerRadiusForParticularCornerr(self.earningsViewInView, corners: [.bottomRight,.topRight], size: CGSize(width: 8, height: 0))
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: 100, height: self.collectionView.frame.height)
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 5
+        layout.itemSize = CGSize(width: UIDevice.isPhone() ? 100 : 140, height: self.collectionView.frame.height)
+        layout.minimumInteritemSpacing = UIDevice.isPhone() ? 5 : 10
+        layout.minimumLineSpacing = UIDevice.isPhone() ? 5 : 10
         layout.scrollDirection = .horizontal
         collectionView!.collectionViewLayout = layout
         collectionView.tag = 111
@@ -111,10 +111,10 @@ class HomeViewController: UIViewController {
         if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
             layoutBookTbl.itemSize = CGSize(width: 100, height: 50)
         }else{
-            layoutBookTbl.itemSize = CGSize(width: 100, height: 60)
+            layoutBookTbl.itemSize = CGSize(width: UIDevice.isPhone() ? 100 : 150, height: UIDevice.isPhone() ? 60 : 80)
         }
-        layoutBookTbl.minimumInteritemSpacing = 5
-        layoutBookTbl.minimumLineSpacing = 5
+        layoutBookTbl.minimumInteritemSpacing = UIDevice.isPhone() ? 5 : 10
+        layoutBookTbl.minimumLineSpacing = UIDevice.isPhone() ? 5 : 10
         layoutBookTbl.scrollDirection = .horizontal
         bookTblCollectionView!.collectionViewLayout = layoutBookTbl
         bookTblCollectionView.tag = 222

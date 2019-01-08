@@ -68,6 +68,11 @@ class HomeOnlineOptionsView: UIViewController {
     }
     //MARK:- Update UI
     func updateUI(){
+        ez.runThisInMainThread {
+            self.newCountLbl.isHidden = true
+            TheGlobalPoolManager.cornerAndBorder(self.newCountLbl, cornerRadius: self.newCountLbl.bounds.h / 2, borderWidth: 0, borderColor: .clear)
+            self.searchBgView.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : self.searchBgView.layer.bounds.h / 2)
+        }
         self.newCountLbl.isHidden = true
         TheGlobalPoolManager.cornerAndBorder(newCountLbl, cornerRadius: newCountLbl.bounds.h / 2, borderWidth: 0, borderColor: .clear)
         self.searchBgView.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : self.searchBgView.layer.bounds.h / 2)

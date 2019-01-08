@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EZSwiftExtensions
 
 class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     
@@ -56,8 +57,10 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         dateView3.customiseView()
         dateView4.customiseView()
         
-        TheGlobalPoolManager.cornerAndBorder(saveBtn, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
-        TheGlobalPoolManager.cornerAndBorder(minutesBgView, cornerRadius: minutesBgView.layer.bounds.h/2, borderWidth: 0, borderColor: .clear)
+        ez.runThisInMainThread {
+            TheGlobalPoolManager.cornerAndBorder(self.self.saveBtn, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
+            TheGlobalPoolManager.cornerAndBorder(self.minutesBgView, cornerRadius: self.minutesBgView.layer.bounds.h/2, borderWidth: 0, borderColor: .clear)
+        }
         datePicker.datePickerMode = UIDatePickerMode.time
         dateFormatter.dateFormat = "HH:mm a"
         datePicker.locale = Locale(identifier: "en_GB")

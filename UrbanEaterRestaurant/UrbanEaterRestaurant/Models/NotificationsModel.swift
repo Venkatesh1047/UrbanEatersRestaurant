@@ -88,7 +88,7 @@ class NotificationData{
             return
         }
         let object = JSON.init(json.toJSON() as Any)
-        self.timeStamp = ((object["timeStamp"].double ?? 0.0)/1000).toInt
+        self.timeStamp = ((object["timeStamp"].double ?? (Date().timeIntervalSinceNow))/1000).toInt
         self.orderId = object["orderId"].string ?? ""
     }
 }

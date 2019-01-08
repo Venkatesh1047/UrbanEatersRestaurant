@@ -27,8 +27,12 @@
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_uncheck" highlightedImage="ic_check" translatesAutoresizingMaskIntoConstraints="NO" id="iFC-1Y-fn1">
                         <rect key="frame" x="8" y="12" width="20" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="01r-uW-UUq"/>
-                            <constraint firstAttribute="height" constant="20" id="ySv-WL-w4R"/>
+                            <constraint firstAttribute="width" constant="20" id="01r-uW-UUq">
+                                <variation key="heightClass=regular-widthClass=regular" constant="25"/>
+                            </constraint>
+                            <constraint firstAttribute="height" constant="20" id="ySv-WL-w4R">
+                                <variation key="heightClass=regular-widthClass=regular" constant="25"/>
+                            </constraint>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUV-PW-xWe">
@@ -36,6 +40,9 @@
                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
+                        </variation>
                     </label>
                 </subviews>
                 <constraints>

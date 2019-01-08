@@ -11,6 +11,7 @@ import EZSwiftExtensions
 
 class AccountsViewController: UIViewController {
 
+    @IBOutlet weak var viewInView: UIView!
     @IBOutlet weak var menuTbl: UITableView!
     @IBOutlet weak var restarentImgView: UIImageView!
     @IBOutlet weak var restarentNameLbl: UILabel!
@@ -23,6 +24,9 @@ class AccountsViewController: UIViewController {
     }
     //MARK:- Update UI
     func updateUI(){
+        ez.runThisInMainThread {
+            self.viewInView.h = UIDevice.isPhone() ? 220 : 260
+        }
         self.resStartRating.setImage(#imageLiteral(resourceName: "Star").withColor(.whiteColor), for: .normal)
         menuList = ["Order History","Earning Summary","Table Booking History","Manage Menu","Settings","Help & Support","Logout"]
         menuTbl.delegate = self
