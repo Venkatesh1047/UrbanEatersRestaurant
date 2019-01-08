@@ -47,19 +47,20 @@ class GlobalModel:NSObject {
     var notificationsModel : NotificationsModel!
     var instanceIDTokenMessage:String = ""
     
-    let ORDER_NEW_RESTAURANT = "ORDER_NEW_RESTAURANT"
+    let NEWS_NOTIFICATION          = "NEWS_NOTIFICATION"
+    let ORDER_NEW_RESTAURANT       = "ORDER_NEW_RESTAURANT"
     let ORDER_TABLE_NEW_RESTAURANT = "ORDER_TABLE_NEW_RESTAURANT"
-    let KEY_ACCEPTED     = "RES_ACCEPTED"
-    let KEY_REJECTED     = "RES_REJECTED"
-    let DRIVER_NOT_ALLOCATED = "Driver Not Allocated"
-    let KEY_ID           = "id"
-    let KEY_DELIVERYTIME = "deliveryTime"
-    let KEY_TIMINGS      = "timings"
-    let KEY_WEEKDAY      = "weekDay"
-    let KEY_WEEKEND      = "weekEnd"
-    let KEY_STARTAT      = "startAt"
-    let KEY_ENDAT        = "endAt"
-    let KEY_STATUS       = "status"
+    let KEY_ACCEPTED               = "RES_ACCEPTED"
+    let KEY_REJECTED               = "RES_REJECTED"
+    let DRIVER_NOT_ALLOCATED       = "Driver Not Allocated"
+    let KEY_ID                     = "id"
+    let KEY_DELIVERYTIME           = "deliveryTime"
+    let KEY_TIMINGS                = "timings"
+    let KEY_WEEKDAY                = "weekDay"
+    let KEY_WEEKEND                = "weekEnd"
+    let KEY_STARTAT                = "startAt"
+    let KEY_ENDAT                  = "endAt"
+    let KEY_STATUS                 = "status"
     
     override init() {
         super.init()
