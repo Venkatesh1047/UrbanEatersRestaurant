@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EZSwiftExtensions
 
 class ScheduleFoodCell: UITableViewCell {
 
@@ -20,7 +21,9 @@ class ScheduleFoodCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        TheGlobalPoolManager.cornerRadiusForParticularCornerr(statusLbl, corners: [.bottomLeft], size: CGSize(width: 5, height: 0))
+        ez.runThisInMainThread {
+            TheGlobalPoolManager.cornerRadiusForParticularCornerr(self.statusLbl, corners: [.bottomLeft], size: CGSize(width: 5, height: 0))
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

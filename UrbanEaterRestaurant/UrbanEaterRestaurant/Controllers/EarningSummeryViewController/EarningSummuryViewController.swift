@@ -164,7 +164,7 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
         return GlobalClass.earningsHistoryModel == nil ? 0 : GlobalClass.earningsHistoryModel.data.orderFoodData.count
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 65
+        return UIDevice.isPhone() ? 65 : 80
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "OrderHistoryTableViewCell") as! OrderHistoryTableViewCell
@@ -213,12 +213,12 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
         return 3
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 10))
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: UIDevice.isPhone() ? 10 : 20))
         footerView.backgroundColor = .clear
         return footerView
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 35
+        return UIDevice.isPhone() ? 35 : 40
     }
     @objc func HandleheaderButton(sender: UIButton){
         if let buttonTitle = sender.title(for: .normal) {

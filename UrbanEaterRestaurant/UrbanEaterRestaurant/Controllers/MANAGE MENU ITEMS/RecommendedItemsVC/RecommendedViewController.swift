@@ -105,7 +105,7 @@ extension  RecommendedViewController : UITableViewDelegate,UITableViewDataSource
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return UIDevice.isPhone() ? 90 : 120
     }
     @objc func itemDeleteBtnAction(_ sender:UIButton){
         TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "You want to delete?", singleAction: false, okTitle:"Confirm") { (sucess) in

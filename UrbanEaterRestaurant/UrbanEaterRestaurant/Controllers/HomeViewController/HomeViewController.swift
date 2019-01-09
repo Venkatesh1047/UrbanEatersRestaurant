@@ -67,11 +67,13 @@ class HomeViewController: UIViewController {
         bookTblCollectionView.register(UINib(nibName: "DateCell", bundle: nil), forCellWithReuseIdentifier: "DateCell")
         bookTblCollectionView.register(UINib(nibName: "DateSeeAll", bundle: nil), forCellWithReuseIdentifier: "DateSeeAll")
         
-        if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
-            self.earningViewHightConstraint.constant = 250
-            self.earningsHeaderViewHeight.constant = 45
-            self.tableBookingsHeight.constant = 110
-            self.tableBookingsHeaderHeight.constant = 45
+        ez.runThisInMainThread {
+            if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
+                self.earningViewHightConstraint.constant = 250
+                self.earningsHeaderViewHeight.constant = 45
+                self.tableBookingsHeight.constant = 110
+                self.tableBookingsHeaderHeight.constant = 45
+            }
         }
     }
     override func viewWillAppear(_ animated: Bool) {

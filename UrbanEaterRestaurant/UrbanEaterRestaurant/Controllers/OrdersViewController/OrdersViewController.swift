@@ -112,7 +112,7 @@ class OrdersViewController: UIViewController {
         self.searchTF.delegate = self
         //Selection view...............
         selectionView.backgroundColor = .secondaryBGColor
-        selectionView.font = UIFont.appFont(.Medium, size: 16)
+        selectionView.font = UIFont.appFont(.Medium, size: UIDevice.isPhone() ? 16 : 22)
         selectionView.append(title: "New")
             .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
         selectionView.append(title: "Scheduled")
@@ -364,21 +364,21 @@ extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
         switch selectionView.selectedIndex {
         case 0:
             if self.isFoodSelectedFlag{
-                return 200
+                return UIDevice.isPhone() ? 200 : 210
             }else{
-                return 200
+                return UIDevice.isPhone() ? 200 : 270
             }
         case 1:
             if self.isFoodSelectedFlag{
-                return 110
+                return UIDevice.isPhone() ? 110 : 140
             }else{
-                return 150
+                return UIDevice.isPhone() ? 150 : 200
             }
         case 2:
             if self.isFoodSelectedFlag{
-                return 130
+                return UIDevice.isPhone() ? 130 : 140
             }else{
-                return 130
+                return UIDevice.isPhone() ? 130 : 160
             }
         default:
             break

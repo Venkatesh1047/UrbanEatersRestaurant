@@ -893,7 +893,9 @@
                                                         <constraint firstItem="goa-QF-wwn" firstAttribute="leading" secondItem="BdD-Nd-tWM" secondAttribute="leading" constant="20" id="KCG-1w-Fll"/>
                                                         <constraint firstItem="PVD-D8-hVw" firstAttribute="centerY" secondItem="BdD-Nd-tWM" secondAttribute="centerY" id="UQN-3d-s9Q"/>
                                                         <constraint firstItem="goa-QF-wwn" firstAttribute="centerY" secondItem="BdD-Nd-tWM" secondAttribute="centerY" id="e2v-wY-lat"/>
-                                                        <constraint firstAttribute="height" constant="50" id="eLb-oF-x9Z"/>
+                                                        <constraint firstAttribute="height" constant="50" id="eLb-oF-x9Z">
+                                                            <variation key="heightClass=regular-widthClass=regular" constant="60"/>
+                                                        </constraint>
                                                         <constraint firstAttribute="trailing" secondItem="PVD-D8-hVw" secondAttribute="trailing" constant="20" id="rTo-Mq-pW0"/>
                                                     </constraints>
                                                 </view>
@@ -1124,12 +1126,16 @@
                             <constraint firstItem="gFW-qU-Tu4" firstAttribute="leading" secondItem="wvT-X4-49V" secondAttribute="leading" id="3BZ-kc-jrP"/>
                             <constraint firstItem="3kb-5d-kjX" firstAttribute="leading" secondItem="zH7-ME-iJY" secondAttribute="leading" id="4z8-2l-hNy"/>
                             <constraint firstItem="Fha-xu-UNu" firstAttribute="top" secondItem="nNp-Fh-GYa" secondAttribute="bottom" constant="8" id="8bP-CW-QWW"/>
-                            <constraint firstItem="Fha-xu-UNu" firstAttribute="leading" secondItem="zH7-ME-iJY" secondAttribute="leading" constant="40" id="D71-kw-6uj"/>
+                            <constraint firstItem="Fha-xu-UNu" firstAttribute="leading" secondItem="zH7-ME-iJY" secondAttribute="leading" constant="40" id="D71-kw-6uj">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
                             <constraint firstItem="npd-ry-qVu" firstAttribute="leading" secondItem="zH7-ME-iJY" secondAttribute="leading" constant="40" id="I4G-l0-A1N">
                                 <variation key="heightClass=regular-widthClass=regular" constant="200"/>
                             </constraint>
                             <constraint firstItem="nNp-Fh-GYa" firstAttribute="leading" secondItem="zH7-ME-iJY" secondAttribute="leading" id="LRJ-ZI-GO3"/>
-                            <constraint firstItem="zH7-ME-iJY" firstAttribute="trailing" secondItem="wvT-X4-49V" secondAttribute="trailing" constant="40" id="Q1h-SL-RiF"/>
+                            <constraint firstItem="zH7-ME-iJY" firstAttribute="trailing" secondItem="wvT-X4-49V" secondAttribute="trailing" constant="40" id="Q1h-SL-RiF">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
                             <constraint firstItem="zH7-ME-iJY" firstAttribute="trailing" secondItem="cDH-f9-GvD" secondAttribute="trailing" constant="4" id="S43-Z6-PmZ"/>
                             <constraint firstItem="wvT-X4-49V" firstAttribute="centerY" secondItem="Fha-xu-UNu" secondAttribute="centerY" id="Sbd-tg-nMO"/>
                             <constraint firstItem="nNp-Fh-GYa" firstAttribute="top" secondItem="zH7-ME-iJY" secondAttribute="top" id="T0E-zf-tGy"/>
@@ -2258,7 +2264,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RECOMMENDED" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vl0-QP-agA">
-                                        <rect key="frame" x="125.33333333333334" y="12.666666666666664" width="126.33333333333334" height="20"/>
+                                        <rect key="frame" x="124.33333333333334" y="12.666666666666664" width="126.33333333333334" height="20"/>
                                         <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -4208,13 +4214,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LfR-pX-vgn">
-                                <rect key="frame" x="0.0" y="168" width="375" height="561"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <segue destination="XjS-Na-rtc" kind="embed" identifier="HomeSegue" id="LSc-AP-nxP"/>
-                                </connections>
-                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yE4-zH-QUe">
                                 <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                 <subviews>
@@ -4530,6 +4529,13 @@
                                     <constraint firstItem="Sm6-9o-Oxu" firstAttribute="centerX" secondItem="ZmX-nH-Wj0" secondAttribute="centerX" id="sc1-hA-FPt"/>
                                 </constraints>
                             </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LfR-pX-vgn">
+                                <rect key="frame" x="0.0" y="168" width="375" height="561"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="XjS-Na-rtc" kind="embed" identifier="HomeSegue" id="LSc-AP-nxP"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>

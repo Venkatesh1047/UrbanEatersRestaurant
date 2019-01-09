@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EZSwiftExtensions
 
 class FoodItemsViewController: UIViewController,SelectGroupDelegate {
 
@@ -91,7 +92,7 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         return GlobalClass.manageCategoriesModel == nil ? 0 : GlobalClass.manageCategoriesModel.data.count
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return UIDevice.isPhone() ? 50 : 60
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.collapaseHandlerArray.contains(GlobalClass.manageCategoriesModel.data[section].name){
@@ -101,7 +102,7 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return UIDevice.isPhone() ? 90 : 120
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
@@ -152,7 +153,6 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         if let buttonTitle = sender.title(for: .normal) {
             if buttonTitle == "Show"{
                self.collapaseHandlerArray.append(GlobalClass.manageCategoriesModel.data[sender.tag].name!)
-                
                sender.setTitle("Hide", for: .normal)
             }else {
                 while self.collapaseHandlerArray.contains(GlobalClass.manageCategoriesModel.data[sender.tag].name!){

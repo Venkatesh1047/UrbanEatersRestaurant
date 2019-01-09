@@ -109,8 +109,8 @@ extension ManageBookingsVC : UITableViewDataSource,UITableViewDelegate {
             cell.lbl2.text = lbl2ValuesArray[indexPath.row]
             cell.lbl3.text = lbl3ValuesArray[indexPath.row]
         }
-        let attrs1 = [NSAttributedStringKey.font : UIFont.appFont(.Regular, size: 11), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
-        let attrs2 = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: 11), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 1)] as [NSAttributedStringKey : Any]
+        let attrs1 = [NSAttributedStringKey.font : UIFont.appFont(.Regular, size: UIDevice.isPhone() ? 11 : 16), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
+        let attrs2 = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: UIDevice.isPhone() ? 11 : 16), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 1)] as [NSAttributedStringKey : Any]
         let attributedString1 = NSMutableAttributedString(string:"You can manage", attributes:attrs1)
         let attributedString2 = NSMutableAttributedString(string:" \(contentArray[indexPath.row])", attributes:attrs2)
         let attributedString3 = NSMutableAttributedString(string:" from here", attributes:attrs1)
@@ -120,7 +120,7 @@ extension ManageBookingsVC : UITableViewDataSource,UITableViewDelegate {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 170
+        return UIDevice.isPhone() ? 170 : 210
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {

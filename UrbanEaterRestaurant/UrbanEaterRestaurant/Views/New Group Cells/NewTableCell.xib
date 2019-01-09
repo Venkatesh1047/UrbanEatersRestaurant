@@ -36,17 +36,27 @@
                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="18"/>
+                                </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Table" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lFk-tJ-rUf">
                                 <rect key="frame" x="270" y="0.0" width="50" height="21"/>
                                 <color key="backgroundColor" red="0.95294117649999999" green="0.75294117650000003" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="2hY-DR-duq"/>
-                                    <constraint firstAttribute="height" constant="21" id="VwP-J7-00s"/>
+                                    <constraint firstAttribute="width" constant="50" id="2hY-DR-duq">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="60"/>
+                                    </constraint>
+                                    <constraint firstAttribute="height" constant="21" id="VwP-J7-00s">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="25"/>
+                                    </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7W-Po-V3a">
                                 <rect key="frame" x="12" y="34.5" width="278" height="40"/>
@@ -59,18 +69,27 @@
                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
                                                 <color key="textColor" red="0.32941176470588235" green="0.32941176470588235" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="16"/>
+                                                </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8m2-jI-Fxr">
                                                 <rect key="frame" x="92.5" y="0.0" width="93" height="20"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
                                                 <color key="textColor" red="0.3294117647" green="0.3294117647" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="16"/>
+                                                </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No of Persons" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z2Q-9X-Jwv">
                                                 <rect key="frame" x="185.5" y="0.0" width="92.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
                                                 <color key="textColor" red="0.3294117647" green="0.3294117647" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="16"/>
+                                                </variation>
                                             </label>
                                         </subviews>
                                         <constraints>
@@ -85,18 +104,27 @@
                                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="12"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="16"/>
+                                                </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I8i-1y-Yfn">
                                                 <rect key="frame" x="92.5" y="0.0" width="93" height="20"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="12"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="16"/>
+                                                </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOS-Ii-8EW">
                                                 <rect key="frame" x="185.5" y="0.0" width="92.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="12"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="16"/>
+                                                </variation>
                                             </label>
                                         </subviews>
                                         <constraints>
@@ -108,7 +136,9 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="4Ll-eU-wFU" secondAttribute="trailing" id="9rT-M5-Qja"/>
-                                    <constraint firstAttribute="height" constant="40" id="KSW-E4-mPY"/>
+                                    <constraint firstAttribute="height" constant="40" id="KSW-E4-mPY">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="50"/>
+                                    </constraint>
                                     <constraint firstItem="SKG-4F-8iD" firstAttribute="leading" secondItem="k7W-Po-V3a" secondAttribute="leading" id="Off-pi-Kzg"/>
                                     <constraint firstAttribute="bottom" secondItem="4Ll-eU-wFU" secondAttribute="bottom" id="Uz5-XD-5x7"/>
                                     <constraint firstItem="SKG-4F-8iD" firstAttribute="top" secondItem="k7W-Po-V3a" secondAttribute="top" id="jr8-Y6-AU7"/>
@@ -137,6 +167,9 @@
                                         <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="18"/>
+                                        </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vamsi007@gmail.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4nS-8U-cNJ">
                                         <rect key="frame" x="0.0" y="20" width="240" height="20"/>
@@ -146,6 +179,9 @@
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
+                                        </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nuf-PE-kCF">
                                         <rect key="frame" x="250" y="-5" width="50" height="50"/>
@@ -162,7 +198,9 @@
                                     <constraint firstItem="Bjl-9F-SP3" firstAttribute="leading" secondItem="Uve-kF-hj6" secondAttribute="leading" id="K5R-pd-Moh"/>
                                     <constraint firstAttribute="trailing" secondItem="nuf-PE-kCF" secondAttribute="trailing" id="fsN-Ol-HWI"/>
                                     <constraint firstItem="nuf-PE-kCF" firstAttribute="centerY" secondItem="Uve-kF-hj6" secondAttribute="centerY" id="gGv-bx-E1T"/>
-                                    <constraint firstAttribute="height" constant="40" id="oS6-1K-8qW"/>
+                                    <constraint firstAttribute="height" constant="40" id="oS6-1K-8qW">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="50"/>
+                                    </constraint>
                                     <constraint firstItem="4nS-8U-cNJ" firstAttribute="leading" secondItem="Uve-kF-hj6" secondAttribute="leading" id="qpM-97-Vwu"/>
                                     <constraint firstItem="4nS-8U-cNJ" firstAttribute="width" secondItem="Bjl-9F-SP3" secondAttribute="width" id="sVp-Ts-QAx"/>
                                     <constraint firstAttribute="bottom" secondItem="4nS-8U-cNJ" secondAttribute="bottom" id="y4z-Bf-q4o"/>
@@ -179,6 +217,9 @@
                                         <state key="normal" title="REJECT">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="18"/>
+                                        </variation>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9V-V2-zp3" customClass="ButtonWithShadow" customModule="UrbanEaterRestaurant" customModuleProvider="target">
                                         <rect key="frame" x="169" y="0.0" width="119" height="40"/>
@@ -187,11 +228,17 @@
                                         <state key="normal" title="ACCEPT">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="18"/>
+                                        </variation>
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="aeG-c4-giz"/>
+                                    <constraint firstAttribute="height" constant="40" id="aeG-c4-giz">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="50"/>
+                                    </constraint>
                                 </constraints>
+                                <variation key="heightClass=regular-widthClass=regular" spacing="150"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.98431372549999996" green="0.93725490199999995" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -205,14 +252,18 @@
                             <constraint firstItem="lFk-tJ-rUf" firstAttribute="leading" secondItem="bHS-zo-BQO" secondAttribute="trailing" constant="10" id="Ssm-ft-52W"/>
                             <constraint firstItem="Uve-kF-hj6" firstAttribute="leading" secondItem="k7W-Po-V3a" secondAttribute="leading" id="UO3-U4-dPh"/>
                             <constraint firstAttribute="trailing" secondItem="Uve-kF-hj6" secondAttribute="trailing" constant="8" id="arT-e3-7xy"/>
-                            <constraint firstItem="k7W-Po-V3a" firstAttribute="top" secondItem="bHS-zo-BQO" secondAttribute="bottom" constant="10" id="bh2-dV-l9N"/>
+                            <constraint firstItem="k7W-Po-V3a" firstAttribute="top" secondItem="bHS-zo-BQO" secondAttribute="bottom" constant="10" id="bh2-dV-l9N">
+                                <variation key="heightClass=regular-widthClass=regular" constant="20"/>
+                            </constraint>
                             <constraint firstAttribute="bottom" secondItem="hrf-ft-yDg" secondAttribute="bottom" constant="10" id="eCL-gQ-0Vr"/>
                             <constraint firstItem="hrf-ft-yDg" firstAttribute="leading" secondItem="k7W-Po-V3a" secondAttribute="leading" constant="8" id="f65-nI-KgO"/>
                             <constraint firstItem="Uve-kF-hj6" firstAttribute="top" secondItem="fmK-xp-dk7" secondAttribute="bottom" constant="4" id="lhS-9J-agj"/>
                             <constraint firstItem="bHS-zo-BQO" firstAttribute="leading" secondItem="6mz-on-IeR" secondAttribute="leading" constant="12" id="ouL-Zr-hIf"/>
                             <constraint firstItem="lFk-tJ-rUf" firstAttribute="top" secondItem="6mz-on-IeR" secondAttribute="top" id="pjz-Vm-pZr"/>
                             <constraint firstItem="fmK-xp-dk7" firstAttribute="centerX" secondItem="6mz-on-IeR" secondAttribute="centerX" id="tiN-7l-XPJ"/>
-                            <constraint firstItem="fmK-xp-dk7" firstAttribute="top" secondItem="k7W-Po-V3a" secondAttribute="bottom" constant="8" id="zqq-dV-7CY"/>
+                            <constraint firstItem="fmK-xp-dk7" firstAttribute="top" secondItem="k7W-Po-V3a" secondAttribute="bottom" constant="8" id="zqq-dV-7CY">
+                                <variation key="heightClass=regular-widthClass=regular" constant="16"/>
+                            </constraint>
                         </constraints>
                     </view>
                 </subviews>

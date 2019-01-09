@@ -171,7 +171,7 @@ class Themes: NSObject {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         if let formattedDate = dateFormatter.date(from: date) {
-            dateFormatter.dateFormat = "dd-MM-yyyy \n\nhh:mm a"
+            dateFormatter.dateFormat =  UIDevice.isPhone() ? "dd-MM-yyyy \n\nhh:mm a" : "dd-MM-yyyy \nhh:mm a"
             return dateFormatter.string(from: formattedDate)
         }
         return date

@@ -38,7 +38,7 @@ extension ManageMenuViewController : UITableViewDelegate,UITableViewDataSource{
         let cell:MenuTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MenuList", for: indexPath) as! MenuTableViewCell
         cell.titleLabel.text = self.menuList[indexPath.row]
         cell.selectionStyle = .none
-        tableView.rowHeight = 50
+        tableView.rowHeight = UIDevice.isPhone() ? 50 : 60
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EZSwiftExtensions
 
 class NewTableCell: UITableViewCell {
     @IBOutlet weak var orderIDLbl: UILabel!
@@ -25,7 +26,9 @@ class NewTableCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        TheGlobalPoolManager.cornerRadiusForParticularCornerr(stausLbl, corners: [.bottomLeft], size: CGSize(width: 5, height: 0))
+        ez.runThisInMainThread {
+            TheGlobalPoolManager.cornerRadiusForParticularCornerr(self.stausLbl, corners: [.bottomLeft], size: CGSize(width: 5, height: 0))
+        }
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

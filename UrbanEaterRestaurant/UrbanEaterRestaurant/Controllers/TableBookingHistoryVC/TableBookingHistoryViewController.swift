@@ -107,6 +107,6 @@ extension TableBookingHistoryViewController : UITableViewDelegate,UITableViewDat
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
+        return UIDevice.isPhone() ? 130 : 160
     }
 }

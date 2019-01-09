@@ -107,7 +107,7 @@ extension AccountsViewController : UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return UIDevice.isPhone() ? 60 : 70
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item : String = menuList[indexPath.row]

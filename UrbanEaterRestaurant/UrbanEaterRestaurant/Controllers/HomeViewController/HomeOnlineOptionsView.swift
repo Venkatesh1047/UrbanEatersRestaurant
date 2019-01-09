@@ -82,7 +82,7 @@ class HomeOnlineOptionsView: UIViewController {
         self.searchTF.delegate = self
         //Selection view...............
         selectionView.backgroundColor = .secondaryBGColor
-        selectionView.font = UIFont.appFont(.Medium, size: 16)
+        selectionView.font = UIFont.appFont(.Medium, size: UIDevice.isPhone() ? 16 : 22)
         selectionView.append(title: "New")
             .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
         selectionView.append(title: "Scheduled")
@@ -280,23 +280,23 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
             let data = self.dummyRestaurantAllOrdersModel.new[indexPath.row]
             if !data.isOrderTable{
                 if data.items.count > 3{
-                    return CGFloat(135 + Int(data.items.count * 30))
+                    return UIDevice.isPhone() ? CGFloat(135 + Int(data.items.count * 30)) : CGFloat(155 + Int(data.items.count * 30))
                 }
-                return 200
+                return UIDevice.isPhone() ? 200 : 210
             }
-            return 160
+            return UIDevice.isPhone() ? 160 : 220
         case 1:
             let data = self.dummyRestaurantAllOrdersModel.scheduled[indexPath.row]
             if !data.isOrderTable{
-                return 110
+                return UIDevice.isPhone() ? 110 : 140
             }
-            return 110
+            return UIDevice.isPhone() ? 110 : 140
         case 2:
             let data = self.dummyRestaurantAllOrdersModel.completed[indexPath.row]
             if !data.isOrderTable{
-                return 130
+                return UIDevice.isPhone() ? 130 : 160
             }
-            return 130
+            return UIDevice.isPhone() ? 130 : 160
         default:
             break
         }

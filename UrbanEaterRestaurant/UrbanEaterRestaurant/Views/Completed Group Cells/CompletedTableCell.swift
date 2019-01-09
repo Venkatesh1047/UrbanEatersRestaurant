@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EZSwiftExtensions
 
 class CompletedTableCell: UITableViewCell {
     
@@ -22,7 +23,9 @@ class CompletedTableCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        TheGlobalPoolManager.cornerRadiusForParticularCornerr(stausLbl, corners: [.bottomLeft], size: CGSize(width: 5, height: 0))
+        ez.runThisInMainThread {
+            TheGlobalPoolManager.cornerRadiusForParticularCornerr(self.stausLbl, corners: [.bottomLeft], size: CGSize(width: 5, height: 0))
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
