@@ -183,14 +183,14 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
         let toGetAlert = userInfo["aps"] as! [String:AnyObject]
         if toGetAlert["alert"] is [String:AnyObject]{
             let toGetTitle = toGetAlert["alert"] as! [String:AnyObject]
-            let title = toGetTitle["title"] as! String
+            _ = toGetTitle["title"] as! String
             let body = toGetTitle["body"] as! String
             let applicationState = UIApplication.shared.applicationState
             switch applicationState {
             case .active:
                 print("App is active")
-                //Themes.sharedInstance.shownotificationBanner(Msg: "\(body)")
-                AGPushNoteView.show(withNotificationMessage: title, description: body)
+                Themes.sharedInstance.shownotificationBanner(Msg: "\(body)")
+                //AGPushNoteView.show(withNotificationMessage: title, description: body)
             case .background:
                 print("App is in background")
             case .inactive:

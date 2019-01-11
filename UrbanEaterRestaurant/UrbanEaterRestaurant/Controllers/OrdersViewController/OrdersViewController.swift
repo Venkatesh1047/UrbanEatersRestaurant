@@ -170,7 +170,7 @@ class OrdersViewController: UIViewController {
                 self.dummyFoodOrderModel = foodModel
                 if GlobalClass.foodOrderModel.data.count == 0{
                     if !hideToast{
-                        TheGlobalPoolManager.showToastView("No data available")
+                        TheGlobalPoolManager.showToastView("No orders available now")
                     }
                     self.tableView.reloadData()
                 }else{
@@ -207,7 +207,7 @@ class OrdersViewController: UIViewController {
                 self.dummyTableOrderModel = tableModel
                 if GlobalClass.tableOrderModel.data.count == 0{
                     if !hideToast{
-                        TheGlobalPoolManager.showToastView("No data available")
+                        TheGlobalPoolManager.showToastView("No Bookings available now")
                     }
                     self.tableView.reloadData()
                 }else{

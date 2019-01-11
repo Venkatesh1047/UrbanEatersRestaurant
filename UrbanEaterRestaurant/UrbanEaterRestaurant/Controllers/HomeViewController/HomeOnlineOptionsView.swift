@@ -142,7 +142,7 @@ class HomeOnlineOptionsView: UIViewController {
                 }
                 if GlobalClass.restaurantAllOrdersModel.data.count == 0{
                     self.tableView.reloadData()
-                    TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
+                    TheGlobalPoolManager.showToastView("No Orders available now")
                 }else{
                     self.tableView.reloadData()
                 }

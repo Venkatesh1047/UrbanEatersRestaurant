@@ -10,16 +10,23 @@ import UIKit
 import SwiftyJSON
 
 class TableBookingHistoryViewController: UIViewController {
-    @IBOutlet weak var dateView: UIView!
+    
     @IBOutlet weak var HistoryTbl: UITableView!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var dateConatinerView: UIView!
     @IBOutlet weak var blurView: UIView!
-    @IBOutlet weak var sortDateLbl: UILabel!
+    @IBOutlet weak var fromDateView: UIView!
+    @IBOutlet weak var toDateView: UIView!
+    @IBOutlet weak var fromDateLbl: UILabel!
+    @IBOutlet weak var toDateLbl: UILabel!
+    var fromDateString : String!
+    
+    var toDateString : String!
     var dateSelectedString : String!
+    var isFromDateSelected = false
     let dateFormatter = DateFormatter()
-    
-    
+    var selectedDate : String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateUI()
@@ -32,12 +39,16 @@ class TableBookingHistoryViewController: UIViewController {
         self.HistoryTbl.tableFooterView = UIView()
         self.HistoryTbl.delegate = self
         self.HistoryTbl.dataSource = self
-        TheGlobalPoolManager.cornerAndBorder(dateView, cornerRadius: 3, borderWidth: 1, borderColor: .lightGray)
         datePicker.datePickerMode = UIDatePickerMode.date
         datePicker.maximumDate = NSDate() as Date
         datePicker.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
+        TheGlobalPoolManager.cornerAndBorder(fromDateView, cornerRadius: 5, borderWidth: 1, borderColor: .lightGray)
+        TheGlobalPoolManager.cornerAndBorder(toDateView, cornerRadius: 5, borderWidth: 1, borderColor: .lightGray)
+        datePicker.datePickerMode = UIDatePickerMode.date
+        datePicker.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        sortDateLbl.text =  "Choose Date"
+        datePicker.maximumDate = NSDate() as Date
+        datePicker.maximumDate = Date()
         let nibName = UINib(nibName:"CompletedTableCell" , bundle: nil)
         HistoryTbl.register(nibName, forCellReuseIdentifier: "CompletedTableCell")
     }
@@ -45,11 +56,13 @@ class TableBookingHistoryViewController: UIViewController {
     func tableHistoryApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
         var param = [String : AnyObject]()
-        if dateSelectedString == nil{
-            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
+        if toDateString == nil{
+           param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
         }else{
-             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                              "date" : dateSelectedString] as [String : AnyObject]
+            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
+                             "dateRange": [
+                             "from": fromDateString,
+                             "to": toDateString]] as [String : AnyObject]
         }
         URLhandler.postUrlSession(urlString: Constants.urls.TableBookingHistory, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -68,16 +81,51 @@ class TableBookingHistoryViewController: UIViewController {
         dateSelectedString = dateFormatter.string(from: sender.date)
     }
     //MARK:- IB Action Outlets
-    @IBAction func sortDateBtnClicked(_ sender: Any) {
+    @IBAction func fromDateBtnClicked(_ sender: Any) {
         dateConatinerView.isHidden = false
         blurView.isHidden = false
+        isFromDateSelected = true
+    }
+    @IBAction func toDateBtnClicked(_ sender: Any) {
+        if fromDateString == nil{
+            TheGlobalPoolManager.showToastView("Please select from date first")
+            return
+        }
+        dateConatinerView.isHidden = false
+        blurView.isHidden = false
+        isFromDateSelected = false
     }
     @IBAction func doneDatePickerBtnClicked(_ sender: Any) {
         dateConatinerView.isHidden = true
         blurView.isHidden = true
-        if  dateSelectedString != nil {
-            sortDateLbl.text = dateSelectedString
-            self.tableHistoryApiHitting()
+        let date = Date()
+        if (dateSelectedString ?? "").isEmpty {
+            dateSelectedString =  dateFormatter.string(from: date)
+        }
+        if isFromDateSelected {
+            fromDateString = dateSelectedString
+            fromDateLbl.text = dateSelectedString
+            fromDateLbl.textColor = .textColor
+        }else{
+            toDateString = dateSelectedString
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let date1 = dateFormatter.date(from: fromDateString)
+            let date2 = dateFormatter.date(from: toDateString)
+            if date1 == date2{
+                toDateLbl.text = dateSelectedString
+                toDateLbl.textColor = .textColor
+                self.tableHistoryApiHitting()
+            }else if date1! > date2! {
+                TheGlobalPoolManager.showAlertWith(message: "Oops!, 'To Date' is past date when compared to 'From Date", singleAction: true, callback: { (success) in
+                    if success!{}
+                })
+                return
+            }else if date1! < date2! {
+                toDateLbl.text = dateSelectedString
+                toDateLbl.textColor = .textColor
+                self.tableHistoryApiHitting()
+            }
         }
     }
     @IBAction func cancelDatePickerBtnClicked(_ sender: Any) {
