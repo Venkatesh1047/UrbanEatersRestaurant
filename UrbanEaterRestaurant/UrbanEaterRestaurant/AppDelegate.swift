@@ -126,7 +126,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     "id": dataS.subId,
                     "deviceInfo": ["deviceToken": token,
                                              "os" : "IOS"]] as  [String:AnyObject]
-                URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: param, header: [:]) { (dataResponse) in
+                 let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+                URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: param, header: header) { (dataResponse) in
                 }
             }
         }
@@ -146,7 +147,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
         }
         print(userInfo)
         if let key = userInfo["key"] as? String{
-            if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT{
+            if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
                 self.playSound()
                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
                 ez.runThisAfterDelay(seconds: 4) {
@@ -190,7 +191,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
             case .active:
                 print("App is active")
                 Themes.sharedInstance.shownotificationBanner(Msg: "\(body)")
-                //AGPushNoteView.show(withNotificationMessage: title, description: body)
             case .background:
                 print("App is in background")
             case .inactive:

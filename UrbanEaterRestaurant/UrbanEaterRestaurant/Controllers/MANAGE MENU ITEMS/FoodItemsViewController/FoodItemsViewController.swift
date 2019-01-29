@@ -9,7 +9,7 @@
 import UIKit
 import EZSwiftExtensions
 
-class FoodItemsViewController: UIViewController,SelectGroupDelegate {
+class FoodItemsViewController: UIViewController,SelectGroupDelegate,UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var foodItemsTbl: UITableView!
     var collapaseHandlerArray = [String]()
@@ -46,7 +46,8 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate {
     func manageCategoriesApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!]
-        URLhandler.postUrlSession(urlString: Constants.urls.ManageCaegories, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.ManageCaegories, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.manageCategoriesModel = ManageCategoriesModel(fromJson: dataResponse.json)
@@ -58,7 +59,8 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate {
     func manageCategoryItemDeleteApiHitting(_ itemID : String){
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["id": itemID]
-        URLhandler.postUrlSession(urlString: Constants.urls.CategoryFoodItemDelete, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.CategoryFoodItemDelete, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 self.manageCategoriesApiHitting()
@@ -71,7 +73,8 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate {
         let param = ["id": itemID,
                                 "available": availableStatus,
                                 "nextAvailableTime": time] as [String : Any]
-        URLhandler.postUrlSession(urlString: Constants.urls.CategoryFoodItemUpdate, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.CategoryFoodItemUpdate, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 self.manageCategoriesApiHitting()
@@ -212,7 +215,20 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         actionSheetController.addAction(fourthAction)
         actionSheetController.addAction(cancelAction)
         actionSheetController.setValue(titleAttributed, forKey : "attributedTitle")
-        present(actionSheetController, animated: true, completion: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            print("IPAD")
+            actionSheetController.modalPresentationStyle = .popover
+            let popover = actionSheetController.popoverPresentationController!
+            popover.delegate = self
+            popover.sourceView = self.view
+            popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
+            self.present(actionSheetController, animated: true, completion: nil )
+        }
+        else if UIDevice.current.userInterfaceIdiom == .phone{
+            print("IPHONE")
+            self.present(actionSheetController, animated: true, completion: nil)
+        }
     }
     func setAvailable(_ itemID: String ,  itemName : String ) {
         let titleText = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: 16), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
@@ -229,7 +245,20 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         actionSheetController.addAction(secondAction)
         actionSheetController.addAction(cancelAction)
         actionSheetController.setValue(titleAttributed, forKey : "attributedTitle")
-        present(actionSheetController, animated: true, completion: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            print("IPAD")
+            actionSheetController.modalPresentationStyle = .popover
+            let popover = actionSheetController.popoverPresentationController!
+            popover.delegate = self
+            popover.sourceView = self.view
+            popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
+            self.present(actionSheetController, animated: true, completion: nil )
+        }
+        else if UIDevice.current.userInterfaceIdiom == .phone{
+            print("IPHONE")
+            self.present(actionSheetController, animated: true, completion: nil)
+        }
     }
     func updateCategoryItem(_  nextAvailableTime : String , itemID : String,availableStatus : Int){
         self.manageCategoryItemUpdateApiHitting(itemID, availableStatus: availableStatus, time: nextAvailableTime)

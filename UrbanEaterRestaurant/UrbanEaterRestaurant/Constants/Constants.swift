@@ -8,13 +8,15 @@
 
 import Foundation
 
+let X_SESSION_ID                                            = "x-session-id"
+let X_API_KEY                                                   = "x-api-key"
+
 class Constants{
-    
     static let sharedInstance = Constants()
-    static let BASEURL_IMAGE = "http://13.233.109.143:1234"
-    static let BASEURL_IMAGE1 = "http://192.168.100.88:1234"
-    static let BaseUrl = "http://13.233.109.143:1234/api/v1/"
-    static let BaseUrl1 = "http://192.168.100.88:1234/api/v1/"
+    static let BASEURL_IMAGE                = "http://13.233.109.143:1234"                  // Production
+    static let BASEURL_IMAGE1              = "http://192.168.100.88:1234"                 // Developement
+    static let BaseUrl                                  = "http://13.233.109.143:1234/api/v1/"   // Production
+    static let BaseUrl1                                = "http://192.168.100.88:1234/api/v1/"    // Developement
     
     public struct urls {
         
@@ -40,13 +42,16 @@ class Constants{
         static let CategoryFoodItemUpdate                    = "\(BaseUrl)food/update/by-id"
         static let EarningsSummary                                   = "\(BaseUrl)order/earnings/by-restaurant"
         static let TableBookingHistory                              = "\(BaseUrl)order-table/by-restaurant"
+        static let VerifyOTP                                                  = "\(BaseUrl)service-otp/validate"
+        static let VerifyOTP_Restaurant                             = "\(BaseUrl)restaurant/verify-restaurant-email"
+        static let ResendOTP                                               = "\(BaseUrl)/service-otp/resend"
     }
 }
 
 // MARK : - Toast Messages
 public struct ToastMessages {
     static let mobile_number_empty         = "Mobile number can't be empty"
-    static let password_empty                     = "Password can't be empty"
+    static let password_empty              = "Password can't be empty"
     static let  Unable_To_Sign_UP          = "Unable to register now, Please try again...😞"
     static let Check_Internet_Connection   = "Please check internet connection"
     static let Some_thing_went_wrong       = "Something went wrong...🙃"
@@ -66,10 +71,11 @@ public struct ToastMessages {
     static let Invalid_SelectedAddressType = "Please choose address type"
     static let Invalid_Strong_Password     = "Password should be at least 6 characters, which Contain At least 1 uppercase, 1 lower case, 1 Numeric digit."
     static let Invalid_OTP                 =  "Invalid OTP"
-    static let No_Data_Available     = "No data available..."
-    static let WEEKDAY_START_TIME_EMPTY     = "Week-day start time can't empty"
-    static let WEEKDAY_END_TIME_EMPTY        = "Week-day end time can't empty"
+    static let No_Data_Available           = "No data available..."
+    static let WEEKDAY_START_TIME_EMPTY    = "Week-day start time can't empty"
+    static let WEEKDAY_END_TIME_EMPTY      = "Week-day end time can't empty"
     static let WEEKEND_START_TIME_EMPTY    = "Week-end start time can't empty"
-    static let WEEKEND_END_TIME_EMPTY       = "Week-end end time can't empty"
-    static let DELIVARY_TIME_EMPTY                   = "Delivary time can't empty"
+    static let WEEKEND_END_TIME_EMPTY      = "Week-end end time can't empty"
+    static let DELIVARY_TIME_EMPTY         = "Delivary time can't empty"
+    static let Session_Expired             = "Your session has been expired.Please login again"
 }

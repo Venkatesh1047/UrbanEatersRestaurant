@@ -49,7 +49,8 @@ class RecommendedViewController:UIViewController,SelectGroupDelegate {
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
                                 "recommended": "1"]
-        URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItems, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItems, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.recommendedModel = RecommendedModel(fromJson: dataResponse.json)

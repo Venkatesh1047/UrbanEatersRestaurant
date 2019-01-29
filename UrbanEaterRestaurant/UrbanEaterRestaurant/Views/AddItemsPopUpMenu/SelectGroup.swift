@@ -37,7 +37,8 @@ class SelectGroup: UIViewController {
     func recommendedItemsApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!]
-        URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItems, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItems, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.recommendedItemsModel = RecommendedModel(fromJson: dataResponse.json)
@@ -56,9 +57,10 @@ class SelectGroup: UIViewController {
     //MARK:- Update Recommended Items Hitting
     func updateRecommendedItemsApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         let param = ["itemList": self.selectedItems,
                                "restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
-        URLhandler.postUrlSession(urlString: Constants.urls.UpdateRecommendedItems, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        URLhandler.postUrlSession(urlString: Constants.urls.UpdateRecommendedItems, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 NotificationCenter.default.post(name: Notification.Name("UpdateRecommendedItems"), object: nil)

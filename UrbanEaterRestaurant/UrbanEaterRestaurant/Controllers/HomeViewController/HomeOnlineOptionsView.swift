@@ -123,7 +123,8 @@ class HomeOnlineOptionsView: UIViewController {
                                "orderFoodStatus": "",
                                "orderTable": 1,
                                "orderTableStatus": ""] as [String : Any]
-        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.restaurantAllOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.restaurantAllOrdersURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let restModel = RestaurantAllOrdersModel(fromJson: dataResponse.json)
@@ -155,7 +156,8 @@ class HomeOnlineOptionsView: UIViewController {
         let param = ["id": orderId,
                                 "restaurantId": [resID],
                                 "status": status] as [String : Any]
-        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
                     self.restaurantAllOrdersApiHitting(true)
@@ -168,8 +170,9 @@ class HomeOnlineOptionsView: UIViewController {
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["id": orderId,
                                 "restaurantId": resID,
-                                "status": status] 
-        URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+                                "status": status]
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
                     self.restaurantAllOrdersApiHitting(true)

@@ -65,14 +65,32 @@ class OTPViewController: UIViewController,OTPTextFieldDelegate {
         if validatePasswords(){
             Themes.sharedInstance.activityView(View: self.view)
             let param = [ "emailId": GlobalClass.updatePasswordModel.data.subId!,
-                          "referenceNumber": GlobalClass.updatePasswordModel.data.referenceNumber!,
-                          "otp": validateOTP().1,
-                          "password" : newPasswordTF.text!] as [String : Any]
+                                    "referenceNumber": GlobalClass.updatePasswordModel.data.referenceNumber!,
+                                    "otp": validateOTP().1,
+                                    "password" : newPasswordTF.text!] as [String : Any]
             
             URLhandler.postUrlSession(urlString: Constants.urls.UpdateNewPassword, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
                 Themes.sharedInstance.removeActivityView(View: self.view)
+                print(dataResponse.json)
                 if dataResponse.json.exists(){
                     self.moveToLogin()
+                }
+            }
+        }
+    }
+    //MARK:- Verify OTP Api Hitting
+    func verifyOTPApiMethod(_ otp : String){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = [ "subId": GlobalClass.updatePasswordModel.data.subId!,
+                      "referenceNumber": GlobalClass.updatePasswordModel.data.referenceNumber!,
+                      "otp": otp] as [String : Any]
+        URLhandler.postUrlSession(urlString: Constants.urls.VerifyOTP, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            print(dataResponse.json)
+            if dataResponse.json.exists(){
+                ez.runThisInMainThread {
+                    self.otpBGView.isHidden = true
+                    self.newPasswordsView.isHidden = false
                 }
             }
         }
@@ -82,12 +100,7 @@ class OTPViewController: UIViewController,OTPTextFieldDelegate {
         self.view.endEditing(true)
         if validateOTP().1.length == 4{
             print(validateOTP().1)
-            if self.validateOTP().1 == GlobalClass.updatePasswordModel.data.otp!{
-                self.otpBGView.isHidden = true
-                self.newPasswordsView.isHidden = false
-            }else{
-                Themes.sharedInstance.shownotificationBanner(Msg: "Entered wrong OTP")
-            }
+            self.verifyOTPApiMethod(validateOTP().1)
         }else{
             Themes.sharedInstance.shownotificationBanner(Msg: "Enter 4-digit OTP")
         }

@@ -40,7 +40,8 @@ class PreparationTimeView: UIViewController {
                      "restaurantId": [resID],
                      "status": status,
                      "foodPrepTime" : preparationTime.toInt()!] as [String : Any]
-        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 // Success.....
                 NotificationCenter.default.post(name: Notification.Name("FoodAccepted"), object: nil)

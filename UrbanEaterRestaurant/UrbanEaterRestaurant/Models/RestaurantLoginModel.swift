@@ -43,6 +43,8 @@ class RestaurantData{
     var sessionId : String!
     var subId : String!
     var through : String!
+    var referenceNumber : String!
+    var verified : Int!
     
     init(fromJson json: JSON!){
         if json.isEmpty{
@@ -57,7 +59,8 @@ class RestaurantData{
         sessionId = json["sessionId"].string ?? ""
         subId = json["subId"].string ?? ""
         through = json["through"].string ?? ""
+        referenceNumber = json["referenceNumber"].string ?? ""
+        verified = json["verified"].int ?? 1
     }
-    
 }
 

@@ -104,7 +104,8 @@ class ItemsDetailView: UIViewController {
                      "restaurantId": [resID],
                      "status": status,
                      "code":code] as [String : AnyObject]
-        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param, header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param, header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                  NotificationCenter.default.post(name: Notification.Name("DoneButtonClicked"), object: nil)
             }

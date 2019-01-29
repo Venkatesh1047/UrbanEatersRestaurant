@@ -154,7 +154,8 @@ class OrdersViewController: UIViewController {
             Themes.sharedInstance.activityView(View: self.view)
         }
         let param = ["restaurantId": [GlobalClass.restaurantLoginModel.data.subId!]]
-        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.getFoodOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.getFoodOrdersURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let foodModel = FoodOrderModel(fromJson: dataResponse.json)
@@ -191,7 +192,8 @@ class OrdersViewController: UIViewController {
             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
                      "date" : selectedDate] as [String : AnyObject]
         }
-        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.getTableOrdersURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.getTableOrdersURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let tableModel = TableOrderModel(fromJson: dataResponse.json)
@@ -222,7 +224,8 @@ class OrdersViewController: UIViewController {
         let param = ["id": orderId,
                                "restaurantId": [resID],
                                "status": status] as [String : Any]
-        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
                     self.foodOrderApiHitting(true)
@@ -236,7 +239,8 @@ class OrdersViewController: UIViewController {
         let param = ["id": orderId,
                                "restaurantId": resID,
                                 "status": status]
-        URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
                     self.tableOrderApiHitting(true)

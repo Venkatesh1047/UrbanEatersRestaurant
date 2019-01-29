@@ -64,7 +64,8 @@ class TableBookingHistoryViewController: UIViewController {
                              "from": fromDateString,
                              "to": toDateString]] as [String : AnyObject]
         }
-        URLhandler.postUrlSession(urlString: Constants.urls.TableBookingHistory, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.TableBookingHistory, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.tableHistoryModel = TableOrderModel(fromJson: dataResponse.json)

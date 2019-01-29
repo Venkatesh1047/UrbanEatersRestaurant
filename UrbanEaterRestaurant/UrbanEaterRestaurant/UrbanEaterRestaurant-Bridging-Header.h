@@ -11,5 +11,5 @@
 
 #import "MJPopupBackgroundView.h"
 #import "UIViewController+MJPopupViewController.h"
-#import "AGPushNoteView.h"
+
 #endif /* UrbanEaterRestaurant_Bridging_Header_h */

@@ -10,6 +10,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import EZSwiftExtensions
 
 class URLhandler: NSObject {
     static let sharedInstance = URLhandler()
@@ -23,7 +24,7 @@ class URLhandler: NSObject {
                     let dic = response.result.value as! [String : AnyObject]
                     let stautsCode = dic["statusCode"] as! NSNumber
                     let message     = dic["message"] as! String
-                    if stautsCode == 200{
+                    if Int(stautsCode) >= 200 && Int(stautsCode) < 300{
                         completionHandler(response)
                     }else{
                         Themes.sharedInstance.showToastView(message)
@@ -41,18 +42,32 @@ class URLhandler: NSObject {
     // MARK : - Post Api hitting Model
     class func postUrlSession(_ hideToast:Bool = false, urlString: String, params: [String : AnyObject] ,header : [String : String] ,  completion completionHandler:@escaping (_ response: DataResponse<Any>) -> ()) {
         Alamofire.request(urlString,method: .post, parameters: params,encoding : JSONEncoding.default, headers: header).responseJSON { (response) in
+            print(response.result)
             switch(response.result) {
             case .success(_):
                 if response.result.value != nil{
                     let dic = response.result.value as! [String : AnyObject]
                     let stautsCode = dic["statusCode"] as! NSNumber
                     let message     = dic["message"] as! String
-                    if stautsCode == 200 || stautsCode == 202 {
+                    let code  = dic["code"] as! NSNumber
+                    if Int(stautsCode) >= 200 && Int(stautsCode) < 300{
                         completionHandler(response)
                     }else{
+                        print("Print ================================",response.result.value , urlString)
                         Themes.sharedInstance.removeActivityView(View: (URLhandler.sharedInstance.topMostVC()?.view)!)
                         if !hideToast{
                             Themes.sharedInstance.showToastView(message)
+                        }
+                        if Int(code) == 1607 || Int(code) == 1608{
+                            TheGlobalPoolManager.showAlertWith(message: ToastMessages.Session_Expired, singleAction: true, callback: { (success) in
+                                if success!{
+                                    GlobalClass.logout()
+                                    if let viewCon = ez.topMostVC?.storyboard?.instantiateViewController(withIdentifier: "LoginVCID") as? LoginVC{
+                                        let appdelegate = UIApplication.shared.delegate as! AppDelegate
+                                        appdelegate.window!.rootViewController = viewCon
+                                    }
+                                }
+                            })
                         }
                     }
                 }
@@ -75,7 +90,7 @@ class URLhandler: NSObject {
                     let dic = response.result.value as! [String : AnyObject]
                     let stautsCode = dic["statusCode"] as! NSNumber
                     let message     = dic["message"] as! String
-                    if stautsCode == 200{
+                    if Int(stautsCode) >= 200 && Int(stautsCode) < 300{
                         completionHandler(response)
                     }else{
                         Themes.sharedInstance.removeActivityView(View: (URLhandler.sharedInstance.topMostVC()?.view)!)
@@ -99,7 +114,7 @@ class URLhandler: NSObject {
                     let dic = response.result.value as! [String : AnyObject]
                     let stautsCode = dic["statusCode"] as! String
                     let message     = dic["message"] as! String
-                    if stautsCode.toInt == 200{
+                    if Int(stautsCode)! >= 200 && Int(stautsCode)! < 300{
                         completionHandler(response)
                     }else{
                     Themes.sharedInstance.removeActivityView(View: (URLhandler.sharedInstance.topMostVC()?.view)!)

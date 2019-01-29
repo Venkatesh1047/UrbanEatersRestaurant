@@ -33,34 +33,36 @@ let GlobalClass = GlobalModel.sharedInstance
 
 class GlobalModel:NSObject {
     static let sharedInstance = GlobalModel()
-    var restaurantLoginModel     : RestaurantLoginModel!
-    var foodOrderModel           : FoodOrderModel!
-    var tableOrderModel          : TableOrderModel!
-    var tableHistoryModel        : TableOrderModel!
-    var restModel                        : RestaurantHomeModel!
-    var restaurantAllOrdersModel : RestaurantAllOrdersModel!
-    var updatePasswordModel      : UpdatePasswordModel!
-    var manageCategoriesModel    : ManageCategoriesModel!
-    var recommendedModel         : RecommendedModel!
-    var recommendedItemsModel         : RecommendedModel!
-    var earningsHistoryModel     : EarningsHistoryModel!
-    var notificationsModel : NotificationsModel!
     var instanceIDTokenMessage:String = ""
     
-    let NEWS_NOTIFICATION          = "NEWS_NOTIFICATION"
-    let ORDER_NEW_RESTAURANT       = "ORDER_NEW_RESTAURANT"
-    let ORDER_TABLE_NEW_RESTAURANT = "ORDER_TABLE_NEW_RESTAURANT"
-    let KEY_ACCEPTED               = "RES_ACCEPTED"
-    let KEY_REJECTED               = "RES_REJECTED"
-    let DRIVER_NOT_ALLOCATED       = "Driver Not Allocated"
-    let KEY_ID                     = "id"
-    let KEY_DELIVERYTIME           = "deliveryTime"
-    let KEY_TIMINGS                = "timings"
-    let KEY_WEEKDAY                = "weekDay"
-    let KEY_WEEKEND                = "weekEnd"
-    let KEY_STARTAT                = "startAt"
-    let KEY_ENDAT                  = "endAt"
-    let KEY_STATUS                 = "status"
+    var restaurantLoginModel         : RestaurantLoginModel!
+    var foodOrderModel                  : FoodOrderModel!
+    var tableOrderModel                 : TableOrderModel!
+    var tableHistoryModel               : TableOrderModel!
+    var restModel                               : RestaurantHomeModel!
+    var restaurantAllOrdersModel  : RestaurantAllOrdersModel!
+    var updatePasswordModel        : UpdatePasswordModel!
+    var manageCategoriesModel   : ManageCategoriesModel!
+    var recommendedModel          : RecommendedModel!
+    var recommendedItemsModel    : RecommendedModel!
+    var earningsHistoryModel        : EarningsHistoryModel!
+    var notificationsModel              : NotificationsModel!
+    
+    let NEWS_NOTIFICATION                              = "NEWS_NOTIFICATION"
+    let ORDER_NEW_RESTAURANT                    = "ORDER_NEW_RESTAURANT"
+    let ORDER_TABLE_NEW_RESTAURANT      = "ORDER_TABLE_NEW_RESTAURANT"
+    let ORDER_RESTAURANT_DENIED              = "ORDER_RESTAURANT_DENIED"
+    let KEY_ACCEPTED                                          = "RES_ACCEPTED"
+    let KEY_REJECTED                                           = "RES_REJECTED"
+    let DRIVER_NOT_ALLOCATED                      = "Driver Not Allocated"
+    let KEY_ID                                                          = "id"
+    let KEY_DELIVERYTIME                                   = "deliveryTime"
+    let KEY_TIMINGS                                              = "timings"
+    let KEY_WEEKDAY                                           = "weekDay"
+    let KEY_WEEKEND                                          = "weekEnd"
+    let KEY_STARTAT                                              = "startAt"
+    let KEY_ENDAT                                                 = "endAt"
+    let KEY_STATUS                                                = "status"
     
     override init() {
         super.init()
@@ -113,6 +115,7 @@ class GlobalModel:NSObject {
         }
     }
 }
+//MARK:- UI Button
 class ButtonWithShadow: UIButton {
     override func draw(_ rect: CGRect) {
         updateLayerProperties()
@@ -126,6 +129,7 @@ class ButtonWithShadow: UIButton {
         self.layer.masksToBounds = true
     }
 }
+//MARK:- UI View Shadow
 class viewWithShadow: UIView {
     override func draw(_ rect: CGRect) {
         updateLayerProperties()
@@ -139,7 +143,7 @@ class viewWithShadow: UIView {
         self.layer.masksToBounds = true
     }
 }
-
+//MARK:- UI Labal Paded
 class UILabelPadded: UILabel {
     override func drawText(in rect: CGRect) {
         let insets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10)

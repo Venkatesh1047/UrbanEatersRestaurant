@@ -16,8 +16,7 @@
 		A365B5F121CA1DC9007A5B11 /* MXSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */; };
 		A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A365B5EE21CA1DC9007A5B11 /* Info.plist */; };
 		A38A2B5621DE13F60084A5B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */; };
-		A38C20BD21DF757A00FA121D /* AGPushNoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A38C20BB21DF757A00FA121D /* AGPushNoteView.xib */; };
-		A38C20BE21DF757A00FA121D /* AGPushNoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = A38C20BC21DF757A00FA121D /* AGPushNoteView.m */; };
+		A3B348AE21FED00900767B53 /* VerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B348AD21FED00900767B53 /* VerificationVC.swift */; };
 		A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF42F2189A3B800192E7E /* AppDelegate.swift */; };
 		A3BEF4322189A3B800192E7E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4312189A3B800192E7E /* ViewController.swift */; };
 		A3BEF4352189A3B800192E7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BEF4332189A3B800192E7E /* Main.storyboard */; };
@@ -133,9 +132,7 @@
 		A365B5ED21CA1DC9007A5B11 /* MXSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSegmentedControl.h; sourceTree = "<group>"; };
 		A365B5EE21CA1DC9007A5B11 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A38C20BA21DF757A00FA121D /* AGPushNoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGPushNoteView.h; sourceTree = "<group>"; };
-		A38C20BB21DF757A00FA121D /* AGPushNoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGPushNoteView.xib; sourceTree = "<group>"; };
-		A38C20BC21DF757A00FA121D /* AGPushNoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGPushNoteView.m; sourceTree = "<group>"; };
+		A3B348AD21FED00900767B53 /* VerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationVC.swift; sourceTree = "<group>"; };
 		A3BEF42C2189A3B800192E7E /* UrbanEaterRestaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrbanEaterRestaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BEF42F2189A3B800192E7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3BEF4312189A3B800192E7E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -278,16 +275,6 @@
 			path = MXSegmentedControl;
 			sourceTree = "<group>";
 		};
-		A38C20B921DF757A00FA121D /* AGPushNote */ = {
-			isa = PBXGroup;
-			children = (
-				A38C20BA21DF757A00FA121D /* AGPushNoteView.h */,
-				A38C20BB21DF757A00FA121D /* AGPushNoteView.xib */,
-				A38C20BC21DF757A00FA121D /* AGPushNoteView.m */,
-			);
-			path = AGPushNote;
-			sourceTree = "<group>";
-		};
 		A3BEF4232189A3B800192E7E = {
 			isa = PBXGroup;
 			children = (
@@ -354,7 +341,6 @@
 			isa = PBXGroup;
 			children = (
 				A3D9C9FB21DE3AE000A8C9DE /* Sound.mp3 */,
-				A38C20B921DF757A00FA121D /* AGPushNote */,
 				A3BEF4642189C49000192E7E /* Font */,
 			);
 			path = Resources;
@@ -426,6 +412,7 @@
 			isa = PBXGroup;
 			children = (
 				A3BEF44E2189B3DF00192E7E /* LoginVC.swift */,
+				A3B348AD21FED00900767B53 /* VerificationVC.swift */,
 			);
 			path = LoginViewController;
 			sourceTree = "<group>";
@@ -884,7 +871,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A38C20BD21DF757A00FA121D /* AGPushNoteView.xib in Resources */,
 				A3F2AF9021BA40B500A9379A /* ItemsCell.xib in Resources */,
 				A3EF7BEE21B5221300C9F9CE /* OrderHistoryTableViewCell.xib in Resources */,
 				A3BEF43A2189A3B900192E7E /* LaunchScreen.storyboard in Resources */,
@@ -1042,10 +1028,10 @@
 				A3FDDB9321AE67A000524AF4 /* EarningsCollectionViewCell.swift in Sources */,
 				A3BEF49F2189D49C00192E7E /* CategoriesViewController.swift in Sources */,
 				A3BEF4B52189D57800192E7E /* RecommendedTableViewCell.swift in Sources */,
+				A3B348AE21FED00900767B53 /* VerificationVC.swift in Sources */,
 				A309305E21C77AE800D2D1B0 /* ManageCategoriesModel.swift in Sources */,
 				A3F2AF9321BA79DD00A9379A /* ItemsDetailView.swift in Sources */,
 				A3F7859921B648DD0031F1A6 /* NewFoodItemsCell.swift in Sources */,
-				A38C20BE21DF757A00FA121D /* AGPushNoteView.m in Sources */,
 				A3BEF4952189CACF00192E7E /* TableBookingHistoryViewController.swift in Sources */,
 				A3BEF4E32189DEC800192E7E /* TableViewCell.swift in Sources */,
 				A3BEF4BC2189D5CA00192E7E /* SelectGroupCell.swift in Sources */,

@@ -67,12 +67,17 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         datePicker.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
         minutesPicker.dataSource = self
         minutesPicker.delegate = self
-        self.getRestarentProfile()
+        if let restModel = GlobalClass.restModel{
+            self.updateUI()
+        }else{
+            self.getRestarentProfile()
+        }
     }
     func getRestarentProfile(){
         Themes.sharedInstance.activityView(View: self.view)
         let param = [ "id": GlobalClass.restaurantLoginModel.data.subId!]
-        URLhandler.postUrlSession(urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
              Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.restModel = RestaurantHomeModel(fromJson: dataResponse.json)
@@ -81,12 +86,24 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         }
     }
     func updateUI(){
+        if let restModel = GlobalClass.restModel{
+            if let restData = restModel.data{
+                if let timings = restData.timings{
+                    self.weekDayFromLbl.text = timings.weekDay.startAt!
+                    self.weekDayToLbl.text = timings.weekDay.endAt!
+                    self.weekEndFromLbl.text = timings.weekEnd.startAt!
+                    self.weekEndToLbl.text = timings.weekEnd.endAt!
+                    self.minutesSelectedString = String(restData.deliveryTime!)
+                    self.minLbl.text = "\(minutesSelectedString) min"
+                }
+            }
+        }
         if GlobalClass.restModel.data.timings != nil{
         self.weekDayFromLbl.text = GlobalClass.restModel.data.timings.weekDay.startAt!
         self.weekDayToLbl.text = GlobalClass.restModel.data.timings.weekDay.endAt!
         self.weekEndFromLbl.text = GlobalClass.restModel.data.timings.weekEnd.startAt!
         self.weekEndToLbl.text = GlobalClass.restModel.data.timings.weekEnd.endAt!
-        minutesSelectedString = String(GlobalClass.restModel.data.deliveryTime!)
+        self.minutesSelectedString = String(GlobalClass.restModel.data.deliveryTime!)
         self.minLbl.text = "\(minutesSelectedString) min"
         }
     }
@@ -112,7 +129,8 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         let restarentInfo = UserDefaults.standard.object(forKey: "restaurantInfo") as! NSDictionary
         let data = restarentInfo.object(forKey: "data") as! NSDictionary
         self.businessHoursParams = BusinessHourParameters.init(data.object(forKey: "subId") as! String, deliveryTime: Int(minutesSelectedString)!, weekday_startAt: weekDayFromLbl.text!, weekday_endAt: weekDayToLbl.text!, weekend_startAt: weekEndFromLbl.text!, weekend_endAt: weekEndToLbl.text!)
-        URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: self.businessHoursParams.parameters, header: [:]) { (dataResponse) in
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: self.businessHoursParams.parameters, header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 let dict = dataResponse.dictionaryFromJson! as NSDictionary
