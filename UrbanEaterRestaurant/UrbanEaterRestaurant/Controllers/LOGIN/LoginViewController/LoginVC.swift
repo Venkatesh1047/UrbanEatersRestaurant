@@ -22,8 +22,6 @@ class LoginVC: UIViewController{
     }
     //MARK:- Update UI
     func updateUI(){
-        emailTxt.text = "bluefox@gmail.com"
-        passwordTxt.text = "Password@1234"
         emailTxt.placeholderColor("Email", color: .placeholderColor)
         passwordTxt.placeholderColor("Password", color: .placeholderColor)
         passwordHideBtn.setImage(#imageLiteral(resourceName: "NotVisible").withColor(.whiteColor), for: .normal)

@@ -53,21 +53,22 @@ class URLhandler: NSObject {
                     if Int(stautsCode) >= 200 && Int(stautsCode) < 300{
                         completionHandler(response)
                     }else{
-                        print("Print ================================",response.result.value , urlString)
                         Themes.sharedInstance.removeActivityView(View: (URLhandler.sharedInstance.topMostVC()?.view)!)
                         if !hideToast{
                             Themes.sharedInstance.showToastView(message)
                         }
-                        if Int(code) == 1607 || Int(code) == 1608{
-                            TheGlobalPoolManager.showAlertWith(message: ToastMessages.Session_Expired, singleAction: true, callback: { (success) in
-                                if success!{
-                                    GlobalClass.logout()
-                                    if let viewCon = ez.topMostVC?.storyboard?.instantiateViewController(withIdentifier: "LoginVCID") as? LoginVC{
-                                        let appdelegate = UIApplication.shared.delegate as! AppDelegate
-                                        appdelegate.window!.rootViewController = viewCon
+                         if !TheGlobalPoolManager.isAlertDisplaying{
+                            if Int(code) == 1607 || Int(code) == 1608{
+                                TheGlobalPoolManager.showAlertWith(message: ToastMessages.Session_Expired, singleAction: true, callback: { (success) in
+                                    if success!{
+                                        GlobalClass.logout()
+                                        if let viewCon = ez.topMostVC?.storyboard?.instantiateViewController(withIdentifier: "LoginVCID") as? LoginVC{
+                                            let appdelegate = UIApplication.shared.delegate as! AppDelegate
+                                            appdelegate.window!.rootViewController = viewCon
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
                         }
                     }
                 }

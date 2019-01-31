@@ -21,6 +21,7 @@ class Themes: NSObject {
     let screenSize:CGRect = UIScreen.main.bounds
     var spinnerView:MMMaterialDesignSpinner=MMMaterialDesignSpinner()
     var isShow : Bool = false
+    var isAlertDisplaying = false
     
     var view:UIView{
         return (ez.topMostVC?.view)!
@@ -74,13 +75,16 @@ class Themes: NSObject {
     }
     //MARK:- UIAlertController
     func showAlertWith(title:String = "", message:String, singleAction:Bool,  okTitle:String = "Ok", cancelTitle:String = "Cancel", callback:@escaping AlertCallback) {
+        self.isAlertDisplaying = true
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction: UIAlertAction = UIAlertAction(title: okTitle, style: .default) { action -> Void in
+            self.isAlertDisplaying = false
             callback(true)
         }
         if !singleAction{
             let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .default) { action -> Void in
                 //Just dismiss the action sheet
+                self.isAlertDisplaying = false
                 callback(false)
             }
             alertController.addAction(cancelAction)
