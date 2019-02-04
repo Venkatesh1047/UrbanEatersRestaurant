@@ -38,11 +38,11 @@ class FoodOrderModel{
 			let value = FoodOrderModelData(fromJson: dataJson)
 			data.append(value)
             if value.order[0].status == 1{
-                new.append(value)
-            }else if value.order[0].status == 2{
-                scheduled.append(value)
+                self.new.append(value)
+            }else if value.order[0].status >= 2 && value.order[0].status < 5{
+                self.scheduled.append(value)
             }else {
-                completed.append(value)
+                self.completed.append(value)
             }
 		}
 		message = json["message"].string ?? ""
