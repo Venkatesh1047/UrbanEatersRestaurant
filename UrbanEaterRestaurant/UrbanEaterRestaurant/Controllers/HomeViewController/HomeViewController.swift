@@ -66,7 +66,7 @@ class HomeViewController: UIViewController {
         collectionView.register(UINib(nibName: "EarningsSeeAllACollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EarningsSeeAllACollectionViewCell")
         bookTblCollectionView.register(UINib(nibName: "DateCell", bundle: nil), forCellWithReuseIdentifier: "DateCell")
         bookTblCollectionView.register(UINib(nibName: "DateSeeAll", bundle: nil), forCellWithReuseIdentifier: "DateSeeAll")
-        
+        self.allocateCollectionView()
         ez.runThisInMainThread {
             if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
                 self.earningViewHightConstraint.constant = 250
@@ -90,13 +90,8 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    //MARK:- Update UI
-    func updateUI(){
-        self.noDataAvailableLbl.isHidden = true
-        onlineSwitch.layer.cornerRadius = 16
-        self.collectionView.isHidden = true
-        TheGlobalPoolManager.cornerAndBorder(self.earningsViewInView, cornerRadius: 8, borderWidth: 0.5, borderColor: .lightGray)
-        TheGlobalPoolManager.cornerRadiusForParticularCornerr(self.earningsViewInView, corners: [.bottomRight,.topRight], size: CGSize(width: 8, height: 0))
+    //MARK :- Collection View
+    func allocateCollectionView(){
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: UIDevice.isPhone() ? 100 : 140, height: self.collectionView.frame.height)
@@ -122,6 +117,14 @@ class HomeViewController: UIViewController {
         bookTblCollectionView.tag = 222
         bookTblCollectionView.delegate = self
         bookTblCollectionView.dataSource = self
+    }
+    //MARK:- Update UI
+    func updateUI(){
+        self.noDataAvailableLbl.isHidden = true
+        onlineSwitch.layer.cornerRadius = 16
+        //self.collectionView.isHidden = true
+        TheGlobalPoolManager.cornerAndBorder(self.earningsViewInView, cornerRadius: 8, borderWidth: 0.5, borderColor: .lightGray)
+        TheGlobalPoolManager.cornerRadiusForParticularCornerr(self.earningsViewInView, corners: [.bottomRight,.topRight], size: CGSize(width: 8, height: 0))
         self.slidetoOpenView.addSubview(self.slideToOpen)
         self.slidetoOpenView.layer.cornerRadius = self.slidetoOpenView.frame.size.height/2.0
     }
@@ -284,7 +287,9 @@ extension HomeViewController : UICollectionViewDataSource,UICollectionViewDelega
             if indexPath.row == GlobalClass.restModel.data.earningIdData.count{
                 self.pushingToEarningsVC("")
             }else{
-               self.pushingToEarningsVC(past7Dates[indexPath.row])
+                let data =  GlobalClass.restModel.data.earningIdData[indexPath.row]
+                let dateString = data.dateString!
+                self.pushingToEarningsVC(dateString)
             }
         }else{
             if indexPath.row  == past7Dates.count{

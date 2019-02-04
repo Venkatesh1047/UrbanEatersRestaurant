@@ -52,6 +52,7 @@ class EarningsHistoryOrderFoodData{
     var loc : EarningsHistoryLoc!
     var order : [EarningsHistoryOrder]!
     var orderAddressId : String!
+    var orderDateString : String!
     var orderDate : String!
     var orderId : String!
     var orderOn : Int!
@@ -119,6 +120,7 @@ class EarningsHistoryOrderFoodData{
         }
         orderAddressId = json["orderAddressId"].string ?? ""
         orderDate = json["orderDate"].string ?? ""
+        orderDateString = json["orderDateString"].string ?? ""
         orderId = json["orderId"].string ?? ""
         orderOn = json["orderOn"].int ?? 0
         let paymentJson = json["payment"].exists() ? json["payment"] : JSON.init([""])

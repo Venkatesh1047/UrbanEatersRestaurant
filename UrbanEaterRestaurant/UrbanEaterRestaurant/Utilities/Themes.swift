@@ -171,6 +171,16 @@ class Themes: NSObject {
         return date
     }
     //MARK: - Change the Date Formatter
+    func convertDateFormaterForFullDate1(_ date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let formattedDate = dateFormatter.date(from: date) {
+            dateFormatter.dateFormat = "MMM dd, yyyy"
+            return dateFormatter.string(from: formattedDate)
+        }
+        return date
+    }
+    //MARK: - Change the Date Formatter
     func convertDateFormaterForOnlyTime(_ date: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"

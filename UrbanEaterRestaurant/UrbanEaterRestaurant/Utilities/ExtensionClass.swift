@@ -315,11 +315,27 @@ extension Date {
         }
         return (datesArray, daysArray, weekDaysName)
     }
-    func adding(minutes: Int) -> String {
+    func adding(minutes: Int) -> (String, String, Date) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
         let convertedDate: String = dateFormatter.string(from: Calendar.current.date(byAdding: .minute, value: minutes, to: self)!)
-        return convertedDate
+        let dateFormatter1 = DateFormatter()
+        dateFormatter1.dateFormat = "yyyy-MM-dd HH:mm"
+        let convertedDateAndTime = dateFormatter1.string(from: Calendar.current.date(byAdding: .minute, value: minutes, to: self)!)
+        let date = dateFormatter1.date(from: convertedDateAndTime)
+        return (convertedDate, convertedDateAndTime, date!)
+    }
+    func addingOneDayExtra(_ time:String) -> (String, Date){
+        let cal = NSCalendar.current
+        var date = cal.startOfDay(for: Date())
+        date = cal.date(byAdding: Calendar.Component.day, value: 1, to: date)!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: date) + " " + time
+        let dateFormatter1 = DateFormatter()
+        dateFormatter1.dateFormat = "yyyy-MM-dd HH:mm"
+        let dateString1 = dateFormatter1.date(from: dateString)
+        return (dateString, dateString1!)
     }
 }
 

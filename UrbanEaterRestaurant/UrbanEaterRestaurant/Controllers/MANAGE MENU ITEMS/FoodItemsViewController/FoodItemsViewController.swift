@@ -8,7 +8,7 @@
 
 import UIKit
 import EZSwiftExtensions
-
+import UserNotifications
 class FoodItemsViewController: UIViewController,SelectGroupDelegate,UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var foodItemsTbl: UITableView!
@@ -197,16 +197,44 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         let titleAttributed = NSMutableAttributedString(string: "\(itemName) Unavailable ...", attributes:titleText)
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let firstAction: UIAlertAction = UIAlertAction(title: "Upto 1 Hour", style: .default) { action -> Void in
-            self.updateCategoryItem( Date().adding(minutes: 60), itemID: itemID, availableStatus: 0)
+            let dateString = Date().adding(minutes: 60)
+            let body = itemName + " was unavailable since 1 hour"
+            let identifier = itemID
+            let timeInterval = dateString.2.timeIntervalSinceNow
+            self.cancelScheduleNotification(identifier)
+            self.scheduleLocalNotification(body, identifier: identifier, timeInterval: timeInterval)
+            self.updateCategoryItem( dateString.0, itemID: itemID, availableStatus: 0)
         }
         let secondAction: UIAlertAction = UIAlertAction(title: "Upto 4 Hours", style: .default) { action -> Void in
-            self.updateCategoryItem(Date().adding(minutes: 240), itemID: itemID, availableStatus: 0)
+            let dateString = Date().adding(minutes: 240)
+            let body = itemName + " was unavailable since 4 hours"
+            let identifier = itemID
+            let timeInterval = dateString.2.timeIntervalSinceNow
+            self.cancelScheduleNotification(identifier)
+            self.scheduleLocalNotification(body, identifier: identifier, timeInterval: timeInterval)
+            self.updateCategoryItem(dateString.0, itemID: itemID, availableStatus: 0)
         }
         let thirdAction: UIAlertAction = UIAlertAction(title: "Upto 8 Hours", style: .default) { action -> Void in
-            self.updateCategoryItem(Date().adding(minutes: 480), itemID: itemID, availableStatus: 0)
+            let dateString = Date().adding(minutes: 480)
+            let body = itemName + " was unavailable since 8 hours"
+            let identifier = itemID
+            let timeInterval = dateString.2.timeIntervalSinceNow
+            self.cancelScheduleNotification(identifier)
+            self.scheduleLocalNotification(body, identifier: identifier, timeInterval: timeInterval)
+            self.updateCategoryItem(dateString.0, itemID: itemID, availableStatus: 0)
         }
         let fourthAction: UIAlertAction = UIAlertAction(title: "Next Start Time", style: .default) { action -> Void in
-            self.updateCategoryItem(Date().adding(minutes: 720), itemID: itemID, availableStatus: 0)
+            var timeString = GlobalClass.restModel.data.timings.weekDay.startAt
+            if Date().weekday.lowercased() == "friday" || Date().weekday.lowercased() == "saturday"{
+                timeString = GlobalClass.restModel.data.timings.weekEnd.startAt
+            }
+            let dateString = Date().addingOneDayExtra(timeString!)
+            let body = itemName + " was unavailable since Yesterday"
+            let identifier = itemID
+            let timeInterval = dateString.1.timeIntervalSinceNow
+            self.cancelScheduleNotification(identifier)
+            self.scheduleLocalNotification(body, identifier: identifier, timeInterval: timeInterval)
+            self.updateCategoryItem(timeString!, itemID: itemID, availableStatus: 0)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
         actionSheetController.addAction(firstAction)
@@ -238,6 +266,7 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
             self.setUnavailable(itemID, itemName: itemName)
         }
         let secondAction: UIAlertAction = UIAlertAction(title: "Available This Item", style: .default) { action -> Void in
+            self.cancelScheduleNotification(itemID)
             self.updateCategoryItem("", itemID: itemID, availableStatus: 1)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
@@ -262,6 +291,26 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
     }
     func updateCategoryItem(_  nextAvailableTime : String , itemID : String,availableStatus : Int){
         self.manageCategoryItemUpdateApiHitting(itemID, availableStatus: availableStatus, time: nextAvailableTime)
+    }
+    func scheduleLocalNotification(_ body:String, identifier:String, timeInterval:TimeInterval){
+        let content = UNMutableNotificationContent()
+        content.title = "Manage UnAvailable Item"
+        content.body = body
+        content.sound = UNNotificationSound.default()
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    func cancelScheduleNotification(_ identifier:String){
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
+            var identifiers: [String] = []
+            for notification:UNNotificationRequest in notificationRequests {
+                if notification.identifier == identifier {
+                    identifiers.append(notification.identifier)
+                }
+            }
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
     }
 }
 

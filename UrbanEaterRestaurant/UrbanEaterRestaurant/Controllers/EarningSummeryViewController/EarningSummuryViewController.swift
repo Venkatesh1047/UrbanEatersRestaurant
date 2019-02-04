@@ -23,13 +23,13 @@ class EarningSummuryViewController: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var exportBtn: UIButton!
     
-    var fromDateString : String!
-    var toDateString : String!
+    var fromDateString : String = ""
+    var toDateString : String = ""
     var dateSelectedString : String!
     var isFromDateSelected = false
     let dateFormatter = DateFormatter()
     var collapaseHandlerArray = [String]()
-     var selectedDate : String = ""
+    var selectedDate : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,13 +52,25 @@ class EarningSummuryViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         datePicker.maximumDate = NSDate() as Date
         datePicker.maximumDate = Date()
+        if selectedDate.length > 2{
+            fromDateLbl.text = selectedDate
+            toDateLbl.text = selectedDate
+        }
         self.earningsSummaryApiHitting()
     }
     //MARK:- Earnings Summary Api Hitting
     func earningsSummaryApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
         var param = [String : AnyObject]()
-        if toDateString == nil{
+        if self.selectedDate.length != 0 {
+            param = [
+                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
+                "date" : self.selectedDate,
+                "earningStatus": 1,
+                "statusArray": ["DRI_PICKED", "DELIVERED", "COMPLETED"]
+                
+                ] as [String : AnyObject]
+        }else if toDateString.length == 0{
             param = [
                 "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
                 "earningStatus": 1,
@@ -86,8 +98,8 @@ class EarningSummuryViewController: UIViewController {
                     self.totalOrdersLbl.text = data.totalOrderCount!.toString
                     self.totalEarningsLbl.text = "₹ \(data.totalEarnAmount!.toString)"
                 }else{
-                    self.totalOrdersLbl.text = ""
-                    self.totalEarningsLbl.text = ""
+                    self.totalOrdersLbl.text = "0"
+                    self.totalEarningsLbl.text = "0"
                 }
                 if GlobalClass.earningsHistoryModel.data.orderFoodData.count == 0{
                     TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
@@ -107,7 +119,7 @@ class EarningSummuryViewController: UIViewController {
         isFromDateSelected = true
     }
     @IBAction func toDateBtnClicked(_ sender: Any) {
-        if fromDateString == nil{
+        if fromDateString.length == 0{
             TheGlobalPoolManager.showToastView("Please select from date first")
             return
         }
@@ -170,14 +182,15 @@ extension EarningSummuryViewController : UITableViewDataSource,UITableViewDelega
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "OrderHistoryTableViewCell") as! OrderHistoryTableViewCell
         headerCell.dropDownBtn.tag = section
-        let data = GlobalClass.earningsHistoryModel.data.orderFoodData[section].order[0]
+        let foodData = GlobalClass.earningsHistoryModel.data.orderFoodData[section]
+        let data = foodData.order[0]
         headerCell.orderIDLbl.text = "Order ID: \(data.subOrderId!)"
         headerCell.noOfItemsLbl.text = "\(GlobalClass.earningsHistoryModel.data.orderFoodData[section].items.count) Items"
         headerCell.orderAmountLbl.text = "₹ \(data.billing.orderTotal!.toString)"
         let status = GlobalClass.returnStatus(data.status!)
         headerCell.orderStatusLbl.text = status.0
         headerCell.orderStatusLbl.textColor = status.1
-        headerCell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForFullDate(data.history.orderedAt!)
+        headerCell.dateLbl.text = TheGlobalPoolManager.convertDateFormaterForFullDate1(foodData.orderDateString)
         if self.collapaseHandlerArray.contains(data.subOrderId!){
             headerCell.dropDownBtn.setTitle("1", for: .normal)
             headerCell.farwardImg.image = #imageLiteral(resourceName: "UpArrow").withColor(.secondaryTextColor)
