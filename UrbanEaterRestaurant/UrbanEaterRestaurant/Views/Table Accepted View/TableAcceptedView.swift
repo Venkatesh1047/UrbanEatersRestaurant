@@ -29,6 +29,8 @@ class TableAcceptedView: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.doneBtn.backgroundColor = #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 0.2997645548)
+        self.doneBtn.isEnabled = false
+        self.enterCodeTF.delegate = self
         self.enterCodeTF.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.updateUI()
     }
@@ -56,10 +58,13 @@ class TableAcceptedView: UIViewController {
     @objc func textFieldDidChange(_ textField: UITextField) {
         if textField.text?.length == 0{
             self.doneBtn.backgroundColor = #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 0.2997645548)
+            self.doneBtn.isEnabled = false
         }else if textField.text?.length == 4{
             self.doneBtn.backgroundColor = .greenColor
+            self.doneBtn.isEnabled = true
         }else{
             self.doneBtn.backgroundColor = #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 0.2997645548)
+            self.doneBtn.isEnabled = false
         }
     }
     //MARK:- Table Order Update  Request
@@ -88,5 +93,13 @@ class TableAcceptedView: UIViewController {
                 self.tableOrderUpdateRequestApiHitting(schedule.id!, resID: GlobalClass.restaurantLoginModel.data.subId!, status: "CUSTOMER_REACHED", code: enterCodeTF.text!)
             }
         }
+    }
+}
+extension TableAcceptedView:UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if range.length == 1{
+            return true
+        }
+        return (textField.text?.length)! < 4
     }
 }

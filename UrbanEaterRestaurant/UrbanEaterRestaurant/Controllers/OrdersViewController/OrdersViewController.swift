@@ -50,7 +50,11 @@ class OrdersViewController: UIViewController {
          self.updateUI()
      }
     override func viewWillAppear(_ animated: Bool) {
-        self.selectionView.select(index: 0, animated: true)
+        if !isFoodSelectedFlag{
+            self.selectionView.select(index: 1, animated: true)
+        }else{
+             self.selectionView.select(index: 0, animated: true)
+        }
     }
     @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {
         if self.searchActive || self.clearBtn.image == #imageLiteral(resourceName: "Cancelled").withColor(.greyColor){

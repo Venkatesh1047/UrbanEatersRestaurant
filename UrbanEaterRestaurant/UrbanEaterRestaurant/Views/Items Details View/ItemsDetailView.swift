@@ -27,6 +27,7 @@ class ItemsDetailView: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.doneBtn.backgroundColor = #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 0.2997645548)
+        self.doneBtn.isEnabled = false
         self.enterCodeTf.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.updateUI()
     }
@@ -79,10 +80,13 @@ class ItemsDetailView: UIViewController {
     @objc func textFieldDidChange(_ textField: UITextField) {
         if textField.text?.length == 0{
             self.doneBtn.backgroundColor = #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 0.2997645548)
+            self.doneBtn.isEnabled = false
         }else if textField.text?.length == 4{
            self.doneBtn.backgroundColor = .greenColor
+            self.doneBtn.isEnabled = true
         }else{
             self.doneBtn.backgroundColor = #colorLiteral(red: 0.2823529412, green: 0.7058823529, blue: 0.2549019608, alpha: 0.2997645548)
+            self.doneBtn.isEnabled = false
         }
     }
     @IBAction func doneBtn(_ sender: UIButton) {
