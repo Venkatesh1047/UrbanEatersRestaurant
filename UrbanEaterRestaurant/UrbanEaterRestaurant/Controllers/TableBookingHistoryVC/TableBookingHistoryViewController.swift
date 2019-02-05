@@ -58,7 +58,11 @@ class TableBookingHistoryViewController: UIViewController {
         var param = [String : AnyObject]()
         if toDateString == nil{
            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
-        }else{
+        }else if toDateString == fromDateString{
+            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
+                     "date" : toDateString] as [String : AnyObject]
+        }
+        else{
             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
                              "dateRange": [
                              "from": fromDateString,
