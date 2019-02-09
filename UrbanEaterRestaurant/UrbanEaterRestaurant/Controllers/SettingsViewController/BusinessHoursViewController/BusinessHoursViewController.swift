@@ -58,7 +58,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
         dateView4.customiseView()
         
         ez.runThisInMainThread {
-            TheGlobalPoolManager.cornerAndBorder(self.self.saveBtn, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
+            TheGlobalPoolManager.cornerAndBorder(self.saveBtn, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
             TheGlobalPoolManager.cornerAndBorder(self.minutesBgView, cornerRadius: self.minutesBgView.layer.bounds.h/2, borderWidth: 0, borderColor: .clear)
         }
         datePicker.datePickerMode = UIDatePickerMode.time
@@ -97,14 +97,6 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
                     self.minLbl.text = "\(minutesSelectedString) min"
                 }
             }
-        }
-        if GlobalClass.restModel.data.timings != nil{
-        self.weekDayFromLbl.text = GlobalClass.restModel.data.timings.weekDay.startAt!
-        self.weekDayToLbl.text = GlobalClass.restModel.data.timings.weekDay.endAt!
-        self.weekEndFromLbl.text = GlobalClass.restModel.data.timings.weekEnd.startAt!
-        self.weekEndToLbl.text = GlobalClass.restModel.data.timings.weekEnd.endAt!
-        self.minutesSelectedString = String(GlobalClass.restModel.data.deliveryTime!)
-        self.minLbl.text = "\(minutesSelectedString) min"
         }
     }
     

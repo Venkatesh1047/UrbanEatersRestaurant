@@ -161,15 +161,15 @@ class HomeViewController: UIViewController {
                     if data?.available == 1{
                         if data?.statIdData != nil{
                             if data?.statIdData.food.total != data?.statIdData.food.available!{
-                                TheGlobalPoolManager.showAlertWith(title: "Some items are still unavailable?", message: "\n Do you want to Manage?", singleAction: false, okTitle:"Yes", cancelTitle: "No") { (sucess) in
-                                    if sucess!{
-                                         TheGlobalPoolManager.isShow = true
-                                        let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "FoodItemsVCID") as! FoodItemsViewController
-                                        self.navigationController?.pushViewController(viewCon, animated: true)
-                                    }else{
-                                        TheGlobalPoolManager.isShow = true
-                                    }
-                                }
+//                                TheGlobalPoolManager.showAlertWith(title: "Some items are still unavailable?", message: "\n Do you want to Manage?", singleAction: false, okTitle:"Yes", cancelTitle: "No") { (sucess) in
+//                                    if sucess!{
+//                                         TheGlobalPoolManager.isShow = true
+//                                        let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "FoodItemsVCID") as! FoodItemsViewController
+//                                        self.navigationController?.pushViewController(viewCon, animated: true)
+//                                    }else{
+//                                        TheGlobalPoolManager.isShow = true
+//                                    }
+//                                }
                             }
                         }
                     }

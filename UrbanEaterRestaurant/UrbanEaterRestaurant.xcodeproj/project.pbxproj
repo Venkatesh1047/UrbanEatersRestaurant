@@ -9,13 +9,22 @@
 /* Begin PBXBuildFile section */
 		15941E7110E9FFF4E9515CE0 /* Pods_UrbanEaterRestaurant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29FAC68086B0EB2643396D2A /* Pods_UrbanEaterRestaurant.framework */; };
 		A309305D21C77AE800D2D1B0 /* RecommendedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */; };
-		A309305E21C77AE800D2D1B0 /* ManageCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */; };
 		A309306021C7EBFA00D2D1B0 /* EarningsHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */; };
 		A365B5EF21CA1DC9007A5B11 /* MXIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EA21CA1DC9007A5B11 /* MXIndicator.swift */; };
 		A365B5F021CA1DC9007A5B11 /* MXSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EB21CA1DC9007A5B11 /* MXSegmentedControl.swift */; };
 		A365B5F121CA1DC9007A5B11 /* MXSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */; };
 		A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A365B5EE21CA1DC9007A5B11 /* Info.plist */; };
+		A375A4DE220AEE9300D55C42 /* RecommendedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4DC220AEE9300D55C42 /* RecommendedCell.swift */; };
+		A375A4DF220AEE9300D55C42 /* RecommendedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A375A4DD220AEE9300D55C42 /* RecommendedCell.xib */; };
+		A375A4E1220C039C00D55C42 /* ManageCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4E0220C039B00D55C42 /* ManageCategoriesModel.swift */; };
+		A375A4E8220C35E700D55C42 /* ChooseTimingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4E7220C35E700D55C42 /* ChooseTimingsViewController.swift */; };
+		A375A4EA220D538600D55C42 /* ManageRecomendedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4E9220D538600D55C42 /* ManageRecomendedVC.swift */; };
 		A38A2B5621DE13F60084A5B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */; };
+		A3930BFD220996A0009EFFA9 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3930BFB220996A0009EFFA9 /* CategoryTableViewCell.swift */; };
+		A3930BFE220996A0009EFFA9 /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3930BFC220996A0009EFFA9 /* CategoryTableViewCell.xib */; };
+		A3930C022209A26E009EFFA9 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3930C002209A26E009EFFA9 /* AddCategoryView.swift */; };
+		A3930C032209A26E009EFFA9 /* AddCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3930C012209A26E009EFFA9 /* AddCategoryView.xib */; };
+		A3930C062209BA51009EFFA9 /* AddFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3930C052209BA51009EFFA9 /* AddFoodViewController.swift */; };
 		A3B348AE21FED00900767B53 /* VerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B348AD21FED00900767B53 /* VerificationVC.swift */; };
 		A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF42F2189A3B800192E7E /* AppDelegate.swift */; };
 		A3BEF4322189A3B800192E7E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BEF4312189A3B800192E7E /* ViewController.swift */; };
@@ -124,14 +133,23 @@
 		29FAC68086B0EB2643396D2A /* Pods_UrbanEaterRestaurant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UrbanEaterRestaurant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A23F5BE1976B287741E3FCA /* Pods-UrbanEaterRestaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrbanEaterRestaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UrbanEaterRestaurant/Pods-UrbanEaterRestaurant.debug.xcconfig"; sourceTree = "<group>"; };
 		A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendedModel.swift; sourceTree = "<group>"; };
-		A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCategoriesModel.swift; sourceTree = "<group>"; };
 		A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarningsHistoryModel.swift; sourceTree = "<group>"; };
 		A365B5EA21CA1DC9007A5B11 /* MXIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXIndicator.swift; sourceTree = "<group>"; };
 		A365B5EB21CA1DC9007A5B11 /* MXSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXSegmentedControl.swift; sourceTree = "<group>"; };
 		A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MXSegment.swift; sourceTree = "<group>"; };
 		A365B5ED21CA1DC9007A5B11 /* MXSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSegmentedControl.h; sourceTree = "<group>"; };
 		A365B5EE21CA1DC9007A5B11 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A375A4DC220AEE9300D55C42 /* RecommendedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedCell.swift; sourceTree = "<group>"; };
+		A375A4DD220AEE9300D55C42 /* RecommendedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecommendedCell.xib; sourceTree = "<group>"; };
+		A375A4E0220C039B00D55C42 /* ManageCategoriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCategoriesModel.swift; sourceTree = "<group>"; };
+		A375A4E7220C35E700D55C42 /* ChooseTimingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTimingsViewController.swift; sourceTree = "<group>"; };
+		A375A4E9220D538600D55C42 /* ManageRecomendedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageRecomendedVC.swift; sourceTree = "<group>"; };
 		A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A3930BFB220996A0009EFFA9 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		A3930BFC220996A0009EFFA9 /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
+		A3930C002209A26E009EFFA9 /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
+		A3930C012209A26E009EFFA9 /* AddCategoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCategoryView.xib; sourceTree = "<group>"; };
+		A3930C052209BA51009EFFA9 /* AddFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewController.swift; sourceTree = "<group>"; };
 		A3B348AD21FED00900767B53 /* VerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationVC.swift; sourceTree = "<group>"; };
 		A3BEF42C2189A3B800192E7E /* UrbanEaterRestaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrbanEaterRestaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BEF42F2189A3B800192E7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -275,6 +293,24 @@
 			path = MXSegmentedControl;
 			sourceTree = "<group>";
 		};
+		A3930BFF2209A230009EFFA9 /* Add Category View */ = {
+			isa = PBXGroup;
+			children = (
+				A3930C002209A26E009EFFA9 /* AddCategoryView.swift */,
+				A3930C012209A26E009EFFA9 /* AddCategoryView.xib */,
+			);
+			path = "Add Category View";
+			sourceTree = "<group>";
+		};
+		A3930C042209BA28009EFFA9 /* Add Food View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A3930C052209BA51009EFFA9 /* AddFoodViewController.swift */,
+				A375A4E7220C35E700D55C42 /* ChooseTimingsViewController.swift */,
+			);
+			path = "Add Food View Controller";
+			sourceTree = "<group>";
+		};
 		A3BEF4232189A3B800192E7E = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +385,7 @@
 		A3BEF4432189A94700192E7E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A3930BFF2209A230009EFFA9 /* Add Category View */,
 				A3D9C9FD21DE609A00A8C9DE /* Table Accepted View */,
 				A3F3871F21CCEF50002122BC /* Preparation Time View  */,
 				A3F2AF9521BA7E4900A9379A /* Items Details View */,
@@ -380,8 +417,8 @@
 				A3FFB13821C0CD7600051988 /* TableOrderModel.swift */,
 				A3FFB13D21C138E700051988 /* RestaurantHomeModel.swift */,
 				A3ED957621C227AB008B17C5 /* RestaurantAllOrdersModel.swift */,
+				A375A4E0220C039B00D55C42 /* ManageCategoriesModel.swift */,
 				A3F1598A21C3AE4700F21FDB /* UpdatePasswordModel.swift */,
-				A309305C21C77AE800D2D1B0 /* ManageCategoriesModel.swift */,
 				A309305B21C77AE800D2D1B0 /* RecommendedModel.swift */,
 				A309305F21C7EBFA00D2D1B0 /* EarningsHistoryModel.swift */,
 				A3F3B8B121DA4E400094E3DA /* NotificationsModel.swift */,
@@ -519,6 +556,7 @@
 				A3BEF49D2189D47F00192E7E /* RecommendedItemsVC */,
 				A3BEF49C2189D47100192E7E /* FoodItemsViewController */,
 				A3BEF49B2189D45B00192E7E /* CategoriesViewController */,
+				A3930C042209BA28009EFFA9 /* Add Food View Controller */,
 				A3BEF4992189D43F00192E7E /* ManageMenuViewController.swift */,
 			);
 			path = "MANAGE MENU ITEMS";
@@ -544,6 +582,7 @@
 			isa = PBXGroup;
 			children = (
 				A3BEF4A22189D4B500192E7E /* RecommendedViewController.swift */,
+				A375A4E9220D538600D55C42 /* ManageRecomendedVC.swift */,
 			);
 			path = RecommendedItemsVC;
 			sourceTree = "<group>";
@@ -573,6 +612,8 @@
 			children = (
 				A3BEF4B32189D57800192E7E /* RecommendedTableViewCell.swift */,
 				A3BEF4B42189D57800192E7E /* RecommendedTableViewCell.xib */,
+				A375A4DC220AEE9300D55C42 /* RecommendedCell.swift */,
+				A375A4DD220AEE9300D55C42 /* RecommendedCell.xib */,
 			);
 			path = RecommendedTableViewCell;
 			sourceTree = "<group>";
@@ -647,6 +688,8 @@
 			children = (
 				A3BEF4E12189DEC800192E7E /* TableViewCell.swift */,
 				A3BEF4E22189DEC800192E7E /* TableViewCell.xib */,
+				A3930BFB220996A0009EFFA9 /* CategoryTableViewCell.swift */,
+				A3930BFC220996A0009EFFA9 /* CategoryTableViewCell.xib */,
 			);
 			path = CatagoryTableViewHeaderCell;
 			sourceTree = "<group>";
@@ -874,14 +917,17 @@
 				A3F2AF9021BA40B500A9379A /* ItemsCell.xib in Resources */,
 				A3EF7BEE21B5221300C9F9CE /* OrderHistoryTableViewCell.xib in Resources */,
 				A3BEF43A2189A3B900192E7E /* LaunchScreen.storyboard in Resources */,
+				A3930BFE220996A0009EFFA9 /* CategoryTableViewCell.xib in Resources */,
 				A3BEF4E42189DEC800192E7E /* TableViewCell.xib in Resources */,
 				A3BEF46A2189C4A100192E7E /* Roboto-Regular.ttf in Resources */,
 				A3F7859E21B66A140031F1A6 /* NewTableCell.xib in Resources */,
 				A3F785B021B6A29D0031F1A6 /* CompletedTableCell.xib in Resources */,
+				A3930C032209A26E009EFFA9 /* AddCategoryView.xib in Resources */,
 				A3BEF4A72189D51000192E7E /* EditCatagoryTableViewCell.xib in Resources */,
 				A38A2B5621DE13F60084A5B2 /* GoogleService-Info.plist in Resources */,
 				A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */,
 				A3BEF4BF2189D5CA00192E7E /* SelectGroupCell.xib in Resources */,
+				A375A4DF220AEE9300D55C42 /* RecommendedCell.xib in Resources */,
 				A3F7AF6421DB46B80004BAF7 /* CompletedItemsPopUp.xib in Resources */,
 				A3F785A721B6960A0031F1A6 /* ScheduledTableCell.xib in Resources */,
 				A3BEF4BD2189D5CA00192E7E /* SelectGroup.xib in Resources */,
@@ -924,6 +970,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MMMaterialDesignSpinner/MMMaterialDesignSpinner.framework",
+				"${BUILT_PRODUCTS_DIR}/PopOverMenu/PopOverMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -940,6 +987,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMMaterialDesignSpinner.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopOverMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -996,6 +1044,7 @@
 				A3FDDBA421AFF40C00524AF4 /* DateSeeAll.swift in Sources */,
 				A3BEF4B12189D54A00192E7E /* FoodItemsTableViewCell1.swift in Sources */,
 				A3F3872221CCEF7E002122BC /* PreparationTimeView.swift in Sources */,
+				A3930C062209BA51009EFFA9 /* AddFoodViewController.swift in Sources */,
 				A3BEF613218D8BDD00192E7E /* URLhandler.swift in Sources */,
 				A3FFB13A21C0CD7700051988 /* TableOrderModel.swift in Sources */,
 				A3F3FA0921BD082000AF840F /* ItemsDetailCell.swift in Sources */,
@@ -1004,6 +1053,7 @@
 				A3BEF48D2189CA0F00192E7E /* EarningSummuryViewController.swift in Sources */,
 				A3BEF4CC2189D90100192E7E /* MJPopupBackgroundView.m in Sources */,
 				A3F3B8B221DA4E400094E3DA /* NotificationsModel.swift in Sources */,
+				A375A4E1220C039C00D55C42 /* ManageCategoriesModel.swift in Sources */,
 				A3BEF4DC2189DD0400192E7E /* BusinessHoursViewController.swift in Sources */,
 				A3FDDB8F21AE676200524AF4 /* HomeViewController.swift in Sources */,
 				A3BEF4D62189DCC100192E7E /* EditProfileViewController.swift in Sources */,
@@ -1025,15 +1075,17 @@
 				A3BEF4972189CB4B00192E7E /* ShadowView.swift in Sources */,
 				A3BEF4322189A3B800192E7E /* ViewController.swift in Sources */,
 				A3BEF4DF2189DD4E00192E7E /* HelpSupportViewController.swift in Sources */,
+				A375A4EA220D538600D55C42 /* ManageRecomendedVC.swift in Sources */,
 				A3FDDB9321AE67A000524AF4 /* EarningsCollectionViewCell.swift in Sources */,
 				A3BEF49F2189D49C00192E7E /* CategoriesViewController.swift in Sources */,
 				A3BEF4B52189D57800192E7E /* RecommendedTableViewCell.swift in Sources */,
 				A3B348AE21FED00900767B53 /* VerificationVC.swift in Sources */,
-				A309305E21C77AE800D2D1B0 /* ManageCategoriesModel.swift in Sources */,
 				A3F2AF9321BA79DD00A9379A /* ItemsDetailView.swift in Sources */,
+				A375A4DE220AEE9300D55C42 /* RecommendedCell.swift in Sources */,
 				A3F7859921B648DD0031F1A6 /* NewFoodItemsCell.swift in Sources */,
 				A3BEF4952189CACF00192E7E /* TableBookingHistoryViewController.swift in Sources */,
 				A3BEF4E32189DEC800192E7E /* TableViewCell.swift in Sources */,
+				A3930C022209A26E009EFFA9 /* AddCategoryView.swift in Sources */,
 				A3BEF4BC2189D5CA00192E7E /* SelectGroupCell.swift in Sources */,
 				A309305D21C77AE800D2D1B0 /* RecommendedModel.swift in Sources */,
 				A365B5F021CA1DC9007A5B11 /* MXSegmentedControl.swift in Sources */,
@@ -1042,6 +1094,7 @@
 				A3BEF48A2189C98200192E7E /* OrderHistoryViewController.swift in Sources */,
 				A3BEF49A2189D43F00192E7E /* ManageMenuViewController.swift in Sources */,
 				A3FDDBA921B000C800524AF4 /* SliderToOpenView.swift in Sources */,
+				A375A4E8220C35E700D55C42 /* ChooseTimingsViewController.swift in Sources */,
 				A3F2AF8F21BA40B500A9379A /* ItemsCell.swift in Sources */,
 				A309306021C7EBFA00D2D1B0 /* EarningsHistoryModel.swift in Sources */,
 				A3FDDB8B21AD4EF200524AF4 /* TabBarViewController.swift in Sources */,
@@ -1063,6 +1116,7 @@
 				A3F785A621B6960A0031F1A6 /* ScheduledTableCell.swift in Sources */,
 				A3BEF604218D838A00192E7E /* GlobalModel.swift in Sources */,
 				A3F7AF6321DB46B80004BAF7 /* CompletedItemsPopUp.swift in Sources */,
+				A3930BFD220996A0009EFFA9 /* CategoryTableViewCell.swift in Sources */,
 				A3BEF4552189B6F800192E7E /* Constants.swift in Sources */,
 				A3BEF4302189A3B800192E7E /* AppDelegate.swift in Sources */,
 				A365B5EF21CA1DC9007A5B11 /* MXIndicator.swift in Sources */,

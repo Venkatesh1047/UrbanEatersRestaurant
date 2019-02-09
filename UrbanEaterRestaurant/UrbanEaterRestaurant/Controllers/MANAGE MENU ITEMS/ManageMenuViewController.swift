@@ -45,7 +45,7 @@ extension ManageMenuViewController : UITableViewDelegate,UITableViewDataSource{
         let value = indexPath.row
         switch value {
         case 0:
-            let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "RecommendedVCID") as! RecommendedViewController
+            let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "ManageRecomendedVC") as! ManageRecomendedVC
             self.navigationController?.pushViewController(passwordVC, animated: true)
         case 1:
             let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "FoodItemsVCID") as! FoodItemsViewController

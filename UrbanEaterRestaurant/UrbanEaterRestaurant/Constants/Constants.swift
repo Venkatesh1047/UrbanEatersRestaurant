@@ -45,6 +45,9 @@ class Constants{
         static let VerifyOTP                                                  = "\(BaseUrl)service-otp/validate"
         static let VerifyOTP_Restaurant                             = "\(BaseUrl)restaurant/verify-restaurant-email"
         static let ResendOTP                                               = "\(BaseUrl)/service-otp/resend"
+        static let Create_Category                                      = "\(BaseUrl)/category/create"
+        static let Create_Food                                             = "\(BaseUrl)/food/create"
+        static let Food_Update_ID                                     = "\(BaseUrl)/food/update/by-id"
     }
 }
 

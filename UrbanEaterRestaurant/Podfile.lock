@@ -92,6 +92,7 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - PopOverMenu (2.2.0)
   - Protobuf (3.6.1)
   - ReachabilitySwift (4.3.0)
   - SDWebImage/Core (4.4.3)
@@ -114,6 +115,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - IQKeyboardManagerSwift
   - MMMaterialDesignSpinner
+  - PopOverMenu
   - ReachabilitySwift
   - SDWebImage/WebP
   - SwiftMessages (~> 5.0.1)
@@ -138,6 +140,7 @@ SPEC REPOS:
     - libwebp
     - MMMaterialDesignSpinner
     - nanopb
+    - PopOverMenu
     - Protobuf
     - ReachabilitySwift
     - SDWebImage
@@ -162,6 +165,7 @@ SPEC CHECKSUMS:
   libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
   MMMaterialDesignSpinner: a548042720c2e5f04212048483085d7942ac3e81
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  PopOverMenu: 89d26014f46964e3cf8b4f27540e36051b992a86
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
@@ -169,6 +173,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
 
-PODFILE CHECKSUM: f5903238e3a4d72b2bcb45e1d2248286004045c2
+PODFILE CHECKSUM: e33b4d5b6ff20825b198494b156122e0a70057cb
 
 COCOAPODS: 1.5.3

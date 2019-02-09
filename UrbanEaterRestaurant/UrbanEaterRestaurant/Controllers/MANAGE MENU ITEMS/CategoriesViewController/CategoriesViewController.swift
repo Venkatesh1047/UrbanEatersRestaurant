@@ -8,35 +8,41 @@
 
 import UIKit
 import EZSwiftExtensions
-class CategoriesViewController: UIViewController,SelectGroupDelegate {
+class CategoriesViewController: UIViewController {
 
     @IBOutlet weak var categoryTbl: UITableView!
-    var section = ["Desserts", "Snacks", "Biryani","Grill","Barbeque","Pizza"]
-
-    var collapaseHandlerArray = [String]()
+    @IBOutlet weak var addCategoryBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        categoryTbl.register(UINib(nibName: "FoodItemsTableViewCell", bundle: nil), forCellReuseIdentifier: "FoodItemsTableViewCell")
+        NotificationCenter.default.addObserver(self, selector: #selector(CategoriesViewController.methodOfReceivedNotification(notification:)), name: Notification.Name("NewCategoryAdded"), object: nil)
+        categoryTbl.register(UINib(nibName: "CategoryTableViewCell", bundle: nil), forCellReuseIdentifier: "CategoryTableViewCell")
         self.updateUI()
+    }
+    @objc func methodOfReceivedNotification(notification: Notification){
+        self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
+        self.manageCategoriesApiHitting()
     }
     //MARK:- Update UI
     func updateUI(){
-        self.categoryTbl.tableFooterView = UIView()
+        self.addCategoryBtn.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : self.addCategoryBtn.layer.bounds.h / 2)
+        categoryTbl.tableFooterView = UIView()
         categoryTbl.delegate = self
         categoryTbl.dataSource = self
         self.manageCategoriesApiHitting()
     }
-    //MARK : - Select Group XIB 405
-    func selectGroupXib(){
-        let tableView = SelectGroup(nibName: "SelectGroup", bundle: nil)
-        tableView.delegate = self
-        self.presentPopupViewController(tableView, animationType: MJPopupViewAnimationSlideTopTop)
+    //MARK: - Add Category Pop Up
+    func addCategoryPopUpView(){
+        let viewCon = AddCategoryView(nibName: "AddCategoryView", bundle: nil)
+        self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
-    func delegateForSelectedGroup(selectedGroup: [String], viewCon: SelectGroup) {
-        self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideBottomBottom)
-        if selectedGroup.count != 0 {
-            self.section.append(contentsOf: selectedGroup)
-            self.categoryTbl.reloadData()
+    //Delete Button Method
+    @objc func deleteBtnMethod(_ btn : UIButton){
+        TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "You want to delete this Category?", singleAction: false, okTitle:"Confirm") { (sucess) in
+            if sucess!{
+                let data = GlobalClass.manageCategoriesModel.data[btn.tag]
+                self.categoryDeleteApiHitting(data.categoryId!)
+            }
         }
     }
     //MARK:- Manage Categories  Api Hitting
@@ -65,10 +71,13 @@ class CategoriesViewController: UIViewController,SelectGroupDelegate {
     }
     //MARK:- IB Action Outlets
     @IBAction func addBtnClicked(_ sender: Any) {
-        self.selectGroupXib()
+        // Add Button
     }
     @IBAction func backButtonClicked(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func addCategoryBtn(_ sender: UIButton) {
+        self.addCategoryPopUpView()
     }
 }
 extension CategoriesViewController : UITableViewDelegate,UITableViewDataSource{
@@ -76,29 +85,18 @@ extension CategoriesViewController : UITableViewDelegate,UITableViewDataSource{
         return GlobalClass.manageCategoriesModel == nil ? 0 : GlobalClass.manageCategoriesModel.data.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FoodItemsTableViewCell") as! FoodItemsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryTableViewCell") as! CategoryTableViewCell
         let data = GlobalClass.manageCategoriesModel.data[indexPath.row]
-        cell.expandBtn.isHidden = true
-        //cell.expandBtn.setImage(#imageLiteral(resourceName: "Visible").withColor(.secondaryBGColor), for: .normal)
-        cell.expandBtn.imageEdgeInsets = UIEdgeInsets.init(top: 6, left: 6, bottom: 6, right: 6)
-        cell.headerNameLbl.text = data.name!
+        cell.deleteBtn.tag = indexPath.row
+        cell.deleteBtn.addTarget(self, action: #selector(deleteBtnMethod(_:)), for: .touchUpInside)
+        cell.deleteBtn.setImage(#imageLiteral(resourceName: "Delete").withColor(.redColor), for: .normal)
+        cell.deleteBtn.imageEdgeInsets = UIDevice.isPhone() ? UIEdgeInsets.init(top: 5, left: 5, bottom: 5, right: 5) : UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
+        cell.titleLbl.text = data.name!
         cell.selectionStyle = .none
+        tableView.separatorStyle = .singleLine
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UIDevice.isPhone() ? 50 : 60
-    }
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    func tableView(_ tableView: UITableView, commit editingStyle:  UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.delete{
-            TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "You want to delete?", singleAction: false, okTitle:"Confirm") { (sucess) in
-                if sucess!{
-                    let data = GlobalClass.recommendedModel.data[indexPath.row]
-                    self.categoryDeleteApiHitting(data.id!)
-                }
-            }
-        }
     }
 }

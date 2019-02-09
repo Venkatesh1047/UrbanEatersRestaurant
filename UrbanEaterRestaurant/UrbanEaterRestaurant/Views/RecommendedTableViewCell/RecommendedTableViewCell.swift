@@ -12,10 +12,10 @@ class RecommendedTableViewCell: UITableViewCell {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var itemImgView: UIImageView!
-    
     @IBOutlet weak var itemDeleteBtn: UIButton!
     @IBOutlet weak var itemNameLbl: UILabel!
     @IBOutlet weak var itemPriceLbl: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         TheGlobalPoolManager.cornerAndBorder(itemImgView, cornerRadius: 5, borderWidth: 0, borderColor: .clear)

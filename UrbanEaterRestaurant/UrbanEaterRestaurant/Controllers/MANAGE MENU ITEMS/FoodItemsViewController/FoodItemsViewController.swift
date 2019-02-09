@@ -12,19 +12,23 @@ import UserNotifications
 class FoodItemsViewController: UIViewController,SelectGroupDelegate,UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var foodItemsTbl: UITableView!
+    @IBOutlet weak var addItems: UIButton!
+    
     var collapaseHandlerArray = [String]()
     var selectedSection = Int()
-    var isItemAvailable = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         foodItemsTbl.register(UINib(nibName: "FoodItemsTableViewCell", bundle: nil), forCellReuseIdentifier: "FoodItemsTableViewCell")
         let nibName = UINib(nibName:"FoodItemsTableViewCell1" , bundle: nil)
         foodItemsTbl.register(nibName, forCellReuseIdentifier: "FoodItemsTableViewCell1")
+    }
+    override func viewWillAppear(_ animated: Bool) {
         self.updateUI()
     }
     //MARK:- Update UI
     func updateUI(){
+         self.addItems.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : self.addItems.layer.bounds.h / 2)
         self.foodItemsTbl.tableFooterView = UIView()
         foodItemsTbl.delegate = self
         foodItemsTbl.dataSource = self
@@ -88,6 +92,10 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate,UIPopoverPre
     @IBAction func backButtonClicked(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    @IBAction func addItemsBtn(_ sender: UIButton) {
+        let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "AddFoodViewController") as! AddFoodViewController
+        self.navigationController?.pushViewController(viewCon, animated: true)
+    }
 }
 //MARK:-----TableView Methods------
 extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
@@ -131,8 +139,10 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         let data = GlobalClass.manageCategoriesModel.data[indexPath.section].itemList[indexPath.row]
         cell.deleteItem.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
         cell.visibilityItem.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
+        cell.tapToEditBtn.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
         cell.deleteItem.addTarget(self, action: #selector(deleteBtnMethod(_:)), for: .touchUpInside)
          cell.visibilityItem.addTarget(self, action: #selector(visibilityButtonMethod(_:)), for: .touchUpInside)
+        cell.tapToEditBtn.addTarget(self, action: #selector(tapToEditBtnMethod(_:)), for: .touchUpInside)
         cell.itemNameLbl.text = data.name!
         cell.itemPriceLbl.text = "₹ \(data.price!.toString)"
         let sourceString = data.avatar!.contains("http", compareOption: .caseInsensitive) ? data.avatar! : Constants.BASEURL_IMAGE + data.avatar!
@@ -179,6 +189,18 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
                 self.manageCategoryItemDeleteApiHitting(itemID)
             }
         }
+    }
+    //MARK:- Tap to Edit Button method
+    @objc func tapToEditBtnMethod(_ btn : UIButton){
+        let selectedSection = btn.tag.toString
+        let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
+        let selectedIndex = Int(btn.tag.toString.dropFirst())
+        let data = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!]
+        let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "AddFoodViewController") as! AddFoodViewController
+        viewCon.isComingFromEdit = true
+        viewCon.categoryName = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].name!
+        viewCon.editItemData = data
+        self.navigationController?.pushViewController(viewCon, animated: true)
     }
     //MARK:- Visibility Button method
     @objc func visibilityButtonMethod(_ btn : UIButton){

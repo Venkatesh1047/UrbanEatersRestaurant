@@ -34,6 +34,8 @@ let GlobalClass = GlobalModel.sharedInstance
 class GlobalModel:NSObject {
     static let sharedInstance = GlobalModel()
     var instanceIDTokenMessage:String = ""
+    var selectedFromTime : String!
+    var selectedToTime : String!
     
     var restaurantLoginModel         : RestaurantLoginModel!
     var foodOrderModel                  : FoodOrderModel!

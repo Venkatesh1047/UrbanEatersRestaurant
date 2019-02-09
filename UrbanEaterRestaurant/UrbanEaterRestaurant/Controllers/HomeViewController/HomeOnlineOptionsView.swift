@@ -428,7 +428,7 @@ extension UIView {
         layer.shadowColor = color.cgColor
         layer.shadowRadius = radius
         layer.shadowOpacity = opacity
-        layer.cornerRadius = layer.bounds.h / 2
+        layer.cornerRadius = cornerRadius
         let backgroundCGColor = backgroundColor?.cgColor
         backgroundColor = nil
         layer.backgroundColor =  backgroundCGColor
