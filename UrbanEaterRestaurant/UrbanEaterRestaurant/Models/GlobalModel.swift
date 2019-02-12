@@ -28,7 +28,6 @@ enum NotificationKey:String {
     }
 }
 
-
 let GlobalClass = GlobalModel.sharedInstance
 
 class GlobalModel:NSObject {

@@ -47,11 +47,23 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self, selector: #selector(CategoriesViewController.methodOfReceivedNotification(notification:)), name: Notification.Name("NewCategoryAdded"), object: nil)
         GlobalClass.selectedFromTime = nil
         GlobalClass.selectedToTime = nil
+        self.categories = []
+        if let categories = GlobalClass.manageCategoriesModel.data{
+            for data in categories{
+                self.categories.append(data.name!)
+            }
+            self.categories.append("Other")
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
          self.updateUI()
+    }
+    @objc func methodOfReceivedNotification(notification: Notification){
+        self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
+        self.manageCategoriesApiHitting()
     }
     //MARK:- Update UI
     func updateUI(){
@@ -106,11 +118,6 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         recommendedSwitch.tintColor = .secondaryBGColor
         recommendedSwitch.backgroundColor = .secondaryBGColor
         recommendedSwitch.layer.cornerRadius = recommendedSwitch.bounds.height / 2
-        if let categories = GlobalClass.manageCategoriesModel.data{
-            for data in categories{
-                self.categories.append(data.name!)
-            }
-        }
         self.enterFoodNameTF.setBottomBorder()
         self.vegBtn.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : 10)
         self.nonVegBtn.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : 10)
@@ -120,6 +127,25 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         TheGlobalPoolManager.cornerAndBorder(self.choosePhotoBtn, cornerRadius: 10, borderWidth: 0, borderColor: .clear)
         TheGlobalPoolManager.cornerAndBorder(self.takePhotoBtn, cornerRadius: 10, borderWidth: 0, borderColor: .clear)
         TheGlobalPoolManager.cornerAndBorder(self.foodItemImageView, cornerRadius: 10, borderWidth: 0, borderColor: .clear)
+    }
+    //MARK:- Manage Categories  Api Hitting
+    func manageCategoriesApiHitting(){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!]
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.ManageCaegories, params: param as [String : AnyObject], header: header) { (dataResponse) in
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            if dataResponse.json.exists(){
+                GlobalClass.manageCategoriesModel = ManageCategoriesModel(fromJson: dataResponse.json)
+                if let categories = GlobalClass.manageCategoriesModel.data{
+                    self.categories = []
+                    for data in categories{
+                        self.categories.append(data.name!)
+                    }
+                    self.categories.append("Other")
+                }
+            }
+        }
     }
     // MARK: - Image picker from gallery and camera
     private func imagePicker(clickedButtonat buttonIndex: Int) {
@@ -179,15 +205,25 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         self.popOverViewController.popoverPresentationController?.sourceView = btn
         self.popOverViewController.popoverPresentationController?.sourceRect = btn.bounds
         self.popOverViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
-        self.popOverViewController.preferredContentSize = CGSize(width: 150, height:180)
+        self.popOverViewController.preferredContentSize = CGSize(width: 160, height:180)
         self.popOverViewController.presentationController?.delegate = self
         ez.runThisInMainThread {
             self.popOverViewController.completionHandler = { selectRow in
-                self.selectCategoryTF.text = GlobalClass.manageCategoriesModel.data[selectRow].name!
-                self.mainCategoryID = GlobalClass.manageCategoriesModel.data[selectRow].categoryId!
+                if selectRow == self.categories.count - 1{
+                    print("Other")
+                    self.addCategoryPopUpView()
+                }else{
+                    self.selectCategoryTF.text = GlobalClass.manageCategoriesModel.data[selectRow].name!
+                    self.mainCategoryID = GlobalClass.manageCategoriesModel.data[selectRow].categoryId!
+                }
             }
         }
         self.present(self.popOverViewController, animated: true, completion: nil)
+    }
+    //MARK: - Add Category Pop Up
+    func addCategoryPopUpView(){
+        let viewCon = AddCategoryView(nibName: "AddCategoryView", bundle: nil)
+        self.presentPopupViewController(viewCon, animationType: MJPopupViewAnimationSlideTopTop)
     }
     //MARK:- Validate
     func validate() -> Bool{
@@ -203,9 +239,6 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }else  if self.actualPriceTF.text?.length == 0{
             TheGlobalPoolManager.showToastView("Please provide actual price")
             return false
-        }else if self.selectedImageBase64String == ""{
-            TheGlobalPoolManager.showToastView("Please provide food image for customers")
-            return false
         }else if GlobalClass.selectedFromTime == nil{
             TheGlobalPoolManager.showToastView("Invalid Start Timing")
             return false
@@ -213,6 +246,10 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             TheGlobalPoolManager.showToastView("Invalid End Timing")
             return false
         }
+//        else if self.selectedImageBase64String == ""{
+//            TheGlobalPoolManager.showToastView("Please provide food image for customers")
+//            return false
+//        }
         return true
     }
     //MARK:- Create Food Api
@@ -229,6 +266,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             "restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
             "price": self.actualPriceTF.text!.toDouble() as AnyObject,
             "vorousType": self.vorousType!,
+            "available": 1,
             "timings": [
                 "startAt": GlobalClass.selectedFromTime!,
                 "endAt": GlobalClass.selectedToTime!,
