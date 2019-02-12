@@ -39,7 +39,7 @@ class Constants{
         static let RecommendedItemDelete                   = "\(BaseUrl)food/remove/recommended"
         static let ManageCaegories                                  = "\(BaseUrl)food/by-restaurant-raw"
         static let CategoryFoodItemDelete                     = "\(BaseUrl)food/delete/by-id"
-        static let CategoryFoodItemUpdate                    = "\(BaseUrl)food/update/by-id"
+        static let CategoryFoodItemUpdate                    = "\(BaseUrl)food/change/available"
         static let EarningsSummary                                   = "\(BaseUrl)order/earnings/by-restaurant"
         static let TableBookingHistory                              = "\(BaseUrl)order-table/by-restaurant"
         static let VerifyOTP                                                  = "\(BaseUrl)service-otp/validate"

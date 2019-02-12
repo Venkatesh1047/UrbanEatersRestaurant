@@ -21,7 +21,6 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     @IBOutlet weak var actualPriceTF: UITextField!
     @IBOutlet weak var discountTF: UITextField!
     @IBOutlet weak var avaialbleBtn: UIButton!
-    @IBOutlet weak var unavailableBtn: UIButton!
     @IBOutlet weak var foodItemImageView: UIImageView!
     @IBOutlet weak var choosePhotoBtn: UIButton!
     @IBOutlet weak var takePhotoBtn: UIButton!
@@ -29,6 +28,8 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var selectCategoryBtn: UIButton!
     @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var availableBgView: UIView!
+    @IBOutlet weak var setAvailablityTF: UITextField!
     
     var selectedImage :UIImage!
     var selectedImageBase64String : String = ""
@@ -40,23 +41,29 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     var isComingFromEdit : Bool = false
     var editItemData : ManageCategoriesItemList!
     var discountStatus : Int = 0
-    var availableStatus : Int!
     var categoryName : String!
-    var nextAvailableTime : String = ""
     var imageString : String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.updateUI()
+        GlobalClass.selectedFromTime = nil
+        GlobalClass.selectedToTime = nil
+    }
+    override func viewWillAppear(_ animated: Bool) {
+         self.updateUI()
     }
     //MARK:- Update UI
     func updateUI(){
+        self.setAvailablityTF.isUserInteractionEnabled = false
         if !isComingFromEdit{
             self.titleLbl.text = "Add Food"
-            self.unavailableBtn.isEnabled = false
-            self.unavailableBtn.setBackgroundColor(.lightGray, forState: .normal)
             self.recommendedSwitch.isOn = false
+            if GlobalClass.selectedFromTime  != nil{
+                self.setAvailablityTF.text = "Change Availability Time: \(GlobalClass.selectedFromTime!) to \(GlobalClass.selectedToTime!)"
+            }else{
+                self.setAvailablityTF.text = "Set Availability Time:"
+            }
         }else{
             self.titleLbl.text = "Edit Food"
             if let data = editItemData{
@@ -65,27 +72,19 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
                 self.selectedImageBase64String = data.avatar!
                 self.vorousType = data.vorousType!
                 self.recommendedType = data.recommended!
-                self.availableStatus = data.available!
                 self.mainCategoryID = data.mainCategoryId!
                 self.discountStatus = data.offer.status!
                 self.selectCategoryTF.text = self.categoryName
                 self.enterFoodNameTF.text = data.name!
                 self.imageString = data.avatar!
-                self.nextAvailableTime = data.nextAvailableTime!
+                self.setAvailablityTF.text = "Change Availability Time: \(GlobalClass.selectedFromTime!) to \(GlobalClass.selectedToTime!)"
                 if data.vorousType! == 1{
                     self.vorousTypeBtns(vegBtn)
                 }else{
-                     self.vorousTypeBtns(nonVegBtn)
+                    self.vorousTypeBtns(nonVegBtn)
                 }
                 self.actualPriceTF.text = data.price!.toString
                 self.discountTF.text = data.offer.value!.toString
-                if data.available! == 0{
-                    let un_available   = unavailableBtn == unavailableBtn ?   #colorLiteral(red: 0.9529411765, green: 0.7529411765, blue: 0.1843137255, alpha: 1) : #colorLiteral(red: 0.2509803922, green: 0.2901960784, blue: 0.4078431373, alpha: 1)
-                    self.unavailableBtn.backgroundColor = un_available
-                }else{
-                    let available   = avaialbleBtn == avaialbleBtn ?   #colorLiteral(red: 0.9529411765, green: 0.7529411765, blue: 0.1843137255, alpha: 1) : #colorLiteral(red: 0.2509803922, green: 0.2901960784, blue: 0.4078431373, alpha: 1)
-                    self.avaialbleBtn.backgroundColor = available
-                }
                 if data.recommended! == 0{
                     self.recommendedType = 0
                     self.recommendedSwitch.isOn = false
@@ -115,10 +114,9 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         self.enterFoodNameTF.setBottomBorder()
         self.vegBtn.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : 10)
         self.nonVegBtn.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35 ,cornerRadius : 10)
+        TheGlobalPoolManager.cornerAndBorder(availableBgView, cornerRadius: 10, borderWidth: 1, borderColor: .lightGray)
         TheGlobalPoolManager.cornerAndBorder(self.actualPriceTF, cornerRadius: 10, borderWidth: 1, borderColor: .lightGray)
         TheGlobalPoolManager.cornerAndBorder(self.discountTF, cornerRadius: 10, borderWidth: 1, borderColor: .lightGray)
-        TheGlobalPoolManager.cornerAndBorder(self.avaialbleBtn, cornerRadius: 10, borderWidth: 0, borderColor: .clear)
-        TheGlobalPoolManager.cornerAndBorder(self.unavailableBtn, cornerRadius: 10, borderWidth: 0, borderColor: .clear)
         TheGlobalPoolManager.cornerAndBorder(self.choosePhotoBtn, cornerRadius: 10, borderWidth: 0, borderColor: .clear)
         TheGlobalPoolManager.cornerAndBorder(self.takePhotoBtn, cornerRadius: 10, borderWidth: 0, borderColor: .clear)
         TheGlobalPoolManager.cornerAndBorder(self.foodItemImageView, cornerRadius: 10, borderWidth: 0, borderColor: .clear)
@@ -208,8 +206,11 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }else if self.selectedImageBase64String == ""{
             TheGlobalPoolManager.showToastView("Please provide food image for customers")
             return false
-        }else if self.availableStatus == nil{
-            TheGlobalPoolManager.showToastView("Please provide available timings")
+        }else if GlobalClass.selectedFromTime == nil{
+            TheGlobalPoolManager.showToastView("Invalid Start Timing")
+            return false
+        }else if GlobalClass.selectedToTime == nil{
+            TheGlobalPoolManager.showToastView("Invalid End Timing")
             return false
         }
         return true
@@ -221,7 +222,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             self.imageString = ""
         }
         var param = [String:AnyObject]()
-         param = [
+        param = [
             "name": self.enterFoodNameTF.text!,
             "description": self.enterFoodNameTF.text!,
             "avatar": self.imageString,
@@ -241,9 +242,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             "mainCategoryId": self.mainCategoryID!,
             "categoryId": [self.mainCategoryID!],
             "default": "",
-            "available": 1,
             "recommended":self.recommendedType!,
-            "nextAvailableTime": self.nextAvailableTime,
             "status": 1
             ] as [String : AnyObject]
         
@@ -258,132 +257,6 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             if dataResponse.json.exists(){
                 self.navigationController?.popViewController(animated: true)
             }
-        }
-    }
-    func setUnavailable(_ itemID: String ,  itemName : String ) {
-        let titleText = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: 16), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
-        let titleAttributed = NSMutableAttributedString(string: "\(itemName) Unavailable ...", attributes:titleText)
-        let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let firstAction: UIAlertAction = UIAlertAction(title: "Upto 1 Hour", style: .default) { action -> Void in
-            let dateString = Date().adding(minutes: 60)
-            let body = itemName + " was unavailable since 1 hour"
-            let identifier = itemID
-            let timeInterval = dateString.2.timeIntervalSinceNow
-            self.cancelScheduleNotification(identifier)
-            self.scheduleLocalNotification(body, identifier: identifier, timeInterval: timeInterval)
-            self.availableStatus = 0
-            self.nextAvailableTime = dateString.0
-        }
-        let secondAction: UIAlertAction = UIAlertAction(title: "Upto 4 Hours", style: .default) { action -> Void in
-            let dateString = Date().adding(minutes: 240)
-            let body = itemName + " was unavailable since 4 hours"
-            let identifier = itemID
-            let timeInterval = dateString.2.timeIntervalSinceNow
-            self.cancelScheduleNotification(identifier)
-            self.scheduleLocalNotification(body, identifier: identifier, timeInterval: timeInterval)
-            self.availableStatus = 0
-            self.nextAvailableTime = dateString.0
-        }
-        let thirdAction: UIAlertAction = UIAlertAction(title: "Upto 8 Hours", style: .default) { action -> Void in
-            let dateString = Date().adding(minutes: 480)
-            let body = itemName + " was unavailable since 8 hours"
-            let identifier = itemID
-            let timeInterval = dateString.2.timeIntervalSinceNow
-            self.cancelScheduleNotification(identifier)
-            self.scheduleLocalNotification(body, identifier: identifier, timeInterval: timeInterval)
-            self.availableStatus = 0
-            self.nextAvailableTime = dateString.0
-        }
-        let fourthAction: UIAlertAction = UIAlertAction(title: "Next Start Time", style: .default) { action -> Void in
-            var timeString = GlobalClass.restModel.data.timings.weekDay.startAt
-            if Date().weekday.lowercased() == "friday" || Date().weekday.lowercased() == "saturday"{
-                timeString = GlobalClass.restModel.data.timings.weekEnd.startAt
-            }
-            let dateString = Date().addingOneDayExtra(timeString!)
-            let body = itemName + " was unavailable since Yesterday"
-            let identifier = itemID
-            let timeInterval = dateString.1.timeIntervalSinceNow
-            self.cancelScheduleNotification(identifier)
-            self.scheduleLocalNotification(body, identifier: identifier, timeInterval: timeInterval)
-            self.availableStatus = 0
-            self.nextAvailableTime = dateString.0
-        }
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
-        }
-        actionSheetController.addAction(firstAction)
-        actionSheetController.addAction(secondAction)
-        actionSheetController.addAction(thirdAction)
-        actionSheetController.addAction(fourthAction)
-        actionSheetController.addAction(cancelAction)
-        actionSheetController.setValue(titleAttributed, forKey : "attributedTitle")
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            print("IPAD")
-            actionSheetController.modalPresentationStyle = .popover
-            let popover = actionSheetController.popoverPresentationController!
-            popover.delegate = self
-            popover.sourceView = self.view
-            popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popover.permittedArrowDirections = []
-            self.present(actionSheetController, animated: true, completion: nil )
-        }
-        else if UIDevice.current.userInterfaceIdiom == .phone{
-            print("IPHONE")
-            self.present(actionSheetController, animated: true, completion: nil)
-        }
-    }
-    func setAvailable(_ itemID: String ,  itemName : String ) {
-        let titleText = [NSAttributedStringKey.font : UIFont.appFont(.Medium, size: 16), NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)] as [NSAttributedStringKey : Any]
-        let titleAttributed = NSMutableAttributedString(string: "\(itemName) Unavailable ...", attributes:titleText)
-        let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let firstAction: UIAlertAction = UIAlertAction(title: "Change Unavailable Time", style: .default) { action -> Void in
-            self.availableStatus = 1
-            self.nextAvailableTime = ""
-            self.setUnavailable(self.editItemData.itemId!, itemName: self.editItemData.name!)
-        }
-        let secondAction: UIAlertAction = UIAlertAction(title: "Available This Item", style: .default) { action -> Void in
-            self.cancelScheduleNotification(itemID)
-            self.availableStatus = 1
-            self.nextAvailableTime = ""
-        }
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
-        }
-        actionSheetController.addAction(firstAction)
-        actionSheetController.addAction(secondAction)
-        actionSheetController.addAction(cancelAction)
-        actionSheetController.setValue(titleAttributed, forKey : "attributedTitle")
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            print("IPAD")
-            actionSheetController.modalPresentationStyle = .popover
-            let popover = actionSheetController.popoverPresentationController!
-            popover.delegate = self
-            popover.sourceView = self.view
-            popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popover.permittedArrowDirections = []
-            self.present(actionSheetController, animated: true, completion: nil )
-        }
-        else if UIDevice.current.userInterfaceIdiom == .phone{
-            print("IPHONE")
-            self.present(actionSheetController, animated: true, completion: nil)
-        }
-    }
-    func scheduleLocalNotification(_ body:String, identifier:String, timeInterval:TimeInterval){
-        let content = UNMutableNotificationContent()
-        content.title = "Manage UnAvailable Item"
-        content.body = body
-        content.sound = UNNotificationSound.default()
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
-        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
-    func cancelScheduleNotification(_ identifier:String){
-        UNUserNotificationCenter.current().getPendingNotificationRequests { (notificationRequests) in
-            var identifiers: [String] = []
-            for notification:UNNotificationRequest in notificationRequests {
-                if notification.identifier == identifier {
-                    identifiers.append(notification.identifier)
-                }
-            }
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
         }
     }
     //MARK:- IB Action Outlets
@@ -404,28 +277,8 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }
     }
     @IBAction func availableStatusBtns(_ sender: UIButton) {
-        let available   = avaialbleBtn == sender ?   #colorLiteral(red: 0.9529411765, green: 0.7529411765, blue: 0.1843137255, alpha: 1) : #colorLiteral(red: 0.2509803922, green: 0.2901960784, blue: 0.4078431373, alpha: 1)
-        let un_available   = unavailableBtn == sender ?   #colorLiteral(red: 0.9529411765, green: 0.7529411765, blue: 0.1843137255, alpha: 1) : #colorLiteral(red: 0.2509803922, green: 0.2901960784, blue: 0.4078431373, alpha: 1)
-        if sender == avaialbleBtn{
-            print("Available Button")
-            if isComingFromEdit{
-                self.setAvailable(editItemData.itemId!, itemName: editItemData.name!)
-            }else{
-                availableStatus = 1
-                let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "ChooseTimingsViewController") as! ChooseTimingsViewController
-                self.navigationController?.pushViewController(viewCon, animated: true)
-            }
-        }else{
-            if !isComingFromEdit{
-                availableStatus = 0
-                TheGlobalPoolManager.showToastView("Sorry, Not possible while adding new item.")
-                return
-            }
-            print("Un-Available Button")
-            self.setUnavailable(editItemData.itemId!, itemName: editItemData.name!)
-        }
-        self.avaialbleBtn.backgroundColor = available
-        self.unavailableBtn.backgroundColor = un_available
+        let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "ChooseTimingsViewController") as! ChooseTimingsViewController
+        self.navigationController?.pushViewController(viewCon, animated: true)
     }
     @IBAction func selectCategoryBtns(_ sender: UIButton) {
         if sender == selectCategoryBtn{

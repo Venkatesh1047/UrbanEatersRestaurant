@@ -96,9 +96,9 @@ class GlobalModel:NSObject {
         case 2  : return ("ACCEPTED", .greenColor)
         case -2 : return ("DENIED", .redColor) 
         case 3  : return ("DELIVERED", .greenColor)
-        case 4 : return ("DRIVER REACHED", .secondaryBGColor)
+        case 4  : return ("DRIVER REACHED", .secondaryBGColor)
         case 5  : return ("PICKED UP", .themeColor)
-        case 6 : return ("DELIVERED", .greenColor)
+        case 6  : return ("DELIVERED", .greenColor)
         default : return ("CANCELLED", .redColor)
         }
     }
@@ -110,9 +110,9 @@ class GlobalModel:NSObject {
         case 2  : return ("ACCEPTED", .greenColor)
         case -2 : return ("DENIED", .redColor)
         case 3  : return ("REDEEMED", .greenColor)
-        case 4 : return ("REACHED", .secondaryBGColor)
+        case 4  : return ("REACHED", .secondaryBGColor)
         case 5  : return ("REDEEMED", .themeColor)
-        case 6 : return ("REDEEMED", .greenColor)
+        case 6  : return ("REDEEMED", .greenColor)
         default : return ("CANCELLED", .redColor)
         }
     }

@@ -11,18 +11,19 @@ import UIKit
 class FoodItemsTableViewCell1: UITableViewCell {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var itemImgView: UIImageView!
-    
-    @IBOutlet weak var deleteItem: UIButton!
-    @IBOutlet weak var visibilityItem: UIButton!
+    @IBOutlet weak var visibilitySwitch: UISwitch!
     @IBOutlet weak var itemNameLbl: UILabel!
     @IBOutlet weak var itemPriceLbl: UILabel!
     @IBOutlet weak var tapToEditBtn: UIButton!
+    @IBOutlet weak var availableStatuslbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         TheGlobalPoolManager.cornerAndBorder(itemImgView, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
-        self.deleteItem.setImage(#imageLiteral(resourceName: "Delete").withColor(.redColor), for: .normal)
-       // self.visibilityItem.isHidden = true
+        visibilitySwitch.onTintColor = .themeColor
+        visibilitySwitch.tintColor = .secondaryBGColor
+        visibilitySwitch.backgroundColor = .secondaryBGColor
+        visibilitySwitch.layer.cornerRadius = visibilitySwitch.bounds.height / 2
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

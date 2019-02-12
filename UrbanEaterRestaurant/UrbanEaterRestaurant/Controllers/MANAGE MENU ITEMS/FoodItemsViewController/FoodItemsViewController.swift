@@ -75,6 +75,7 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate,UIPopoverPre
     func manageCategoryItemUpdateApiHitting(_ itemID : String, availableStatus : Int , time : String){
         Themes.sharedInstance.activityView(View: self.view)
         let param = ["id": itemID,
+                                "restaurantId" : GlobalClass.restaurantLoginModel.data.subId!,
                                 "available": availableStatus,
                                 "nextAvailableTime": time] as [String : Any]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
@@ -137,12 +138,9 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : FoodItemsTableViewCell1 = tableView.dequeueReusableCell(withIdentifier: "FoodItemsTableViewCell1") as! FoodItemsTableViewCell1
         let data = GlobalClass.manageCategoriesModel.data[indexPath.section].itemList[indexPath.row]
-        cell.deleteItem.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
-        cell.visibilityItem.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
+        cell.visibilitySwitch.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
         cell.tapToEditBtn.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
-        cell.deleteItem.addTarget(self, action: #selector(deleteBtnMethod(_:)), for: .touchUpInside)
-         cell.visibilityItem.addTarget(self, action: #selector(visibilityButtonMethod(_:)), for: .touchUpInside)
-        cell.tapToEditBtn.addTarget(self, action: #selector(tapToEditBtnMethod(_:)), for: .touchUpInside)
+         cell.visibilitySwitch.addTarget(self, action: #selector(visibilityButtonMethod(_:)), for: .valueChanged)
         cell.itemNameLbl.text = data.name!
         cell.itemPriceLbl.text = "₹ \(data.price!.toString)"
         let sourceString = data.avatar!.contains("http", compareOption: .caseInsensitive) ? data.avatar! : Constants.BASEURL_IMAGE + data.avatar!
@@ -154,11 +152,32 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
             }
         }
         if data.available == 1{
-            cell.visibilityItem.setImage(#imageLiteral(resourceName: "Visible").withColor(.secondaryBGColor), for: .normal)
+            cell.visibilitySwitch.isOn = true
+            cell.availableStatuslbl.text = "Available"
+            cell.availableStatuslbl.textColor = .greenColor
         }else{
-            cell.visibilityItem.setImage(#imageLiteral(resourceName: "NotVisible").withColor(.secondaryBGColor), for: .normal)
+            cell.visibilitySwitch.isOn = false
+            cell.availableStatuslbl.text = "Unavailable"
+            cell.availableStatuslbl.textColor = .redColor
         }
         return cell
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            let itemID = GlobalClass.manageCategoriesModel.data[indexPath.section].itemList[indexPath.row].itemId!
+            self.manageCategoryItemDeleteApiHitting(itemID)
+        }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let data = GlobalClass.manageCategoriesModel.data[indexPath.section].itemList[indexPath.row]
+        let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "AddFoodViewController") as! AddFoodViewController
+        viewCon.isComingFromEdit = true
+        viewCon.categoryName = GlobalClass.manageCategoriesModel.data[indexPath.section].name!
+        viewCon.editItemData = data
+        self.navigationController?.pushViewController(viewCon, animated: true)
     }
     //Header cell button Action
     @objc func HandleExpandButton(sender: UIButton){
@@ -178,32 +197,8 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         }
         self.foodItemsTbl.reloadSections(IndexSet(integer: sender.tag), with: .none)
     }
-    //MARK:- Delete Button method
-    @objc func deleteBtnMethod(_ btn : UIButton){
-        TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "You want to delete?", singleAction: false, okTitle:"Confirm") { (sucess) in
-            if sucess!{
-                let selectedSection = btn.tag.toString
-                let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
-                let selectedIndex = Int(btn.tag.toString.dropFirst())
-                let itemID = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!].itemId!
-                self.manageCategoryItemDeleteApiHitting(itemID)
-            }
-        }
-    }
-    //MARK:- Tap to Edit Button method
-    @objc func tapToEditBtnMethod(_ btn : UIButton){
-        let selectedSection = btn.tag.toString
-        let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
-        let selectedIndex = Int(btn.tag.toString.dropFirst())
-        let data = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!]
-        let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "AddFoodViewController") as! AddFoodViewController
-        viewCon.isComingFromEdit = true
-        viewCon.categoryName = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].name!
-        viewCon.editItemData = data
-        self.navigationController?.pushViewController(viewCon, animated: true)
-    }
     //MARK:- Visibility Button method
-    @objc func visibilityButtonMethod(_ btn : UIButton){
+    @objc func visibilityButtonMethod(_ btn : UISwitch){
         let selectedSection = btn.tag.toString
         let index = selectedSection.index(selectedSection.startIndex, offsetBy: 0)
         let selectedIndex = Int(btn.tag.toString.dropFirst())

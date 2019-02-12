@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {}
     
     //MARK:- Network Reachability Listener

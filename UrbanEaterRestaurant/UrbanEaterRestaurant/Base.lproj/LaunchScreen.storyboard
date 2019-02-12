@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,8 +21,12 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Launch_Screen" translatesAutoresizingMaskIntoConstraints="NO" id="BhF-x5-DS5">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="y48-QN-Jv9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="New Logo1" translatesAutoresizingMaskIntoConstraints="NO" id="y48-QN-Jv9">
                                 <rect key="frame" x="72.666666666666686" y="348.66666666666669" width="230" height="115"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="115" id="eh2-b4-3kx"/>
+                                    <constraint firstAttribute="width" constant="230" id="w1a-0Y-Dn1"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -43,6 +48,6 @@
     </scenes>
     <resources>
         <image name="Launch_Screen" width="375" height="667"/>
-        <image name="Logo" width="230" height="115"/>
+        <image name="New Logo1" width="1280" height="640"/>
     </resources>
 </document>
