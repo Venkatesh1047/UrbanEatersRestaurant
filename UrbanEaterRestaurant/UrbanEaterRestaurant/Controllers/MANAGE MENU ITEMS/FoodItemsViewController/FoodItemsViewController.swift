@@ -204,8 +204,10 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         let selectedIndex = Int(btn.tag.toString.dropFirst())
         let data = GlobalClass.manageCategoriesModel.data[selectedSection[index].toInt! - 1].itemList[selectedIndex!]
         if data.available == 1{
+            btn.setOn(true, animated: true)
             self.setUnavailable(data.itemId!, itemName: data.name!)
         }else{
+            btn.setOn(false, animated: true)
             self.setAvailable(data.itemId!, itemName: data.name!)
         }
     }
@@ -254,9 +256,24 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
             self.updateCategoryItem(timeString!, itemID: itemID, availableStatus: 0)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
-        actionSheetController.addAction(firstAction)
-        actionSheetController.addAction(secondAction)
-        actionSheetController.addAction(thirdAction)
+        
+        let presentTime = Date().adding(minutes: 0)
+        var endTime = GlobalClass.restModel.data.timings.weekDay.endAt
+        if Date().weekday.lowercased() == "friday" || Date().weekday.lowercased() == "saturday"{
+            endTime = GlobalClass.restModel.data.timings.weekEnd.endAt
+        }
+        let timeDifference = GlobalClass.timeDifferenceBetweenTwoTimes(presentTime.0, endTime: endTime!)
+        print(timeDifference)
+        if timeDifference >= 8{
+            actionSheetController.addAction(firstAction)
+            actionSheetController.addAction(secondAction)
+            actionSheetController.addAction(thirdAction)
+        }else if timeDifference >= 4{
+            actionSheetController.addAction(firstAction)
+            actionSheetController.addAction(secondAction)
+        }else if timeDifference >= 1{
+            actionSheetController.addAction(firstAction)
+        }
         actionSheetController.addAction(fourthAction)
         actionSheetController.addAction(cancelAction)
         actionSheetController.setValue(titleAttributed, forKey : "attributedTitle")

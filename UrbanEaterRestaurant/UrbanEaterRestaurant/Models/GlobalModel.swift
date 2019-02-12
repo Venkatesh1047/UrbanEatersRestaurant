@@ -37,34 +37,34 @@ class GlobalModel:NSObject {
     var selectedFromTime : String!
     var selectedToTime : String!
     
-    var restaurantLoginModel         : RestaurantLoginModel!
-    var foodOrderModel                  : FoodOrderModel!
-    var tableOrderModel                 : TableOrderModel!
-    var tableHistoryModel               : TableOrderModel!
-    var restModel                               : RestaurantHomeModel!
-    var restaurantAllOrdersModel  : RestaurantAllOrdersModel!
-    var updatePasswordModel        : UpdatePasswordModel!
-    var manageCategoriesModel   : ManageCategoriesModel!
-    var recommendedModel          : RecommendedModel!
+    var restaurantLoginModel     : RestaurantLoginModel!
+    var foodOrderModel           : FoodOrderModel!
+    var tableOrderModel          : TableOrderModel!
+    var tableHistoryModel        : TableOrderModel!
+    var restModel                : RestaurantHomeModel!
+    var restaurantAllOrdersModel : RestaurantAllOrdersModel!
+    var updatePasswordModel      : UpdatePasswordModel!
+    var manageCategoriesModel    : ManageCategoriesModel!
+    var recommendedModel         : RecommendedModel!
     var recommendedItemsModel    : RecommendedModel!
-    var earningsHistoryModel        : EarningsHistoryModel!
-    var notificationsModel              : NotificationsModel!
+    var earningsHistoryModel     : EarningsHistoryModel!
+    var notificationsModel       : NotificationsModel!
     
-    let NEWS_NOTIFICATION                              = "NEWS_NOTIFICATION"
-    let ORDER_NEW_RESTAURANT                    = "ORDER_NEW_RESTAURANT"
-    let ORDER_TABLE_NEW_RESTAURANT      = "ORDER_TABLE_NEW_RESTAURANT"
-    let ORDER_RESTAURANT_DENIED              = "ORDER_RESTAURANT_DENIED"
-    let KEY_ACCEPTED                                          = "RES_ACCEPTED"
-    let KEY_REJECTED                                           = "RES_REJECTED"
-    let DRIVER_NOT_ALLOCATED                      = "Driver Not Allocated"
-    let KEY_ID                                                          = "id"
-    let KEY_DELIVERYTIME                                   = "deliveryTime"
-    let KEY_TIMINGS                                              = "timings"
-    let KEY_WEEKDAY                                           = "weekDay"
-    let KEY_WEEKEND                                          = "weekEnd"
-    let KEY_STARTAT                                              = "startAt"
-    let KEY_ENDAT                                                 = "endAt"
-    let KEY_STATUS                                                = "status"
+    let NEWS_NOTIFICATION          = "NEWS_NOTIFICATION"
+    let ORDER_NEW_RESTAURANT       = "ORDER_NEW_RESTAURANT"
+    let ORDER_TABLE_NEW_RESTAURANT = "ORDER_TABLE_NEW_RESTAURANT"
+    let ORDER_RESTAURANT_DENIED    = "ORDER_RESTAURANT_DENIED"
+    let KEY_ACCEPTED               = "RES_ACCEPTED"
+    let KEY_REJECTED               = "RES_REJECTED"
+    let DRIVER_NOT_ALLOCATED       = "Driver Not Allocated"
+    let KEY_ID                     = "id"
+    let KEY_DELIVERYTIME           = "deliveryTime"
+    let KEY_TIMINGS                = "timings"
+    let KEY_WEEKDAY                = "weekDay"
+    let KEY_WEEKEND                = "weekEnd"
+    let KEY_STARTAT                = "startAt"
+    let KEY_ENDAT                  = "endAt"
+    let KEY_STATUS                 = "status"
     
     override init() {
         super.init()
@@ -115,6 +115,16 @@ class GlobalModel:NSObject {
         case 6  : return ("REDEEMED", .greenColor)
         default : return ("CANCELLED", .redColor)
         }
+    }
+    //MARK:- Difference between two times
+    func timeDifferenceBetweenTwoTimes(_ startTime:String, endTime:String) -> Int{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let date1 = dateFormatter.date(from: startTime)
+        let date2 = dateFormatter.date(from: endTime)
+        let convertedDate = Calendar.current.dateComponents([.hour], from: date1!, to: date2!)
+        let hours = convertedDate.hour!
+        return hours
     }
 }
 //MARK:- UI Button
