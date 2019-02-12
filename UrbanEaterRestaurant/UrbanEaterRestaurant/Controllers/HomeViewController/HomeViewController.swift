@@ -188,7 +188,7 @@ class HomeViewController: UIViewController {
     }   
     //MARK:- Chnage Restaurant Status Api
     func changeRestarentStatusWebHit(status:Int){
-        let param =     [
+        let param = [
             "id": GlobalClass.restaurantLoginModel.data.subId,
             "available": status] as  [String:AnyObject]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]

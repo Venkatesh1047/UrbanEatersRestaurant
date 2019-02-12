@@ -31,6 +31,7 @@ class ChooseTimingsViewController: UIViewController {
     var dateSelectedString = ""
     let dateFormatter = DateFormatter()
     var isRestTimgsSelected : Bool!
+    var isDoneAnyChanges : Bool! = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,9 +71,9 @@ class ChooseTimingsViewController: UIViewController {
         dateSelectedString = dateFormatter.string(from: sender.date)
     }
     func validateInputs(){
-        if TheGlobalPoolManager.trimString(string: self.weekDayFromLbl.text!) == "" {
+        if TheGlobalPoolManager.trimString(string: self.weekDayFromLbl.text!) == "HH : MM" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKDAY_START_TIME_EMPTY)
-        }else if TheGlobalPoolManager.trimString(string: self.weekDayToLbl.text!) == "" {
+        }else if TheGlobalPoolManager.trimString(string: self.weekDayToLbl.text!) == "HH : MM" {
             Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKDAY_END_TIME_EMPTY)
         }else{
             GlobalClass.selectedFromTime = self.weekDayFromLbl.text!

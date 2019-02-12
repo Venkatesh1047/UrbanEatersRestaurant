@@ -48,6 +48,7 @@ class Constants{
         static let Create_Category                                      = "\(BaseUrl)/category/create"
         static let Create_Food                                             = "\(BaseUrl)/food/create"
         static let Food_Update_ID                                     = "\(BaseUrl)/food/update/by-id"
+        static let Category_Delete_By_ID                        = "\(BaseUrl)/category/delete/by-id"
     }
 }
 

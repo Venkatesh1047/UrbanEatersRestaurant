@@ -53,7 +53,7 @@ class URLhandler: NSObject {
                     if Int(stautsCode) >= 200 && Int(stautsCode) < 300{
                         completionHandler(response)
                     }else{
-                        print(response.result.value)
+                        print(response.result.value,urlString)
                         Themes.sharedInstance.removeActivityView(View: (URLhandler.sharedInstance.topMostVC()?.view)!)
                         if !hideToast{
                             Themes.sharedInstance.showToastView(message)

@@ -61,8 +61,10 @@ class CategoriesViewController: UIViewController {
     //MARK:- Recommended Item Items Delete Api Hitting
     func categoryDeleteApiHitting(_ itemID : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["id": [itemID]]
-        URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItemDelete, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
+        let param = ["id": itemID]
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        
+        URLhandler.postUrlSession(urlString: Constants.urls.Category_Delete_By_ID, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 self.manageCategoriesApiHitting()
