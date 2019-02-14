@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import HTHorizontalSelectionList
+import SwiftyJSON
 import EZSwiftExtensions
 
 class HomeOnlineOptionsView: UIViewController {
@@ -90,7 +90,9 @@ class HomeOnlineOptionsView: UIViewController {
         selectionView.append(title: "Completed")
             .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
         selectionView.addTarget(self, action: #selector(self.selectedSegment(_:)), for: .valueChanged)
-        self.restaurantAllOrdersApiHitting(false)
+        ez.runThisInMainThread {
+            self.restaurantAllOrdersApiHitting(false)
+        }
     }
     //MARK:- SelectionView
     @objc func selectedSegment(_ sender:MXSegmentedControl){
@@ -122,12 +124,15 @@ class HomeOnlineOptionsView: UIViewController {
                                "orderFood": 1,
                                "orderFoodStatus": "",
                                "orderTable": 1,
-                               "orderTableStatus": ""] as [String : Any]
-        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
-        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.restaurantAllOrdersURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
-            Themes.sharedInstance.removeActivityView(View: self.view)
-            if dataResponse.json.exists(){
-                let restModel = RestaurantAllOrdersModel(fromJson: dataResponse.json)
+                               "orderTableStatus": ""] as [String : AnyObject]
+       // let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        ez.runThisAfterDelay(seconds: 0.0, after: {
+            let paramSent = [DATA:param]
+            Sockets.socketWithName(GET_RESTAURANT_ORDERS, input: paramSent, completionHandler: { (response) in
+                Themes.sharedInstance.removeActivityView(View: self.view)
+                 let data = JSON(response)
+                print("data Check",data)
+                let restModel = RestaurantAllOrdersModel(fromJson: data)
                 if GlobalClass.restaurantAllOrdersModel != nil && self.selectionView.selectedIndex != 0{
                     if restModel.new.count > GlobalClass.restaurantAllOrdersModel.new.count{
                         self.newCountLbl.isHidden = false
@@ -147,8 +152,8 @@ class HomeOnlineOptionsView: UIViewController {
                 }else{
                     self.tableView.reloadData()
                 }
-            }
-        }
+            })
+        })
     }
     //MARK:- Food Order Update  Request
     func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String){

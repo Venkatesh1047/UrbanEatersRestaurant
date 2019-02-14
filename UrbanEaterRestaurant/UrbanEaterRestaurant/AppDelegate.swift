@@ -70,8 +70,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let controller  = storyboard.instantiateViewController(withIdentifier: "NavigationViewControllerID") as! CommonNavigationController
             controller.index = 0
-            self.window?.rootViewController = controller
-            self.window?.makeKeyAndVisible()
+            ez.runThisInMainThread {
+                Sockets.connectionEstablish()
+                ez.runThisAfterDelay(seconds: 0.0, after: {
+                    Sockets.establishConnection()
+                    self.window?.rootViewController = controller
+                    self.window?.makeKeyAndVisible()
+                })
+            }
         }
         else{
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -122,7 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func updateDeviceToken(token:String){
         if let restmodel = GlobalClass.restaurantLoginModel{
             if let dataS = restmodel.data{
-                let param =     [
+                let param = [
                     "id": dataS.subId,
                     "deviceInfo": ["deviceToken": token,
                                              "os" : "IOS"]] as  [String:AnyObject]

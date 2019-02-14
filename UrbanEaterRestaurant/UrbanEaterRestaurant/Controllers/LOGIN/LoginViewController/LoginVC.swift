@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EZSwiftExtensions  
 
 class LoginVC: UIViewController{
     @IBOutlet weak var mainView: UIView!
@@ -28,7 +29,13 @@ class LoginVC: UIViewController{
         TheGlobalPoolManager.cornerAndBorder(loginBtn, cornerRadius: 8, borderWidth: 0, borderColor: .clear)
     }
     @objc func movoToHome() {
-        (UIApplication.shared.delegate as! AppDelegate).SetInitialViewController()
+        ez.runThisInMainThread {
+            Sockets.connectionEstablish()
+            ez.runThisAfterDelay(seconds: 0.0, after: {
+                Sockets.establishConnection()
+               (UIApplication.shared.delegate as! AppDelegate).SetInitialViewController()
+            })
+        }
     }
     public func isStrongPassword(password : String) -> Bool{
         let passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()-_=+{}|?>.<,:;~`’]{6,}$"

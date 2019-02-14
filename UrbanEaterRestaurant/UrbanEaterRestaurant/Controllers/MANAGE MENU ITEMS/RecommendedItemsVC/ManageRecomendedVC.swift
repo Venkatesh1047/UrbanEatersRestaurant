@@ -86,7 +86,7 @@ class ManageRecomendedVC: UIViewController {
         }
     }
     //MARK:- IB Action Outlets
-    @IBAction func backBtn(_ sender: UIButton) {
+    @IBAction func backBtn(_ sender: UIButton){
         self.navigationController?.popViewController(animated: true)
     }
 }

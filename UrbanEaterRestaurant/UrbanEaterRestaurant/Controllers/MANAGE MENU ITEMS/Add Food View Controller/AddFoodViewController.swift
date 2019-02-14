@@ -138,6 +138,8 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             if dataResponse.json.exists(){
                 GlobalClass.manageCategoriesModel = ManageCategoriesModel(fromJson: dataResponse.json)
                 if let categories = GlobalClass.manageCategoriesModel.data{
+                    self.selectCategoryTF.text = GlobalClass.manageCategoriesModel.data.last?.name!
+                    self.mainCategoryID = GlobalClass.manageCategoriesModel.data.last?.categoryId!
                     self.categories = []
                     for data in categories{
                         self.categories.append(data.name!)
@@ -299,7 +301,17 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     }
     //MARK:- IB Action Outlets
     @IBAction func backBtn(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        if isComingFromEdit{
+            TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Do you want save changes?", singleAction: false, okTitle: "Continue", cancelTitle: "Cancel") { (success) in
+                if success!{
+                    self.saveBtn(self.saveBtn)
+                }else{
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }else{
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     @IBAction func vorousTypeBtns(_ sender: UIButton) {
         let veg   = vegBtn == sender ?   #colorLiteral(red: 0.9529411765, green: 0.7529411765, blue: 0.1843137255, alpha: 1) : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)

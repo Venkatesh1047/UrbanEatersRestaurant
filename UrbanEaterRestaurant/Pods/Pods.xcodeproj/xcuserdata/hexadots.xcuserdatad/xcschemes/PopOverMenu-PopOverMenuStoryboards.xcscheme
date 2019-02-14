@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7D683F8D4E2D8EAE3306F33B30310098"
+               BlueprintIdentifier = "230B2AF12F971456997E9257DD4031E0"
                BuildableName = "PopOverMenuStoryboards.bundle"
                BlueprintName = "PopOverMenu-PopOverMenuStoryboards"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7D683F8D4E2D8EAE3306F33B30310098"
+            BlueprintIdentifier = "230B2AF12F971456997E9257DD4031E0"
             BuildableName = "PopOverMenuStoryboards.bundle"
             BlueprintName = "PopOverMenu-PopOverMenuStoryboards"
             ReferencedContainer = "container:Pods.xcodeproj">

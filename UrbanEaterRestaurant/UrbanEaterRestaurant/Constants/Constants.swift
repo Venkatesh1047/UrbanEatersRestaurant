@@ -8,8 +8,24 @@
 
 import Foundation
 
-let X_SESSION_ID                                            = "x-session-id"
-let X_API_KEY                                                   = "x-api-key"
+let X_SESSION_ID       = "x-session-id"
+let X_API_KEY          = "x-api-key"
+let SOCKET_SESSION_ID  = "sessionId"
+let SUB_ID             = "subId"
+let ROLE               = "role"
+let RESTAURANT           = "RESTAURANT"
+let AUTHENTICATION     = "authentication"
+let ERROR              = "error"
+let RESULT             = "result"
+let CONNECTION_DEFAULT = "connection"
+let CONNECTION         = "connection"
+let DISCONNECT         = "disconnect"
+let DATA                              = "data"
+
+// Sockets
+let GET_RESTAURANT_ORDERS             =  "socket_get_restaurant_orders"
+let GET_ORDERS_BY_RESTAURANT_ID       = "socket_get_orders_by_restaurant_id"
+let GET_ORDERS_TABLE_BY_RESTAURANT_ID = "socket_get_orders_table_by_restaurant_id"
 
 class Constants{
     static let sharedInstance = Constants()
@@ -49,6 +65,12 @@ class Constants{
         static let Create_Food                                             = "\(BaseUrl)/food/create"
         static let Food_Update_ID                                     = "\(BaseUrl)/food/update/by-id"
         static let Category_Delete_By_ID                        = "\(BaseUrl)/category/delete/by-id"
+    }
+    public struct ApiParams  {
+        static let Staus_Code   = "statusCode"
+        static let Message      = "message"
+        static let User_Details = "userDetails"
+        static let Code         = "code"
     }
 }
 

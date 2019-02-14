@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import HTHorizontalSelectionList
+import SwiftyJSON
 import EZSwiftExtensions
 
 class OrdersViewController: UIViewController {
@@ -158,11 +158,15 @@ class OrdersViewController: UIViewController {
             Themes.sharedInstance.activityView(View: self.view)
         }
         let param = ["restaurantId": [GlobalClass.restaurantLoginModel.data.subId!]]
-        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
-        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.getFoodOrdersURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
-            Themes.sharedInstance.removeActivityView(View: self.view)
-            if dataResponse.json.exists(){
-                let foodModel = FoodOrderModel(fromJson: dataResponse.json)
+        //let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        ez.runThisAfterDelay(seconds: 0.0, after: {
+            let paramSent = [DATA:param]
+            Sockets.socketWithName(GET_ORDERS_BY_RESTAURANT_ID, input: paramSent, completionHandler: { (response) in
+                Themes.sharedInstance.removeActivityView(View: self.view)
+                let data = JSON(response)
+                print("data Check",data)
+                
+                let foodModel = FoodOrderModel(fromJson: data)
                 if GlobalClass.foodOrderModel != nil && self.selectionView.selectedIndex != 0 && self.isFoodSelectedFlag{
                     if foodModel.new.count > GlobalClass.foodOrderModel.new.count{
                         self.newCountLbl.isHidden = false
@@ -181,8 +185,8 @@ class OrdersViewController: UIViewController {
                 }else{
                     self.tableView.reloadData()
                 }
-            }
-        }
+            })
+        })
     }
     //MARK:- Table Order Api Hitting
     func tableOrderApiHitting(_ hideToast:Bool){
@@ -196,11 +200,14 @@ class OrdersViewController: UIViewController {
             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
                      "date" : selectedDate] as [String : AnyObject]
         }
-        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
-        URLhandler.postUrlSession(hideToast, urlString: Constants.urls.getTableOrdersURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
-            Themes.sharedInstance.removeActivityView(View: self.view)
-            if dataResponse.json.exists(){
-                let tableModel = TableOrderModel(fromJson: dataResponse.json)
+        //let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        ez.runThisAfterDelay(seconds: 0.0, after: {
+            let paramSent = [DATA:param]
+            Sockets.socketWithName(GET_ORDERS_TABLE_BY_RESTAURANT_ID, input: paramSent, completionHandler: { (response) in
+                Themes.sharedInstance.removeActivityView(View: self.view)
+                let data = JSON(response)
+                print("data Check",data)
+                let tableModel = TableOrderModel(fromJson: data)
                 if GlobalClass.foodOrderModel != nil && self.selectionView.selectedIndex != 0 && !self.isFoodSelectedFlag{
                     if tableModel.new.count > GlobalClass.tableOrderModel.new.count{
                         self.newCountLbl.isHidden = false
@@ -219,8 +226,8 @@ class OrdersViewController: UIViewController {
                 }else{
                     self.tableView.reloadData()
                 }
-            }
-        }
+            })
+        })
     }
     //MARK:- Food Order Update  Request
     func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String){

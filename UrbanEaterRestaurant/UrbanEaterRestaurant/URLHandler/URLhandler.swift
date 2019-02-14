@@ -65,6 +65,8 @@ class URLhandler: NSObject {
                                         GlobalClass.logout()
                                         if let viewCon = ez.topMostVC?.storyboard?.instantiateViewController(withIdentifier: "LoginVCID") as? LoginVC{
                                             let appdelegate = UIApplication.shared.delegate as! AppDelegate
+                                            Sockets.removeAllListener()
+                                            Sockets.socketDisconnect()
                                             appdelegate.window!.rootViewController = viewCon
                                         }
                                     }

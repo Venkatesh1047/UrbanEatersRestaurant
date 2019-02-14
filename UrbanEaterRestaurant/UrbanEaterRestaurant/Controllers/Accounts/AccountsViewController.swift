@@ -25,7 +25,7 @@ class AccountsViewController: UIViewController {
     //MARK:- Update UI
     func updateUI(){
         ez.runThisInMainThread {
-            self.viewInView.h = UIDevice.isPhone() ? 220 : 260
+            self.viewInView.h = UIDevice.isPhone() ? 220 : 220
         }
         self.resStartRating.setImage(#imageLiteral(resourceName: "Star").withColor(.whiteColor), for: .normal)
         menuList = ["Order History","Earning Summary","Table Booking History","Manage Menu","Settings","Help & Support","Logout"]
@@ -93,6 +93,8 @@ class AccountsViewController: UIViewController {
         GlobalClass.logout()
         if let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "LoginVCID") as? LoginVC{
             let appdelegate = UIApplication.shared.delegate as! AppDelegate
+            Sockets.removeAllListener()
+            Sockets.socketDisconnect()
             appdelegate.window!.rootViewController = viewCon
         }
     }

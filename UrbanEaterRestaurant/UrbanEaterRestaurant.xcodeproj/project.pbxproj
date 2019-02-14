@@ -19,6 +19,7 @@
 		A375A4E1220C039C00D55C42 /* ManageCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4E0220C039B00D55C42 /* ManageCategoriesModel.swift */; };
 		A375A4E8220C35E700D55C42 /* ChooseTimingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4E7220C35E700D55C42 /* ChooseTimingsViewController.swift */; };
 		A375A4EA220D538600D55C42 /* ManageRecomendedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4E9220D538600D55C42 /* ManageRecomendedVC.swift */; };
+		A386F5ED2213E7500080573F /* SocketsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A386F5EC2213E7500080573F /* SocketsManager.swift */; };
 		A38A2B5621DE13F60084A5B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */; };
 		A3930BFD220996A0009EFFA9 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3930BFB220996A0009EFFA9 /* CategoryTableViewCell.swift */; };
 		A3930BFE220996A0009EFFA9 /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3930BFC220996A0009EFFA9 /* CategoryTableViewCell.xib */; };
@@ -144,6 +145,7 @@
 		A375A4E0220C039B00D55C42 /* ManageCategoriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCategoriesModel.swift; sourceTree = "<group>"; };
 		A375A4E7220C35E700D55C42 /* ChooseTimingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTimingsViewController.swift; sourceTree = "<group>"; };
 		A375A4E9220D538600D55C42 /* ManageRecomendedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageRecomendedVC.swift; sourceTree = "<group>"; };
+		A386F5EC2213E7500080573F /* SocketsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketsManager.swift; sourceTree = "<group>"; };
 		A38A2B5521DE13F60084A5B2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A3930BFB220996A0009EFFA9 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		A3930BFC220996A0009EFFA9 /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 		A3BEF4502189B6B800192E7E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A386F5EC2213E7500080573F /* SocketsManager.swift */,
 				A3BEF6D821994B9B00192E7E /* ExtensionClass.swift */,
 				A3BEF4462189AB3B00192E7E /* Themes.swift */,
 			);
@@ -974,6 +977,8 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
@@ -991,6 +996,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
@@ -1072,6 +1079,7 @@
 				A3F785A221B68FD70031F1A6 /* ScheduleFoodCell.swift in Sources */,
 				A3F7859D21B66A140031F1A6 /* NewTableCell.swift in Sources */,
 				A3BEF45E2189C09A00192E7E /* MenuTableViewCell.swift in Sources */,
+				A386F5ED2213E7500080573F /* SocketsManager.swift in Sources */,
 				A3BEF4972189CB4B00192E7E /* ShadowView.swift in Sources */,
 				A3BEF4322189A3B800192E7E /* ViewController.swift in Sources */,
 				A3BEF4DF2189DD4E00192E7E /* HelpSupportViewController.swift in Sources */,
