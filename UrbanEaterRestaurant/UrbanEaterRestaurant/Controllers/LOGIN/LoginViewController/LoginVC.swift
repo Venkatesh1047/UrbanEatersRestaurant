@@ -23,23 +23,15 @@ class LoginVC: UIViewController{
     }
     //MARK:- Update UI
     func updateUI(){
+        self.emailTxt.text = "bluefox@gmail.com"
+        self.passwordTxt.text = "Password@1234"
         emailTxt.placeholderColor("Email", color: .placeholderColor)
         passwordTxt.placeholderColor("Password", color: .placeholderColor)
         passwordHideBtn.setImage(#imageLiteral(resourceName: "NotVisible").withColor(.whiteColor), for: .normal)
         TheGlobalPoolManager.cornerAndBorder(loginBtn, cornerRadius: 8, borderWidth: 0, borderColor: .clear)
     }
     @objc func movoToHome() {
-        ez.runThisInMainThread {
-            Sockets.connectionEstablish()
-            ez.runThisAfterDelay(seconds: 0.0, after: {
-                Sockets.establishConnection()
-               (UIApplication.shared.delegate as! AppDelegate).SetInitialViewController()
-            })
-        }
-    }
-    public func isStrongPassword(password : String) -> Bool{
-        let passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()-_=+{}|?>.<,:;~`’]{6,}$"
-        return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: password)
+        (UIApplication.shared.delegate as! AppDelegate).SetInitialViewController()
     }
     //MARK:- Login Api Hitting
     func LoginWebHit(){

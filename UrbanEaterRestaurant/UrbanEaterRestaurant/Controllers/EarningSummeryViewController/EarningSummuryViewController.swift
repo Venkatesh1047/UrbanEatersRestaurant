@@ -85,7 +85,6 @@ class EarningSummuryViewController: UIViewController {
                 ],
                 "earningStatus": 1,
                 "statusArray": ["DRI_PICKED", "DELIVERED", "COMPLETED"]
-                
                 ] as [String : AnyObject]
         }
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]

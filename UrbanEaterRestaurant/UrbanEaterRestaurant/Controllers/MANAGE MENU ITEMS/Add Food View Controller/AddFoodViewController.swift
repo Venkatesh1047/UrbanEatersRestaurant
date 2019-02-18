@@ -67,6 +67,10 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     }
     //MARK:- Update UI
     func updateUI(){
+        self.selectCategoryTF.delegate = self
+        self.enterFoodNameTF.delegate = self
+        self.actualPriceTF.delegate = self
+        self.discountTF.delegate = self
         self.setAvailablityTF.isUserInteractionEnabled = false
         if !isComingFromEdit{
             self.titleLbl.text = "Add Food"
@@ -79,8 +83,10 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }else{
             self.titleLbl.text = "Edit Food"
             if let data = editItemData{
-                GlobalClass.selectedFromTime = data.timings.startAt!
-                GlobalClass.selectedToTime = data.timings.endAt!
+                if GlobalClass.selectedFromTime == nil{
+                    GlobalClass.selectedFromTime = data.timings.startAt!
+                    GlobalClass.selectedToTime = data.timings.endAt!
+                }
                 self.selectedImageBase64String = data.avatar!
                 self.vorousType = data.vorousType!
                 self.recommendedType = data.recommended!
@@ -248,10 +254,6 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             TheGlobalPoolManager.showToastView("Invalid End Timing")
             return false
         }
-//        else if self.selectedImageBase64String == ""{
-//            TheGlobalPoolManager.showToastView("Please provide food image for customers")
-//            return false
-//        }
         return true
     }
     //MARK:- Create Food Api
@@ -302,7 +304,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     //MARK:- IB Action Outlets
     @IBAction func backBtn(_ sender: UIButton) {
         if isComingFromEdit{
-            TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Do you want save changes?", singleAction: false, okTitle: "Continue", cancelTitle: "Cancel") { (success) in
+            TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Do you want save changes?", singleAction: false, okTitle: "Save", cancelTitle: "Discard") { (success) in
                 if success!{
                     self.saveBtn(self.saveBtn)
                 }else{
@@ -314,6 +316,12 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }
     }
     @IBAction func vorousTypeBtns(_ sender: UIButton) {
+        if !isComingFromEdit{
+            if ((self.selectCategoryTF.text?.length == 0) || (self.enterFoodNameTF.text?.length == 0)){
+                TheGlobalPoolManager.showToastView("Please select Category and Food item")
+                return
+            }
+        }
         let veg   = vegBtn == sender ?   #colorLiteral(red: 0.9529411765, green: 0.7529411765, blue: 0.1843137255, alpha: 1) : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         let non_veg   = nonVegBtn == sender ?   #colorLiteral(red: 0.9529411765, green: 0.7529411765, blue: 0.1843137255, alpha: 1) : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         vegBtn.backgroundColor = veg
@@ -358,5 +366,33 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     }
     @IBAction func takePhotoBtn(_ sender: UIButton) {
          self.imagePicker(clickedButtonat: 0)
+    }
+}
+extension AddFoodViewController : UITextFieldDelegate{
+    //MARK:- UI Text Field Delegates
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == self.actualPriceTF{
+            let ACCEPTABLE_CHARACTERS = "0123456789"
+            let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
+            let filtered = string.components(separatedBy: cs).joined(separator: "")
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+            return (string == filtered) && newLength <= 3
+        }else if textField == self.discountTF{
+            let ACCEPTABLE_CHARACTERS = "0123456789"
+            let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
+            let filtered = string.components(separatedBy: cs).joined(separator: "")
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+            return (string == filtered) && newLength <= 2
+        }else if ((textField == self.selectCategoryTF) || (textField == self.enterFoodNameTF)){
+            let ACCEPTABLE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+            let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
+            let filtered = string.components(separatedBy: cs).joined(separator: "")
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+            return (string == filtered) && newLength <= 30
+        }
+        return false
     }
 }

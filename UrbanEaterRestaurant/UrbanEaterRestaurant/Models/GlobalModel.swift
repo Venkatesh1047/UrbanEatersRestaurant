@@ -35,6 +35,7 @@ class GlobalModel:NSObject {
     var instanceIDTokenMessage:String = ""
     var selectedFromTime : String!
     var selectedToTime : String!
+    var checkSocketNotificationFlag : Bool = false
     
     var restaurantLoginModel     : RestaurantLoginModel!
     var foodOrderModel           : FoodOrderModel!
@@ -73,6 +74,11 @@ class GlobalModel:NSObject {
         if let bundle = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundle)
             UIApplication.shared.unregisterForRemoteNotifications()
+            ez.runThisInMainThread {
+                GlobalClass.restaurantLoginModel = nil
+                Sockets.removeAllListener()
+                Sockets.socketDisconnect()
+            }
         }
     }
     //MARK : - Get Time Stamp From NSDate

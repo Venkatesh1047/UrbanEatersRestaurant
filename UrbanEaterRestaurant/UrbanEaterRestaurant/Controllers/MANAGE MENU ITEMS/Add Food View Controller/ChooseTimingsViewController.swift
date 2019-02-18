@@ -40,9 +40,10 @@ class ChooseTimingsViewController: UIViewController {
     }
     //MARK:- Update UI
     func updateUI(){
-        self.timingsBtns(self.restaurantTimingsBtn)
+        //self.timingsBtns(self.restaurantTimingsBtn)
         for btn in dropDownBtns{
             btn.setImage(#imageLiteral(resourceName: "Drop_Down").withColor(.whiteColor), for: .normal)
+            btn.isEnabled = false
         }
         weekDaysView.layer.cornerRadius = 5.0
         dateView1.customiseView()
@@ -57,6 +58,9 @@ class ChooseTimingsViewController: UIViewController {
         if let restModel = GlobalClass.restModel{
             if let restData = restModel.data{
                 if let timings = restData.timings{
+                    let dates = getTimeIntervalForDate()
+                    datePicker.minimumDate = dates.min
+                    datePicker.maximumDate = dates.max
                     self.resFromLbl.text = timings.weekDay.startAt!
                     self.resToLbl.text = timings.weekDay.endAt!
                 }
@@ -70,39 +74,121 @@ class ChooseTimingsViewController: UIViewController {
         dateFormatter.dateFormat = "HH:mm a"
         dateSelectedString = dateFormatter.string(from: sender.date)
     }
+    func getTimeIntervalForDate()->(min : Date, max : Date){
+        let fromTime =  GlobalClass.restModel.data.timings.weekDay.startAt!
+        let toTime = GlobalClass.restModel.data.timings.weekDay.endAt!
+        let fromTimeResult = fromTime.split(separator: ":")
+        let toTimeResult = toTime.split(separator: ":")
+        
+        let calendar = Calendar.current
+        var minDateComponent = calendar.dateComponents([.hour], from: Date())
+        minDateComponent.hour = Int(fromTimeResult[0]) // Start time
+        minDateComponent.minute = Int(fromTimeResult[1])
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm a"
+        let minDate = calendar.date(from: minDateComponent)
+        print(" min date : \(formatter.string(from: minDate!))")
+        
+        var maxDateComponent = calendar.dateComponents([.hour], from: Date())
+        maxDateComponent.hour = Int(toTimeResult[0])
+        maxDateComponent.minute = Int(toTimeResult[1])//EndTime
+        
+        let maxDate = calendar.date(from: maxDateComponent)
+        print(" max date : \(formatter.string(from: maxDate!))")
+        return (minDate!,maxDate!)
+    }
     func validateInputs(){
         if TheGlobalPoolManager.trimString(string: self.weekDayFromLbl.text!) == "HH : MM" {
-            Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKDAY_START_TIME_EMPTY)
+            Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.START_TIME_EMPTY)
         }else if TheGlobalPoolManager.trimString(string: self.weekDayToLbl.text!) == "HH : MM" {
-            Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.WEEKDAY_END_TIME_EMPTY)
+            Themes.sharedInstance.shownotificationBanner(Msg: ToastMessages.END_TIME_EMPTY)
         }else{
+            if !self.comapreTwoTimesStrings(weekDayFromLbl.text!, t2: weekDayToLbl.text!){
+                return
+            }
             GlobalClass.selectedFromTime = self.weekDayFromLbl.text!
             GlobalClass.selectedToTime = self.weekDayToLbl.text!
             self.navigationController?.popViewController(animated: true)
         }
     }
+    //MARK:- Compare Two Time Strings
+    func comapreTwoTimesStrings(_ t1 : String , t2 : String) -> Bool{
+        let time1 = t1
+        let time2 = t2
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        
+        let date1: Date? = formatter.date(from: time1)
+        let date2: Date? = formatter.date(from: time2)
+        
+        var result: ComparisonResult? = nil
+        if let date2 = date2 {
+            result = date1?.compare(date2)
+        }
+        if result == .orderedDescending {
+            print("date1 is later than date2")
+            TheGlobalPoolManager.showToastView("Oops! Invalid times selected")
+            return false
+        } else if result == .orderedAscending {
+            print("date2 is later than date1")
+            return true
+        } else {
+            print("date1 is equal to date2")
+            TheGlobalPoolManager.showToastView("Oops!, From time and To time is same")
+            return false
+        }
+    }
     //MARK:- IB Action Outlets
     @IBAction func backBtn(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        if isDoneAnyChanges{
+            TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Do you want to save changes?", singleAction: false, okTitle: "Save", cancelTitle: "Discard") { (success) in
+                if success!{
+                    if self.isRestTimgsSelected{
+                        GlobalClass.selectedFromTime = self.resFromLbl.text!
+                        GlobalClass.selectedToTime = self.resToLbl.text!
+                        self.navigationController?.popViewController(animated: true)
+                    }else{
+                        self.validateInputs()
+                    }
+                }else{
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }else{
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     @IBAction func timingsBtns(_ sender: UIButton) {
+        self.isDoneAnyChanges = true
         let resTimgBtn   = restaurantTimingsBtn == sender ?   #imageLiteral(resourceName: "ic_check") : #imageLiteral(resourceName: "ic_uncheck")
         let chooseTimgBtn   = chooseTimingsBtn == sender ?  #imageLiteral(resourceName: "ic_check") : #imageLiteral(resourceName: "ic_uncheck")
         if sender == restaurantTimingsBtn{
+            for btn in dropDownBtns{
+                btn.isEnabled = false
+            }
             isRestTimgsSelected = true
         }else{
+            for btn in dropDownBtns{
+                btn.isEnabled = true
+            }
             isRestTimgsSelected = false
         }
         restaurantTimingsBtn.setImage(resTimgBtn, for: .normal)
         chooseTimingsBtn.setImage(chooseTimgBtn, for: .normal)
     }
     @IBAction func saveBtn(_ sender: UIButton) {
-        if isRestTimgsSelected{
-            GlobalClass.selectedFromTime = self.resFromLbl.text!
-            GlobalClass.selectedToTime = self.resToLbl.text!
-            self.navigationController?.popViewController(animated: true)
+        if !isDoneAnyChanges{
+            TheGlobalPoolManager.showToastView("Please change the timings to save")
         }else{
-            self.validateInputs()
+            if isRestTimgsSelected{
+                GlobalClass.selectedFromTime = self.resFromLbl.text!
+                GlobalClass.selectedToTime = self.resToLbl.text!
+                self.navigationController?.popViewController(animated: true)
+            }else{
+                self.validateInputs()
+            }
         }
     }
     @IBAction func dropDownBtns(_ sender: UIButton) {
@@ -118,10 +204,18 @@ class ChooseTimingsViewController: UIViewController {
         }
         dateSelectedString = TheGlobalPoolManager.removeMeridiansfromTime(string: dateSelectedString)
         dateSelectedString = TheGlobalPoolManager.trimString(string: dateSelectedString)
-        if btnTag == 1 {
+        if btnTag == 1{
             weekDayFromLbl.text = dateSelectedString
             weekDayFromLbl.textColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         }else if btnTag == 2 {
+            if weekDayFromLbl.text == "HH : MM"{
+                TheGlobalPoolManager.showToastView("Please select From Time first")
+                return
+            }else if !self.comapreTwoTimesStrings(weekDayFromLbl.text!, t2: dateSelectedString){
+                weekDayToLbl.text = "HH : MM"
+                dateSelectedString = ""
+                return
+            }
             weekDayToLbl.text = dateSelectedString
             weekDayToLbl.textColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         }

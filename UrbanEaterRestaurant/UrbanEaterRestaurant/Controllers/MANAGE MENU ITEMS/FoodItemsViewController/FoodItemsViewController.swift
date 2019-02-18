@@ -142,15 +142,7 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
         cell.tapToEditBtn.tag = ("\(indexPath.section+1)\(indexPath.row)").toInt()!
          cell.visibilitySwitch.addTarget(self, action: #selector(visibilityButtonMethod(_:)), for: .valueChanged)
         cell.itemNameLbl.text = data.name!
-        if let offer = data.offer{
-            if offer.status == 1{
-                let value = offer.value * (data.price / 100)
-                let offerValue = data.price! - value
-                cell.itemPriceLbl.strikeSomeText("₹ \(data.price!.toString)", wholeString: "₹ \(offerValue.toString)", available: true)
-            }
-        }else{
-            cell.itemPriceLbl.text = "₹ \(data.price!.toString)"
-        }
+        cell.itemPriceLbl.text = "₹ \(data.price!.toString)"
         let sourceString = data.avatar!.contains("http", compareOption: .caseInsensitive) ? data.avatar! : Constants.BASEURL_IMAGE + data.avatar!
         let url = URL.init(string: sourceString)
         cell.itemImgView.sd_setImage(with: url ,placeholderImage:  #imageLiteral(resourceName: "PlaceHolderImage")) { (image, error, cache, url) in

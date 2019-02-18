@@ -10,6 +10,7 @@ import Foundation
 import SocketIO
 import SwiftyJSON
 import EZSwiftExtensions
+
 @available(iOS 10.0, *)
 @objc protocol SocketIOManagerDelegate{
     
@@ -24,9 +25,7 @@ class SocketsManager: NSObject {
     
     let manager = SocketManager(socketURL: URL(string: "http://13.233.109.143:1234")!, config: [.log(true), .compress, .forcePolling(true), .reconnects(true), .reconnectAttempts(-1), .secure(false), .forceWebsockets(true)])
     
-    let credintials = [SOCKET_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!,
-                                  SUB_ID : GlobalClass.restaurantLoginModel.data.subId!,
-                                  ROLE : RESTAURANT]
+    var credintials = [String : AnyObject]()
     
     var socket:SocketIOClient!
     class var sharedInstance: SocketsManager {
@@ -45,7 +44,23 @@ class SocketsManager: NSObject {
             if(socket.status == .disconnected || socket.status == .notConnected) {
                 //RemoveAllListener()
                 socket.on(clientEvent: .connect) { (data, ack) in
-                    print("..Check Socket hat_onConnection.....\(data).........")
+                    self.credintials =  [SOCKET_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!,
+                     SUB_ID : GlobalClass.restaurantLoginModel.data.subId!,
+                     ROLE : RESTAURANT] as [String : AnyObject]
+                    print("..Check Socket hat_onConnection.....\(data).........\(self.credintials)")
+                    self.socket.on(SOCKET_ORDER_STATUS, callback: { (data1,ack) in
+                        print("PUSH DATA ========\(data1)")
+                        let obj = data1[0] as! [String : AnyObject]
+                        let data = obj["data"] as! [String : AnyObject]
+                        let key = data["key"]  as! String
+                        if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
+//                            (UIApplication.shared.delegate as! AppDelegate).playSound()
+//                            NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
+//                            ez.runThisAfterDelay(seconds: 4) {
+//                                (UIApplication.shared.delegate as! AppDelegate).player.stop()
+//                            }
+                        }
+                    })
                     self.socket.emit(AUTHENTICATION, self.credintials)
                 }
                 //socket?.connect()
@@ -102,6 +117,9 @@ class SocketsManager: NSObject {
         socket?.off(CONNECTION_DEFAULT)
     }
     func LeaveRoom(providerid : String){
+        self.credintials =  [SOCKET_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!,
+                             SUB_ID : GlobalClass.restaurantLoginModel.data.subId!,
+                             ROLE : RESTAURANT] as [String : AnyObject]
         socket?.emit(DISCONNECT,self.credintials)
         self.removeAllListener()
         print("***************SOCKET DISCONNECTED******************")

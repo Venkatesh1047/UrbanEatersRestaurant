@@ -16,6 +16,7 @@ class AddCategoryView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.categoryNameTF.delegate = self
         self.updateUI()
     }
     //MARK:- Update UI
@@ -55,3 +56,18 @@ class AddCategoryView: UIViewController {
         }
     }
 }
+extension AddCategoryView : UITextFieldDelegate{
+    //MARK:- UI Text Field Delegates
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+         if textField == self.categoryNameTF{
+            let ACCEPTABLE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
+            let filtered = string.components(separatedBy: cs).joined(separator: "")
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+            return (string == filtered) && newLength <= 30
+        }
+        return false
+    }
+}
+

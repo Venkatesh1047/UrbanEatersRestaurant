@@ -165,7 +165,6 @@ class OrdersViewController: UIViewController {
                 Themes.sharedInstance.removeActivityView(View: self.view)
                 let data = JSON(response)
                 print("data Check",data)
-                
                 let foodModel = FoodOrderModel(fromJson: data)
                 if GlobalClass.foodOrderModel != nil && self.selectionView.selectedIndex != 0 && self.isFoodSelectedFlag{
                     if foodModel.new.count > GlobalClass.foodOrderModel.new.count{
@@ -208,7 +207,7 @@ class OrdersViewController: UIViewController {
                 let data = JSON(response)
                 print("data Check",data)
                 let tableModel = TableOrderModel(fromJson: data)
-                if GlobalClass.foodOrderModel != nil && self.selectionView.selectedIndex != 0 && !self.isFoodSelectedFlag{
+                if GlobalClass.tableOrderModel != nil && self.selectionView.selectedIndex != 0 && !self.isFoodSelectedFlag{
                     if tableModel.new.count > GlobalClass.tableOrderModel.new.count{
                         self.newCountLbl.isHidden = false
                         self.newCountLbl.text = "\(tableModel.new.count - GlobalClass.tableOrderModel.new.count)"
