@@ -8,20 +8,20 @@
 
 import Foundation
 
-let X_SESSION_ID       = "x-session-id"
-let X_API_KEY          = "x-api-key"
-let SOCKET_SESSION_ID  = "sessionId"
-let SUB_ID             = "subId"
-let ROLE               = "role"
-let RESTAURANT           = "RESTAURANT"
-let AUTHENTICATION     = "authentication"
+let X_SESSION_ID        = "x-session-id"
+let X_API_KEY           = "x-api-key"
+let SOCKET_SESSION_ID   = "sessionId"
+let SUB_ID              = "subId"
+let ROLE                = "role"
+let RESTAURANT          = "RESTAURANT"
+let AUTHENTICATION      = "authentication"
 let SOCKET_ORDER_STATUS = "socket_order_status"
-let ERROR              = "error"
-let RESULT             = "result"
-let CONNECTION_DEFAULT = "connection"
-let CONNECTION         = "connection"
-let DISCONNECT         = "disconnect"
-let DATA                              = "data"
+let ERROR               = "error"
+let RESULT              = "result"
+let CONNECTION_DEFAULT  = "connection"
+let CONNECTION          = "connection"
+let DISCONNECT          = "disconnect"
+let DATA                = "data"
 
 // Sockets
 let GET_RESTAURANT_ORDERS             =  "socket_get_restaurant_orders"

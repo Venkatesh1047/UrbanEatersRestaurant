@@ -197,7 +197,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         let imageData = UIImageJPEGRepresentation(image, 0.1)! as NSData
         let dataString = imageData.base64EncodedString()
         selectedImageBase64String = dataString
-        print(" *************** Base 64 String =========\(selectedImageBase64String)")
+        print("*************** Base 64 String =========\(selectedImageBase64String)")
     }
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
@@ -277,7 +277,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
                 "status": 1
             ],
             "offer": [
-                "type": "PERCENTAGE",
+                "type": "PERCENTAGE",   
                 "value": self.discountTF.text!.toInt() as AnyObject,
                 "status": self.discountStatus
             ],
