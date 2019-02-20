@@ -43,7 +43,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     var discountStatus : Int = 0
     var categoryName : String!
     var imageString : String!
-    
+    var isChanged = false
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -97,9 +97,9 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
                 self.imageString = data.avatar!
                 self.setAvailablityTF.text = "Change Availability Time: \(GlobalClass.selectedFromTime!) to \(GlobalClass.selectedToTime!)"
                 if data.vorousType! == 1{
-                    self.vorousTypeBtns(vegBtn)
+                    self.vorousTypeChecking(vegBtn, fromAPI: true)
                 }else{
-                    self.vorousTypeBtns(nonVegBtn)
+                    self.vorousTypeChecking(nonVegBtn, fromAPI: true)
                 }
                 self.actualPriceTF.text = data.price!.toString
                 self.discountTF.text = data.offer.value!.toString
@@ -217,6 +217,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         self.popOverViewController.presentationController?.delegate = self
         ez.runThisInMainThread {
             self.popOverViewController.completionHandler = { selectRow in
+                self.isComingFromEditing()
                 if selectRow == self.categories.count - 1{
                     print("Other")
                     self.addCategoryPopUpView()
@@ -303,7 +304,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     }
     //MARK:- IB Action Outlets
     @IBAction func backBtn(_ sender: UIButton) {
-        if isComingFromEdit{
+        if isComingFromEdit && isChanged{
             TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Do you want save changes?", singleAction: false, okTitle: "Save", cancelTitle: "Discard") { (success) in
                 if success!{
                     self.saveBtn(self.saveBtn)
@@ -316,6 +317,10 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }
     }
     @IBAction func vorousTypeBtns(_ sender: UIButton) {
+        self.vorousTypeChecking(sender, fromAPI: false)
+    }
+    
+    func vorousTypeChecking(_ sender: UIButton, fromAPI:Bool){
         if !isComingFromEdit{
             if ((self.selectCategoryTF.text?.length == 0) || (self.enterFoodNameTF.text?.length == 0)){
                 TheGlobalPoolManager.showToastView("Please select Category and Food item")
@@ -330,12 +335,18 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             print("Veg Button")
             vorousType = 1
         }else{
-           print("Non-Veg Button")
+            print("Non-Veg Button")
             vorousType = 2
         }
+        if !fromAPI{
+            self.isComingFromEditing()
+        }
     }
+    
     @IBAction func availableStatusBtns(_ sender: UIButton) {
+        self.isComingFromEditing()
         let viewCon = self.storyboard?.instantiateViewController(withIdentifier: "ChooseTimingsViewController") as! ChooseTimingsViewController
+        viewCon.isComingFromEdit = self.isComingFromEdit
         self.navigationController?.pushViewController(viewCon, animated: true)
     }
     @IBAction func selectCategoryBtns(_ sender: UIButton) {
@@ -349,6 +360,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }else{
             self.recommendedType = 0
         }
+        self.isComingFromEditing()
     }
     @IBAction func saveBtn(_ sender: UIButton) {
         if validate(){
@@ -362,10 +374,17 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }
     }
     @IBAction func choosePhotoBtn(_ sender: UIButton) {
-         self.imagePicker(clickedButtonat: 1)
+        self.isComingFromEditing()
+        self.imagePicker(clickedButtonat: 1)
     }
     @IBAction func takePhotoBtn(_ sender: UIButton) {
-         self.imagePicker(clickedButtonat: 0)
+        self.isComingFromEditing()
+        self.imagePicker(clickedButtonat: 0)
+    }
+    func isComingFromEditing(){
+        if self.isComingFromEdit{
+            self.isChanged = true
+        }
     }
 }
 extension AddFoodViewController : UITextFieldDelegate{
