@@ -22,6 +22,11 @@ let CONNECTION_DEFAULT  = "connection"
 let CONNECTION          = "connection"
 let DISCONNECT          = "disconnect"
 let DATA                = "data"
+let ORDER_ID                          = "orderId"
+let KEY                               = "key"
+let NOTIFICATION_STATUS               = "Notification_Status"
+let NOTIFICATION_APPDELEGATE          = "Notification_Appdelegate"
+let NOTIFICATION_SOCKETS              = "Notification_Sockets"
 
 // Sockets
 let GET_RESTAURANT_ORDERS             =  "socket_get_restaurant_orders"

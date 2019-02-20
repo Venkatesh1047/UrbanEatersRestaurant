@@ -48,19 +48,6 @@ class SocketsManager: NSObject {
                      SUB_ID : GlobalClass.restaurantLoginModel.data.subId!,
                      ROLE : RESTAURANT] as [String : AnyObject]
                     print("..Check Socket hat_onConnection.....\(data).........\(self.credintials)")
-                    self.socket.on(SOCKET_ORDER_STATUS, callback: { (data1,ack) in
-                        print("PUSH DATA ========\(data1)")
-                        let obj = data1[0] as! [String : AnyObject]
-                        let data = obj["data"] as! [String : AnyObject]
-                        let key = data["key"]  as! String
-                        if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
-//                            (UIApplication.shared.delegate as! AppDelegate).playSound()
-//                            NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
-//                            ez.runThisAfterDelay(seconds: 4) {
-//                                (UIApplication.shared.delegate as! AppDelegate).player.stop()
-//                            }
-                        }
-                    })
                     self.socket.emit(AUTHENTICATION, self.credintials)
                 }
                 //socket?.connect()
@@ -104,6 +91,33 @@ class SocketsManager: NSObject {
     }
     func lisitenToSocketConnectionWithName(_ socketName:String, input:SocketData, completionHandler:@escaping (_ response: Any) -> ()){
     }
+    
+    func socketListenForTrackingOrderStatus(completionHandler:@escaping (_ response: Any) -> ()){
+        self.socket.on(SOCKET_ORDER_STATUS, callback: { (data1,ack) in
+            print("PUSH DATA ========\(data1)")
+            if let data = data1[0] as? [String:AnyObject]{
+                if let resultData = data[DATA] as? [String:AnyObject]{
+                    if let orderID = resultData[ORDER_ID] as? String{
+                        if let key = resultData[KEY] as? String{
+                            let keyChecked = NotificationKey(rawValue: key)
+                            if let isKey = (keyChecked?.Status){
+                                if isKey && key != TheGlobalPoolManager.currentOrderStatusString{
+                                    if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
+                                        (UIApplication.shared.delegate as! AppDelegate).playSound()
+                                        NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
+                                        ez.runThisAfterDelay(seconds: 4) {
+                                            (UIApplication.shared.delegate as! AppDelegate).player.stop()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+    
     func socketDisconnect(){
         socket.on(DISCONNECT){data, ack in
             //self.iSSocketDisconnected=true
