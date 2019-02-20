@@ -32,6 +32,7 @@ class ChooseTimingsViewController: UIViewController {
     let dateFormatter = DateFormatter()
     var isRestTimgsSelected : Bool!
     var isDoneAnyChanges : Bool! = false
+    var isComingFromEdit : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,7 @@ class ChooseTimingsViewController: UIViewController {
                 }
             }
         }
+        self.timingsBtnsCheck(restaurantTimingsBtn, defaultCheck: true)
     }
     @objc func datePickerValueChanged(sender:UIDatePicker) {
         sender.locale = Locale(identifier: "en_GB")
@@ -161,7 +163,9 @@ class ChooseTimingsViewController: UIViewController {
         }
     }
     @IBAction func timingsBtns(_ sender: UIButton) {
-        self.isDoneAnyChanges = true
+        self.timingsBtnsCheck(sender, defaultCheck: false)
+    }
+    func timingsBtnsCheck(_ sender:UIButton, defaultCheck:Bool){
         let resTimgBtn   = restaurantTimingsBtn == sender ?   #imageLiteral(resourceName: "ic_check") : #imageLiteral(resourceName: "ic_uncheck")
         let chooseTimgBtn   = chooseTimingsBtn == sender ?  #imageLiteral(resourceName: "ic_check") : #imageLiteral(resourceName: "ic_uncheck")
         if sender == restaurantTimingsBtn{
@@ -177,6 +181,9 @@ class ChooseTimingsViewController: UIViewController {
         }
         restaurantTimingsBtn.setImage(resTimgBtn, for: .normal)
         chooseTimingsBtn.setImage(chooseTimgBtn, for: .normal)
+        if !defaultCheck{
+            self.isComingFromEditing()
+        }
     }
     @IBAction func saveBtn(_ sender: UIButton) {
         if !isDoneAnyChanges{
@@ -195,6 +202,7 @@ class ChooseTimingsViewController: UIViewController {
         btnTag = sender.tag
         dateContainerView.isHidden = false
         blurView.isHidden = false
+        self.isComingFromEditing()
     }
     @IBAction func datePickDoneClicked(_ sender: Any) {
         dateContainerView.isHidden = true
@@ -220,9 +228,16 @@ class ChooseTimingsViewController: UIViewController {
             weekDayToLbl.textColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         }
         dateSelectedString = ""
+        self.isComingFromEditing()
     }
     @IBAction func datePickCancelClicked(_ sender: Any) {
         blurView.isHidden = true
         dateContainerView.isHidden = true
+        self.isComingFromEditing()
+    }
+    func isComingFromEditing(){
+        if self.isComingFromEdit{
+            self.isDoneAnyChanges = true
+        }
     }
 }
