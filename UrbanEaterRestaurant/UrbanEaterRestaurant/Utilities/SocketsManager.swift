@@ -49,6 +49,9 @@ class SocketsManager: NSObject {
                      ROLE : RESTAURANT] as [String : AnyObject]
                     print("..Check Socket hat_onConnection.....\(data).........\(self.credintials)")
                     self.socket.emit(AUTHENTICATION, self.credintials)
+                    ez.runThisAfterDelay(seconds: 0.2, after: {
+                        NotificationCenter.default.post(name: NSNotification.Name(SOCKET_CONNECTED), object: nil)
+                    })
                 }
                 //socket?.connect()
             }else{
@@ -99,16 +102,11 @@ class SocketsManager: NSObject {
                 if let resultData = data[DATA] as? [String:AnyObject]{
                     if let orderID = resultData[ORDER_ID] as? String{
                         if let key = resultData[KEY] as? String{
-                            let keyChecked = NotificationKey(rawValue: key)
-                            if let isKey = (keyChecked?.Status){
-                                if isKey && key != TheGlobalPoolManager.currentOrderStatusString{
-                                    if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
-                                        (UIApplication.shared.delegate as! AppDelegate).playSound()
-                                        NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: nil)
-                                        ez.runThisAfterDelay(seconds: 4) {
-                                            (UIApplication.shared.delegate as! AppDelegate).player.stop()
-                                        }
-                                    }
+                            if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
+                                (UIApplication.shared.delegate as! AppDelegate).playSound()
+                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: [ORDER_ID:orderID])
+                                ez.runThisAfterDelay(seconds: 6) {
+                                    (UIApplication.shared.delegate as! AppDelegate).player.stop()
                                 }
                             }
                         }

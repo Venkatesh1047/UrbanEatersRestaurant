@@ -32,6 +32,7 @@ class HomeViewController: UIViewController {
     var past7Dates = [String]()
     var past7Days = [String]()
     
+    
     var onlineString:NSAttributedString{
         let attributeString = TheGlobalPoolManager.attributedTextWithTwoDifferentTextsWithFont("Swipe right to come ", attr2Text: "Online", attr1Color: .secondaryTextColor, attr2Color: .textColor, attr1Font: UIDevice.isPhone() ? 14 : 18, attr2Font: UIDevice.isPhone() ? 16 : 20, attr1FontName: .Regular, attr2FontName: .Medium)
         return attributeString

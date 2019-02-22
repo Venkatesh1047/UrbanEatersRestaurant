@@ -38,6 +38,7 @@ class GlobalModel:NSObject {
     var selectedToTime : String!
     var checkSocketNotificationFlag : Bool = false
     
+    
     var restaurantLoginModel     : RestaurantLoginModel!
     var foodOrderModel           : FoodOrderModel!
     var tableOrderModel          : TableOrderModel!
@@ -52,6 +53,7 @@ class GlobalModel:NSObject {
     var notificationsModel       : NotificationsModel!
     
     let NEWS_NOTIFICATION          = "NEWS_NOTIFICATION"
+    let ORDER_RECEIVED          = "OrderReceived"
     let ORDER_NEW_RESTAURANT       = "ORDER_NEW_RESTAURANT"
     let ORDER_TABLE_NEW_RESTAURANT = "ORDER_TABLE_NEW_RESTAURANT"
     let ORDER_RESTAURANT_DENIED    = "ORDER_RESTAURANT_DENIED"

@@ -30,12 +30,14 @@ class OrdersViewController: UIViewController {
     var isFoodSelectedFlag : Bool = false
     var selectedDate : String = ""
     var isScheduledTabSelected : Bool = false
+    var previousSkipCount = 0
+    var skipCountCheck    = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(OrdersViewController.methodOfReceivedNotification(notification:)), name: Notification.Name("DoneButtonClicked"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification1(notification:)), name: Notification.Name("FoodAccepted"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification2(notification:)), name: Notification.Name("OrderReceived"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrdersViewController.methodOfReceivedNotification2(_:)), name: Notification.Name("OrderReceived"), object: nil)
         tableView.register(UINib(nibName: "NewFoodCell", bundle: nil), forCellReuseIdentifier: "NewFoodCell")
         tableView.register(UINib(nibName: "NewTableCell", bundle: nil), forCellReuseIdentifier: "NewTableCell")
         tableView.register(UINib(nibName: "ScheduleFoodCell", bundle: nil), forCellReuseIdentifier: "ScheduleFoodCell")
@@ -62,21 +64,28 @@ class OrdersViewController: UIViewController {
             self.searchActive = false
             self.searchTF.endEditing(true)
             self.searchTF.text = ""
-            self.foodOrderApiHitting(false)
-            self.tableOrderApiHitting(false)
+            self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+            self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
         }
     }
     @objc func methodOfReceivedNotification(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
-        self.foodOrderApiHitting(true)
+        self.foodOrderApiHitting(true, limit: LIMIT_COUNT, skip: SKIP_COUNT)
     }
     @objc func methodOfReceivedNotification1(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
-        self.foodOrderApiHitting(true)
+        self.foodOrderApiHitting(true, limit: LIMIT_COUNT, skip: SKIP_COUNT)
     }
-    @objc func methodOfReceivedNotification2(notification: Notification){
-        self.foodOrderApiHitting(false)
-        self.tableOrderApiHitting(false)
+    @objc func methodOfReceivedNotification2(_ userInfo: Notification){
+        if let dic = userInfo.userInfo as? [String:AnyObject]{
+            if let orderId = dic["orderId"] as? String{
+                if TheGlobalPoolManager.currentOrderID != orderId{
+                    TheGlobalPoolManager.currentOrderID = orderId
+                    self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+                    self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+                }
+            }
+        }
     }
     //MARK: - Items Detsils Pop Up
     func itemsDetailsPopUpView(_ schedule:FoodOrderModelData){
@@ -128,8 +137,8 @@ class OrdersViewController: UIViewController {
             self.selectionView.select(index: 1, animated: true)
             self.selectedSegment(self.selectionView)
         }
-        self.foodOrderApiHitting(false)
-        self.tableOrderApiHitting(false)
+       // self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+       // self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
     }
     //MARK:- SelectionView
     @objc func selectedSegment(_ sender:MXSegmentedControl){
@@ -137,30 +146,58 @@ class OrdersViewController: UIViewController {
         switch sender.selectedIndex {
         case 0:
             // New ....
+            self.previousSkipCount = 0
+            self.skipCountCheck = 0
             self.newCountLbl.isHidden = true
+            if isFoodSelectedFlag{
+                self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+            }else{
+                self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+            }
             tableView.reloadData()
-            break
         case 1:
             // Scheduled ....
-            tableView.reloadData()
-            break
+            self.previousSkipCount = 0
+            self.skipCountCheck = 0
+            if isFoodSelectedFlag{
+                self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+            }else{
+                self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+            }
         case 2:
             // Completed ....
-            tableView.reloadData()
-            break
+            self.previousSkipCount = 0
+            self.skipCountCheck = 0
+            if isFoodSelectedFlag{
+                self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+            }else{
+                self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
+            }
         default:
             break
         }
     }
     //MARK:- Food Order Api Hitting
-    func foodOrderApiHitting(_ hideToast:Bool){
+    func foodOrderApiHitting(_ hideToast:Bool , limit:Int, skip:Int){
         if !hideToast{
             Themes.sharedInstance.activityView(View: self.view)
         }
-        let param = ["restaurantId": [GlobalClass.restaurantLoginModel.data.subId!]]
-        //let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        var param = [String:AnyObject]()
+        param = ["restaurantId": [GlobalClass.restaurantLoginModel.data.subId!]] as [String : AnyObject]
+        
+        switch selectionView.selectedIndex {
+        case 0:
+            param["status"] =  "ORDERED" as AnyObject
+        case 1:
+            param["status"] =  "RES_ON_GOING" as AnyObject
+        case 2:
+            param["status"] =  "RES_COMPLETED" as AnyObject
+        default:
+            break
+        }
+        
         ez.runThisAfterDelay(seconds: 0.0, after: {
-            let paramSent = [DATA:param]
+            let paramSent =  [DATA:param,FILTER : [LIMIT:limit,SKIP:skip]] as [String : AnyObject]
             Sockets.socketWithName(GET_ORDERS_BY_RESTAURANT_ID, input: paramSent, completionHandler: { (response) in
                 Themes.sharedInstance.removeActivityView(View: self.view)
                 let data = JSON(response)
@@ -174,8 +211,20 @@ class OrdersViewController: UIViewController {
                         self.newCountLbl.isHidden = true
                     }
                 }
-                GlobalClass.foodOrderModel = foodModel
-                self.dummyFoodOrderModel = foodModel
+                if !self.searchActive{
+                    if skip == 0{
+                        GlobalClass.foodOrderModel = foodModel
+                        self.dummyFoodOrderModel = foodModel
+                    }else{
+                        GlobalClass.foodOrderModel.data.append(contentsOf: foodModel.data!)
+                        GlobalClass.foodOrderModel.new.append(contentsOf: foodModel.new!)
+                        GlobalClass.foodOrderModel.scheduled.append(contentsOf: foodModel.scheduled!)
+                        GlobalClass.foodOrderModel.completed.append(contentsOf: foodModel.completed!)
+                        if let dataModel = GlobalClass.foodOrderModel{
+                            self.dummyFoodOrderModel = dataModel
+                        }
+                    }
+                }
                 if GlobalClass.foodOrderModel.data.count == 0{
                     if !hideToast{
                         TheGlobalPoolManager.showToastView("No orders available now")
@@ -188,7 +237,7 @@ class OrdersViewController: UIViewController {
         })
     }
     //MARK:- Table Order Api Hitting
-    func tableOrderApiHitting(_ hideToast:Bool){
+    func tableOrderApiHitting(_ hideToast:Bool, limit:Int, skip:Int){
         if !hideToast{
             Themes.sharedInstance.activityView(View: self.view)
         }
@@ -197,11 +246,22 @@ class OrdersViewController: UIViewController {
             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
         }else{
             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                     "date" : selectedDate] as [String : AnyObject]
+                             "date" : selectedDate] as [String : AnyObject]
         }
-        //let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        
+        switch selectionView.selectedIndex {
+        case 0:
+            param["status"] =  "ORDERED" as AnyObject
+        case 1:
+            param["status"] =  "RES_ON_GOING" as AnyObject
+        case 2:
+            param["status"] =  "RES_COMPLETED" as AnyObject
+        default:
+            break
+        }
+        
         ez.runThisAfterDelay(seconds: 0.0, after: {
-            let paramSent = [DATA:param]
+            let paramSent =  [DATA:param,FILTER : [LIMIT:limit,SKIP:skip]] as [String : AnyObject]
             Sockets.socketWithName(GET_ORDERS_TABLE_BY_RESTAURANT_ID, input: paramSent, completionHandler: { (response) in
                 Themes.sharedInstance.removeActivityView(View: self.view)
                 let data = JSON(response)
@@ -215,8 +275,20 @@ class OrdersViewController: UIViewController {
                         self.newCountLbl.isHidden = true
                     }
                 }
-                GlobalClass.tableOrderModel = tableModel
-                self.dummyTableOrderModel = tableModel
+                if !self.searchActive{
+                    if skip == 0{
+                        GlobalClass.tableOrderModel = tableModel
+                        self.dummyTableOrderModel = tableModel
+                    }else{
+                        GlobalClass.tableOrderModel.data.append(contentsOf: tableModel.data!)
+                        GlobalClass.tableOrderModel.new.append(contentsOf: tableModel.new!)
+                        GlobalClass.tableOrderModel.scheduled.append(contentsOf: tableModel.scheduled!)
+                        GlobalClass.tableOrderModel.completed.append(contentsOf: tableModel.completed!)
+                        if let dataModel = GlobalClass.tableOrderModel{
+                            self.dummyTableOrderModel = dataModel
+                        }
+                    }
+                }
                 if GlobalClass.tableOrderModel.data.count == 0{
                     if !hideToast{
                         TheGlobalPoolManager.showToastView("No Bookings available now")
@@ -238,7 +310,7 @@ class OrdersViewController: UIViewController {
         URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
-                    self.foodOrderApiHitting(true)
+                    self.foodOrderApiHitting(true, limit: LIMIT_COUNT, skip: SKIP_COUNT)
                 }
             }
         }
@@ -253,7 +325,7 @@ class OrdersViewController: UIViewController {
         URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
-                    self.tableOrderApiHitting(true)
+                    self.tableOrderApiHitting(true, limit: LIMIT_COUNT, skip: SKIP_COUNT)
                 }
             }
         }
@@ -321,15 +393,15 @@ class OrdersViewController: UIViewController {
         foodBtn.setImage(foodImage, for: .normal)
         if sender == foodBtn{
             self.isFoodSelectedFlag = true
-            self.tableView.reloadData()
+            self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
         }else{
             self.isFoodSelectedFlag = false
-            self.tableView.reloadData()
+            self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
         }
     }
 }
 //MARK : - UI Table View Delegate Methods
-extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
+extension OrdersViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFoodSelectedFlag{
             if selectionView.selectedIndex == 0{
@@ -398,6 +470,111 @@ extension OrdersViewController : UITableViewDelegate,UITableViewDataSource{
             break
         }
         return 0
+    }
+     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if !self.searchActive{
+            if isFoodSelectedFlag{
+                switch selectionView.selectedIndex {
+                case 0:
+                    if self.dummyFoodOrderModel.new.count == indexPath.row + 1{
+                        if let foodModel = self.dummyFoodOrderModel{
+                            if let data = foodModel.new{
+                                let checkingSkip = data.count % LIMIT_COUNT
+                                let skipCount = data.count
+                                if checkingSkip == 0{
+                                    if self.previousSkipCount != skipCount{
+                                        self.previousSkipCount = skipCount
+                                        self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: skipCount)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                case 1:
+                    if self.dummyFoodOrderModel.scheduled.count == indexPath.row + 1{
+                        if let foodModel = self.dummyFoodOrderModel{
+                            if let data = foodModel.scheduled{
+                                let checkingSkip = data.count % LIMIT_COUNT
+                                let skipCount = data.count
+                                if checkingSkip == 0{
+                                    if self.previousSkipCount != skipCount{
+                                        self.previousSkipCount = skipCount
+                                        self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: skipCount)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                case 2:
+                    if self.dummyFoodOrderModel.completed.count == indexPath.row + 1{
+                        if let foodModel = self.dummyFoodOrderModel{
+                            if let data = foodModel.completed{
+                                let checkingSkip = data.count % LIMIT_COUNT
+                                let skipCount = data.count
+                                if checkingSkip == 0{
+                                    if self.previousSkipCount != skipCount{
+                                        self.previousSkipCount = skipCount
+                                        self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: skipCount)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                default:
+                    break
+                }
+            }else{
+                switch selectionView.selectedIndex {
+                case 0:
+                    if self.dummyTableOrderModel.new.count == indexPath.row + 1{
+                        if let tableModel = self.dummyTableOrderModel{
+                            if let data = tableModel.new{
+                                let checkingSkip = data.count % LIMIT_COUNT
+                                let skipCount = data.count
+                                if checkingSkip == 0{
+                                    if self.previousSkipCount != skipCount{
+                                        self.previousSkipCount = skipCount
+                                        self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: skipCount)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                case 1:
+                    if self.dummyTableOrderModel.scheduled.count == indexPath.row + 1{
+                        if let tableModel = self.dummyTableOrderModel{
+                            if let data = tableModel.scheduled{
+                                let checkingSkip = data.count % LIMIT_COUNT
+                                let skipCount = data.count
+                                if checkingSkip == 0{
+                                    if self.previousSkipCount != skipCount{
+                                        self.previousSkipCount = skipCount
+                                        self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: skipCount)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                case 2:
+                    if self.dummyTableOrderModel.completed.count == indexPath.row + 1{
+                        if let tableModel = self.dummyTableOrderModel{
+                            if let data = tableModel.completed{
+                                let checkingSkip = data.count % LIMIT_COUNT
+                                let skipCount = data.count
+                                if checkingSkip == 0{
+                                    if self.previousSkipCount != skipCount{
+                                        self.previousSkipCount = skipCount
+                                        self.tableOrderApiHitting(false, limit: LIMIT_COUNT, skip: skipCount)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                default:
+                    break
+                }
+            }
+        }
     }
 }
 //MARK : - UI CollectionView Delegate Methods

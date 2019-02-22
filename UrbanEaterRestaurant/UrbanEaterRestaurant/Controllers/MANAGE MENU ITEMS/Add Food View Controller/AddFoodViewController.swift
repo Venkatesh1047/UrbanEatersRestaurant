@@ -82,6 +82,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             }
         }else{
             self.titleLbl.text = "Edit Food"
+            self.recommendedSwitch.isUserInteractionEnabled = false
             if let data = editItemData{
                 if GlobalClass.selectedFromTime == nil{
                     GlobalClass.selectedFromTime = data.timings.startAt!
@@ -405,7 +406,7 @@ extension AddFoodViewController : UITextFieldDelegate{
             let newLength = text.count + string.count - range.length
             return (string == filtered) && newLength <= 2
         }else if ((textField == self.selectCategoryTF) || (textField == self.enterFoodNameTF)){
-            let ACCEPTABLE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+            let ACCEPTABLE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
             let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
             let filtered = string.components(separatedBy: cs).joined(separator: "")
             guard let text = textField.text else { return true }

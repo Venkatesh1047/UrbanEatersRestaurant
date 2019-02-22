@@ -29,6 +29,8 @@ class OrderHistoryViewController: UIViewController {
     var dateSelectedString : String!
     var isFromDateSelected = false
     let dateFormatter = DateFormatter()
+    var skipCountCheck = 0
+    var previousSkipCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,13 +53,14 @@ class OrderHistoryViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         datePicker.maximumDate = NSDate() as Date
         datePicker.maximumDate = Date()
-         self.orderHistoryApiHitting()
+        self.orderHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
     }
     @objc func datePickerValueChanged(sender:UIDatePicker) {
         dateSelectedString = dateFormatter.string(from: sender.date)
     }
     //MARK:- Order History Api Hitting
-    func orderHistoryApiHitting(){
+    func orderHistoryApiHitting(_ limit:Int, skip:Int){
+        print("Hitting Api with ============= \(skip)")
         Themes.sharedInstance.activityView(View: self.view)
         var param = [String : AnyObject]()
         if toDateString == nil{
@@ -77,10 +80,17 @@ class OrderHistoryViewController: UIViewController {
                 ] as [String : AnyObject]
         }
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
-        URLhandler.postUrlSession(urlString: Constants.urls.EarningsSummary, params: param as [String : AnyObject], header: header) { (dataResponse) in
+        let urlString = Constants.urls.EarningsSummary + "?filter[limit]=\(limit)&filter[skip]=\(skip)"
+        URLhandler.postUrlSession(urlString: urlString , params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                GlobalClass.earningsHistoryModel = EarningsHistoryModel(fromJson: dataResponse.json)
+                if skip == 0{
+                  GlobalClass.earningsHistoryModel = EarningsHistoryModel(fromJson: dataResponse.json)
+                }else{
+                    if let dataModel = EarningsHistoryModel(fromJson: dataResponse.json).data{
+                        GlobalClass.earningsHistoryModel.data.orderFoodData.append(contentsOf: dataModel.orderFoodData!)
+                    }
+                }
                 if GlobalClass.earningsHistoryModel.data.earningData.count != 0{
                     let data = GlobalClass.earningsHistoryModel.data.earningData[0]
                     self.totalOrdersLbl.text = data.totalOrderCount!.toString
@@ -133,7 +143,7 @@ class OrderHistoryViewController: UIViewController {
             if date1 == date2{
                 toDateLbl.text = dateSelectedString
                 toDateLbl.textColor = .textColor
-                self.orderHistoryApiHitting()
+                self.orderHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
             }else if date1! > date2! {
                 TheGlobalPoolManager.showAlertWith(message: "Oops!, 'To Date' is past date when compared to 'From Date", singleAction: true, callback: { (success) in
                     if success!{}
@@ -142,7 +152,7 @@ class OrderHistoryViewController: UIViewController {
             }else if date1! < date2! {
                 toDateLbl.text = dateSelectedString
                 toDateLbl.textColor = .textColor
-                self.orderHistoryApiHitting()
+                self.orderHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
             }
         }
     }
@@ -217,6 +227,23 @@ extension OrderHistoryViewController : UITableViewDataSource,UITableViewDelegate
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UIDevice.isPhone() ? 35 : 40
+    }
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        print(section)
+        if GlobalClass.earningsHistoryModel.data.orderFoodData.count == section + 1{
+            if let earningsModel = GlobalClass.earningsHistoryModel{
+                if let data = earningsModel.data{
+                    let checkingSkip = data.orderFoodData.count % LIMIT_COUNT
+                    let skipCount = data.orderFoodData.count
+                    if checkingSkip == 0{
+                        if self.previousSkipCount != skipCount{
+                            self.previousSkipCount = skipCount
+                            self.orderHistoryApiHitting(LIMIT_COUNT, skip: skipCount)
+                        }
+                    }
+                }
+            }
+        }
     }
     @objc func HandleheaderButton(sender: UIButton){
         if let buttonTitle = sender.title(for: .normal) {

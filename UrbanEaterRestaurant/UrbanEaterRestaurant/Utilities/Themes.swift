@@ -22,7 +22,7 @@ class Themes: NSObject {
     var spinnerView:MMMaterialDesignSpinner=MMMaterialDesignSpinner()
     var isShow : Bool = false
     var isAlertDisplaying = false
-     var currentOrderStatusString = ""
+     var currentOrderID = ""
     
     var view:UIView{
         return (ez.topMostVC?.view)!

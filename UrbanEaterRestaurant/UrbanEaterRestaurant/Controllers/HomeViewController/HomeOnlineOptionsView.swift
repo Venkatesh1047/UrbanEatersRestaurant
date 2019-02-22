@@ -10,6 +10,9 @@ import UIKit
 import SwiftyJSON
 import EZSwiftExtensions
 
+let LIMIT_COUNT = 25
+var SKIP_COUNT  = 0
+
 class HomeOnlineOptionsView: UIViewController {
     @IBOutlet weak var selectionView: MXSegmentedControl!
     @IBOutlet weak var searchTF: UITextField!
@@ -23,6 +26,9 @@ class HomeOnlineOptionsView: UIViewController {
     var searchActive = false
     var dummyRestaurantAllOrdersModel : RestaurantAllOrdersModel!
     var newDummy : RestaurantAllOrdersModel!
+    var previousSkipCount = 0
+    var skipCountCheck    = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -36,26 +42,40 @@ class HomeOnlineOptionsView: UIViewController {
         if self.isFromHome{}
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification(notification:)), name: Notification.Name("DoneButtonClicked"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification1(notification:)), name: Notification.Name("FoodAccepted"), object: nil)
-         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification2(notification:)), name: Notification.Name("OrderReceived"), object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification2(_:)), name: Notification.Name("OrderReceived"), object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(self.socketConnectionConnected(_:)), name: NSNotification.Name(SOCKET_CONNECTED), object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
         self.selectionView.select(index: 0, animated: true)
     }
     @objc func methodOfReceivedNotification(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
-        self.restaurantAllOrdersApiHitting(true)
+        self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
     }
     @objc func methodOfReceivedNotification1(notification: Notification){
         self.dismissPopupViewControllerWithanimationType(MJPopupViewAnimationSlideTopTop)
-        self.restaurantAllOrdersApiHitting(true)
+        self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
         if GlobalClass.restaurantAllOrdersModel != nil{
             if GlobalClass.restaurantAllOrdersModel.new.count == 0{
                 // Need to write logic....
             }
         }
     }
-    @objc func methodOfReceivedNotification2(notification: Notification){
-        self.restaurantAllOrdersApiHitting(true)
+    @objc func methodOfReceivedNotification2(_ userInfo:Notification){
+        if let dic = userInfo.userInfo as? [String:AnyObject]{
+            if let orderId = dic["orderId"] as? String{
+                if TheGlobalPoolManager.currentOrderID != orderId{
+                    TheGlobalPoolManager.currentOrderID = orderId
+                     self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
+                }
+            }
+        }
+    }
+    //MARK:- Socket Connected
+    @objc func socketConnectionConnected(_ userInfo:Notification){
+        if  GlobalClass.restaurantAllOrdersModel == nil{
+            self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
+        }
     }
     @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {
         if self.searchActive || self.clearBtn.image == #imageLiteral(resourceName: "Cancelled").withColor(.greyColor){
@@ -63,7 +83,7 @@ class HomeOnlineOptionsView: UIViewController {
             self.searchActive = false
             self.searchTF.endEditing(true)
             self.searchTF.text = ""
-            self.restaurantAllOrdersApiHitting(true)
+            self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
         }
     }
     //MARK:- Update UI
@@ -91,7 +111,7 @@ class HomeOnlineOptionsView: UIViewController {
             .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
         selectionView.addTarget(self, action: #selector(self.selectedSegment(_:)), for: .valueChanged)
         ez.runThisInMainThread {
-            self.restaurantAllOrdersApiHitting(false)
+            self.restaurantAllOrdersApiHitting(false, limit: LIMIT_COUNT , skip: SKIP_COUNT)
         }
     }
     //MARK:- SelectionView
@@ -100,38 +120,60 @@ class HomeOnlineOptionsView: UIViewController {
         switch sender.selectedIndex {
         case 0:
             // New ....
+            self.previousSkipCount = 0
+            self.skipCountCheck = 0
             self.newCountLbl.isHidden = true
-            tableView.reloadData()
+            self.restaurantAllOrdersApiHitting(false, limit: LIMIT_COUNT , skip: SKIP_COUNT)
             break
         case 1:
             // Scheduled ....
-            tableView.reloadData()
+            self.previousSkipCount = 0
+            self.skipCountCheck = 0
+           self.restaurantAllOrdersApiHitting(false, limit: LIMIT_COUNT , skip: SKIP_COUNT)
             break
         case 2:
             // Completed ....
-            tableView.reloadData()
+            self.previousSkipCount = 0
+            self.skipCountCheck = 0
+           self.restaurantAllOrdersApiHitting(false, limit: LIMIT_COUNT , skip: SKIP_COUNT)
             break
         default:
             break
         }
     }
     //MARK:- Restaurant All Orders Api Hitting
-    func restaurantAllOrdersApiHitting(_ hideToast:Bool){
+    func restaurantAllOrdersApiHitting(_ hideToast:Bool ,limit:Int, skip:Int){
+        print("Hitting Api with ============= \(skip)")
         if !hideToast{
             Themes.sharedInstance.activityView(View: self.view)
         }
-        let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                               "orderFood": 1,
-                               "orderFoodStatus": "",
-                               "orderTable": 1,
-                               "orderTableStatus": ""] as [String : AnyObject]
-       // let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        
+        var param = [String:AnyObject]()
+        param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
+                          "orderFood": 1,
+                          "orderTable": 1] as [String : AnyObject]
+        
+        switch selectionView.selectedIndex {
+        case 0:
+            param["orderFoodStatus"] =  "ORDERED" as AnyObject
+            param["orderTableStatus"] =  "ORDERED" as AnyObject
+        case 1:
+            param["orderFoodStatus"] =  "RES_ON_GOING" as AnyObject
+            param["orderTableStatus"] =  "RES_ON_GOING" as AnyObject
+        case 2:
+            param["orderFoodStatus"] =  "RES_COMPLETED" as AnyObject
+            param["orderTableStatus"] =  "RES_COMPLETED" as AnyObject
+        default:
+            break
+        }
+        
         ez.runThisAfterDelay(seconds: 0.0, after: {
-            let paramSent = [DATA:param]
+            let paramSent = [DATA:param,FILTER : [LIMIT:limit,SKIP:skip]] as [String : AnyObject]
+            print("paramSent",paramSent)
             Sockets.socketWithName(GET_RESTAURANT_ORDERS, input: paramSent, completionHandler: { (response) in
                 Themes.sharedInstance.removeActivityView(View: self.view)
                  let data = JSON(response)
-                print("data Check",data)
+                //print("data Check",data)
                 let restModel = RestaurantAllOrdersModel(fromJson: data)
                 if GlobalClass.restaurantAllOrdersModel != nil && self.selectionView.selectedIndex != 0{
                     if restModel.new.count > GlobalClass.restaurantAllOrdersModel.new.count{
@@ -141,10 +183,21 @@ class HomeOnlineOptionsView: UIViewController {
                         self.newCountLbl.isHidden = true
                     }
                 }
-                GlobalClass.restaurantAllOrdersModel = restModel
                 if !self.searchActive{
-                    self.dummyRestaurantAllOrdersModel = GlobalClass.restaurantAllOrdersModel
-                    self.newDummy = GlobalClass.restaurantAllOrdersModel
+                    if skip == 0{
+                        GlobalClass.restaurantAllOrdersModel = restModel
+                        self.dummyRestaurantAllOrdersModel = GlobalClass.restaurantAllOrdersModel
+                        self.newDummy = GlobalClass.restaurantAllOrdersModel
+                    }else{
+                        GlobalClass.restaurantAllOrdersModel.data.append(contentsOf: restModel.data!)
+                        GlobalClass.restaurantAllOrdersModel.new.append(contentsOf: restModel.new!)
+                        GlobalClass.restaurantAllOrdersModel.scheduled.append(contentsOf: restModel.scheduled!)
+                        GlobalClass.restaurantAllOrdersModel.completed.append(contentsOf: restModel.completed!)
+                        if let dataModel = GlobalClass.restaurantAllOrdersModel{
+                            self.dummyRestaurantAllOrdersModel = dataModel
+                            self.newDummy = dataModel
+                        }
+                    }
                 }
                 if GlobalClass.restaurantAllOrdersModel.data.count == 0{
                     self.tableView.reloadData()
@@ -165,7 +218,7 @@ class HomeOnlineOptionsView: UIViewController {
         URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
-                    self.restaurantAllOrdersApiHitting(true)
+                    self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
                 }
             }
         }
@@ -180,7 +233,7 @@ class HomeOnlineOptionsView: UIViewController {
         URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
                 ez.runThisInMainThread {
-                    self.restaurantAllOrdersApiHitting(true)
+                    self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
                 }
             }
         }
@@ -309,6 +362,60 @@ extension HomeOnlineOptionsView : UITableViewDelegate,UITableViewDataSource{
             break
         }
         return 0
+    }
+     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        if !searchActive{
+            switch selectionView.selectedIndex {
+            case 0:
+                if self.dummyRestaurantAllOrdersModel.new.count == indexPath.row + 1{
+                    if let restModel = self.dummyRestaurantAllOrdersModel{
+                        if let data = restModel.new{
+                            let checkingSkip = data.count % LIMIT_COUNT
+                            let skipCount = data.count
+                            if checkingSkip == 0{
+                                if self.previousSkipCount != skipCount{
+                                    self.previousSkipCount = skipCount
+                                    self.restaurantAllOrdersApiHitting(false, limit: LIMIT_COUNT , skip: skipCount)
+                                }
+                            }
+                        }
+                    }
+                }
+            case 1:
+                if self.dummyRestaurantAllOrdersModel.scheduled.count == indexPath.row + 1{
+                    if let restModel = self.dummyRestaurantAllOrdersModel{
+                        if let data = restModel.scheduled{
+                            let checkingSkip = data.count % LIMIT_COUNT
+                            let skipCount = data.count
+                            if checkingSkip == 0{
+                                if self.previousSkipCount != skipCount{
+                                    self.previousSkipCount = skipCount
+                                    self.restaurantAllOrdersApiHitting(false, limit: LIMIT_COUNT , skip: skipCount)
+                                }
+                            }
+                        }
+                    }
+                }
+            case 2:
+                if self.dummyRestaurantAllOrdersModel.completed.count == indexPath.row + 1{
+                    if let restModel = self.dummyRestaurantAllOrdersModel{
+                        if let data = restModel.completed{
+                            let checkingSkip = data.count % LIMIT_COUNT
+                            let skipCount = data.count
+                            if checkingSkip == 0{
+                                if self.previousSkipCount != skipCount{
+                                    self.previousSkipCount = skipCount
+                                    self.restaurantAllOrdersApiHitting(false, limit: LIMIT_COUNT , skip: skipCount)
+                                }
+                            }
+                        }
+                    }
+                }
+            default:
+                break
+            }
+        }
     }
 }
 //MARK : - UI CollectionView Delegate Methods

@@ -26,13 +26,15 @@ class TableBookingHistoryViewController: UIViewController {
     var isFromDateSelected = false
     let dateFormatter = DateFormatter()
     var selectedDate : String = ""
+    var skipCountCheck = 0
+    var previousSkipCount = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateUI()
     }
     override func viewWillAppear(_ animated: Bool) {
-        self.tableHistoryApiHitting()
+        self.tableHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
     }
     //MARK:- Update UI
     func updateUI(){
@@ -53,7 +55,8 @@ class TableBookingHistoryViewController: UIViewController {
         HistoryTbl.register(nibName, forCellReuseIdentifier: "CompletedTableCell")
     }
     //MARK:- Table History Api Hitting
-    func tableHistoryApiHitting(){
+    func tableHistoryApiHitting(_ limit:Int, skip:Int){
+        print("Hitting Api with ============= \(skip)")
         Themes.sharedInstance.activityView(View: self.view)
         var param = [String : AnyObject]()
         if toDateString == nil{
@@ -72,7 +75,13 @@ class TableBookingHistoryViewController: UIViewController {
         URLhandler.postUrlSession(urlString: Constants.urls.TableBookingHistory, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
-                GlobalClass.tableHistoryModel = TableOrderModel(fromJson: dataResponse.json)
+                if skip == 0{
+                    GlobalClass.tableHistoryModel = TableOrderModel(fromJson: dataResponse.json)
+                }else{
+                    if let dataModel = TableOrderModel(fromJson: dataResponse.json).completed{
+                        GlobalClass.tableHistoryModel.completed.append(contentsOf: dataModel)
+                    }
+                }
                 if GlobalClass.tableHistoryModel.data.count == 0{
                     TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
                     self.HistoryTbl.reloadData()
@@ -120,7 +129,7 @@ class TableBookingHistoryViewController: UIViewController {
             if date1 == date2{
                 toDateLbl.text = dateSelectedString
                 toDateLbl.textColor = .textColor
-                self.tableHistoryApiHitting()
+                self.tableHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
             }else if date1! > date2! {
                 TheGlobalPoolManager.showAlertWith(message: "Oops!, 'To Date' is past date when compared to 'From Date", singleAction: true, callback: { (success) in
                     if success!{}
@@ -129,7 +138,7 @@ class TableBookingHistoryViewController: UIViewController {
             }else if date1! < date2! {
                 toDateLbl.text = dateSelectedString
                 toDateLbl.textColor = .textColor
-                self.tableHistoryApiHitting()
+                self.tableHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
             }
         }
     }
@@ -161,5 +170,22 @@ extension TableBookingHistoryViewController : UITableViewDelegate,UITableViewDat
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UIDevice.isPhone() ? 130 : 160
+    }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        if GlobalClass.tableHistoryModel.completed.count == indexPath.row + 1{
+            if let tableData = GlobalClass.tableHistoryModel{
+                if let data = tableData.completed{
+                    let checkingSkip = data.count % LIMIT_COUNT
+                    let skipCount = data.count
+                    if checkingSkip == 0{
+                        if self.previousSkipCount != skipCount{
+                            self.previousSkipCount = skipCount
+                            self.tableHistoryApiHitting(LIMIT_COUNT, skip: skipCount)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
