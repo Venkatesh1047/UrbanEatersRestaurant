@@ -65,19 +65,17 @@ class OrderHistoryViewController: UIViewController {
         var param = [String : AnyObject]()
         if toDateString == nil{
             param = [
-                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
-                "earningStatus": 1
+                RES_ID: [GlobalClass.restaurantLoginModel.data.subId!],
+                EARNING_STATUS: 1
                 ] as [String : AnyObject]
         }else{
             param = [
-                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
-                "dateRange": [
-                    "from": fromDateString,
-                    "to": toDateString
+                RES_ID : [GlobalClass.restaurantLoginModel.data.subId!],
+                DATE_RANGE: [
+                    FROM: fromDateString,
+                    TO: toDateString
                 ],
-                "earningStatus": 1
-                
-                ] as [String : AnyObject]
+                EARNING_STATUS: 1] as [String : AnyObject]
         }
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         let urlString = Constants.urls.EarningsSummary + "?filter[limit]=\(limit)&filter[skip]=\(skip)"

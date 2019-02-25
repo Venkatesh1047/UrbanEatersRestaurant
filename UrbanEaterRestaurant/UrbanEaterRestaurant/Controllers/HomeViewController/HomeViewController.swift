@@ -8,6 +8,7 @@
 
 import UIKit
 import EZSwiftExtensions
+import Firebase
 
 class HomeViewController: UIViewController {
     
@@ -68,6 +69,8 @@ class HomeViewController: UIViewController {
         bookTblCollectionView.register(UINib(nibName: "DateCell", bundle: nil), forCellWithReuseIdentifier: "DateCell")
         bookTblCollectionView.register(UINib(nibName: "DateSeeAll", bundle: nil), forCellWithReuseIdentifier: "DateSeeAll")
         self.allocateCollectionView()
+        Messaging.messaging().subscribe(toTopic: UE_ALL)
+        Messaging.messaging().subscribe(toTopic: UE_RESTAURANT)
         ez.runThisInMainThread {
             if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
                 self.earningViewHightConstraint.constant = 250
@@ -85,7 +88,7 @@ class HomeViewController: UIViewController {
     }
     //MARK:- Prepare For Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "HomeSegue"{
+        if segue.identifier == HOME_SEGUE{
             if let viewCon = segue.destination as? HomeOnlineOptionsView{
                 viewCon.isFromHome = true
             }
@@ -123,7 +126,6 @@ class HomeViewController: UIViewController {
     func updateUI(){
         self.noDataAvailableLbl.isHidden = true
         onlineSwitch.layer.cornerRadius = 16
-        //self.collectionView.isHidden = true
         TheGlobalPoolManager.cornerAndBorder(self.earningsViewInView, cornerRadius: 8, borderWidth: 0.5, borderColor: .lightGray)
         TheGlobalPoolManager.cornerRadiusForParticularCornerr(self.earningsViewInView, corners: [.bottomRight,.topRight], size: CGSize(width: 8, height: 0))
         self.slidetoOpenView.addSubview(self.slideToOpen)
@@ -132,9 +134,9 @@ class HomeViewController: UIViewController {
     //MARK:- Get Restaurant  Data Api
     func getRestarentDataModel(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = [ "id": GlobalClass.restaurantLoginModel.data.subId!]
+        let param = [ID: GlobalClass.restaurantLoginModel.data.subId!]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
-        URLhandler.postUrlSession(urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
+        URLhandler.postUrlSession(true,urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){
                 GlobalClass.restModel = RestaurantHomeModel(fromJson: dataResponse.json)
@@ -190,8 +192,8 @@ class HomeViewController: UIViewController {
     //MARK:- Chnage Restaurant Status Api
     func changeRestarentStatusWebHit(status:Int){
         let param = [
-            "id": GlobalClass.restaurantLoginModel.data.subId,
-            "available": status] as  [String:AnyObject]
+            ID: GlobalClass.restaurantLoginModel.data.subId,
+            AVAILABLE: status] as  [String:AnyObject]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: param, header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)

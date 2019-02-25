@@ -67,28 +67,27 @@ class EarningSummuryViewController: UIViewController {
         var param = [String : AnyObject]()
         if self.selectedDate.length != 0 {
             param = [
-                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
-                "date" : self.selectedDate,
-                "earningStatus": 1,
-                "statusArray": ["DRI_PICKED", "DELIVERED", "COMPLETED"]
+                RES_ID: [GlobalClass.restaurantLoginModel.data.subId!],
+                DATE : self.selectedDate,
+                EARNING_STATUS: 1,
+                STATUS_ARRAY: [DRI_PICKED, DELIVERED, COMPLETED]
                 
                 ] as [String : AnyObject]
         }else if toDateString.length == 0{
             param = [
-                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
-                "earningStatus": 1,
-                "statusArray": ["DRI_PICKED", "DELIVERED", "COMPLETED"]
+                RES_ID: [GlobalClass.restaurantLoginModel.data.subId!],
+                EARNING_STATUS: 1,
+                STATUS_ARRAY: [DRI_PICKED, DELIVERED, COMPLETED]
                 ] as [String : AnyObject]
         }else{
             param = [
-                "restaurantId": [GlobalClass.restaurantLoginModel.data.subId!],
-                "dateRange": [
-                    "from": fromDateString,
-                    "to": toDateString
+                RES_ID : [GlobalClass.restaurantLoginModel.data.subId!],
+                DATE_RANGE: [
+                    FROM: fromDateString,
+                    TO: toDateString
                 ],
-                "earningStatus": 1,
-                "statusArray": ["DRI_PICKED", "DELIVERED", "COMPLETED"]
-                ] as [String : AnyObject]
+                EARNING_STATUS: 1,
+                STATUS_ARRAY: [DRI_PICKED, DELIVERED, COMPLETED]] as [String : AnyObject]
         }
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         let urlString = Constants.urls.EarningsSummary + "?filter[limit]=\(limit)&filter[skip]=\(skip)"

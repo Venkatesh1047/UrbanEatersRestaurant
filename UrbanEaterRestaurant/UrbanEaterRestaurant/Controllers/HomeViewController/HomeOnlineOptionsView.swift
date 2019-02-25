@@ -44,6 +44,10 @@ class HomeOnlineOptionsView: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification1(notification:)), name: Notification.Name("FoodAccepted"), object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(HomeOnlineOptionsView.methodOfReceivedNotification2(_:)), name: Notification.Name("OrderReceived"), object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(self.socketConnectionConnected(_:)), name: NSNotification.Name(SOCKET_CONNECTED), object: nil)
+        ez.runThisInMainThread {
+            Sockets.socketListenForTrackingOrderStatus(completionHandler: { (data) in
+            })
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         self.selectionView.select(index: 0, animated: true)
@@ -63,10 +67,12 @@ class HomeOnlineOptionsView: UIViewController {
     }
     @objc func methodOfReceivedNotification2(_ userInfo:Notification){
         if let dic = userInfo.userInfo as? [String:AnyObject]{
-            if let orderId = dic["orderId"] as? String{
+            if let orderId = dic[ORDER_ID] as? String{
                 if TheGlobalPoolManager.currentOrderID != orderId{
                     TheGlobalPoolManager.currentOrderID = orderId
-                     self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
+                    ez.runThisInMainThread {
+                        self.selectionView.select(index: 0, animated: true)
+                    }
                 }
             }
         }
@@ -74,7 +80,9 @@ class HomeOnlineOptionsView: UIViewController {
     //MARK:- Socket Connected
     @objc func socketConnectionConnected(_ userInfo:Notification){
         if  GlobalClass.restaurantAllOrdersModel == nil{
-            self.restaurantAllOrdersApiHitting(true, limit: LIMIT_COUNT , skip: SKIP_COUNT)
+            ez.runThisInMainThread {
+                self.selectionView.select(index: 0, animated: true)
+            }
         }
     }
     @objc func clearBtnPressed(_ sender: UITapGestureRecognizer) {
@@ -110,9 +118,6 @@ class HomeOnlineOptionsView: UIViewController {
         selectionView.append(title: "Completed")
             .set(title: .secondaryBGColor, for: .selected).set(title: .whiteColor, for: .normal)
         selectionView.addTarget(self, action: #selector(self.selectedSegment(_:)), for: .valueChanged)
-        ez.runThisInMainThread {
-            self.restaurantAllOrdersApiHitting(false, limit: LIMIT_COUNT , skip: SKIP_COUNT)
-        }
     }
     //MARK:- SelectionView
     @objc func selectedSegment(_ sender:MXSegmentedControl){
@@ -149,20 +154,20 @@ class HomeOnlineOptionsView: UIViewController {
         }
         
         var param = [String:AnyObject]()
-        param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                          "orderFood": 1,
-                          "orderTable": 1] as [String : AnyObject]
+        param = [RES_ID: GlobalClass.restaurantLoginModel.data.subId!,
+                          ORDER_FOOD: 1,
+                          ORDER_TABLE: 1] as [String : AnyObject]
         
         switch selectionView.selectedIndex {
         case 0:
-            param["orderFoodStatus"] =  "ORDERED" as AnyObject
-            param["orderTableStatus"] =  "ORDERED" as AnyObject
+            param[ORDER_STATUS] =  ORDERED as AnyObject
+            param[ORDER_STATUS] =  ORDERED as AnyObject
         case 1:
-            param["orderFoodStatus"] =  "RES_ON_GOING" as AnyObject
-            param["orderTableStatus"] =  "RES_ON_GOING" as AnyObject
+            param[ORDER_STATUS] =  RES_ON_GOING as AnyObject
+            param[ORDER_STATUS] =  RES_ON_GOING as AnyObject
         case 2:
-            param["orderFoodStatus"] =  "RES_COMPLETED" as AnyObject
-            param["orderTableStatus"] =  "RES_COMPLETED" as AnyObject
+            param[ORDER_STATUS] =  RES_COMPLETED as AnyObject
+            param[ORDER_STATUS] =  RES_COMPLETED as AnyObject
         default:
             break
         }
@@ -173,7 +178,6 @@ class HomeOnlineOptionsView: UIViewController {
             Sockets.socketWithName(GET_RESTAURANT_ORDERS, input: paramSent, completionHandler: { (response) in
                 Themes.sharedInstance.removeActivityView(View: self.view)
                  let data = JSON(response)
-                //print("data Check",data)
                 let restModel = RestaurantAllOrdersModel(fromJson: data)
                 if GlobalClass.restaurantAllOrdersModel != nil && self.selectionView.selectedIndex != 0{
                     if restModel.new.count > GlobalClass.restaurantAllOrdersModel.new.count{
@@ -201,7 +205,7 @@ class HomeOnlineOptionsView: UIViewController {
                 }
                 if GlobalClass.restaurantAllOrdersModel.data.count == 0{
                     self.tableView.reloadData()
-                    TheGlobalPoolManager.showToastView("No Orders available now")
+                    //TheGlobalPoolManager.showToastView("No Orders available now")
                 }else{
                     self.tableView.reloadData()
                 }
@@ -211,9 +215,9 @@ class HomeOnlineOptionsView: UIViewController {
     //MARK:- Food Order Update  Request
     func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["id": orderId,
-                                "restaurantId": [resID],
-                                "status": status] as [String : Any]
+        let param =  [ID: orderId,
+                                RES_ID: [resID],
+                                STATUS: status] as [String : Any]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){
@@ -226,9 +230,9 @@ class HomeOnlineOptionsView: UIViewController {
     //MARK:- Table Order Update  Request
     func tableOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["id": orderId,
-                                "restaurantId": resID,
-                                "status": status]
+        let param =  [ID: orderId,
+                                RES_ID: resID,
+                                STATUS: status]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.TableOrderUpdatetReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             if dataResponse.json.exists(){

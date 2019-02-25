@@ -63,8 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     func SetInitialViewController(){
-        if UserDefaults.standard.value(forKey: "restaurantInfo") != nil{
-            let dic = TheGlobalPoolManager.retrieveFromDefaultsFor("restaurantInfo") as! NSDictionary
+        if UserDefaults.standard.value(forKey: RESTAURANT_INFO) != nil{
+            let dic = TheGlobalPoolManager.retrieveFromDefaultsFor(RESTAURANT_INFO) as! NSDictionary
             let restDetails = JSON(dic)
             GlobalClass.restaurantLoginModel = RestaurantLoginModel.init(fromJson: restDetails)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -129,9 +129,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let restmodel = GlobalClass.restaurantLoginModel{
             if let dataS = restmodel.data{
                 let param = [
-                    "id": dataS.subId,
-                    "deviceInfo": ["deviceToken": token,
-                                             "os" : "IOS"]] as  [String:AnyObject]
+                    ID: dataS.subId,
+                    DEVICE_INFO: [DEVICE_TOKEN: token,
+                                                 OS : iOS]] as  [String:AnyObject]
                  let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
                 URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: param, header: header) { (dataResponse) in
                 }
@@ -152,59 +152,60 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
             print("Message ID: \(messageID)")
         }
         print(userInfo)
-        if let orderID = userInfo["orderId"] as? String{
-            if let key = userInfo["key"] as? String{
-                if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
-                    self.playSound()
-                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: [ORDER_ID:orderID])
-                    ez.runThisAfterDelay(seconds: 6) {
-                        self.player.stop()
-                    }
-                }else if key == GlobalClass.NEWS_NOTIFICATION{
-                    var notificationObject = [String:[AnyObject]]()
-                    var notifyJson:Notify!
-                    if let notifications = TheGlobalPoolManager.retrieveFromDefaultsFor("Notifications"){
-                        if !(notifications is NSNull){
-                            notificationObject = notifications as! [String:[AnyObject]]
+        if let data = (userInfo[DATA] as! String).toJSON() as? [String : AnyObject]{
+            if let orderID = data[ORDER_ID] as? String{
+                if let key = userInfo[KEY] as? String{
+                    if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
+                        self.playSound()
+                        NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: [ORDER_ID:orderID])
+                        ez.runThisAfterDelay(seconds: 6) {
+                            self.player.stop()
                         }
-                    }
-                    if var notifyObj = notificationObject["Notifications"]{
-                        notifyObj.append(userInfo as AnyObject)
-                        notificationObject["Notifications"] = notifyObj
-                    }else{
-                        notificationObject["Notifications"] = [userInfo as AnyObject]
-                    }
-                    notifyJson = Notify(fromJson: JSON.init(userInfo))
-                    TheGlobalPoolManager.storeInDefaults(notificationObject as AnyObject, key: "Notifications")
-                    if notifyJson != nil{
-                        if GlobalClass.notificationsModel != nil{
-                            GlobalClass.notificationsModel.notifications.insert(notifyJson, at: 0)
+                    }else if key == GlobalClass.NEWS_NOTIFICATION{
+                        var notificationObject = [String:[AnyObject]]()
+                        var notifyJson:Notify!
+                        if let notifications = TheGlobalPoolManager.retrieveFromDefaultsFor(NOTIFICATIONS){
+                            if !(notifications is NSNull){
+                                notificationObject = notifications as! [String:[AnyObject]]
+                            }
+                        }
+                        if var notifyObj = notificationObject[NOTIFICATIONS]{
+                            notifyObj.append(userInfo as AnyObject)
+                            notificationObject[NOTIFICATIONS] = notifyObj
+                        }else{
+                            notificationObject[NOTIFICATIONS] = [userInfo as AnyObject]
+                        }
+                        notifyJson = Notify(fromJson: JSON.init(userInfo))
+                        TheGlobalPoolManager.storeInDefaults(notificationObject as AnyObject, key: NOTIFICATIONS)
+                        if notifyJson != nil{
+                            if GlobalClass.notificationsModel != nil{
+                                GlobalClass.notificationsModel.notifications.insert(notifyJson, at: 0)
+                            }else{
+                                GlobalClass.notificationsModel = NotificationsModel(fromJson: JSON(notificationObject as Any))
+                            }
                         }else{
                             GlobalClass.notificationsModel = NotificationsModel(fromJson: JSON(notificationObject as Any))
                         }
-                    }else{
-                        GlobalClass.notificationsModel = NotificationsModel(fromJson: JSON(notificationObject as Any))
+                        NotificationCenter.default.post(name: NSNotification.Name.init("NotifyReceived"), object: nil)
                     }
-                    NotificationCenter.default.post(name: NSNotification.Name.init("NotifyReceived"), object: nil)
                 }
-            }
-            let toGetAlert = userInfo["aps"] as! [String:AnyObject]
-            if toGetAlert["alert"] is [String:AnyObject]{
-                let toGetTitle = toGetAlert["alert"] as! [String:AnyObject]
-                _ = toGetTitle["title"] as! String
-                let body = toGetTitle["body"] as! String
-                let applicationState = UIApplication.shared.applicationState
-                switch applicationState {
-                case .active:
-                    print("App is active")
-                    Themes.sharedInstance.shownotificationBanner(Msg: "\(body)")
-                case .background:
-                    print("App is in background")
-                case .inactive:
-                    print("App is in InActive")
+                let toGetAlert = userInfo[APS] as! [String:AnyObject]
+                if toGetAlert[ALERT] is [String:AnyObject]{
+                    let toGetTitle = toGetAlert[ALERT] as! [String:AnyObject]
+                    _ = toGetTitle[TITLE] as! String
+                    let body = toGetTitle[BODY] as! String
+                    let applicationState = UIApplication.shared.applicationState
+                    switch applicationState {
+                    case .active:
+                        Themes.sharedInstance.shownotificationBanner(Msg: "\(body)")
+                    case .background:
+                        break
+                    case .inactive:
+                        break
+                    }
                 }
+                completionHandler([])
             }
-            completionHandler([])
         }
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {

@@ -62,7 +62,7 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate,UIPopoverPre
     //MARK:- ManageCategory  Item Delete Api Hitting
     func manageCategoryItemDeleteApiHitting(_ itemID : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["id": itemID]
+        let param = [ID: itemID]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.CategoryFoodItemDelete, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -74,10 +74,10 @@ class FoodItemsViewController: UIViewController,SelectGroupDelegate,UIPopoverPre
     //MARK:- ManageCategory  Item Update Api Hitting
     func manageCategoryItemUpdateApiHitting(_ itemID : String, availableStatus : Int , time : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["id": itemID,
-                                "restaurantId" : GlobalClass.restaurantLoginModel.data.subId!,
-                                "available": availableStatus,
-                                "nextAvailableTime": time] as [String : Any]
+        let param = [ID: itemID,
+                               RES_ID : GlobalClass.restaurantLoginModel.data.subId!,
+                               AVAILABLE: availableStatus,
+                               NEXT_AVAILABLE_TIME: time] as [String : Any]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.CategoryFoodItemUpdate, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)

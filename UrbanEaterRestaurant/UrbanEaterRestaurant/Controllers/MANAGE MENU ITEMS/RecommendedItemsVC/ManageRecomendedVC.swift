@@ -37,7 +37,7 @@ class ManageRecomendedVC: UIViewController {
     //MARK:- Manage Categories  Api Hitting
     func manageCategoriesApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!]
+        let param = [RES_ID: GlobalClass.restaurantLoginModel.data.subId!]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.ManageCaegories, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -50,8 +50,8 @@ class ManageRecomendedVC: UIViewController {
     //MARK:- Recommended Item Items Delete Api Hitting
     func recommendedItemDeleteApiHitting(_ itemID : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["itemList": [itemID],
-                              "restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
+        let param = [ITEM_LIST: [itemID],
+                              RES_ID: GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItemDelete, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -64,8 +64,8 @@ class ManageRecomendedVC: UIViewController {
     func updateRecommendedItemsApiHitting(_ itemID : String){
         Themes.sharedInstance.activityView(View: self.view)
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
-        let param = ["itemList": [itemID],
-                     "restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
+        let param = [ITEM_LIST: [itemID],
+                               RES_ID: GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
         URLhandler.postUrlSession(urlString: Constants.urls.UpdateRecommendedItems, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             if dataResponse.json.exists(){

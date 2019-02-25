@@ -36,10 +36,10 @@ class LoginVC: UIViewController{
     //MARK:- Login Api Hitting
     func LoginWebHit(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["emailId": emailTxt.text!,
-                               "password": passwordTxt.text!,
-                               "through": "MOBILE",
-                               "deviceInfo": ["deviceToken": GlobalClass.instanceIDTokenMessage]] as [String:AnyObject]
+        let param = [EMAIL_ID: emailTxt.text!,
+                               PASSWORD: passwordTxt.text!,
+                               THROUGH: MOBILE,
+                               DEVICE_INFO: [DEVICE_TOKEN: GlobalClass.instanceIDTokenMessage]] as [String:AnyObject]
         
         URLhandler.postUrlSession(urlString: Constants.urls.loginURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -50,7 +50,7 @@ class LoginVC: UIViewController{
                     viewCon.password = self.passwordTxt.text!
                     self.present(viewCon, animated: true, completion: nil)
                 }else{
-                    UserDefaults.standard.set(dataResponse.dictionaryFromJson, forKey: "restaurantInfo")
+                    UserDefaults.standard.set(dataResponse.dictionaryFromJson, forKey: RESTAURANT_INFO)
                     self.movoToHome()
                 }
             }

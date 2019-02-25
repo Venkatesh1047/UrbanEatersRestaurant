@@ -60,9 +60,9 @@ class VerificationVC: UIViewController,OTPTextFieldDelegate {
     //MARK:- Verify OTP Api Hitting
     func verifyOTPApiMethod(_ otp : String , refNum : String , emialID : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = [ "id" : emialID,
-                               "otp": otp,
-                               "referenceNumber" : refNum] as [String : Any]
+        let param = [ ID : emialID,
+                               OTP: otp,
+                               REFERENCE_NUMBER : refNum] as [String : Any]
         
         URLhandler.postUrlSession(urlString: Constants.urls.VerifyOTP_Restaurant, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -75,8 +75,8 @@ class VerificationVC: UIViewController,OTPTextFieldDelegate {
     //MARK:- ReSend OTP Api Hitting
     func resendOTPApiMethod(_ refNum : String , emailID : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = [ "subId" : emailID,
-                               "referenceNumber": refNum] as [String : Any]
+        let param = [ SUB_ID: emailID,
+                               REFERENCE_NUMBER: refNum] as [String : Any]
         
         URLhandler.postUrlSession(urlString: Constants.urls.ResendOTP, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -88,10 +88,10 @@ class VerificationVC: UIViewController,OTPTextFieldDelegate {
     //MARK:- Login Api Hitting
     func LoginWebHit(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["emailId": GlobalClass.restaurantLoginModel.data.loginId!,
-                              "password": password,
-                              "through": "MOBILE",
-                              "deviceInfo": ["deviceToken": GlobalClass.instanceIDTokenMessage]] as [String:AnyObject]
+        let param = [EMAIL_ID: GlobalClass.restaurantLoginModel.data.loginId!,
+                              PASSWORD: password,
+                               THROUGH: MOBILE,
+                               DEVICE_INFO: [DEVICE_TOKEN: GlobalClass.instanceIDTokenMessage]] as [String:AnyObject]
         
         URLhandler.postUrlSession(urlString: Constants.urls.loginURL, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -100,7 +100,7 @@ class VerificationVC: UIViewController,OTPTextFieldDelegate {
                 if GlobalClass.restaurantLoginModel.data.verified! == 0{
                     self.dismiss(animated: true, completion: nil)
                 }else{
-                    UserDefaults.standard.set(dataResponse.dictionaryFromJson, forKey: "restaurantInfo")
+                    UserDefaults.standard.set(dataResponse.dictionaryFromJson, forKey: RESTAURANT_INFO)
                     self.movoToHome()
                 }
             }

@@ -64,10 +64,10 @@ class OTPViewController: UIViewController,OTPTextFieldDelegate {
     func updateNewPasswordApiMethod(){
         if validatePasswords(){
             Themes.sharedInstance.activityView(View: self.view)
-            let param = [ "emailId": GlobalClass.updatePasswordModel.data.subId!,
-                                    "referenceNumber": GlobalClass.updatePasswordModel.data.referenceNumber!,
-                                    "otp": validateOTP().1,
-                                    "password" : newPasswordTF.text!] as [String : Any]
+            let param = [ EMAIL_ID: GlobalClass.updatePasswordModel.data.subId!,
+                                    REFERENCE_NUMBER: GlobalClass.updatePasswordModel.data.referenceNumber!,
+                                    OTP: validateOTP().1,
+                                    PASSWORD : newPasswordTF.text!] as [String : Any]
             
             URLhandler.postUrlSession(urlString: Constants.urls.UpdateNewPassword, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
                 Themes.sharedInstance.removeActivityView(View: self.view)
@@ -81,9 +81,9 @@ class OTPViewController: UIViewController,OTPTextFieldDelegate {
     //MARK:- Verify OTP Api Hitting
     func verifyOTPApiMethod(_ otp : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = [ "subId": GlobalClass.updatePasswordModel.data.subId!,
-                      "referenceNumber": GlobalClass.updatePasswordModel.data.referenceNumber!,
-                      "otp": otp] as [String : Any]
+        let param = [SUB_ID: GlobalClass.updatePasswordModel.data.subId!,
+                               REFERENCE_NUMBER: GlobalClass.updatePasswordModel.data.referenceNumber!,
+                               OTP: otp] as [String : Any]
         URLhandler.postUrlSession(urlString: Constants.urls.VerifyOTP, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
             print(dataResponse.json)
@@ -182,7 +182,6 @@ extension OTPViewController: UITextFieldDelegate {
     }
     func didPressBackspace(textField : OTPTextField){
         let text = textField.text
-        print("Text",text ?? "No Text")
         if text?.utf16.count == 0{
             switch textField{
             case OTP4:

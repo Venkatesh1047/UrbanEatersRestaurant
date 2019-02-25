@@ -47,8 +47,8 @@ class RecommendedViewController:UIViewController,SelectGroupDelegate {
     //MARK:- Recommended  Items Api Hitting
     func recommendedItemsApiHitting(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                                "recommended": "1"]
+        let param = [RES_ID: GlobalClass.restaurantLoginModel.data.subId!,
+                               RECOMMENDED: "1"]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItems, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -66,8 +66,8 @@ class RecommendedViewController:UIViewController,SelectGroupDelegate {
     //MARK:- Recommended Item Items Delete Api Hitting
     func recommendedItemDeleteApiHitting(_ itemID : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["itemList": [itemID],
-                               "restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
+        let param = [ITEM_LIST: [itemID],
+                               RES_ID: GlobalClass.restaurantLoginModel.data.subId!] as [String : Any]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.RecommendedItemDelete, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)

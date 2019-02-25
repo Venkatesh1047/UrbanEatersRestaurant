@@ -118,9 +118,9 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
     }
     func updateBusinessHoursWebHit(){
         Themes.sharedInstance.activityView(View: self.view)
-        let restarentInfo = UserDefaults.standard.object(forKey: "restaurantInfo") as! NSDictionary
-        let data = restarentInfo.object(forKey: "data") as! NSDictionary
-        self.businessHoursParams = BusinessHourParameters.init(data.object(forKey: "subId") as! String, deliveryTime: Int(minutesSelectedString)!, weekday_startAt: weekDayFromLbl.text!, weekday_endAt: weekDayToLbl.text!, weekend_startAt: weekEndFromLbl.text!, weekend_endAt: weekEndToLbl.text!)
+        let restarentInfo = UserDefaults.standard.object(forKey: RESTAURANT_INFO) as! NSDictionary
+        let data = restarentInfo.object(forKey: DATA) as! NSDictionary
+        self.businessHoursParams = BusinessHourParameters.init(data.object(forKey: SUB_ID) as! String, deliveryTime: Int(minutesSelectedString)!, weekday_startAt: weekDayFromLbl.text!, weekday_endAt: weekDayToLbl.text!, weekend_startAt: weekEndFromLbl.text!, weekend_endAt: weekEndToLbl.text!)
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.UpdaterRestaurantData, params: self.businessHoursParams.parameters, header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)

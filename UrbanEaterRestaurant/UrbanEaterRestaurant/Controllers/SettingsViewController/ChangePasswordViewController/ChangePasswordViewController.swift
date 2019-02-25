@@ -42,9 +42,9 @@ class ChangePasswordViewController: UIViewController {
     }
     func ChangePasswordWebHit(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = [ "id": GlobalClass.restaurantLoginModel.data.subId!,
-                                "currentPassword": oldpassword.text!,
-                                "newPassword": password.text!]
+        let param = [ ID: GlobalClass.restaurantLoginModel.data.subId!,
+                                CURRENT_PASSWORD: oldpassword.text!,
+                                NEW_PASSWORD: password.text!]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.changePasswordURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)

@@ -70,7 +70,7 @@ class URLhandler: NSObject {
                                     }
                                 })
                             }
-                        }
+                         }
                     }
                 }
                 break

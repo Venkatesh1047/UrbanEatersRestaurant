@@ -46,9 +46,8 @@ class ForgotPasswordVC: UIViewController {
         if validate(){
             Themes.sharedInstance.activityView(View: self.view)
             let param = [
-                "emailId": emailID.text!,
-                "through": "MOBILE"
-                ] 
+                EMAIL_ID: emailID.text!,
+                THROUGH: MOBILE]
             
             URLhandler.postUrlSession(urlString: Constants.urls.ForgotPassword, params: param as [String : AnyObject], header: [:]) { (dataResponse) in
                 Themes.sharedInstance.removeActivityView(View: self.view)

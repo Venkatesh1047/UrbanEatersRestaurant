@@ -8,6 +8,7 @@
 
 import Foundation
 import EZSwiftExtensions
+import Firebase
 
 enum NotificationKey:String {
     case ORDER_NEW_RESTAURANT, ORDER_NEW_DRIVER, ORDER_RESTAURANT_ACCEPTED, ORDER_RESTAURANT_REJECTED, ORDER_RESTAURANT_DENIED, ORDER_DRIVER_ALLOCATED, ORDER_DRIVER_REACHED, ORDER_DRIVER_PICKED, ORDER_DELIVERED, ORDER_CANCELLED, ORDER_UNKNOWN_ACTION,ORDER_TABLE_NEW_RESTAURANT
@@ -52,22 +53,22 @@ class GlobalModel:NSObject {
     var earningsHistoryModel     : EarningsHistoryModel!
     var notificationsModel       : NotificationsModel!
     
-    let NEWS_NOTIFICATION          = "NEWS_NOTIFICATION"
-    let ORDER_RECEIVED          = "OrderReceived"
-    let ORDER_NEW_RESTAURANT       = "ORDER_NEW_RESTAURANT"
-    let ORDER_TABLE_NEW_RESTAURANT = "ORDER_TABLE_NEW_RESTAURANT"
-    let ORDER_RESTAURANT_DENIED    = "ORDER_RESTAURANT_DENIED"
-    let KEY_ACCEPTED               = "RES_ACCEPTED"
-    let KEY_REJECTED               = "RES_REJECTED"
-    let DRIVER_NOT_ALLOCATED       = "Driver Not Allocated"
-    let KEY_ID                     = "id"
-    let KEY_DELIVERYTIME           = "deliveryTime"
-    let KEY_TIMINGS                = "timings"
-    let KEY_WEEKDAY                = "weekDay"
-    let KEY_WEEKEND                = "weekEnd"
-    let KEY_STARTAT                = "startAt"
-    let KEY_ENDAT                  = "endAt"
-    let KEY_STATUS                 = "status"
+    let NEWS_NOTIFICATION                                   = "NEWS_NOTIFICATION"
+    let ORDER_RECEIVED                                          = "OrderReceived"
+    let ORDER_NEW_RESTAURANT                        = "ORDER_NEW_RESTAURANT"
+    let ORDER_TABLE_NEW_RESTAURANT          = "ORDER_TABLE_NEW_RESTAURANT"
+    let ORDER_RESTAURANT_DENIED                  = "ORDER_RESTAURANT_DENIED"
+    let KEY_ACCEPTED                                             = "RES_ACCEPTED"
+    let KEY_REJECTED                                              = "RES_REJECTED"
+    let DRIVER_NOT_ALLOCATED                          = "Driver Not Allocated"
+    let KEY_ID                                                              = "id"
+    let KEY_DELIVERYTIME                                      = "deliveryTime"
+    let KEY_TIMINGS                                                 = "timings"
+    let KEY_WEEKDAY                                              = "weekDay"
+    let KEY_WEEKEND                                             = "weekEnd"
+    let KEY_STARTAT                                                = "startAt"
+    let KEY_ENDAT                                                   = "endAt"
+    let KEY_STATUS                                                  = "status"
     
     override init() {
         super.init()
@@ -78,6 +79,8 @@ class GlobalModel:NSObject {
             UserDefaults.standard.removePersistentDomain(forName: bundle)
             UIApplication.shared.unregisterForRemoteNotifications()
             ez.runThisInMainThread {
+                Messaging.messaging().unsubscribe(fromTopic: UE_ALL)
+                Messaging.messaging().unsubscribe(fromTopic: UE_RESTAURANT)
                 GlobalClass.restaurantLoginModel = nil
                 Sockets.removeAllListener()
                 Sockets.socketDisconnect()

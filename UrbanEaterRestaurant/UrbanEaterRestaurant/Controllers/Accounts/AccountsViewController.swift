@@ -36,7 +36,7 @@ class AccountsViewController: UIViewController {
     //MARK:- IB Action Outlets
     func getRestarentProfile(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = [ "id": GlobalClass.restaurantLoginModel.data.subId!]
+        let param = [ ID: GlobalClass.restaurantLoginModel.data.subId!]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.getRestaurantDataURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)
@@ -75,8 +75,8 @@ class AccountsViewController: UIViewController {
     //MARK:- Logout Api Hitting
     func LogOutWebHit(){
         let param = [
-            "id": GlobalClass.restaurantLoginModel.data.subId!,
-            "through": "MOBILE"]
+            ID: GlobalClass.restaurantLoginModel.data.subId!,
+            THROUGH: MOBILE]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.logoutURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
             Themes.sharedInstance.removeActivityView(View: self.view)

@@ -78,7 +78,7 @@ class OrdersViewController: UIViewController {
     }
     @objc func methodOfReceivedNotification2(_ userInfo: Notification){
         if let dic = userInfo.userInfo as? [String:AnyObject]{
-            if let orderId = dic["orderId"] as? String{
+            if let orderId = dic[ORDER_ID] as? String{
                 if TheGlobalPoolManager.currentOrderID != orderId{
                     TheGlobalPoolManager.currentOrderID = orderId
                     self.foodOrderApiHitting(false, limit: LIMIT_COUNT, skip: SKIP_COUNT)
@@ -248,24 +248,21 @@ class OrdersViewController: UIViewController {
             param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
                              "date" : selectedDate] as [String : AnyObject]
         }
-        
         switch selectionView.selectedIndex {
         case 0:
-            param["status"] =  "ORDERED" as AnyObject
+            param["status"] =  ORDERED as AnyObject
         case 1:
-            param["status"] =  "RES_ON_GOING" as AnyObject
+            param["status"] =  RES_ON_GOING as AnyObject
         case 2:
-            param["status"] =  "RES_COMPLETED" as AnyObject
+            param["status"] =  RES_COMPLETED as AnyObject
         default:
             break
         }
-        
         ez.runThisAfterDelay(seconds: 0.0, after: {
             let paramSent =  [DATA:param,FILTER : [LIMIT:limit,SKIP:skip]] as [String : AnyObject]
             Sockets.socketWithName(GET_ORDERS_TABLE_BY_RESTAURANT_ID, input: paramSent, completionHandler: { (response) in
                 Themes.sharedInstance.removeActivityView(View: self.view)
                 let data = JSON(response)
-                print("data Check",data)
                 let tableModel = TableOrderModel(fromJson: data)
                 if GlobalClass.tableOrderModel != nil && self.selectionView.selectedIndex != 0 && !self.isFoodSelectedFlag{
                     if tableModel.new.count > GlobalClass.tableOrderModel.new.count{
@@ -291,7 +288,7 @@ class OrdersViewController: UIViewController {
                 }
                 if GlobalClass.tableOrderModel.data.count == 0{
                     if !hideToast{
-                        TheGlobalPoolManager.showToastView("No Bookings available now")
+                        //TheGlobalPoolManager.showToastView("No Bookings available now")
                     }
                     self.tableView.reloadData()
                 }else{

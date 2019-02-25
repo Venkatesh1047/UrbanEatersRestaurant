@@ -69,7 +69,7 @@ class SocketsManager: NSObject {
                 let result     = data[0] as! [String:AnyObject]
                 let dic        = (result[RESULT] ?? result[ERROR]) as! [String:AnyObject]
                 let stautsCode = dic[Constants.ApiParams.Staus_Code] as! NSNumber
-                let message    = dic[Constants.ApiParams.Message] as! String
+                _    = dic[Constants.ApiParams.Message] as! String
                 let code       = dic[Constants.ApiParams.Code] as! NSNumber
                 if Int(exactly:stautsCode)! >= 200 && Int(exactly:stautsCode)! < 300{
                     completionHandler(dic)
@@ -100,13 +100,15 @@ class SocketsManager: NSObject {
             print("PUSH DATA ========\(data1)")
             if let data = data1[0] as? [String:AnyObject]{
                 if let resultData = data[DATA] as? [String:AnyObject]{
-                    if let orderID = resultData[ORDER_ID] as? String{
-                        if let key = resultData[KEY] as? String{
-                            if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
-                                (UIApplication.shared.delegate as! AppDelegate).playSound()
-                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: [ORDER_ID:orderID])
-                                ez.runThisAfterDelay(seconds: 6) {
-                                    (UIApplication.shared.delegate as! AppDelegate).player.stop()
+                    if let resultData1 = resultData[DATA] as? [String:AnyObject]{
+                        if let orderID = resultData1[ORDER_ID] as? String{
+                            if let key = resultData[KEY] as? String{
+                                if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
+                                    (UIApplication.shared.delegate as! AppDelegate).playSound()
+                                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: [ORDER_ID:orderID])
+                                    ez.runThisAfterDelay(seconds: 6) {
+                                        (UIApplication.shared.delegate as! AppDelegate).player.stop()
+                                    }
                                 }
                             }
                         }

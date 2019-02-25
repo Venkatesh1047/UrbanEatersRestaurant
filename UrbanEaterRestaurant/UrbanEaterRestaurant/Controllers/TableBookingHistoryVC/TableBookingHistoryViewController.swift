@@ -60,16 +60,16 @@ class TableBookingHistoryViewController: UIViewController {
         Themes.sharedInstance.activityView(View: self.view)
         var param = [String : AnyObject]()
         if toDateString == nil{
-           param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
+           param = [RES_ID: GlobalClass.restaurantLoginModel.data.subId!] as [String : AnyObject]
         }else if toDateString == fromDateString{
-            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                     "date" : toDateString] as [String : AnyObject]
+            param = [RES_ID: GlobalClass.restaurantLoginModel.data.subId!,
+                            DATE : toDateString] as [String : AnyObject]
         }
         else{
-            param = ["restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                             "dateRange": [
-                             "from": fromDateString,
-                             "to": toDateString]] as [String : AnyObject]
+            param = [RES_ID: GlobalClass.restaurantLoginModel.data.subId!,
+                             DATE_RANGE: [
+                             FROM: fromDateString,
+                             TO: toDateString]] as [String : AnyObject]
         }
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.TableBookingHistory, params: param as [String : AnyObject], header: header) { (dataResponse) in
