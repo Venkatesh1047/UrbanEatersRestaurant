@@ -100,9 +100,9 @@ class SocketsManager: NSObject {
             print("PUSH DATA ========\(data1)")
             if let data = data1[0] as? [String:AnyObject]{
                 if let resultData = data[DATA] as? [String:AnyObject]{
-                    if let resultData1 = resultData[DATA] as? [String:AnyObject]{
-                        if let orderID = resultData1[ORDER_ID] as? String{
-                            if let key = resultData[KEY] as? String{
+                    if let subData = resultData[DATA] as? [String:AnyObject]{
+                        if let key = resultData[KEY] as? String{
+                            if let orderID = subData[ORDER_ID] as? String{
                                 if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
                                     (UIApplication.shared.delegate as! AppDelegate).playSound()
                                     NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: [ORDER_ID:orderID])

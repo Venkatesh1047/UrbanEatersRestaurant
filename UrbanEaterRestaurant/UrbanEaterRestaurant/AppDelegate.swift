@@ -153,8 +153,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate, MessagingDelegate{
         }
         print(userInfo)
         if let data = (userInfo[DATA] as! String).toJSON() as? [String : AnyObject]{
-            if let orderID = data[ORDER_ID] as? String{
-                if let key = userInfo[KEY] as? String{
+            if let key = userInfo[KEY] as? String{
+                if let orderID = data[ORDER_ID] as? String{
                     if key == GlobalClass.ORDER_NEW_RESTAURANT || key == GlobalClass.ORDER_TABLE_NEW_RESTAURANT || key == GlobalClass.ORDER_RESTAURANT_DENIED{
                         self.playSound()
                         NotificationCenter.default.post(name:NSNotification.Name(rawValue: "OrderReceived"), object: nil, userInfo: [ORDER_ID:orderID])

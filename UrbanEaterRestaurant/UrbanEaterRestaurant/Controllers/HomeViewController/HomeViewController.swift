@@ -69,8 +69,8 @@ class HomeViewController: UIViewController {
         bookTblCollectionView.register(UINib(nibName: "DateCell", bundle: nil), forCellWithReuseIdentifier: "DateCell")
         bookTblCollectionView.register(UINib(nibName: "DateSeeAll", bundle: nil), forCellWithReuseIdentifier: "DateSeeAll")
         self.allocateCollectionView()
-        Messaging.messaging().subscribe(toTopic: UE_ALL)
-        Messaging.messaging().subscribe(toTopic: UE_RESTAURANT)
+            Messaging.messaging().subscribe(toTopic: UE_ALL)
+            Messaging.messaging().subscribe(toTopic: UE_RESTAURANT)
         ez.runThisInMainThread {
             if UIDevice.current.screenType == .iPhones_5_5s_5c_SE{
                 self.earningViewHightConstraint.constant = 250

@@ -71,8 +71,8 @@ let DRI_PICKED                        = "DRI_PICKED"
 let DELIVERED                          = "DELIVERED"
 let COMPLETED                       = "COMPLETED"
 //MARK :- Firebase Topics
-let UE_ALL                                    = "UE_ALL"
-let UE_RESTAURANT                  = "UE_RESTAURANT"
+let UE_ALL                                  = "UE_ALL"
+let UE_RESTAURANT                = "UE_RESTAURANT"
 
 // Sockets
 let GET_RESTAURANT_ORDERS                              =  "socket_get_restaurant_orders"
@@ -81,10 +81,10 @@ let GET_ORDERS_TABLE_BY_RESTAURANT_ID   = "socket_get_orders_table_by_restaurant
 
 class Constants{
     static let sharedInstance = Constants()
-    static let BASEURL_IMAGE                = "http://13.233.109.143:1234"                  // Production
-    static let BASEURL_IMAGE1              = "http://192.168.100.88:1234"                 // Developement
-    static let BaseUrl                                  = "http://13.233.109.143:1234/api/v1/"   // Production
-    static let BaseUrl1                                = "http://192.168.100.88:1234/api/v1/"    // Developement
+    static let BASEURL_IMAGE                = "http://13.233.109.143:1234"                  // Production....
+    static let BASEURL_IMAGE1              = "http://192.168.100.88:1234"                 // Developement....
+    static let BaseUrl                                  = "http://13.233.109.143:1234/api/v1/"   // Production....
+    static let BaseUrl1                                = "http://192.168.100.88:1234/api/v1/"    // Developement....
     
     public struct urls {
         

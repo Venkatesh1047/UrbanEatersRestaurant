@@ -30,6 +30,7 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var availableBgView: UIView!
     @IBOutlet weak var setAvailablityTF: UITextField!
+    @IBOutlet weak var deleteBtn: UIButton!
     
     var selectedImage :UIImage!
     var selectedImageBase64String : String = ""
@@ -67,6 +68,9 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     }
     //MARK:- Update UI
     func updateUI(){
+        self.deleteBtn.isHidden = self.isComingFromEdit ? false : true
+        self.deleteBtn.setImage(#imageLiteral(resourceName: "Delete").withColor(.white), for: .normal)
+        self.deleteBtn.contentEdgeInsets = UIEdgeInsets.init(top: 5, left: 5, bottom: 5, right: 5)
         self.selectCategoryTF.delegate = self
         self.enterFoodNameTF.delegate = self
         self.actualPriceTF.delegate = self
@@ -303,7 +307,24 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
             }
         }
     }
+    //MARK:- ManageCategory  Item Delete Api Hitting
+    func manageCategoryItemDeleteApiHitting(_ itemID : String){
+        Themes.sharedInstance.activityView(View: self.view)
+        let param = [ID: itemID]
+        let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
+        URLhandler.postUrlSession(urlString: Constants.urls.CategoryFoodItemDelete, params: param as [String : AnyObject], header: header) { (dataResponse) in
+            Themes.sharedInstance.removeActivityView(View: self.view)
+            if dataResponse.json.exists(){
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
     //MARK:- IB Action Outlets
+    @IBAction func deleteBtn(_ sender: UIButton) {
+        if let data = editItemData{
+            self.manageCategoryItemDeleteApiHitting(data.itemId!)
+        }
+    }
     @IBAction func backBtn(_ sender: UIButton) {
         if isComingFromEdit && isChanged{
             TheGlobalPoolManager.showAlertWith(title: "Alert", message: "Do you want save changes?", singleAction: false, okTitle: "Save", cancelTitle: "Discard") { (success) in
