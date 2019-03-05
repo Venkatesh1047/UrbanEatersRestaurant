@@ -118,7 +118,7 @@ class TableBookingHistoryViewController: UIViewController {
         }
         if isFromDateSelected {
             fromDateString = dateSelectedString
-            fromDateLbl.text = dateSelectedString
+            fromDateLbl.text = TheGlobalPoolManager.convertDateFormater(dateSelectedString)
             fromDateLbl.textColor = .textColor
         }else{
             toDateString = dateSelectedString
@@ -127,7 +127,7 @@ class TableBookingHistoryViewController: UIViewController {
             let date1 = dateFormatter.date(from: fromDateString)
             let date2 = dateFormatter.date(from: toDateString)
             if date1 == date2{
-                toDateLbl.text = dateSelectedString
+                toDateLbl.text = TheGlobalPoolManager.convertDateFormater(dateSelectedString)
                 toDateLbl.textColor = .textColor
                 self.tableHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
             }else if date1! > date2! {

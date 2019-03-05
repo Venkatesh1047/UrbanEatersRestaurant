@@ -256,7 +256,6 @@ extension FoodItemsViewController : UITableViewDataSource,UITableViewDelegate {
             self.updateCategoryItem(timeString!, itemID: itemID, availableStatus: 0)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
-        
         let presentTime = Date().adding(minutes: 0)
         var endTime = GlobalClass.restModel.data.timings.weekDay.endAt
         if Date().weekday.lowercased() == "friday" || Date().weekday.lowercased() == "saturday"{

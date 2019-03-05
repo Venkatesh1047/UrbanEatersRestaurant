@@ -663,7 +663,7 @@ extension OrdersViewController{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduledTableCell") as! ScheduledTableCell
             let data = self.dummyTableOrderModel.scheduled[indexPath.row]
             cell.orderIDLbl.text = "Order ID: \(data.orderId!)"
-            cell.dateLbl.text = data.bookedDate!
+            cell.dateLbl.text = data.bookedDate! //TheGlobalPoolManager.convertDateFormater(data.bookedDate!)
             cell.timeLbl.text = data.startTime!
             cell.personsLbl.text = data.personCount!.toString
             cell.nameLbl.text = data.contact.name!

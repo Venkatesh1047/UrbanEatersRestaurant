@@ -41,7 +41,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="br7-69-Vbt">
                     <rect key="frame" x="10" y="62" width="280" height="115"/>
                     <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="00" borderStyle="roundedRect" placeholder="0 min" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pcb-IG-CFJ">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="20" borderStyle="roundedRect" placeholder="0 min" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pcb-IG-CFJ">
                             <rect key="frame" x="105.5" y="32.5" width="70" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="Wgh-Zj-57y"/>
@@ -58,7 +58,7 @@
                                 <constraint firstAttribute="width" constant="70" id="BrF-6I-ikD"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="20"/>
-                            <state key="normal" title="+ 10"/>
+                            <state key="normal" title="+ 5"/>
                             <connections>
                                 <action selector="addBtn:" destination="-1" eventType="touchUpInside" id="hHi-MB-zGT"/>
                             </connections>
@@ -70,7 +70,7 @@
                                 <constraint firstAttribute="width" constant="70" id="MQb-XK-87C"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="20"/>
-                            <state key="normal" title="- 10"/>
+                            <state key="normal" title="- 5"/>
                             <connections>
                                 <action selector="reduceBtn:" destination="-1" eventType="touchUpInside" id="qKW-US-ncH"/>
                             </connections>

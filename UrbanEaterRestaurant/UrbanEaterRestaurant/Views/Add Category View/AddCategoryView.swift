@@ -35,10 +35,10 @@ class AddCategoryView: UIViewController {
     //MARK:- Add New Category
     func addNewCategoryApi(){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["name": categoryNameTF.text!,
-                               "level": 1,
-                               "restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-                               "status": 1
+        let param = [NAME: categoryNameTF.text!,
+                               LEVEL: 1,
+                               RES_ID: GlobalClass.restaurantLoginModel.data.subId!,
+                               STATUS: 1
             ] as [String : Any]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.Create_Category, params: param as [String : AnyObject], header: header) { (dataResponse) in

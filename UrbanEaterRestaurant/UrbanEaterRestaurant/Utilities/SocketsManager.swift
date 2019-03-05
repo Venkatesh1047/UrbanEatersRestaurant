@@ -94,7 +94,6 @@ class SocketsManager: NSObject {
     }
     func lisitenToSocketConnectionWithName(_ socketName:String, input:SocketData, completionHandler:@escaping (_ response: Any) -> ()){
     }
-    
     func socketListenForTrackingOrderStatus(completionHandler:@escaping (_ response: Any) -> ()){
         self.socket.on(SOCKET_ORDER_STATUS, callback: { (data1,ack) in
             print("PUSH DATA ========\(data1)")
@@ -117,7 +116,6 @@ class SocketsManager: NSObject {
             }
         })
     }
-    
     func socketDisconnect(){
         socket.on(DISCONNECT){data, ack in
             //self.iSSocketDisconnected=true

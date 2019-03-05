@@ -191,6 +191,18 @@ class Themes: NSObject {
         }
         return date
     }
+    //MARK: - Getting Past Time from Current time
+    func gettingPastTime(_ hours : Int) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.calendar = NSCalendar.current
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.timeZone = NSTimeZone.init(abbreviation: "GMT+5:30")! as TimeZone
+        let today = Date()
+        let time = Calendar.current.date(byAdding: .hour, value: hours, to: today)
+        let strDate = dateFormatter.string(from: time!)
+        return strDate
+    }
     //MARK: - Trim String
     func trimString(string : String) -> String {
         let trimmedString = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)

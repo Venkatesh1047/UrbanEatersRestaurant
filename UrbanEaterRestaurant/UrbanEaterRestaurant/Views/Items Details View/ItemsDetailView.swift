@@ -104,10 +104,10 @@ class ItemsDetailView: UIViewController {
     //MARK:- Food Order Update  Request
     func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String, code:String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["id": orderId,
-                     "restaurantId": [resID],
-                     "status": status,
-                     "code":code] as [String : AnyObject]
+        let param = [ID: orderId,
+                     RES_ID: [resID],
+                     STATUS: status,
+                     CODE:code] as [String : AnyObject]
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param, header: header) { (dataResponse) in
             if dataResponse.json.exists(){

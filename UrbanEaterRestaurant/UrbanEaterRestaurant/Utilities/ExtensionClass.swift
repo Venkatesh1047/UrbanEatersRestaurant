@@ -332,6 +332,7 @@ extension Date {
         dateFormatter1.dateFormat = "yyyy-MM-dd HH:mm"
         let convertedDateAndTime = dateFormatter1.string(from: Calendar.current.date(byAdding: .minute, value: minutes, to: self)!)
         let date = dateFormatter1.date(from: convertedDateAndTime)
+        print(convertedDate,convertedDateAndTime)
         return (convertedDate, convertedDateAndTime, date!)
     }
     func addingOneDayExtra(_ time:String) -> (String, Date){

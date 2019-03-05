@@ -35,7 +35,7 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
     
     @IBOutlet var dropDownBtns: [UIButton]!
     var btnTag = 0
-    var gradePickerValues = [String]()
+    var gradePickerValues = ["15","20","25","30","35","40"]
     var dateSelectedString = ""
     var minutesSelectedString = ""
     let dateFormatter = DateFormatter()
@@ -43,9 +43,9 @@ class BusinessHoursViewController: UIViewController,UIPickerViewDelegate,UIPicke
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 0..<60 {
-            gradePickerValues.append(String(i))
-        }
+//        for i in 0..<60 {
+//            gradePickerValues.append(String(i))
+//        }
         for btn in dropDownBtns{
             btn.setImage(#imageLiteral(resourceName: "Drop_Down").withColor(.whiteColor), for: .normal)
         }

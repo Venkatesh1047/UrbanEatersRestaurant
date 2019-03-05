@@ -21,6 +21,9 @@ class ChangePasswordViewController: UIViewController {
     }
     //MARK:- Update UI
     func updateUI(){
+        self.oldpassword.delegate = self
+        self.password.delegate = self
+        self.confirmPassword.delegate = self
         TheGlobalPoolManager.cornerAndBorder(updateBtn, cornerRadius: 5, borderWidth: 0, borderColor: .clear)
         self.updateBtn.backgroundColor = .secondaryBGColor
     }
@@ -71,6 +74,20 @@ class ChangePasswordViewController: UIViewController {
     }
     @IBAction func backButtonClicked(_ sender: Any) {
        self.navigationController?.popViewController(animated: true)
+    }
+}
+extension ChangePasswordViewController : UITextFieldDelegate{
+    //MARK:- UI Text Field Delegates
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == self.oldpassword || textField == self.password || textField == self.confirmPassword{
+            let ACCEPTABLE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*._="
+            let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
+            let filtered = string.components(separatedBy: cs).joined(separator: "")
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+            return (string == filtered) && newLength <= 15
+        }
+        return false
     }
 }
 

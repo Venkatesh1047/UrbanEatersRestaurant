@@ -123,12 +123,8 @@ extension AccountsViewController : UITableViewDelegate,UITableViewDataSource{
             let bookingHistory = self.storyboard?.instantiateViewController(withIdentifier: "TableBookingHistoryVCID") as! TableBookingHistoryViewController
             self.navigationController?.pushViewController(bookingHistory, animated: true)
         case "Manage Menu":
-            if GlobalClass.restModel.data.available == 0{
-                TheGlobalPoolManager.showToastView("Please be in Online to change the Business hours")
-            }else{
                 let settings = self.storyboard?.instantiateViewController(withIdentifier: "ManageMenuVCID") as! ManageMenuViewController
                 self.navigationController?.pushViewController(settings, animated: true)
-            }
         case "Settings":
             let settings = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewControllerID") as! SettingsViewController
             self.navigationController?.pushViewController(settings, animated: true)

@@ -36,12 +36,14 @@ class PreparationTimeView: UIViewController {
     //MARK:- Food Order Update  Request
     func foodOrderUpdateRequestApiHitting(_ orderId : String , resID : String , status : String, preparationTime : String){
         Themes.sharedInstance.activityView(View: self.view)
-        let param = ["id": orderId,
-                     "restaurantId": [resID],
-                     "status": status,
-                     "foodPrepTime" : preparationTime.toInt()!] as [String : Any]
+        let param = [ID: orderId,
+                     RES_ID: [resID],
+                     STATUS: status,
+                     FOOD_PREP_TIME : preparationTime.toInt()!] as [String : Any]
+        TheGlobalPoolManager.jsonToString(json: param as AnyObject)
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]
         URLhandler.postUrlSession(urlString: Constants.urls.FoodOrderUpdateReqURL, params: param as [String : AnyObject], header: header) { (dataResponse) in
+            print(dataResponse.json)
             if dataResponse.json.exists(){
                 // Success.....
                 NotificationCenter.default.post(name: Notification.Name("FoodAccepted"), object: nil)
@@ -50,7 +52,7 @@ class PreparationTimeView: UIViewController {
     }
     //MARK:- IB Action Outlets
     @IBAction func addBtn(_ sender: UIButton) {
-        let value = ((self.minutesTF.text?.toInt())! + 10)
+        let value = ((self.minutesTF.text?.toInt())! + 5)
         if value > 40{
             TheGlobalPoolManager.showToastView("Sorry, maximum time for order is 40 mins")
             return
@@ -58,7 +60,7 @@ class PreparationTimeView: UIViewController {
         self.minutesTF.text = value.toString
     }
     @IBAction func reduceBtn(_ sender: UIButton) {
-        let value = ((self.minutesTF.text?.toInt())! - 10)
+        let value = ((self.minutesTF.text?.toInt())! - 5)
         if value < 20{
             TheGlobalPoolManager.showToastView("Minimum 20 mins required")
             return

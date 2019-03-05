@@ -94,8 +94,8 @@ class OrderHistoryViewController: UIViewController {
                     self.totalOrdersLbl.text = data.totalOrderCount!.toString
                     self.totalEarningsLbl.text = "₹ \(data.totalEarnAmount!.toString)"
                 }else{
-                    self.totalOrdersLbl.text = ""
-                    self.totalEarningsLbl.text = ""
+                    self.totalOrdersLbl.text = "0"
+                    self.totalEarningsLbl.text = "0"
                 }
                 if GlobalClass.earningsHistoryModel.data.orderFoodData.count == 0{
                     TheGlobalPoolManager.showToastView(ToastMessages.No_Data_Available)
@@ -130,7 +130,7 @@ class OrderHistoryViewController: UIViewController {
         }
         if isFromDateSelected {
             fromDateString = dateSelectedString
-            fromDateLbl.text = dateSelectedString
+            fromDateLbl.text = TheGlobalPoolManager.convertDateFormater(dateSelectedString)
             fromDateLbl.textColor = .textColor
         }else{
             toDateString = dateSelectedString
@@ -139,7 +139,7 @@ class OrderHistoryViewController: UIViewController {
             let date1 = dateFormatter.date(from: fromDateString)
             let date2 = dateFormatter.date(from: toDateString)
             if date1 == date2{
-                toDateLbl.text = dateSelectedString
+                toDateLbl.text = TheGlobalPoolManager.convertDateFormater(dateSelectedString)
                 toDateLbl.textColor = .textColor
                 self.orderHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
             }else if date1! > date2! {
@@ -148,7 +148,7 @@ class OrderHistoryViewController: UIViewController {
                 })
                 return
             }else if date1! < date2! {
-                toDateLbl.text = dateSelectedString
+                toDateLbl.text = TheGlobalPoolManager.convertDateFormater(dateSelectedString)
                 toDateLbl.textColor = .textColor
                 self.orderHistoryApiHitting(LIMIT_COUNT, skip: SKIP_COUNT)
             }

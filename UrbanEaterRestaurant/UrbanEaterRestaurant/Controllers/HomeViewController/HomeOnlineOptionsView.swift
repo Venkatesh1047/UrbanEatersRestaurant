@@ -205,9 +205,10 @@ class HomeOnlineOptionsView: UIViewController {
                 }
                 if GlobalClass.restaurantAllOrdersModel.data.count == 0{
                     self.tableView.reloadData()
-                    //TheGlobalPoolManager.showToastView("No Orders available now")
                 }else{
-                    self.tableView.reloadData()
+                    UIView.performWithoutAnimation {
+                        self.tableView.reloadData()
+                    }
                 }
             })
         })
@@ -479,7 +480,7 @@ extension HomeOnlineOptionsView{
         cell.acceptBtn.addTarget(self, action: #selector(self.acceptBtnMethod(_:)), for: .touchUpInside)
         cell.rejectBtn.addTarget(self, action: #selector(self.rejectBtnMethod(_:)), for: .touchUpInside)
         cell.orderIDLbl.text = "Order ID: \(data.orderId!)"
-        cell.dateLbl.text = data.bookedDate!
+        cell.dateLbl.text = TheGlobalPoolManager.convertDateFormater(data.bookedDate!)
         cell.timeLbl.text = data.startTime!
         cell.personsLbl.text = data.personCount!.toString
         return cell
@@ -507,7 +508,7 @@ extension HomeOnlineOptionsView{
         cell.detailsView.isHidden = true
         cell.underlineLbl.isHidden = true
         cell.orderIDLbl.text = "Order ID: \(data.orderId!)"
-        cell.dateLbl.text = data.bookedDate!
+        cell.dateLbl.text = TheGlobalPoolManager.convertDateFormater(data.bookedDate!)
         cell.timeLbl.text = data.startTime!
         cell.personsLbl.text = data.personCount!.toString
         return cell
@@ -527,7 +528,7 @@ extension HomeOnlineOptionsView{
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedTableCell") as! CompletedTableCell
         cell.orderIDLbl.text = "Order ID: \(data.orderId!)"
-        cell.dateLbl.text = data.bookedDate!
+        cell.dateLbl.text = TheGlobalPoolManager.convertDateFormater(data.bookedDate!)
         cell.timeLbl.text = data.startTime!
         cell.personsLbl.text = data.personCount!.toString
         cell.nameLbl.text = data.contact.name!

@@ -270,32 +270,32 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
         }
         var param = [String:AnyObject]()
         param = [
-            "name": self.enterFoodNameTF.text!,
-            "description": self.enterFoodNameTF.text!,
-            "avatar": self.imageString,
-            "restaurantId": GlobalClass.restaurantLoginModel.data.subId!,
-            "price": self.actualPriceTF.text!.toDouble() as AnyObject,
-            "vorousType": self.vorousType!,
-            "available": 1,
-            "timings": [
-                "startAt": GlobalClass.selectedFromTime!,
-                "endAt": GlobalClass.selectedToTime!,
-                "status": 1
+            NAME: self.enterFoodNameTF.text!,
+            DESCRIPTION : self.enterFoodNameTF.text!,
+            AVTAR: self.imageString,
+            RES_ID: GlobalClass.restaurantLoginModel.data.subId!,
+            PRICE: self.actualPriceTF.text!.toDouble() as AnyObject,
+            VAROUS_TYPE: self.vorousType!,
+            AVAILABLE: 1,
+            TIMINGS : [
+                START_AT: GlobalClass.selectedFromTime!,
+                END_AT: GlobalClass.selectedToTime!,
+                STATUS: 1
             ],
-            "offer": [
-                "type": "PERCENTAGE",   
-                "value": self.discountTF.text!.toInt() as AnyObject,
-                "status": self.discountStatus
+            OFFER: [
+                TYPE: PERCENTAGE,
+                VALUE: self.discountTF.text!.toInt() as AnyObject,
+                STATUS: self.discountStatus
             ],
-            "mainCategoryId": self.mainCategoryID!,
-            "categoryId": [self.mainCategoryID!],
-            "default": "",
-            "recommended":self.recommendedType!,
-            "status": 1
+            MAIN_CATE_ID: self.mainCategoryID!,
+            CATEGORY_ID: [self.mainCategoryID!],
+            DEFAULT: "",
+            RECOMMENDED :self.recommendedType!,
+            STATUS: 1
             ] as [String : AnyObject]
         
         if isComingFromEdit{
-            param["id"] =  editItemData.itemId! as AnyObject
+            param[ID] =  editItemData.itemId! as AnyObject
         }
         
         let header = [X_SESSION_ID : GlobalClass.restaurantLoginModel.data.sessionId!]

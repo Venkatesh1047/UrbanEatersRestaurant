@@ -21,7 +21,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Launch_Screen" translatesAutoresizingMaskIntoConstraints="NO" id="BhF-x5-DS5">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="New Logo1" translatesAutoresizingMaskIntoConstraints="NO" id="y48-QN-Jv9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Banner Logo" translatesAutoresizingMaskIntoConstraints="NO" id="y48-QN-Jv9">
                                 <rect key="frame" x="72.666666666666686" y="348.66666666666669" width="230" height="115"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="115" id="eh2-b4-3kx"/>
@@ -47,7 +47,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Banner Logo" width="1280" height="640"/>
         <image name="Launch_Screen" width="375" height="667"/>
-        <image name="New Logo1" width="1280" height="640"/>
     </resources>
 </document>

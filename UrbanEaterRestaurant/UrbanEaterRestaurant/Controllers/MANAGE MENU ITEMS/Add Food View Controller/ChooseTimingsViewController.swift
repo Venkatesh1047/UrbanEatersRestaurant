@@ -186,8 +186,18 @@ class ChooseTimingsViewController: UIViewController {
         }
     }
     @IBAction func saveBtn(_ sender: UIButton) {
-        if !isDoneAnyChanges{
-            TheGlobalPoolManager.showToastView("Please change the timings to save")
+        if isComingFromEdit{
+            if !isDoneAnyChanges{
+                TheGlobalPoolManager.showToastView("Please change the timings to save")
+            }else{
+                if isRestTimgsSelected{
+                    GlobalClass.selectedFromTime = self.resFromLbl.text!
+                    GlobalClass.selectedToTime = self.resToLbl.text!
+                    self.navigationController?.popViewController(animated: true)
+                }else{
+                    self.validateInputs()
+                }
+            }
         }else{
             if isRestTimgsSelected{
                 GlobalClass.selectedFromTime = self.resFromLbl.text!
