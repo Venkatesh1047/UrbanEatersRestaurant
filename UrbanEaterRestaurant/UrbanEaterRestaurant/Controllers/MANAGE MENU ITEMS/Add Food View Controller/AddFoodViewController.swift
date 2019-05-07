@@ -321,8 +321,12 @@ class AddFoodViewController: UIViewController,UIImagePickerControllerDelegate,UI
     }
     //MARK:- IB Action Outlets
     @IBAction func deleteBtn(_ sender: UIButton) {
-        if let data = editItemData{
-            self.manageCategoryItemDeleteApiHitting(data.itemId!)
+        TheGlobalPoolManager.showAlertWith(title: "Are you sure", message: "Do you want to delete?", singleAction: false, okTitle:"Confirm") { (sucess) in
+            if sucess!{
+                if let data = self.editItemData{
+                    self.manageCategoryItemDeleteApiHitting(data.itemId!)
+                }
+            }
         }
     }
     @IBAction func backBtn(_ sender: UIButton) {

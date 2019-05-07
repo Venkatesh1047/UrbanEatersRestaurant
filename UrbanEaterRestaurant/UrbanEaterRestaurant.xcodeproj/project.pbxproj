@@ -13,7 +13,6 @@
 		A365B5EF21CA1DC9007A5B11 /* MXIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EA21CA1DC9007A5B11 /* MXIndicator.swift */; };
 		A365B5F021CA1DC9007A5B11 /* MXSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EB21CA1DC9007A5B11 /* MXSegmentedControl.swift */; };
 		A365B5F121CA1DC9007A5B11 /* MXSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365B5EC21CA1DC9007A5B11 /* MXSegment.swift */; };
-		A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A365B5EE21CA1DC9007A5B11 /* Info.plist */; };
 		A375A4DE220AEE9300D55C42 /* RecommendedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4DC220AEE9300D55C42 /* RecommendedCell.swift */; };
 		A375A4DF220AEE9300D55C42 /* RecommendedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A375A4DD220AEE9300D55C42 /* RecommendedCell.xib */; };
 		A375A4E1220C039C00D55C42 /* ManageCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375A4E0220C039B00D55C42 /* ManageCategoriesModel.swift */; };
@@ -928,7 +927,6 @@
 				A3930C032209A26E009EFFA9 /* AddCategoryView.xib in Resources */,
 				A3BEF4A72189D51000192E7E /* EditCatagoryTableViewCell.xib in Resources */,
 				A38A2B5621DE13F60084A5B2 /* GoogleService-Info.plist in Resources */,
-				A365B5F221CA1DC9007A5B11 /* Info.plist in Resources */,
 				A3BEF4BF2189D5CA00192E7E /* SelectGroupCell.xib in Resources */,
 				A375A4DF220AEE9300D55C42 /* RecommendedCell.xib in Resources */,
 				A3F7AF6421DB46B80004BAF7 /* CompletedItemsPopUp.xib in Resources */,

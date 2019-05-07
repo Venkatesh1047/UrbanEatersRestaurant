@@ -161,12 +161,9 @@ class HomeOnlineOptionsView: UIViewController {
         switch selectionView.selectedIndex {
         case 0:
             param[ORDER_STATUS] =  ORDERED as AnyObject
-            param[ORDER_STATUS] =  ORDERED as AnyObject
         case 1:
             param[ORDER_STATUS] =  RES_ON_GOING as AnyObject
-            param[ORDER_STATUS] =  RES_ON_GOING as AnyObject
         case 2:
-            param[ORDER_STATUS] =  RES_COMPLETED as AnyObject
             param[ORDER_STATUS] =  RES_COMPLETED as AnyObject
         default:
             break

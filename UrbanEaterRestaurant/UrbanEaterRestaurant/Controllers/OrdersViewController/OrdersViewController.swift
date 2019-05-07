@@ -187,11 +187,11 @@ class OrdersViewController: UIViewController {
         
         switch selectionView.selectedIndex {
         case 0:
-            param["status"] =  "ORDERED" as AnyObject
+            param[STATUS] =  ORDERED as AnyObject
         case 1:
-            param["status"] =  "RES_ON_GOING" as AnyObject
+            param[STATUS] =  RES_ON_GOING as AnyObject
         case 2:
-            param["status"] =  "RES_COMPLETED" as AnyObject
+            param[STATUS] =  RES_COMPLETED as AnyObject
         default:
             break
         }
@@ -250,11 +250,11 @@ class OrdersViewController: UIViewController {
         }
         switch selectionView.selectedIndex {
         case 0:
-            param["status"] =  ORDERED as AnyObject
+            param[STATUS] =  ORDERED as AnyObject
         case 1:
-            param["status"] =  RES_ON_GOING as AnyObject
+            param[STATUS] =  RES_ON_GOING as AnyObject
         case 2:
-            param["status"] =  RES_COMPLETED as AnyObject
+            param[STATUS] =  RES_COMPLETED as AnyObject
         default:
             break
         }
