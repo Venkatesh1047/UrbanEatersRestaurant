@@ -23,7 +23,7 @@ class SocketsManager: NSObject {
     var iSSocketDisconnected:Bool=Bool()
     var iSChatSocketDisconnected:Bool=Bool()
     
-    let manager = SocketManager(socketURL: URL(string: "http://13.233.109.143:1234")!, config: [.log(true), .compress, .forcePolling(true), .reconnects(true), .reconnectAttempts(-1), .secure(false), .forceWebsockets(true)])
+    let manager = SocketManager(socketURL: URL(string: "http://13.232.13.130")!, config: [.log(true), .compress, .forcePolling(true), .reconnects(true), .reconnectAttempts(-1), .secure(false), .forceWebsockets(true)])
     
     var credintials = [String : AnyObject]()
     
